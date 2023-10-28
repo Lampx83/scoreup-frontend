@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký</title>
+  <link rel="stylesheet" href="../css/signup.css">
+</head>
+
+<body>
+  <div class="limit">
+    <div class="signup-container">
+      <div class="signup-form">
+        <form action="index.html">
+          <h2 class="section-title">Đăng ký</h2>
+          <div class="group-input invalid">
+            <span class="label" >Họ tên</span>
+            <div class="input">
+              <div class="img">
+                <img src="../imgs/icons/user-dark.svg" alt="" style="width: 25px;">
+              </div>
+              <input required type="text" id="name" placeholder="Nhập họ và tên">
+              <span class="focus"></span>
+            </div>
+          </div>
+
+          <div class="group-input invalid">
+            <span class="label">Email</span>
+            <div class="input">
+              <div class="img">
+                <img src="../imgs/icons/email.svg" alt="" style="width: 25px;">
+              </div>
+              <input required type="email" id="email" placeholder="Nhập email">
+              <span class="focus"></span>
+            </div>
+          </div>
+
+          <div class="group-input invalid">
+            <span class="label">Username</span>
+            <div class="input">
+              <div class="img">
+                <img src="../imgs/icons/username.svg" alt="" style="width: 25px;">
+              </div>
+              <input required type="text" id="username" placeholder="Nhập tài khoản">
+              <span class="focus"></span>
+            </div>
+          </div>
+
+          <div class="group-input invalid">
+            <span class="label">Password</span>
+            <div class="input">
+              <div class="img">
+                <img src="../imgs/icons/password.svg" alt="" style="width: 25px;">
+              </div>
+              <input required type="password" id="password" placeholder="Nhập mật khẩu">
+              <span class="focus"></span>
+            </div>
+          </div>
+
+          <div class="group-input invalid">
+            <span class="label">Confirm password</span>
+            <div class="input">
+              <div class="img">
+                <img src="../imgs/icons/password.svg" alt="" style="width: 25px;">
+              </div>
+              <input required type="password" id="confirm-password" placeholder="Xác nhận lại mật khẩu">
+              <span class="focus"></span>
+            </div>
+          </div>
+
+          <div class="group-input invalid">
+            <p>
+              <input required id="agreement" type="checkbox" class="checkbox">
+              <label for="agreement">Tôi đồng ý với Điều khoản và Chính sách bảo mật</label>
+            </p>
+          </div>
+
+          <div class="form-button disabled">
+            <button class="submit-signup">ĐĂNG KÝ NGAY</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/signup.js"></script>
+</body>
+
+</html>
