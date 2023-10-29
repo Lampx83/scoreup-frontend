@@ -18,6 +18,16 @@ profile.textContent="Profile"
 profile.href = "profile.html"
 header.appendChild(profile);
 
+const login = document.createElement("a")
+login.textContent="Login"
+login.href = "login.html"
+header.appendChild(login);
+
+const signup = document.createElement("a")
+signup.textContent="Signup"
+signup.href = "signup.html"
+header.appendChild(signup);
+
 const react_test = document.createElement("a")
 react_test.textContent="React"
 react_test.href = "react-test.html"

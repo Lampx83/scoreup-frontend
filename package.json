@@ -2,7 +2,7 @@
   "name": "my-project",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "start": "parcel 'src/html/*.html'",
+    "start": "parcel src/html/*.html",
     "build": "parcel build src/html/*.html"
   },
   "devDependencies": {
