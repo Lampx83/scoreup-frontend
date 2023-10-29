@@ -3,9 +3,11 @@ const header = document.getElementById("header");
 const heading = document.createElement("h1");
 heading.textContent = "Header";
 header.appendChild(heading);
+
 const paragraph = document.createElement("p");
 paragraph.textContent = "Slogan";
 header.appendChild(paragraph);
+
 const index = document.createElement("a")
 index.textContent="Home"
 index.href = "index.html"
