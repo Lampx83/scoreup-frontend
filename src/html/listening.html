@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listening</title>
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/listening.css" />
+  </head>
+  <body style="background-color: rgb(248, 249, 250)">
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="container">
+        <div class="nav-row">
+          <div class="nav-slogan">
+            <a href="#">
+              <h4>ScoreUp</h4>
+            </a>
+          </div>
+          <div class="nav-content">
+            <ul class="nav-items">
+              <li class="nav-item">
+                <a class="active" href="#">HOME</a>
+              </li>
+              <li class="nav-item">
+                <a href="#">EXAMS</a>
+              </li>
+              <li class="nav-item">
+                <a href="#">PERSONAL</a>
+              </li>
+              <li class="nav-item">
+                <a href="login.html">SIGN IN</a>
+              </li>
+              <li class="nav-item">
+                <a href="signup.html">SIGN UP</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navigation Bar  -->
+
+    <!-- Header -->
+    <header>
+      <h1><b>Bộ đề thi: ETS TOEIC 2022</b></h1>
+      <h2>Listening Practice - Test 1</h2>
+    </header>
+
+    <!-- Content -->
+    <span id="report">
+      <a href="/report">
+        <img
+          src="https://s3.amazonaws.com/libapps/accounts/91146/images/warning_icon_red.png"
+          alt="a warning sign"
+          height="20px"
+          width="20px"
+        />
+        Report Mistake
+      </a>
+    </span>
+    <div id="main-question-palette">
+      <div id="main">
+        <div id="P1">Part 1</div>
+        <!-- Audio -->
+        <div id="audio">
+          <!-- Audio Player -->
+          <audio controls id="audioPlayer">
+            <source src="example.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+          <!-- Adjust Volume -->
+          <span style="margin: 20px">
+            <label for="volumeRange"
+              ><img
+                src="https://th.bing.com/th/id/R.de75cbdaa4244cb429c1053f331efe75?rik=diAFL%2fEcrVNIkg&riu=http%3a%2f%2fquranproject.org%2fgo_files%2fmisc_images%2f591566-speaker-icon-png.png&ehk=drhRWUEEvujoLRx0B4plNn3yWmEkcule6qAMZHkqJvM%3d&risl=&pid=ImgRaw&r=0"
+                alt="a speaker"
+                width="20px"
+                height="20px"
+            /></label>
+            <input
+              type="range"
+              id="volumeRange"
+              min="0"
+              max="1"
+              step="0.1"
+              value="1"
+              onchange="adjustVolume()"
+            />
+          </span>
+
+          <!-- Select Audio Source: -->
+          <select onchange="changeAudioSource()">
+            <option>Change Audio Source</option>
+            <option value="example.mp3">Audio File 1</option>
+            <option value="example2.mp3">Audio File 2</option>
+          </select>
+        </div>
+
+        <div id="content">
+          <form>
+            <span class="question">1</span>
+            <span class="listenfromhere">
+              <a href="#"
+                ><img
+                  src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
+                  alt="headphone"
+                />
+                Listen from here</a
+              >
+            </span>
+            <img
+              src="../img/listening_q.png"
+              alt="question 1"
+              width="527.25px"
+              height="342px"
+              2
+            />
+            <br />
+            <i
+              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
+              represent the correct answer.</i
+            ><br />
+            <label for="question1"
+              ><i>Which kind of family does the girls prefer?</i></label
+            ><br />
+            <div>
+              <p>
+                <input type="radio" id="1A" name="question1" value="A" />
+                <label for="1A">A. A big family with many young children</label>
+              </p>
+              <p>
+                <input type="radio" id="1B" name="question1" value="B" />
+                <label for="1B">B. A family without smoker or drinkers </label>
+              </p>
+              <p>
+                <input type="radio" id="1C" name="question1" value="C" />
+                <label for="1C">C. A family without any pets</label>
+              </p>
+              <p>
+                <input type="radio" id="1D" name="question1" value="D" />
+                <label for="1D">D. A family with many animals or pets</label>
+              </p>
+            </div>
+            <div>
+              <span class="question">2</span>
+              <span class="listenfromhere">
+                <a href="#"
+                  ><img
+                    src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
+                    alt="headphone"
+                    height="20px"
+                    width="20px"
+                  />
+                  Listen from here</a
+                >
+              </span>
+            </div>
+            <img
+              src="../img/listening_q.png"
+              alt="question 2"
+              width="527.25px"
+              height="342px"
+            />
+            <br />
+            <i
+              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
+              represent the correct answer.</i
+            >
+            <br />
+            <label for="question2"
+              ><i>Which kind of family does the girls prefer?</i></label
+            ><br />
+            <div>
+              <p>
+                <input type="radio" id="2A" name="question2" value="A" />
+                <label for="2A">A. A big family with many young children</label>
+              </p>
+              <p>
+                <input type="radio" id="2B" name="question2" value="B" />
+                <label for="2B">B. A family without smoker or drinkers </label>
+              </p>
+              <p>
+                <input type="radio" id="2C" name="question2" value="C" />
+                <label for="2C">C. A family without any pets</label>
+              </p>
+              <p>
+                <input type="radio" id="2D" name="question2" value="D" />
+                <label for="2D">D. A family with many animals or pets</label>
+              </p>
+            </div>
+            <div>
+              <span class="question">3</span>
+              <span class="listenfromhere">
+                <a href="#"
+                  ><img
+                    src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
+                    alt="headphone"
+                    height="20px"
+                    width="20px"
+                  />
+                  Listen from here</a
+                >
+              </span>
+            </div>
+            <img
+              src="../img/listening_q.png"
+              alt="question 3"
+              width="527.25px"
+              height="342px"
+            />
+            <br />
+            <i
+              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
+              represent the correct answer.</i
+            >
+            <br />
+            <label for="question3"
+              ><i>Which kind of family does the girls prefer?</i></label
+            ><br />
+            <div>
+              <p>
+                <input type="radio" id="3A" name="question3" value="A" />
+                <label for="3A">A. A big family with many young children</label>
+              </p>
+              <p>
+                <input type="radio" id="3B" name="question3" value="B" />
+                <label for="3B">B. A family without smoker or drinkers </label>
+              </p>
+              <p>
+                <input type="radio" id="3C" name="question3" value="C" />
+                <label for="3C">C. A family without any pets</label>
+              </p>
+              <p>
+                <input type="radio" id="3D" name="question3" value="D" />
+                <label for="3D">D. A family with many animals or pets</label>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div id="question-palette">
+        <p>Question Palette</p>
+        <button class="question-button">1</button>
+        <button class="question-button">2</button>
+        <button class="question-button">3</button>
+        <button class="question-button">4</button>
+        <button class="question-button">5</button>
+        <button class="question-button">6</button>
+
+        <div id="answered-unanswered">
+          <div id="answered-question"></div>
+          <p>Answered</p>
+          <div id="unanswered-question"></div>
+          <p>Unanswered</p>
+        </div>
+
+        <div id="submit-buttons">
+          <div class="timer" id="timer">00:00</div>
+          <div class="buttons">
+            <button>Submit</button>
+            <button>Review</button>
+            <button>Solution</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="container">
+        <div class="footer-row">
+          <div class="footer-box">
+            <h4>Address</h4>
+            <div class="contact-link-box">
+              <a href="#">
+                <img src="../img/svg/map-location-svgrepo-com.svg" alt="" />
+                <p>NEU - National Economic University</p>
+              </a>
+              <a href="#">
+                <img src="../img/svg/phone-svgrepo-com.svg" alt="" />
+                <p>+84393549559</p>
+              </a>
+              <a href="#">
+                <img src="../img/svg/mail-svgrepo-com.svg" alt="" />
+                <p>diepanh2807@gmail.com</p>
+              </a>
+            </div>
+            <div class="social-info">
+              <a href="#">
+                <img src="../img/svg/facebook-svgrepo-com.svg" alt="fb" />
+              </a>
+              <a href="#">
+                <img src="../img/svg/instagram-svgrepo-com.svg" alt="fb" />
+              </a>
+              <a href="#">
+                <img src="../img/svg/linkedin-svgrepo-com.svg" alt="fb" />
+              </a>
+            </div>
+          </div>
+          <div class="footer-box">
+            <h4>Info</h4>
+            <div class="info-box">
+              <p>
+                Necessary, making this the first true generator on the Internet.
+                It uses a dictionary of over 200 Latin words, combined with a
+                handful
+              </p>
+            </div>
+          </div>
+          <div class="footer-box">
+            <h4>Links</h4>
+            <div class="link-boxes"></div>
+            <div class="inner-link">
+              <a href="index.html">HOME</a>
+              <a href="index.html">EXAMS</a>
+              <a href="index.html">ACCOMPLISHMENTS</a>
+              <a href="index.html">ABOUT US</a>
+              <a href="news.html">CONTACT</a>
+            </div>
+          </div>
+          <div class="footer-box">
+            <h4>Subscribe</h4>
+            <div class="sub-box">
+              <div class="test-button">
+                <a href="#">Subscribe</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+  <script>
+    const audioPlayer = document.getElementById("audioPlayer");
+    const volumeRange = document.getElementById("volumeRange");
+    const audioSource = document.getElementById("audioSource");
+
+    function adjustVolume() {
+      audioPlayer.volume = volumeRange.value;
+    }
+
+    function changeAudioSource() {
+      const selectedSource = audioSource.value;
+      audioPlayer.src = selectedSource;
+      audioPlayer.load(); // Reload the audio to change the source
+    }
+  </script>
+</html>
