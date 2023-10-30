@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TOEIC Test</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="Test.css" />
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+    * {
+      font-family: "Robotic", sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      margin: 0 0;
+      background-position: center;
+      background-repeat: repeat;
+      background-size: cover;
+      min-height: 100%;
+      height: 100vh;
+    }
+    footer {
+      background-color: white; /* Background color for the footer */
+      color: #71869d; /* Text color for the footer */
+      padding: 10px; /* Add some padding to create space inside the footer */
+      text-align: center; /* Center-align the text within the footer */
+      font-size: 12px;
+      margin-top: 500px;
+    }
+    footer p {
+      margin-bottom: 4px;
+    }
+    .category {
+      display: flex;
+      justify-content: space-between;
+      margin-right: 30px;
+    }
+  </style>
+  <body style="background-color: rgb(248, 249, 250)">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 category">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#"
+                ><b>Kết quả học tập</b></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><b>Đề thi online</b></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><b>Flashcards</b></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><b>Kích hoạt đề thi</b></a>
+            </li>
+            <button id="login" class="btn btn-primary rounded-pill">
+              Đăng nhập
+            </button>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Header -->
+    <div id="header">
+      <h1><b>Bộ đề thi: ETS TOEIC 2022</b></h1>
+      <h2>Listening Practice - Test 1</h2>
+      <!-- Content -->
+    </div>
+    <span id="report">
+      <a href="/report">
+        <img
+          src="https://s3.amazonaws.com/libapps/accounts/91146/images/warning_icon_red.png"
+          alt="a warning sign"
+          height="20px"
+          width="20px"
+        />
+        Report Mistake
+      </a>
+    </span>
+    <div id="main-question-palette">
+      <div id="main">
+        <div id="P1">Part 1</div>
+        <!-- Audio -->
+        <div id="audio">
+          <!-- Audio Player -->
+          <audio controls id="audioPlayer">
+            <source src="example.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+          <!-- Adjust Volume -->
+          <span style="margin: 20px">
+            <label for="volumeRange"
+              ><img
+                src="https://th.bing.com/th/id/R.de75cbdaa4244cb429c1053f331efe75?rik=diAFL%2fEcrVNIkg&riu=http%3a%2f%2fquranproject.org%2fgo_files%2fmisc_images%2f591566-speaker-icon-png.png&ehk=drhRWUEEvujoLRx0B4plNn3yWmEkcule6qAMZHkqJvM%3d&risl=&pid=ImgRaw&r=0"
+                alt="a speaker"
+                width="20px"
+                height="20px"
+            /></label>
+            <input
+              type="range"
+              id="volumeRange"
+              min="0"
+              max="1"
+              step="0.1"
+              value="1"
+              onchange="adjustVolume()"
+            />
+          </span>
+
+          <!-- Select Audio Source: -->
+          <select onchange="changeAudioSource()">
+            <option>Change Audio Source</option>
+            <option value="example.mp3">Audio File 1</option>
+            <option value="example2.mp3">Audio File 2</option>
+          </select>
+        </div>
+
+        <div id="content">
+          <div>
+            <span class="question">1</span>
+            <span class="listenfromhere">
+              <a href="#"
+                ><img
+                  src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
+                  alt="headphone"
+                />
+                Listen from here</a
+              >
+            </span>
+          </div>
+          <img
+            src="L_q1.png"
+            alt="question 1"
+            width="527.25px"
+            height="342px"
+          />
+          <p>
+            <i
+              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
+              represent the correct answer.</i
+            >
+          </p>
+          <p><i>Which kind of family does the girls prefer?</i></p>
+          <div>
+            <p>
+              <input type="radio" id="A" name="choices" value="A" />
+              <label for="A">A. A big family with many young children</label>
+            </p>
+            <p>
+              <input type="radio" id="B" name="choices" value="B" />
+              <label for="B">B. A family without smoker or drinkers </label>
+            </p>
+            <p>
+              <input type="radio" id="C" name="choices" value="C" />
+              <label for="C">C. A family without any pets</label>
+            </p>
+            <p>
+              <input type="radio" id="D" name="choices" value="D" />
+              <label for="D">D. A family with many animals or pets</label>
+            </p>
+          </div>
+          <div>
+            <span class="question">2</span>
+            <span class="listenfromhere">
+              <a href="#"
+                ><img
+                  src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
+                  alt="headphone"
+                  height="20px"
+                  width="20px"
+                />
+                Listen from here</a
+              >
+            </span>
+          </div>
+          <img
+            src="L_q1.png"
+            alt="question 2"
+            width="527.25px"
+            height="342px"
+          />
+          <p>
+            <i
+              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
+              represent the correct answer.</i
+            >
+          </p>
+          <p><i>Which kind of family does the girls prefer?</i></p>
+          <div>
+            <p>
+              <input type="radio" id="A" name="choices" value="A" />
+              <label for="A">A. A big family with many young children</label>
+            </p>
+            <p>
+              <input type="radio" id="B" name="choices" value="B" />
+              <label for="B">B. A family without smoker or drinkers </label>
+            </p>
+            <p>
+              <input type="radio" id="C" name="choices" value="C" />
+              <label for="C">C. A family without any pets</label>
+            </p>
+            <p>
+              <input type="radio" id="D" name="choices" value="D" />
+              <label for="D">D. A family with many animals or pets</label>
+            </p>
+          </div>
+          <div>
+            <span class="question">3</span>
+            <span class="listenfromhere">
+              <a href="#"
+                ><img
+                  src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
+                  alt="headphone"
+                  height="20px"
+                  width="20px"
+                />
+                Listen from here</a
+              >
+            </span>
+          </div>
+          <img
+            src="L_q1.png"
+            alt="question 3"
+            width="527.25px"
+            height="342px"
+          />
+          <p>
+            <i
+              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
+              represent the correct answer.</i
+            >
+          </p>
+          <p><i>Which kind of family does the girls prefer?</i></p>
+          <div>
+            <p>
+              <input type="radio" id="A" name="choices" value="A" />
+              <label for="A">A. A big family with many young children</label>
+            </p>
+            <p>
+              <input type="radio" id="B" name="choices" value="B" />
+              <label for="B">B. A family without smoker or drinkers </label>
+            </p>
+            <p>
+              <input type="radio" id="C" name="choices" value="C" />
+              <label for="C">C. A family without any pets</label>
+            </p>
+            <p>
+              <input type="radio" id="D" name="choices" value="D" />
+              <label for="D">D. A family with many animals or pets</label>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div id="question-palette">
+        <p>Question Palette</p>
+        <button class="question-button">1</button>
+        <button class="question-button">2</button>
+        <button class="question-button">3</button>
+        <button class="question-button">4</button>
+        <button class="question-button">5</button>
+        <button class="question-button">6</button>
+
+        <div id="answered-unanswered">
+          <div id="answered-question"></div>
+          <p>Answered</p>
+          <div id="unanswered-question"></div>
+          <p>Unanswered</p>
+        </div>
+
+        <div id="submit-buttons">
+          <div class="timer" id="timer">00:00</div>
+          <div class="buttons">
+            <button>Submit</button>
+            <button>Review</button>
+            <button>Solution</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="column">
+        <a>
+          <h5 style="color: black"><b>Tài nguyên</b></h5>
+        </a>
+        <ul>
+          <li><a>Lịch khai giảng</a></li>
+          <li><a>Thư viện đề thi</a></li>
+          <li><a>Bài viết</a></li>
+          <li><a>Kho tài liệu</a></li>
+          <li><a>Live class</a></li>
+          <li><a>Study spaces</a></li>
+        </ul>
+      </div>
+      <div class="column">
+        <a>
+          <h5 style="color: black"><b>Hỗ trợ</b></h5>
+        </a>
+        <ul>
+          <li><a>Hướng dẫn sử dụng</a></li>
+          <li><a>Hướng dẫn mua hàng</a></li>
+          <li><a>Chăm sóc khách hàng</a></li>
+          <li><a>Phản hồi khiếu nại</a></li>
+        </ul>
+      </div>
+      <div class="column">
+        <a>
+          <h5 style="color: black"><b>Khác</b></h5>
+        </a>
+        <ul>
+          <li><a>Về chúng tôi</a></li>
+          <li><a>Liên hệ</a></li>
+          <li><a>Điều khoản bảo mật</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+  <script>
+    const audioPlayer = document.getElementById("audioPlayer");
+    const volumeRange = document.getElementById("volumeRange");
+    const audioSource = document.getElementById("audioSource");
+
+    function adjustVolume() {
+      audioPlayer.volume = volumeRange.value;
+    }
+
+    function changeAudioSource() {
+      const selectedSource = audioSource.value;
+      audioPlayer.src = selectedSource;
+      audioPlayer.load(); // Reload the audio to change the source
+    }
+  </script>
+</html>
