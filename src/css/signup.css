@@ -1,7 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito");
+
 body {
-  background-image: url(../imgs/login_bg.jpg);
+  /* background-image: url(../imgs/login_bg.jpg); */
+  background: linear-gradient(to bottom right, #0C134F, #1D267D);
   background-repeat: no-repeat;
   background-size: cover;
+  font-family: "Inter", sans-serif;
 }
 
 * {
@@ -162,13 +166,14 @@ a {
   width: 100%;
   border-radius: 30px;
   border: none;
-  background-color: #388165;
+  background-color: #51589e;
   color: #ffffff;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .form-button button:hover {
-  background-color: #53b38f;
+  background-color: #1D267D;
   width: 90%;
 }
 
