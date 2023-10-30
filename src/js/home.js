@@ -3,19 +3,18 @@ window.$ = $;
 
 import { getDatabase } from "./databaseAPI";
 
-
   //Tải các Components và đưa vào trang index
-fetch("_topNav.html")
-  .then((response) => response.text())
-  .then((html) => {
-    $("#topNav").html(html);
-  });
+// fetch("_topNav.html")
+//   .then((response) => response.text())
+//   .then((html) => {
+//     $("#topNav").html(html);
+//   });
 
-fetch("_footer.html")
-  .then((response) => response.text())
-  .then((html) => {
-    $("#footer").html(html);
-  });
+// fetch("_footer.html")
+//   .then((response) => response.text())
+//   .then((html) => {
+//     $("#footer").html(html);
+//   });
 
 //Tải dữ liệu về các các level Beginner hiển thị lên trang index
 getDatabase("10087f66f2404f85ac4eee90c2203dc3", {
