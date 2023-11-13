@@ -208,11 +208,11 @@ html {
 /* End Header  */
 
 /* Start footer  */
-#footer {
+.footer {
   height: auto;
 }
 
-#footer a {
+.footer a {
   margin: 8px 0;
 }
 
