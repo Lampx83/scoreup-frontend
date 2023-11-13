@@ -4,6 +4,7 @@ const createFooter = () => {
     .then((html) => {
         const footer = document.getElementById("footer");
         footer.innerHTML = html;
+        console.log(footer)
   });
 }
 

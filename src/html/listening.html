@@ -4,47 +4,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Listening</title>
-    <link rel="stylesheet" href="../css/index.css" />
+
+    <!-- header  -->
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- listening -->
     <link rel="stylesheet" href="../css/listening.css" />
   </head>
+
   <body style="background-color: rgb(248, 249, 250)">
     <!-- Navigation Bar -->
-    <nav>
-      <div class="container">
-        <div class="nav-row">
-          <div class="nav-slogan">
-            <a href="#">
-              <h4>ScoreUp</h4>
-            </a>
-          </div>
-          <div class="nav-content">
-            <ul class="nav-items">
-              <li class="nav-item">
-                <a class="active" href="#">HOME</a>
-              </li>
-              <li class="nav-item">
-                <a href="#">EXAMS</a>
-              </li>
-              <li class="nav-item">
-                <a href="#">PERSONAL</a>
-              </li>
-              <li class="nav-item">
-                <a href="login.html">SIGN IN</a>
-              </li>
-              <li class="nav-item">
-                <a href="signup.html">SIGN UP</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <div id="header" class="header"></div>
     <!-- End Navigation Bar  -->
 
     <!-- Header -->
     <header>
       <h1><b>Bộ đề thi: ETS TOEIC 2022</b></h1>
-      <h2>Listening Practice - Test 1</h2>
+      <h2 class="summary">Listening Practice - Test 1</h2>
     </header>
 
     <!-- Content -->
@@ -59,7 +34,7 @@
         Report Mistake
       </a>
     </span>
-    <div id="main-question-palette">
+    <div id="main-question-pallette">
       <div id="main">
         <div id="P1">Part 1</div>
         <!-- Audio -->
@@ -265,70 +240,11 @@
         </div>
       </div>
     </div>
-    <footer>
-      <div class="container">
-        <div class="footer-row">
-          <div class="footer-box">
-            <h4>Address</h4>
-            <div class="contact-link-box">
-              <a href="#">
-                <img src="../img/svg/map-location-svgrepo-com.svg" alt="" />
-                <p>NEU - National Economic University</p>
-              </a>
-              <a href="#">
-                <img src="../img/svg/phone-svgrepo-com.svg" alt="" />
-                <p>+84393549559</p>
-              </a>
-              <a href="#">
-                <img src="../img/svg/mail-svgrepo-com.svg" alt="" />
-                <p>diepanh2807@gmail.com</p>
-              </a>
-            </div>
-            <div class="social-info">
-              <a href="#">
-                <img src="../img/svg/facebook-svgrepo-com.svg" alt="fb" />
-              </a>
-              <a href="#">
-                <img src="../img/svg/instagram-svgrepo-com.svg" alt="fb" />
-              </a>
-              <a href="#">
-                <img src="../img/svg/linkedin-svgrepo-com.svg" alt="fb" />
-              </a>
-            </div>
-          </div>
-          <div class="footer-box">
-            <h4>Info</h4>
-            <div class="info-box">
-              <p>
-                Necessary, making this the first true generator on the Internet.
-                It uses a dictionary of over 200 Latin words, combined with a
-                handful
-              </p>
-            </div>
-          </div>
-          <div class="footer-box">
-            <h4>Links</h4>
-            <div class="link-boxes"></div>
-            <div class="inner-link">
-              <a href="index.html">HOME</a>
-              <a href="index.html">EXAMS</a>
-              <a href="index.html">ACCOMPLISHMENTS</a>
-              <a href="index.html">ABOUT US</a>
-              <a href="index.html">CONTACT</a>
-            </div>
-          </div>
-          <div class="footer-box">
-            <h4>Subscribe</h4>
-            <div class="sub-box">
-              <div class="test-button">
-                <a href="#">Subscribe</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <div id="footer" class="footer"></div>
+  
   </body>
+  
+  <script type="module" src="../js/listening.js"></script>
   <script>
     const audioPlayer = document.getElementById("audioPlayer");
     const volumeRange = document.getElementById("volumeRange");
