@@ -4,13 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ScoreUp</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/main.css">  
     <link rel="stylesheet" href="../css/listening_viet.css">
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
   </head>
 
   <body>
     <div class="top">
+      <div class="btn btn-warning btn-back">
+        Quay lại
+      </div>
+      <div class="timer">
+        <div class="timer__text">
+          <i class="fa-regular fa-clock"></i>
+        </div>
+        <div class="timer__time">00:00</div>
+      </div>
+      <div class="btn btn-danger btn-finish">
+        Kết thúc
+      </div>
     </div>
 
     <!-- content -->
@@ -25,23 +37,17 @@
               <div class="question-palette__content">
                 <h5 class="question-palette__title">Question Palette</h5>
                 <div class="question-palette__list">
-                  <div class="question-palette__item btn-select-question question-palette__item--active" btn-data=1>
+                  <div class="question-palette__item btn-select-question question-palette__item--active" btn-data-question-id=1>
                     1
                   </div>
-                  <div class="question-palette__item btn-select-question question-palette__item--empty" btn-data=2>
+                  <div class="question-palette__item btn-select-question question-palette__item--empty" btn-data-question-id=2>
                     2
                   </div>
-                  <div class="question-palette__item btn-select-question question-palette__item--empty" btn-data=3>
+                  <div class="question-palette__item btn-select-question question-palette__item--empty" btn-data-question-id=3>
                     3
                   </div>
-                  <div class="question-palette__item btn-select-question question-palette__item--empty" btn-data=4>
+                  <div class="question-palette__item btn-select-question question-palette__item--empty" btn-data-question-id=4>
                     4
-                  </div>
-                  <div class="question-palette__item btn-select-question question-palette__item--empty" btn-data=5>
-                    5
-                  </div>
-                  <div class="question-palette__item btn-select-question question-palette__item--empty" btn-data=6>
-                    6
                   </div>
                 </div>
               </div>
@@ -49,13 +55,7 @@
           </div>
           <div class="right col-8">
             <div class="questions">
-              <div class="question-container show" data-question-id=1>
-                <div class="timer">
-                  <div class="timer__text">
-                    <i class="fa-regular fa-clock"></i>
-                  </div>
-                  <div class="timer__time">00:00</div>
-                </div>
+              <div class="question-container" data-question-id=1>
                 <div class="question-main">
                   <div class="question-main__audio">
                     <audio controls>
@@ -70,31 +70,35 @@
                       <img src="../img/IELTS Mock Test 2023-01.jpg" alt="">
                     </div>
                   </div>
-                  <div class="question-main__options">
-                    <div class="question-main__option">
-                      <input type="radio" name="ques1" id="option1" value="option1">
-                      <label for="option1">(A)</label>
+                  <div class="question-main__options" data-correct-option="option3">
+                    <div class="question-main__option" data-option-id="option1">
+                      <label for="option1">
+                        <input type="radio" name="ques1" id="option1" value="option1">
+                        (A)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques1" id="option2" value="option2">
-                      <label for="option2">(B)</label>
+                    <div class="question-main__option" data-option-id="option2">
+                      <label for="option2">
+                        <input type="radio" name="ques1" id="option2" value="option2">
+                        (B)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques1" id="option3" value="option3">
-                      <label for="option3">(C)</label>
+                    <div class="question-main__option" data-option-id="option3">
+                      <label for="option3">
+                        <input type="radio" name="ques1" id="option3" value="option3">
+                        (C)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques1" id="option4" value="option4">
-                      <label for="option4">(D)</label>
+                    <div class="question-main__option" data-option-id="option4">
+                      <label for="option4">
+                        <input type="radio" name="ques1" id="option4" value="option4">
+                        (D)
+                      </label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="question-container" data-question-id=2>
-                <div class="timer">
-                  <div class="timer__text">Thời gian còn lại: </div>
-                  <div class="timer__time">00:00</div>
-                </div>
                 <div class="question-main">
                   <div class="question-main__audio">
                     <audio controls>
@@ -109,31 +113,35 @@
                       <img src="../img/IELTS Mock Test 2023-01.jpg" alt="">
                     </div>
                   </div>
-                  <div class="question-main__options">
-                    <div class="question-main__option">
-                      <input type="radio" name="ques2" id="option1" value="option1">
-                      <label for="option1">(A)</label>
+                  <div class="question-main__options" data-correct-option="option3">
+                    <div class="question-main__option" data-option-id="option1">
+                      <label for="option1">
+                        <input type="radio" name="ques2" id="option1" value="option1">
+                        (A)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques2" id="option2" value="option2">
-                      <label for="option2">(B)</label>
+                    <div class="question-main__option" data-option-id="option2">
+                      <label for="option2">
+                        <input type="radio" name="ques2" id="option2" value="option2">
+                        (B)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques2" id="option3" value="option3">
-                      <label for="option3">(C)</label>
+                    <div class="question-main__option" data-option-id="option3">
+                      <label for="option3">
+                        <input type="radio" name="ques2" id="option3" value="option3">
+                        (C)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques2" id="option4" value="option4">
-                      <label for="option4">(D)</label>
+                    <div class="question-main__option" data-option-id="option4">
+                      <label for="option4">
+                        <input type="radio" name="ques2" id="option4" value="option4">
+                        (D)
+                      </label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="question-container" data-question-id=3>
-                <div class="timer">
-                  <div class="timer__text">Thời gian còn lại: </div>
-                  <div class="timer__time">00:00</div>
-                </div>
                 <div class="question-main">
                   <div class="question-main__audio">
                     <audio controls>
@@ -148,31 +156,35 @@
                       <img src="../img/IELTS Mock Test 2023-01.jpg" alt="">
                     </div>
                   </div>
-                  <div class="question-main__options">
-                    <div class="question-main__option">
-                      <input type="radio" name="ques3" id="option1" value="option1">
-                      <label for="option1">(A)</label>
+                  <div class="question-main__options" data-correct-option="option3">
+                    <div class="question-main__option" data-option-id="option1">
+                      <label for="option1">
+                        <input type="radio" name="ques3" id="option1" value="option1">
+                        (A)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques3" id="option2" value="option2">
-                      <label for="option2">(B)</label>
+                    <div class="question-main__option" data-option-id="option2">
+                      <label for="option2">
+                        <input type="radio" name="ques3" id="option2" value="option2">
+                        (B)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques3" id="option3" value="option3">
-                      <label for="option3">(C)</label>
+                    <div class="question-main__option" data-option-id="option3">
+                      <label for="option3">
+                        <input type="radio" name="ques3" id="option3" value="option3">
+                        (C)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques3" id="option4" value="option4">
-                      <label for="option4">(D)</label>
+                    <div class="question-main__option" data-option-id="option4">
+                      <label for="option4">
+                        <input type="radio" name="ques3" id="option4" value="option4">
+                        (D)
+                      </label>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="question-container" data-question-id=4>
-                <div class="timer">
-                  <div class="timer__text">Thời gian còn lại: </div>
-                  <div class="timer__time">00:00</div>
-                </div>
                 <div class="question-main">
                   <div class="question-main__audio">
                     <audio controls>
@@ -187,103 +199,37 @@
                       <img src="../img/IELTS Mock Test 2023-01.jpg" alt="">
                     </div>
                   </div>
-                  <div class="question-main__options">
-                    <div class="question-main__option">
-                      <input type="radio" name="ques4" id="option1" value="option1">
-                      <label for="option1">(A)</label>
+                  <div class="question-main__options" data-correct-option="option3">
+                    <div class="question-main__option" data-option-id="option1">
+                      <label for="option1">
+                        <input type="radio" name="ques4" id="option1" value="option1">
+                        (A)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques4" id="option2" value="option2">
-                      <label for="option2">(B)</label>
+                    <div class="question-main__option" data-option-id="option2">
+                      <label for="option2">
+                        <input type="radio" name="ques4" id="option2" value="option2">
+                        (B)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques4" id="option3" value="option3">
-                      <label for="option3">(C)</label>
+                    <div class="question-main__option" data-option-id="option3">
+                      <label for="option3">
+                        <input type="radio" name="ques4" id="option3" value="option3">
+                        (C)
+                      </label>
                     </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques4" id="option4" value="option4">
-                      <label for="option4">(D)</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="question-container" data-question-id=5>
-                <div class="timer">
-                  <div class="timer__text">Thời gian còn lại: </div>
-                  <div class="timer__time">00:00</div>
-                </div>
-                <div class="question-main">
-                  <div class="question-main__audio">
-                    <audio controls>
-                      <source src="../audio/example.mp3" type="audio/mpeg">
-                    </audio>
-                  </div>
-                  <div class="question-main__content">
-                    <h6 class="question-main__title">
-                      Câu 5: Lắng nghe và chọn đáp án đúng!
-                    </h6>
-                    <div class="question-main__img">
-                      <img src="../img/IELTS Mock Test 2023-01.jpg" alt="">
-                    </div>
-                  </div>
-                  <div class="question-main__options">
-                    <div class="question-main__option">
-                      <input type="radio" name="ques5" id="option1" value="option1">
-                      <label for="option1">(A)</label>
-                    </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques5" id="option2" value="option2">
-                      <label for="option2">(B)</label>
-                    </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques5" id="option3" value="option3">
-                      <label for="option3">(C)</label>
-                    </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques5" id="option4" value="option4">
-                      <label for="option4">(D)</label>
+                    <div class="question-main__option" data-option-id="option4">
+                      <label for="option4">
+                        <input type="radio" name="ques4" id="option4" value="option4">
+                        (D)
+                      </label>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="question-container" data-question-id=6>
-                <div class="timer">
-                  <div class="timer__text">Thời gian còn lại: </div>
-                  <div class="timer__time">00:00</div>
-                </div>
-                <div class="question-main">
-                  <div class="question-main__audio">
-                    <audio controls>
-                      <source src="../audio/example.mp3" type="audio/mpeg">
-                    </audio>
-                  </div>
-                  <div class="question-main__content">
-                    <h6 class="question-main__title">
-                      Câu 6: Lắng nghe và chọn đáp án đúng!
-                    </h6>
-                    <div class="question-main__img">
-                      <img src="../img/IELTS Mock Test 2023-01.jpg" alt="">
-                    </div>
-                  </div>
-                  <div class="question-main__options">
-                    <div class="question-main__option">
-                      <input type="radio" name="ques6" id="option1" value="option1">
-                      <label for="option1">(A)</label>
-                    </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques6" id="option2" value="option2">
-                      <label for="option2">(B)</label>
-                    </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques6" id="option3" value="option3">
-                      <label for="option3">(C)</label>
-                    </div>
-                    <div class="question-main__option">
-                      <input type="radio" name="ques6" id="option4" value="option4">
-                      <label for="option4">(D)</label>
-                    </div>
-                  </div>
-                </div>
+              <div class="questions__navigation">
+                <button class="btn btn-primary prev">Previous</button>
+                <button class="btn btn-primary next">Next</button>
               </div>
             </div>
           </div>
