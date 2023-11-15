@@ -57,7 +57,7 @@ getDatabase("10087f66f2404f85ac4eee90c2203dc3", {
   $("#intermediate-topic-list").empty()
   response.forEach((item) => {
     const topicID = item.id;
-    const name = item.properties.Name.title[0].plain_text;
+    const name = item.item.properties.Name.title[0].plain_text;
     let SVG = "";
     if (item.properties.SVG.rich_text[0] != null)
       SVG = item.properties.SVG.rich_text[0].plain_text;

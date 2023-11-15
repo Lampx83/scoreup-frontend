@@ -1,11 +1,146 @@
-const questionsId = [1, 2, 3, 4]
+let questionsId = []
 const results = {
   correct: 0,
   incorrect: 0,
   point: 0,
-  total: questionsId.length,
+  total: 0,
   percent: 0,
 }
+
+//!query questions từ database và in ra html
+import {getDatabase} from './databaseAPI.js'
+const body = {
+  "sorts": [
+    {
+        "property": "ID",
+        "direction": "ascending"
+    }
+  ]
+}
+const config = {
+  params: {
+    limit: 10
+  }
+}
+getDatabase('d4f9d04d633948fba9c3dde4fcb0d93c', body, config)
+  .then((response) => {
+    let newResponse = response.map((item) => {
+      // const questionId = item.id;
+      // questionsId.push(questionId)
+      const newItem = {}
+      newItem.id = item.id
+      newItem.data = item.properties
+      return newItem
+    })
+    newResponse = getRandomQuestions(newResponse, 10)
+    newResponse.forEach((item) => {
+      const questionId = item.id;
+      questionsId.push(questionId)
+    })
+    results.total = questionsId.length
+    return newResponse
+  })
+  .then((data) => {
+    //! tạo btn chọn câu hỏi bên trái
+    const questionPaletteList = document.querySelector('.question-palette__list')
+    questionsId.forEach((id, index) => {
+      const item = document.createElement('div')
+      item.classList.add("question-palette__item", "btn-select-question", "question-palette__item--empty")
+      item.setAttribute('btn-data-question-id', id)
+      item.innerHTML = index + 1
+
+      questionPaletteList.appendChild(item)
+    })
+    //! end tạo btn chọn câu hỏi bên trái
+    data.forEach((item, index) => {
+
+      const questionsDiv = document.querySelector('.questions')
+      const questionsNavigation = document.querySelector('.questions__navigation')
+
+      const questionContainer = document.createElement('div')
+      questionContainer.classList.add('question-container')
+      questionContainer.setAttribute('data-question-id', item.id)
+      questionContainer.setAttribute('data-question-index', index)
+
+      const questionMain = document.createElement('div')
+      questionMain.classList.add('question-main')
+
+      //! tạo div audio
+      const questionMainAudio = document.createElement('div')
+      questionMainAudio.classList.add('question-main__audio')
+      questionMainAudio.innerHTML = `
+      <audio controls>
+        <source src="${item.data.audio.files[0].file.url}" type="audio/mpeg">
+      </audio>
+      `
+      questionMain.appendChild(questionMainAudio)
+      //!end tạo div audio
+
+      //! tạo div content
+      const questionMainContent = document.createElement('div')
+      questionMainContent.classList.add('question-main__content')
+      questionMainContent.innerHTML = `
+        <h6 class="question-main__title">
+          Question ${index + 1}: ${item.data.question.title[0].plain_text}
+        </h6>
+        <div class="question-main__img">
+          <img src="${item.data.img.files[0].file.url}" alt="">
+        </div>
+      `
+      questionMain.appendChild(questionMainContent)
+      //! end tạo div content
+
+      //! tạo div options
+      const questionMainOptions = document.createElement('div')
+      questionMainOptions.classList.add('question-main__options')
+      questionMainOptions.setAttribute('data-correct-option', item.data.correct.rich_text[0].plain_text)
+      questionMainOptions.innerHTML = `
+        <div class="question-main__option" data-option-id="A">
+          <label for="A">
+            <input type="radio" name="${item.id}" id="A" value="A">
+            ${item.data.A.rich_text[0].plain_text}
+          </label>
+        </div>
+        <div class="question-main__option" data-option-id="B">
+          <label for="B">
+            <input type="radio" name="${item.id}" id="B" value="B">
+            ${item.data.B.rich_text[0].plain_text}
+          </label>
+        </div>
+        <div class="question-main__option" data-option-id="C">
+          <label for="C">
+            <input type="radio" name="${item.id}" id="C" value="C">
+            ${item.data.C.rich_text[0].plain_text}
+          </label>
+        </div>
+        <div class="question-main__option" data-option-id="D">
+          <label for="D">
+            <input type="radio" name="${item.id}" id="D" value="D">
+            ${item.data.D.rich_text[0].plain_text}
+          </label>
+        </div>
+      `
+      questionMain.appendChild(questionMainOptions)
+      //! end tạo div options
+      questionContainer.appendChild(questionMain)
+      questionsDiv.insertBefore(questionContainer, questionsNavigation)
+    })
+    //! khởi tạo các function logic của trang web
+    showQuestion(questionsId[0])
+    selectQuestion()
+    questionsId.forEach((questionId) => {
+      selectOption(questionId);
+    })
+    navigationQuestion()
+
+    const btnFinish = document.querySelector('.btn-finish')
+    if (btnFinish) {
+      btnFinish.addEventListener('click', showResult)
+    }
+    //! khởi tạo các function logic của trang web
+  })
+
+//!end query questions từ database và in ra html
 
 //! timer
 let timer;
@@ -73,18 +208,19 @@ const showQuestion = (questionId) => {
     }
   }
 }
-showQuestion(1); //? hiển thị câu hỏi đầu tiên
 //! end show question func
 
 //! select question
-const btnsSellectQuestion = document.querySelectorAll(".btn-select-question"); //? select các btn ở palette
-if (btnsSellectQuestion && btnsSellectQuestion.length > 0) {
-  btnsSellectQuestion.forEach((btn) => {
-    btn.addEventListener("click", () => { //? add event từng btn
-      const questionId = btn.getAttribute("btn-data-question-id"); //? lấy id câu hỏi cần chuyển đến
-      showQuestion(questionId); //? chuyển đến câu hỏi
+const selectQuestion = () => {
+  const btnsSellectQuestion = document.querySelectorAll(".btn-select-question"); //? select các btn ở palette
+  if (btnsSellectQuestion && btnsSellectQuestion.length > 0) {
+    btnsSellectQuestion.forEach((btn) => {
+      btn.addEventListener("click", () => { //? add event từng btn
+        const questionId = btn.getAttribute("btn-data-question-id"); //? lấy id câu hỏi cần chuyển đến
+        showQuestion(questionId); //? chuyển đến câu hỏi
+      })
     })
-  })
+  }
 }
 //! end select question
 
@@ -124,30 +260,29 @@ const selectOption = (questionId) => {
     })
   })
 }
-questionsId.forEach((questionId) => {
-  selectOption(questionId);
-})
 //! end select option
 
 //! navigation question
-const btnNav = document.querySelector('.questions__navigation')
-if (btnNav) {
-  const btnPrev = btnNav.querySelector('.prev')
-  const btnNext = btnNav.querySelector('.next')
-  btnPrev.addEventListener('click', () => {
-    const currentQuestionId = document.querySelector('.question-container.show').getAttribute('data-question-id')
-    const prevQuestionId = parseInt(currentQuestionId) - 1
-    if (prevQuestionId > 0) {
-      showQuestion(prevQuestionId)
-    }
-  })
-  btnNext.addEventListener('click', () => {
-    const currentQuestionId = document.querySelector('.question-container.show').getAttribute('data-question-id')
-    const nextQuestionId = parseInt(currentQuestionId) + 1
-    if (nextQuestionId <= questionsId.length) {
-      showQuestion(nextQuestionId)
-    }
-  })
+const navigationQuestion = () => {
+  const btnNav = document.querySelector('.questions__navigation')
+  if (btnNav) {
+    const btnPrev = btnNav.querySelector('.prev')
+    const btnNext = btnNav.querySelector('.next')
+    btnPrev.addEventListener('click', () => {
+      const currentQuestionIndex = document.querySelector('.question-container.show').getAttribute('data-question-index')
+      const prevQuestionIndex = parseInt(currentQuestionIndex) - 1
+      if (prevQuestionIndex >= 0) {
+        showQuestion(questionsId[prevQuestionIndex])
+      }
+    })
+    btnNext.addEventListener('click', () => {
+      const currentQuestionIndex = document.querySelector('.question-container.show').getAttribute('data-question-index')
+      const nextQuestionIndex = parseInt(currentQuestionIndex) + 1
+      if (nextQuestionIndex < questionsId.length) {
+        showQuestion(questionsId[nextQuestionIndex])
+      }
+    })
+  }
 }
 //! end navigation question
 
@@ -184,3 +319,19 @@ const showResult = () => {
   }
 }
 //! end result
+
+//? hàm để pick ngẫu nhiên câu hỏi
+function getRandomQuestions(questions, count) {
+  // Clone mảng để tránh làm thay đổi mảng gốc
+  const shuffledQuestions = [...questions];
+
+  // Trộn mảng để có thứ tự ngẫu nhiên
+  for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+  }
+
+  // Lấy và trả về 'count' câu hỏi đầu tiên từ mảng
+  return shuffledQuestions.slice(0, count > questions.length ? questions.length : count);
+}
+//? end hàm để pick ngẫu nhiên câu hỏi

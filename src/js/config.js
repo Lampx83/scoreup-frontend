@@ -1,5 +1,5 @@
 const config = {
-    apiUrl: 'https://notionapi-nodejs.vercel.app',
+    apiUrl: 'http://101.96.66.219:8020/v1/api',
     // Các thông tin cấu hình khác có thể được thêm vào đây
   };
   
