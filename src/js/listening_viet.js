@@ -1,4 +1,12 @@
 const questionsId = [1, 2, 3, 4]
+const results = {
+  correct: 0,
+  incorrect: 0,
+  point: 0,
+  total: questionsId.length,
+  percent: 0,
+}
+
 //! timer
 const initTimerCountdown = (min, timer__time) => {
   let time = min * 60;
@@ -30,6 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 //! end timer
 
+/**
+ * !CÁC LOGIC
+ * *1. add event cho các ô chọn câu hỏi bằng select question và hàm show question
+ * *2. add event cho các ô chọn đáp án bằng select option 
+ * *3. navigation question bằng btn prev và next (lùi, tiến câu hỏi)
+ * *4. show result: khi chạy hàm này sẽ trigger modal result
+ */
+
 //! show question func
 const showQuestion = (questionId) => {
   const questionShowing = document.querySelector(".question-container.show"); //? lấy câu hỏi đang hiển thị
@@ -44,15 +60,15 @@ const showQuestion = (questionId) => {
 
     const btnShowing = document.querySelector(`.btn-select-question[btn-data-question-id="${questionShowingId}"]`);
     btnShowing.classList.remove("question-palette__item--active"); //? chuyển btn sang trạng thái không chọn
-    btnShowing.classList.add("question-palette__item--empty");
 
     const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionId}"]`);
     btnTarget.classList.add("question-palette__item--active"); //? chuyển btn sang trạng thái chọn
-    btnTarget.classList.remove("question-palette__item--empty");
   } else if (!questionShowingId) {
     const questionTarget = document.querySelector(`.question-container[data-question-id="${questionId}"]`);
     if (questionTarget) {
       questionTarget.classList.add("show"); //? hiển thị câu hỏi chuyển đến
+      const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionId}"]`);
+      btnTarget.classList.add("question-palette__item--active"); //? chuyển btn sang trạng thái chọn
     }
   }
 }
@@ -71,8 +87,8 @@ if (btnsSellectQuestion && btnsSellectQuestion.length > 0) {
 }
 //! end select question
 
-//! show key
-const showKey = (questionId) => {
+//! select option
+const selectOption = (questionId) => {
   const question = document.querySelector(`.question-container[data-question-id="${questionId}"]`);
   const correctOptionId = question.querySelector(".question-main__options").getAttribute('data-correct-option')
   const correctOption = question.querySelector(`.question-main__option[data-option-id="${correctOptionId}"]`);
@@ -80,16 +96,26 @@ const showKey = (questionId) => {
   options.forEach((option) => {
     option.addEventListener("click", (e) => {
       e.preventDefault();
+      //! get status xem đã trả lời chưa
       const status = question.getAttribute('data-question-status')
       if (status == "answered") {
         return;
       }
       question.setAttribute('data-question-status', 'answered')
       if (option.getAttribute('data-option-id') == correctOption.getAttribute('data-option-id')) {
+        results.correct++;
+
         option.classList.add("question-main__option--correct");
+        const btnShowing = document.querySelector(`.btn-select-question[btn-data-question-id="${questionId}"]`);
+        btnShowing.classList.add("question-palette__item--correct"); //? chuyển btn sang trạng thái đúng
+        btnShowing.classList.remove("question-palette__item--empty");
       } else {
+
         option.classList.add("question-main__option--incorrect");
         correctOption.classList.add("question-main__option--correct");
+        const btnShowing = document.querySelector(`.btn-select-question[btn-data-question-id="${questionId}"]`);
+        btnShowing.classList.add("question-palette__item--incorrect"); //? chuyển btn sang trạng thái sai
+        btnShowing.classList.remove("question-palette__item--empty");
       }
       options.forEach((option) => {
         option.classList.add("question-main__option--disabled");
@@ -98,9 +124,9 @@ const showKey = (questionId) => {
   })
 }
 questionsId.forEach((questionId) => {
-  showKey(questionId);
+  selectOption(questionId);
 })
-//! end show key
+//! end select option
 
 //! navigation question
 const btnNav = document.querySelector('.questions__navigation')
@@ -111,15 +137,57 @@ if (btnNav) {
     const currentQuestionId = document.querySelector('.question-container.show').getAttribute('data-question-id')
     const prevQuestionId = parseInt(currentQuestionId) - 1
     if (prevQuestionId > 0) {
+      btnNext.classList.remove('btn-danger') //? chuyển finish thành next
+      btnNext.classList.add('btn-primary')
+      btnNext.innerHTML = 'Next'
       showQuestion(prevQuestionId)
     }
   })
   btnNext.addEventListener('click', () => {
     const currentQuestionId = document.querySelector('.question-container.show').getAttribute('data-question-id')
     const nextQuestionId = parseInt(currentQuestionId) + 1
-    if (nextQuestionId <= questionsId.length) {
+    if (nextQuestionId < questionsId.length) {
       showQuestion(nextQuestionId)
+    } else if (nextQuestionId == questionsId.length) { //? chuyển next thành finish
+      btnNext.classList.add('btn-danger')
+      btnNext.classList.remove('btn-primary')
+      btnNext.innerHTML = 'Finish'
+      showQuestion(nextQuestionId)
+    } else if (nextQuestionId > questionsId.length) {
+      showResult()
     }
   })
 }
 //! end navigation question
+
+//! result
+const showResult = () => {
+  results.incorrect = results.total - results.correct;
+  results.percent = (results.correct / results.total) * 100;
+  const contentReview = document.querySelector('.content-review')
+  contentReview.innerHTML = `
+  <p><strong>Correct: </strong> ${results.correct}</p>
+  <p><strong>Incorrect: </strong> ${results.incorrect}</p>
+  <p><strong>Total: </strong> ${results.total}</p>
+  <p><strong>Percent: </strong> ${results.percent}%</p>
+  `;
+
+  const btnsSellectQuestion = document.querySelector('.question-palette__list').querySelectorAll(".btn-select-question"); //? select các btn ở palette
+  btnsSellectQuestion.forEach((btn) => {
+    if (btn.classList.contains('question-palette__item--empty')) {
+      btn.classList.add('question-palette__item--incorrect')
+      const emptyQuestionId = btn.getAttribute("btn-data-question-id"); //? lấy id câu hỏi trống
+      const emptyQuestion = document.querySelector(`.question-container[data-question-id="${emptyQuestionId}"]`);
+      const correctOptionId = emptyQuestion.querySelector(".question-main__options").getAttribute('data-correct-option')
+      const correctOption = emptyQuestion.querySelector(`.question-main__option[data-option-id="${correctOptionId}"]`);
+      correctOption.classList.add("question-main__option--correct")
+      emptyQuestion.setAttribute('data-question-status', 'answered')
+    }
+  })
+  
+  const btnFinish = document.querySelector('.btn-finish')
+  if (btnFinish) {
+    btnFinish.click();
+  }
+}
+//! end result

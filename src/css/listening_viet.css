@@ -131,16 +131,14 @@ button {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background-color: gray;
 }
 
-.question-palette__item--true {
-  background-color: #4caf50;
+.question-palette__item--correct {
+  background-color: #4caf50 !important;
 }
-.question-palette__item--false {
-  background-color: #ff5252;
-}
-.question-palette__item--empty {
-  background-color: gray;
+.question-palette__item--incorrect {
+  background-color: #ff5252 !important;
 }
 .question-palette__item--active {
   background-color: #2196f3;
