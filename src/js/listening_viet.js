@@ -8,9 +8,10 @@ const results = {
 }
 
 //! timer
+let timer;
 const initTimerCountdown = (min, timer__time) => {
   let time = min * 60;
-  let timer = setInterval(() => {
+  timer = setInterval(() => {
     if (time <= 59) timer__time.classList.add("timer__time--red");
     let minutes = Math.floor(time / 60) > 9 ? Math.floor(time / 60) : `0${Math.floor(time / 60)}`;
     let seconds = time % 60 > 9 ? time % 60 : `0${time % 60}`;
@@ -25,7 +26,7 @@ const initTimerCountdown = (min, timer__time) => {
 }
 const initTimerCount = (timer__time) => {
   let time = 0;
-  let timer = setInterval(() => {
+  timer = setInterval(() => {
     let minutes = Math.floor(time / 60) > 9 ? Math.floor(time / 60) : `0${Math.floor(time / 60)}`;
     let seconds = time % 60 > 9 ? time % 60 : `0${time % 60}`;
     time++;
@@ -137,24 +138,14 @@ if (btnNav) {
     const currentQuestionId = document.querySelector('.question-container.show').getAttribute('data-question-id')
     const prevQuestionId = parseInt(currentQuestionId) - 1
     if (prevQuestionId > 0) {
-      btnNext.classList.remove('btn-danger') //? chuyển finish thành next
-      btnNext.classList.add('btn-primary')
-      btnNext.innerHTML = 'Next'
       showQuestion(prevQuestionId)
     }
   })
   btnNext.addEventListener('click', () => {
     const currentQuestionId = document.querySelector('.question-container.show').getAttribute('data-question-id')
     const nextQuestionId = parseInt(currentQuestionId) + 1
-    if (nextQuestionId < questionsId.length) {
+    if (nextQuestionId <= questionsId.length) {
       showQuestion(nextQuestionId)
-    } else if (nextQuestionId == questionsId.length) { //? chuyển next thành finish
-      btnNext.classList.add('btn-danger')
-      btnNext.classList.remove('btn-primary')
-      btnNext.innerHTML = 'Finish'
-      showQuestion(nextQuestionId)
-    } else if (nextQuestionId > questionsId.length) {
-      showResult()
     }
   })
 }
@@ -184,6 +175,8 @@ const showResult = () => {
       emptyQuestion.setAttribute('data-question-status', 'answered')
     }
   })
+
+  clearInterval(timer);
   
   const btnFinish = document.querySelector('.btn-finish')
   if (btnFinish) {
