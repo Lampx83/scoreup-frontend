@@ -116,6 +116,10 @@ html {
   justify-content: space-between;
 }
 
+.row.index {
+  justify-content: center !important;
+}
+
 .col {
   display: flex;
   flex-direction: column;

@@ -16,7 +16,6 @@ body {
   height: 100%;
   /* background: linear-gradient(to bottom right, #0C134F, #1D267D); */
   background-size: cover;
-  backdrop-filter: blur(100px);
   /* background-repeat: no-repeat; */
 }
 
