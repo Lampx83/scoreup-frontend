@@ -25,7 +25,7 @@ const config = {
 getDatabase('5e4fc93093714be99b5d41edc31bbc1a', body)
   .then((response) => {
     const timer__time = document.querySelector(".timer__time");
-    initTimer(timer__time);
+    initTimerCount(timer__time);
     let newResponse = response.map((item) => {
       // const questionId = item.id;
       // questionsId.push(questionId)
@@ -45,6 +45,13 @@ getDatabase('5e4fc93093714be99b5d41edc31bbc1a', body)
   .then((data) => {
     //! tạo btn chọn câu hỏi bên trái
     const questionPaletteList = document.querySelector('.question-palette__list')
+    //? xoá hiệu ứng loading
+    const questionPalette = questionPaletteList.closest('.question-palette')
+    questionPalette.classList.remove('placeholder-glow')
+    const questionPaletteContent = questionPalette.querySelector('.question-palette__content')
+    questionPaletteContent.classList.remove('placeholder')
+    //?end xoá hiệu ứng loading
+
     questionsId.forEach((id, index) => {
       const item = document.createElement('div')
       item.classList.add("question-palette__item", "btn-select-question", "question-palette__item--empty")
@@ -57,6 +64,14 @@ getDatabase('5e4fc93093714be99b5d41edc31bbc1a', body)
     data.forEach((item, index) => {
 
       const questionsDiv = document.querySelector('.questions')
+
+      //? xoá hiệu ứng loading
+      const questions = questionsDiv.closest('.questions')
+      questions.classList.remove('placeholder')
+      const right = questions.closest('.right')
+      right.classList.remove('placeholder-glow')
+      //? end xoá hiệu ứng loading
+
       const questionsNavigation = document.querySelector('.questions__navigation')
 
       const questionContainer = document.createElement('div')

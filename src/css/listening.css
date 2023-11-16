@@ -146,6 +146,14 @@ button {
 /* end question palette */
 
 /* question */
+.right {
+  position: relative;
+}
+.right .placeholder {
+  width: 100% !important;
+  height: 100%;
+} 
+
 .questions {
   background-color: #fff;
   padding: 20px;
