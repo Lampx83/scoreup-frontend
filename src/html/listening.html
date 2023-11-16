@@ -3,261 +3,78 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Listening</title>
-
-    <!-- header  -->
-    <link rel="stylesheet" href="../css/main.css">
-    <!-- listening -->
-    <link rel="stylesheet" href="../css/listening.css" />
+    <title>ScoreUp</title>
+    <link rel="stylesheet" href="../css/main.css">  
+    <link rel="stylesheet" href="../css/listening.css">
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
   </head>
 
-  <body style="background-color: rgb(248, 249, 250)">
-    <!-- Navigation Bar -->
-    <div id="header" class="header"></div>
-    <!-- End Navigation Bar  -->
-
-    <!-- Header -->
-    <header>
-      <h1><b>Bộ đề thi: ETS TOEIC 2022</b></h1>
-      <h2 class="summary">Listening Practice - Test 1</h2>
-    </header>
-
-    <!-- Content -->
-    <span id="report">
-      <a href="/report">
-        <img
-          src="https://s3.amazonaws.com/libapps/accounts/91146/images/warning_icon_red.png"
-          alt="a warning sign"
-          height="20px"
-          width="20px"
-        />
-        Report Mistake
-      </a>
-    </span>
-    <div id="main-question-pallette">
-      <div id="main">
-        <div id="P1">Part 1</div>
-        <!-- Audio -->
-        <div id="audio">
-          <!-- Audio Player -->
-          <audio controls id="audioPlayer">
-            <source src="https://file.notion.so/f/f/51615d8e-ebd3-4e88-a47e-c288198ca484/7dc098e3-0bde-453b-a8de-23114c363e6a/y2meta.com_-_NST_T_Minh_Tm__-_t_Nc_Trn_Nim_Vui_Official_MV_(320_kbps).mp3?id=424a3225-ecf1-45c1-be67-a9370973ca0c&table=block&spaceId=51615d8e-ebd3-4e88-a47e-c288198ca484&expirationTimestamp=1699243200000&signature=nA49V_XKTqFvZhlVH4LWnyrx7u_M2984wCkJlfHCynE&downloadName=y2meta.com+-+NS%C6%AFT+T%E1%BA%A1+Minh+T%C3%A2m++-+%C4%90%E1%BA%A5t+N%C6%B0%E1%BB%9Bc+Tr%E1%BB%8Dn+Ni%E1%BB%81m+Vui+%5BOfficial+MV%5D+%28320+kbps%29.mp3" type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
-          <!-- Adjust Volume -->
-          <span style="margin: 20px">
-            <label for="volumeRange"
-              ><img
-                src="https://th.bing.com/th/id/R.de75cbdaa4244cb429c1053f331efe75?rik=diAFL%2fEcrVNIkg&riu=http%3a%2f%2fquranproject.org%2fgo_files%2fmisc_images%2f591566-speaker-icon-png.png&ehk=drhRWUEEvujoLRx0B4plNn3yWmEkcule6qAMZHkqJvM%3d&risl=&pid=ImgRaw&r=0"
-                alt="a speaker"
-                width="20px"
-                height="20px"
-            /></label>
-            <input
-              type="range"
-              id="volumeRange"
-              min="0"
-              max="1"
-              step="0.1"
-              value="1"
-              onchange="adjustVolume()"
-            />
-          </span>
-
-          <!-- Select Audio Source: -->
-          <select onchange="changeAudioSource()">
-            <option>Change Audio Source</option>
-            <option value="example.mp3">Audio File 1</option>
-            <option value="example2.mp3">Audio File 2</option>
-          </select>
-        </div>
-
-        <div id="content">
-          <form>
-            <span class="question">1</span>
-            <span class="listenfromhere">
-              <a href="#"
-                ><img
-                  src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
-                  alt="headphone"
-                />
-                Listen from here</a
-              >
-            </span>
-            <img
-              src="../img/listening_q.png"
-              alt="question 1"
-              width="527.25px"
-              height="342px"
-              2
-            />
-            <br />
-            <i
-              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
-              represent the correct answer.</i
-            ><br />
-            <label for="question1"
-              ><i>Which kind of family does the girls prefer?</i></label
-            ><br />
-            <div>
-              <p>
-                <input type="radio" id="1A" name="question1" value="A" />
-                <label for="1A">A. A big family with many young children</label>
-              </p>
-              <p>
-                <input type="radio" id="1B" name="question1" value="B" />
-                <label for="1B">B. A family without smoker or drinkers </label>
-              </p>
-              <p>
-                <input type="radio" id="1C" name="question1" value="C" />
-                <label for="1C">C. A family without any pets</label>
-              </p>
-              <p>
-                <input type="radio" id="1D" name="question1" value="D" />
-                <label for="1D">D. A family with many animals or pets</label>
-              </p>
-            </div>
-            <div>
-              <span class="question">2</span>
-              <span class="listenfromhere">
-                <a href="#"
-                  ><img
-                    src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
-                    alt="headphone"
-                    height="20px"
-                    width="20px"
-                  />
-                  Listen from here</a
-                >
-              </span>
-            </div>
-            <img
-              src="../img/listening_q.png"
-              alt="question 2"
-              width="527.25px"
-              height="342px"
-            />
-            <br />
-            <i
-              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
-              represent the correct answer.</i
-            >
-            <br />
-            <label for="question2"
-              ><i>Which kind of family does the girls prefer?</i></label
-            ><br />
-            <div>
-              <p>
-                <input type="radio" id="2A" name="question2" value="A" />
-                <label for="2A">A. A big family with many young children</label>
-              </p>
-              <p>
-                <input type="radio" id="2B" name="question2" value="B" />
-                <label for="2B">B. A family without smoker or drinkers </label>
-              </p>
-              <p>
-                <input type="radio" id="2C" name="question2" value="C" />
-                <label for="2C">C. A family without any pets</label>
-              </p>
-              <p>
-                <input type="radio" id="2D" name="question2" value="D" />
-                <label for="2D">D. A family with many animals or pets</label>
-              </p>
-            </div>
-            <div>
-              <span class="question">3</span>
-              <span class="listenfromhere">
-                <a href="#"
-                  ><img
-                    src="https://th.bing.com/th/id/R.6615127f551125845c4d2ac675689268?rik=YVXRsXCA6ud0nw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fheadphones-transparent-png%2fheadphones-transparent-png-17.png&ehk=5yvvpjFSg3qjmDqqn8i9HJbTVPx8YgPjFedFFhLbQxs%3d&risl=&pid=ImgRaw&r=0"
-                    alt="headphone"
-                    height="20px"
-                    width="20px"
-                  />
-                  Listen from here</a
-                >
-              </span>
-            </div>
-            <img
-              src="../img/listening_q.png"
-              alt="question 3"
-              width="527.25px"
-              height="342px"
-            />
-            <br />
-            <i
-              >Mark <b style="color: rgb(255, 0, 0)">TWO</b> letter that
-              represent the correct answer.</i
-            >
-            <br />
-            <label for="question3"
-              ><i>Which kind of family does the girls prefer?</i></label
-            ><br />
-            <div>
-              <p>
-                <input type="radio" id="3A" name="question3" value="A" />
-                <label for="3A">A. A big family with many young children</label>
-              </p>
-              <p>
-                <input type="radio" id="3B" name="question3" value="B" />
-                <label for="3B">B. A family without smoker or drinkers </label>
-              </p>
-              <p>
-                <input type="radio" id="3C" name="question3" value="C" />
-                <label for="3C">C. A family without any pets</label>
-              </p>
-              <p>
-                <input type="radio" id="3D" name="question3" value="D" />
-                <label for="3D">D. A family with many animals or pets</label>
-              </p>
-            </div>
-          </form>
-        </div>
+  <body>
+    <div class="top">
+      <div class="btn btn-warning btn-back" onclick="history.back()">
+        Back
       </div>
-      <div id="question-palette">
-        <p>Question Palette</p>
-        <button class="question-button">1</button>
-        <button class="question-button">2</button>
-        <button class="question-button">3</button>
-        <button class="question-button">4</button>
-        <button class="question-button">5</button>
-        <button class="question-button">6</button>
-
-        <div id="answered-unanswered">
-          <div id="answered-question"></div>
-          <p>Answered</p>
-          <div id="unanswered-question"></div>
-          <p>Unanswered</p>
+      <div class="timer">
+        <div class="timer__text">
+          <i class="fa-regular fa-clock"></i>
         </div>
+        <div class="timer__time">00:00</div>
+      </div>
+      <button class="btn btn-danger btn-finish" data-bs-toggle="modal" data-bs-target="#result-modal">
+        Finish
+      </button>
+    </div>
 
-        <div id="submit-buttons">
-          <div class="timer" id="timer">00:00</div>
-          <div class="buttons">
-            <button>Submit</button>
-            <button>Review</button>
-            <button>Solution</button>
+    <!-- content -->
+    <div class="main">
+      <div class="container">
+        <div class="row">
+          <div class="left col-3">
+            <div class="question-palette">
+              <div class="question-palette__label">
+                Test 1
+              </div>
+              <div class="question-palette__content">
+                <h5 class="question-palette__title">Question Palette</h5>
+                <div class="question-palette__list">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="right col-8">
+            <div class="questions">
+              <div class="questions__navigation">
+                <button class="btn btn-primary prev">Previous</button>
+                <button class="btn btn-primary next">Next</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="footer" class="footer"></div>
-  
+    <!-- end content -->
+
+    <div class="modal fade" id="result-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Practice result</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body content-review">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Review</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.reload()">Làm thêm</button>
+            <button type="button" class="btn btn-warning" onclick="window.location.href=`detail-exam.html`">Back to exams</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="../js/listening.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="https://kit.fontawesome.com/1060f79268.js" crossorigin="anonymous"></script>
   </body>
-  
-  <script type="module" src="../js/listening.js"></script>
-  <script>
-    const audioPlayer = document.getElementById("audioPlayer");
-    const volumeRange = document.getElementById("volumeRange");
-    const audioSource = document.getElementById("audioSource");
-
-    function adjustVolume() {
-      audioPlayer.volume = volumeRange.value;
-    }
-
-    function changeAudioSource() {
-      const selectedSource = audioSource.value;
-      audioPlayer.src = selectedSource;
-      audioPlayer.load(); // Reload the audio to change the source
-    }
-  </script>
 </html>
