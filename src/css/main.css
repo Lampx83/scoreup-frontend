@@ -142,6 +142,7 @@ body {
 
 .footer a {
   margin: 8px 0;
+  text-decoration: none;
 }
 
 .footer-row {
