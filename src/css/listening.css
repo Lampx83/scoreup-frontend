@@ -142,6 +142,7 @@ button {
 }
 .question-palette__item--active {
   background-color: #2196f3;
+  font-size: larger;
 }
 /* end question palette */
 
@@ -158,6 +159,7 @@ button {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
+  position: relative;
 }
 .question-container {
   display: none;
@@ -211,5 +213,10 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
+}
+.question-hint {
+  position: absolute;
+  right: 0;
+  margin: 10px 20px;
 }
 /* end question */

@@ -24,7 +24,6 @@
         Finish
       </button>
     </div>
-
     <!-- content -->
     <div class="main">
       <div class="container">
@@ -32,17 +31,18 @@
           <div class="left col-3">
             <div class="question-palette placeholder-glow">
               <div class="question-palette__label">
-                Test 1
+                Test
               </div>
               <div class="question-palette__content placeholder">
-                <h5 class="question-palette__title">Question Palette</h5>
-                <div class="question-palette__list">
-                </div>
+
               </div>
             </div>
           </div>
           <div class="right col-8 placeholder-glow">
             <div class="questions placeholder">
+              <btn class="question-hint btn btn-primary btn-hint" data-bs-toggle="modal" data-bs-target="#hint-modal">
+                <i class="fa-solid fa-lightbulb"></i>
+              </btn>
               <div class="questions__navigation">
                 <button class="btn btn-primary prev">Previous</button>
                 <button class="btn btn-primary next">Next</button>
@@ -53,6 +53,7 @@
       </div>
     </div>
     <!-- end content -->
+
 
     <div class="modal fade" id="result-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -68,6 +69,23 @@
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Review</button>
             <button type="button" class="btn btn-primary" onclick="window.location.reload()">Làm thêm</button>
             <button type="button" class="btn btn-warning" onclick="window.location.href=`detail-exam.html`">Back to exams</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="hint-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Hint</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body content-hint">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
           </div>
         </div>
       </div>
