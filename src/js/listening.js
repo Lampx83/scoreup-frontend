@@ -1,163 +1,154 @@
-let questionsId = []
+const limit = {
+  "1": 6,
+  "2": 25,
+  "3": 39,
+  "4": 30
+};
+
+let questionsId = [];
+let cntQuestionsBefore = 0;
 const results = {
   correct: 0,
   incorrect: 0,
   point: 0,
   total: 0,
   percent: 0,
-}
+};
 
-//!query questions từ database và in ra html
-import {getDatabase} from './databaseAPI.js'
-const body = {
-  "sorts": [
-    {
-        "property": "title",
-        "direction": "ascending"
-    }
-  ]
-}
-const config = {
-  params: {
-    limit: 10
+//! Giao diện câu hỏi theo part
+const initQuestionsByPart = async (part, limit) => {
+  const body = {
+    tag: `toeic_listening_part_${part}`,
+    limit: limit
   }
-}
-getDatabase('5e4fc93093714be99b5d41edc31bbc1a', body)
-  .then((response) => {
-    const timer__time = document.querySelector(".timer__time");
-    initTimerCount(timer__time);
-    let newResponse = response.map((item) => {
-      // const questionId = item.id;
-      // questionsId.push(questionId)
-      const newItem = {}
-      newItem.id = item.id
-      newItem.data = item.properties
-      return newItem
+  
+  await getQuestions(body)
+    .then((response) => {
+      let newResponse = response.map((item) => {
+        // const questionId = item.id;
+        // questionsId.push(questionId)
+        const newItem = {}
+        newItem.id = item._id
+        newItem.data = item.properties
+        return newItem
+      })
+
+      cntQuestionsBefore = questionsId.length;
+
+      newResponse.forEach((item) => {
+        const questionId = item.id;
+        questionsId.push(questionId)
+      })
+      results.total = questionsId.length
+      return newResponse
     })
-    newResponse = getRandomQuestions(newResponse, 10)
-    newResponse.forEach((item) => {
-      const questionId = item.id;
-      questionsId.push(questionId)
-    })
-    results.total = questionsId.length
-    return newResponse
-  })
-  .then((data) => {
-    //! tạo btn chọn câu hỏi bên trái
-    const questionPaletteList = document.querySelector('.question-palette__list')
-    //? xoá hiệu ứng loading
-    const questionPalette = questionPaletteList.closest('.question-palette')
-    questionPalette.classList.remove('placeholder-glow')
-    const questionPaletteContent = questionPalette.querySelector('.question-palette__content')
-    questionPaletteContent.classList.remove('placeholder')
-    //?end xoá hiệu ứng loading
-
-    questionsId.forEach((id, index) => {
-      const item = document.createElement('div')
-      item.classList.add("question-palette__item", "btn-select-question", "question-palette__item--empty")
-      item.setAttribute('btn-data-question-id', id)
-      item.innerHTML = index + 1
-
-      questionPaletteList.appendChild(item)
-    })
-    //! end tạo btn chọn câu hỏi bên trái
-    data.forEach((item, index) => {
-
-      const questionsDiv = document.querySelector('.questions')
-
+    .then((data) => {
+      //! tạo btn chọn câu hỏi bên trái
       //? xoá hiệu ứng loading
-      const questions = questionsDiv.closest('.questions')
-      questions.classList.remove('placeholder')
-      const right = questions.closest('.right')
-      right.classList.remove('placeholder-glow')
-      //? end xoá hiệu ứng loading
+      const questionPaletteContent = document.querySelector('.question-palette__content')
+      const questionPalette = questionPaletteContent.closest('.question-palette')
+      questionPalette.classList.remove('placeholder-glow')
+      questionPaletteContent.classList.remove('placeholder')
+      //?end xoá hiệu ứng loading
 
-      const questionsNavigation = document.querySelector('.questions__navigation')
+      const questionPaletteTitle = document.createElement('h5')
+      questionPaletteTitle.classList.add('question-palette__title')
+      questionPaletteTitle.innerHTML = `Part ${part}`
+      questionPaletteContent.appendChild(questionPaletteTitle)
 
-      const questionContainer = document.createElement('div')
-      questionContainer.classList.add('question-container')
-      questionContainer.setAttribute('data-question-id', item.id)
-      questionContainer.setAttribute('data-question-index', index)
-
-      const questionMain = document.createElement('div')
-      questionMain.classList.add('question-main')
-
-      //! tạo div audio
-      const questionMainAudio = document.createElement('div')
-      questionMainAudio.classList.add('question-main__audio')
-      questionMainAudio.innerHTML = `
-      <audio controls>
-        <source src="${item.data.audio.files[0]?.file.url}" type="audio/mpeg">
-      </audio>
-      `
-      questionMain.appendChild(questionMainAudio)
-      //!end tạo div audio
-
-      //! tạo div content
-      const questionMainContent = document.createElement('div')
-      questionMainContent.classList.add('question-main__content')
-      questionMainContent.innerHTML = `
-        <h6 class="question-main__title">
-          Question ${index + 1}: ${item.data.question.rich_text[0].plain_text}
-        </h6>
-        <div class="question-main__img">
-          <img src="${item.data.img.files[0]?.file.url}" alt="">
-        </div>
-      `
-      questionMain.appendChild(questionMainContent)
-      //! end tạo div content
-
-      //! tạo div options
-      const questionMainOptions = document.createElement('div')
-      questionMainOptions.classList.add('question-main__options')
-      questionMainOptions.setAttribute('data-correct-option', item.data.correct.rich_text[0].plain_text)
-      questionMainOptions.innerHTML = `
-        <div class="question-main__option" data-option-id="A">
-          <label for="A">
-            <input type="radio" name="${item.id}" id="A" value="A">
-            ${item.data.A.rich_text[0].plain_text}
-          </label>
-        </div>
-        <div class="question-main__option" data-option-id="B">
-          <label for="B">
-            <input type="radio" name="${item.id}" id="B" value="B">
-            ${item.data.B.rich_text[0].plain_text}
-          </label>
-        </div>
-        <div class="question-main__option" data-option-id="C">
-          <label for="C">
-            <input type="radio" name="${item.id}" id="C" value="C">
-            ${item.data.C.rich_text[0].plain_text}
-          </label>
-        </div>
-        <div class="question-main__option" data-option-id="D">
-          <label for="D">
-            <input type="radio" name="${item.id}" id="D" value="D">
-            ${item.data.D.rich_text[0].plain_text}
-          </label>
-        </div>
-      `
-      questionMain.appendChild(questionMainOptions)
-      //! end tạo div options
-      questionContainer.appendChild(questionMain)
-      questionsDiv.insertBefore(questionContainer, questionsNavigation)
+      const questionPaletteList = document.createElement('div')
+      questionPaletteList.classList.add('question-palette__list')
+      questionPaletteContent.appendChild(questionPaletteList)
+  
+      questionsId.slice(cntQuestionsBefore, questionsId.length).forEach((id, index) => {
+        const item = document.createElement('div')
+        item.classList.add("question-palette__item", "btn-select-question", "question-palette__item--empty")
+        item.setAttribute('btn-data-question-id', id)
+        item.innerHTML = index + 1 + cntQuestionsBefore
+  
+        questionPaletteList.appendChild(item)
+      })
+      //! end tạo btn chọn câu hỏi bên trái
+      data.forEach((item, index) => {
+        console.log(item)
+  
+        const questionsDiv = document.querySelector('.questions')
+  
+        //? xoá hiệu ứng loading
+        const questions = questionsDiv.closest('.questions')
+        questions.classList.remove('placeholder')
+        const right = questions.closest('.right')
+        right.classList.remove('placeholder-glow')
+        //? end xoá hiệu ứng loading
+  
+        const questionsNavigation = document.querySelector('.questions__navigation')
+  
+        const questionContainer = document.createElement('div')
+        questionContainer.classList.add('question-container')
+        questionContainer.setAttribute('data-question-id', item.id)
+        questionContainer.setAttribute('data-question-index', index + cntQuestionsBefore)
+        if (item.data.hint.rich_text?.length > 0) {
+          questionContainer.setAttribute('data-question-hint', item.data.hint.rich_text[0].plain_text)
+        } else {
+          questionContainer.setAttribute('data-question-hint', 'Sorry, no hint for this question')
+        }
+  
+        const questionMain = document.createElement('div')
+        questionMain.classList.add('question-main')
+  
+        //! tạo div audio
+        const questionMainAudio = document.createElement('div')
+        questionMainAudio.classList.add('question-main__audio')
+        questionMainAudio.innerHTML = `
+        <audio controls>
+          <source src="${item.data.audio.files[0]?.file.url}" type="audio/mpeg">
+        </audio>
+        `
+        questionMain.appendChild(questionMainAudio)
+        //!end tạo div audio
+  
+        //! tạo div content
+        const questionMainContent = document.createElement('div')
+        questionMainContent.classList.add('question-main__content')
+        questionMainContent.innerHTML = `
+          <h6 class="question-main__title">
+            Question ${index + 1 + cntQuestionsBefore}: ${item.data.question.rich_text[0].plain_text}
+          </h6>
+          <div class="question-main__img">
+            <img src="${item.data.img.files[0]?.file.url}" alt="">
+          </div>
+        `
+        questionMain.appendChild(questionMainContent)
+        //! end tạo div content
+  
+        //! tạo div options
+        const questionMainOptions = document.createElement('div')
+        questionMainOptions.classList.add('question-main__options')
+        questionMainOptions.setAttribute('data-correct-option', item.data.correct.rich_text[0].plain_text)
+        let optionsHtml = [];
+        for (const key in item.data) {
+          if ((key === 'A' || key === 'B' || key === 'C' || key === 'D') && item.data[key].rich_text?.length > 0) {
+            optionsHtml.push(`
+            <div class="question-main__option" data-option-id="${key}">
+              <label for="${key}">
+                <input type="radio" name="${item.id}" id="${key}" value="${key}">
+                ${item.data[key].rich_text[0].plain_text}
+              </label>
+            </div>
+            `)
+          }
+        }
+        questionMainOptions.innerHTML = optionsHtml.join('')
+        
+        questionMain.appendChild(questionMainOptions)
+        //! end tạo div options
+        questionContainer.appendChild(questionMain)
+        questionsDiv.insertBefore(questionContainer, questionsNavigation)
+      })
     })
-    //! khởi tạo các function logic của trang web
-    showQuestion(questionsId[0])
-    selectQuestion()
-    questionsId.forEach((questionId) => {
-      selectOption(questionId);
-    })
-    navigationQuestion()
-
-    const btnFinish = document.querySelector('.btn-finish')
-    if (btnFinish) {
-      btnFinish.addEventListener('click', showResult)
-    }
-    //! khởi tạo các function logic của trang web
-  })
-
-//!end query questions từ database và in ra html
+  
+  //!end query questions từ database và in ra html
+}
 
 //! timer
 let timer;
@@ -302,7 +293,7 @@ const navigationQuestion = () => {
 //! result
 const showResult = () => {
   results.incorrect = results.total - results.correct;
-  results.percent = (results.correct / results.total) * 100;
+  results.percent = Math.round((results.correct / results.total) * 100);
   const contentReview = document.querySelector('.content-review')
   contentReview.innerHTML = `
   <p><strong>Correct: </strong> ${results.correct}</p>
@@ -311,7 +302,7 @@ const showResult = () => {
   <p><strong>Percent: </strong> ${results.percent}%</p>
   `;
 
-  const btnsSellectQuestion = document.querySelector('.question-palette__list').querySelectorAll(".btn-select-question"); //? select các btn ở palette
+  const btnsSellectQuestion = document.querySelectorAll(".btn-select-question"); //? select các btn ở palette
   btnsSellectQuestion.forEach((btn) => {
     if (btn.classList.contains('question-palette__item--empty')) {
       btn.classList.add('question-palette__item--incorrect')
@@ -333,18 +324,80 @@ const showResult = () => {
 }
 //! end result
 
-//? hàm để pick ngẫu nhiên câu hỏi
-function getRandomQuestions(questions, count) {
-  // Clone mảng để tránh làm thay đổi mảng gốc
-  const shuffledQuestions = [...questions];
+//! show hint
+const showHint = () => {
+  const questionShowing = document.querySelector(".question-container.show"); //? lấy câu hỏi đang hiển thị
+  if (questionShowing) {
+    const hint = questionShowing.getAttribute('data-question-hint');
+    const hintModalContent = document.querySelector('.content-hint')
+    hintModalContent.innerHTML = hint
+  }
+}
+//! end show hint
 
-  // Trộn mảng để có thứ tự ngẫu nhiên
-  for (let i = shuffledQuestions.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+//!query questions từ database và in ra html
+import {getDatabase, getQuestions} from './databaseAPI.js'
+const params = new URLSearchParams(window.location.search);
+const part = params.get('part');
+
+//! nếu người dùng chọn thi theo part
+if (part) {
+  const init = async () =>{
+    await initQuestionsByPart(part, limit[part]);
+    //! khởi tạo các function logic của trang web
+    showQuestion(questionsId[0])
+    selectQuestion()
+    questionsId.forEach((questionId) => {
+      selectOption(questionId);
+    })
+    navigationQuestion()
+  
+    const timer__time = document.querySelector(".timer__time");
+    initTimerCount(timer__time);
+  
+    const btnFinish = document.querySelector('.btn-finish')
+    if (btnFinish) {
+      btnFinish.addEventListener('click', showResult)
+    }
+
+    const btnHint = document.querySelector('.btn-hint')
+    if (btnHint) {
+      btnHint.addEventListener('click', showHint)
+    }
+  }
+  init();
+  //! khởi tạo các function logic của trang web
+} 
+  //! nếu người dùng chọn thi cả đề
+else 
+{
+  const init = async () => {
+    for (let i = 1; i <= 4; i++) {
+      await initQuestionsByPart(i, limit[i])
+      showQuestion(questionsId[0])
+    }
+    //! khởi tạo các function logic của trang web
+    selectQuestion()
+    questionsId.forEach((questionId) => {
+      selectOption(questionId);
+    })
+    navigationQuestion()
+
+    const timer__time = document.querySelector(".timer__time");
+    initTimerCount(timer__time);
+
+    const btnFinish = document.querySelector('.btn-finish')
+    if (btnFinish) {
+      btnFinish.addEventListener('click', showResult)
+    }
+
+    const btnHint = document.querySelector('.btn-hint')
+    if (btnHint) {
+      btnHint.addEventListener('click', showHint)
+    }
+    //! khởi tạo các function logic của trang web
   }
 
-  // Lấy và trả về 'count' câu hỏi đầu tiên từ mảng
-  return shuffledQuestions.slice(0, count > questions.length ? questions.length : count);
+  init();
 }
-//? end hàm để pick ngẫu nhiên câu hỏi
+//!end query questions từ database và in ra html
