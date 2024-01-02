@@ -26,93 +26,55 @@
   <body>
     <main>
       <!-- Navbar -->
-      <div id="topNav">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-          <div class="container">
-            <!-- Slogan  -->
-            <a class="navbar-brand" href="#">ScoreUp</a>
-            <!-- End slogan -->
-
-            <!-- Show profile button -->
-            <div class="d-lg-none ms-auto me-4">
-              <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-            </div>
-            <!-- End show profile button -->
-
-            <!-- Dropdown button  -->
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- End dropdown button  -->
-
-            <!-- Responsive navbar  -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <!-- List items  -->
-              <ul class="navbar-nav ms-lg-5 me-lg-auto">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#"
-                    >Home</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Contact</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Documents</a>
-                </li>
-
-                <!-- Item with dropdown  -->
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Categories
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">TOEIC</a></li>
-                    <li>
-                      <a class="dropdown-item" href="#"
-                        >Project Management Professional</a
-                      >
-                    </li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li>
-                      <a class="dropdown-item" href="#">Other Tests</a>
-                    </li>
-                  </ul>
-                </li>
-                <!-- End item with dropdown  -->
-              </ul>
-              <!-- End list item  -->
-
-              <!-- Show profile button -->
-              <div class="d-none d-lg-block">
-                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-              </div>
-              <!-- End show profile button -->
-            </div>
-            <!-- End responsive navbar  -->
-          </div>
-        </nav>
-      </div>
+      <div id="topNav"></div>
       <!-- End Navbar -->
+      
+      <!-- Hero  -->
+      <section id="hero">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-12 mx-auto">
+              <h1 class="text-white text-center">Test, Learn, Grow</h1>
+
+              <h6 class="text-center">
+                Online Exams Platform
+              </h6>
+
+              <form
+                method="get"
+                class="custom-form mt-4 pt-2 mb-lg-0 mb-5"
+                role="search"
+              >
+                <div class="input-group input-group-lg">
+                  <span class="input-group-text bi-search" id="basic-addon1">
+                  </span>
+
+                  <input
+                    name="keyword"
+                    type="search"
+                    class="form-control"
+                    id="keyword"
+                    placeholder="TOEIC, Programming, Finance ..."
+                    aria-label="Search"
+                  />
+
+                  <button type="submit" class="form-control">Search</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Hero  -->
+
+      
+      
     </main>
 
     <!-- JavaScript Files -->
-    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script type="module" src="../js/homePage.js"></script>
 
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <!-- End JavaScript Files -->
   </body>
 </html>
