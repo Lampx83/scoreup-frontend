@@ -127,23 +127,23 @@
         <button type="button" class="btn-close mx-0 position-absolute end-0 mx-3" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="login-form" method="post">
+        <form id="login-form">
           <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <div class="input-group flex-nowrap has-validation">
+            <label for="usernameLogin" class="form-label">Username</label>
+            <div class="input-group flex-nowrap">
               <span class="input-group-text" id="addon-wrapping">
                 <img src="../imgs/icons/username.svg" alt="" style="width: 25px;">
               </span>
-              <input type="text" id="username" name="username" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" required>
+              <input type="text" id="usernameLogin" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" required>
             </div>
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+            <label for="passwordLogin" class="form-label">Password</label>
             <div class="input-group flex-nowrap">
               <span class="input-group-text" id="addon-wrapping">
                 <img src="../imgs/icons/password.svg" alt="" style="width: 25px;">
               </span>
-              <input type="password" id="password" name="password" class="form-control" aria-label="Password" aria-describedby="addon-wrapping" required>
+              <input type="password" id="passwordLogin" class="form-control" aria-label="Password" aria-describedby="addon-wrapping" required>
             </div>
           </div>
           <div class="mb-3 form-check">
@@ -153,11 +153,76 @@
         </form>
       </div>
       <div class="modal-footer mx-auto">
-        <button class="btn btn-primary" id="btnSubmitLogin">Login</button>
+        <button type="submit" form="login-form" class="btn btn-primary" id="btnSubmitLogin">Login</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
 </div>
 <!-- ! end login -->
+
+<!-- ! signup -->
+<div class="modal fade" id="signupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="signupModalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 mx-auto" id="signupModalTitle">Sign up</h1>
+        <button type="button" class="btn-close mx-0 position-absolute end-0 mx-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="sign-up-form">
+          <div class="mb-3">
+            <label for="fullNameSignUp" class="form-label">Full name</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/user-dark.svg" alt="" style="width: 25px;">
+              </span>
+              <input type="text" id="fullNameSignUp" class="form-control" aria-label="fullname" aria-describedby="addon-wrapping" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="emailSignUp" class="form-label">Email</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/email.svg" alt="" style="width: 25px;">
+              </span>
+              <input type="email" id="emailSignUp" name="email" class="form-control" aria-label="email" aria-describedby="addon-wrapping" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="usernameSignUp" class="form-label">Username</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/username.svg" alt="" style="width: 25px;">
+              </span>
+              <input type="text" id="usernameSignUp" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="passwordSignUp" class="form-label">Password</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/password.svg" alt="" style="width: 25px;">
+              </span>
+              <input type="password" id="passwordSignUp" class="form-control" aria-label="Password" aria-describedby="addon-wrapping" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="confirmPasswordSignUp" class="form-label">Confirm password</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/password.svg" alt="" style="width: 25px;">
+              </span>
+              <input type="password" id="confirmPasswordSignUp" class="form-control" aria-label="Password" aria-describedby="addon-wrapping" required>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer mx-auto">
+        <button type="submit" form="sign-up-form" class="btn btn-primary" id="btnSubmitSignUp">Sign up</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ! end signup -->
 <!-- end Modal -->

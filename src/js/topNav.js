@@ -28,10 +28,10 @@ const createTopNav = (idPage = "") => {
       //!login modal
       const loginForm = document.querySelector("#login-form");
       if (loginForm) {
-        const btnSubmitLogin = document.querySelector("#btnSubmitLogin");
-        btnSubmitLogin.addEventListener("click", (e) => {
-          const username = document.querySelector("#username").value;
-          const password = document.querySelector("#password").value;
+        loginForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const username = document.querySelector("#usernameLogin").value;
+          const password = document.querySelector("#passwordLogin").value;
 
           const usernameRegex = /^(?!.*[\s!@#$%^&*()_+={}\[\]:;<>,.?/~`])\S+$/;
               if (!usernameRegex.test(username)) {
@@ -58,7 +58,6 @@ const createTopNav = (idPage = "") => {
             .then((data) => {
               if (data.statusCode === 200)
               {
-                alert("Login success!");
                 const rememberMe = document.querySelector("#remembder-me").checked;
                 setCookie("token", data.metadata.token, rememberMe ? 30 : 1);
                 window.location.reload();
@@ -81,6 +80,69 @@ const createTopNav = (idPage = "") => {
         });
       }
       //! end logout
+
+      //! sign up modal
+      const signUpForm = document.querySelector("#sign-up-form");
+      if (signUpForm)
+      {
+        signUpForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const username = document.querySelector("#usernameSignUp").value;
+          const password = document.querySelector("#passwordSignUp").value;
+          const confirmPassword = document.querySelector("#confirmPasswordSignUp").value;
+          const email = document.querySelector("#emailSignUp").value;
+          const fullName = document.querySelector("#fullNameSignUp").value;
+
+          const usernameRegex = /^(?!.*[\s!@#$%^&*()_+={}\[\]:;<>,.?/~`])\S+$/;
+          if (!usernameRegex.test(username)) {
+            alert("Username is invalid. (not null, no special characters, no space)");
+            return;
+          }
+          if (!password) {
+            alert("Password is invalid. (not null)");
+            return;
+          }
+          if (password !== confirmPassword) {
+            alert("Password and confirm password are not the same");
+            return;
+          }
+          if (!email) {
+            alert("Email is invalid. (not null)");
+            return;
+          }
+          if (!fullName) {
+            alert("Full name is invalid. (not null)");
+            return;
+          }
+
+          const data = {
+            username: username,
+            password: password,
+            email: email,
+            fullName: fullName,
+          };
+          fetch(`${apiUrl}/auth/register`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.statusCode === 201)
+              {
+                setCookie("token", data.metadata.token, 1);
+                window.location.reload();
+              }
+              else
+              {
+                alert(data.message);
+              }
+            });
+        });
+      }
+      //! end sign up modal
     });
 };
 
