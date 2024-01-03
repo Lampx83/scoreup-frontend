@@ -74,10 +74,87 @@
 
       <!-- Show profile button -->
       <div class="d-none d-lg-block">
-        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        <div class="user-buttons">
+          <!-- Button trigger modal login-->
+          <button type="button" class="btn custom-btn user-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Login
+          </button>
+          <button type="button" class="btn custom-btn user-btn" data-bs-toggle="modal" data-bs-target="#signupModal">
+            Sign up
+          </button>
+        </div>
+        <div class="user-actions">
+          <div class="nav-item dropdown">
+            <a
+            class="nav-link navbar-icon bi-person smoothscroll"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            >
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  >My certificates</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" href="#">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
       <!-- End show profile button -->
     </div>
     <!-- End responsive navbar  -->
   </div>
 </nav>
+
+<!-- Modal -->
+<!-- ! login -->
+<div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="loginModalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 mx-auto" id="loginModalTitle">Login</h1>
+        <button type="button" class="btn-close mx-0 position-absolute end-0 mx-3" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="login-form" method="post">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <div class="input-group flex-nowrap has-validation">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/username.svg" alt="" style="width: 25px;">
+              </span>
+              <input type="text" id="username" name="username" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/password.svg" alt="" style="width: 25px;">
+              </span>
+              <input type="password" id="password" name="password" class="form-control" aria-label="Password" aria-describedby="addon-wrapping" required>
+            </div>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="remembder-me">
+            <label class="form-check-label" for="remembder-me">Remember me</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer mx-auto">
+        <button class="btn btn-primary" id="btnSubmitLogin">Login</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ! end login -->
+<!-- end Modal -->
