@@ -71,6 +71,16 @@ const createTopNav = (idPage = "") => {
         });
       }
       //!end login modal
+
+      //! logout
+      const btnLogout = document.querySelector("#btn-logout");
+      if (btnLogout) {
+        btnLogout.addEventListener("click", (e) => {
+          setCookie("token", "", -1);
+          window.location.reload();
+        });
+      }
+      //! end logout
     });
 };
 

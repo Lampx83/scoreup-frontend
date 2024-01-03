@@ -75,13 +75,16 @@
       <!-- Show profile button -->
       <div class="d-none d-lg-block">
         <div class="user-buttons">
-          <!-- Button trigger modal login-->
-          <button type="button" class="btn custom-btn user-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
-            Login
-          </button>
-          <button type="button" class="btn custom-btn user-btn" data-bs-toggle="modal" data-bs-target="#signupModal">
-            Sign up
-          </button>
+          <ul class="navbar-nav ms-lg-5  ms-lg-auto">
+            <li class="nav-item">
+              <a id="home" class="nav-link" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+                >Login</a
+              >
+            </li>
+            <li class="nav-item">
+              <a id="documents" class="nav-link" href="#"  data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a>
+            </li>
+          </ul>
         </div>
         <div class="user-actions">
           <div class="nav-item dropdown">
@@ -102,7 +105,7 @@
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a class="dropdown-item" href="#">Logout</a>
+                <a class="dropdown-item" href="#" id="btn-logout">Logout</a>
               </li>
             </ul>
           </div>
