@@ -23,3 +23,14 @@ export const getQuestions = (body = {}, config = {}) => {
       throw error;
     });
 }
+
+export const getPage = (pageId, body = {}, config = {}) => {
+  return axios.get(`${apiUrl}/pages/${pageId}`,body, config)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      throw error;
+    });
+}

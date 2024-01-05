@@ -1,107 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>ScoreUp</title>
-    <link rel="stylesheet" href="../css/khang.css" />
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/index.css"/>
+
+    <!-- CSS File -->
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+
+    <link rel="stylesheet" href="../css/default.css" />
+
+    <link rel="stylesheet" href="../css/homepage.css" />
+    <!-- End CSS File -->
   </head>
 
   <body>
-    <!-- header section -->
-    <section id="header" class="header"></section>
-    <!-- end header section  -->
+    <main>
+      <!-- Navbar -->
+      <div id="topNav"></div>
+      <!-- End Navbar -->
 
-    <!-- start hero section  -->
-    <section id="hero">
-      <div class="container">
-        <div class="row">
-          <div class="hero-slogan">
-            <div class="detail-slogan">
-              <h1>ScoreUp</h1>
-              <p>
-                Chào mừng đến với trang web/ ứng dụng TOEIC® cung cấp cho người
-                học các bài luyện tập theo từng part, đề thi thử cũng như các
-                bài tập về từ vựng và ngữ pháp. Bắt đầu hành trình chinh phục
-                chứng chỉ TOEIC® với các bài luyện tập trên trang web/ứng dụng
-                của chúng tôi ngay hôm nay!
-              </p>
-              <div class="test-button">
-                <a href="#">GET STARTED</a>
+      <!-- Hero  -->
+      <section id="hero">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-12 mx-auto">
+              <h1 class="text-white text-center">Test, Learn, Grow</h1>
+
+              <h6 class="text-center">Online Exams Platform</h6>
+
+              <form
+                method="get"
+                class="custom-form mt-4 pt-2 mb-lg-0 mb-5"
+                role="search"
+              >
+                <div class="input-group input-group-lg">
+                  <span class="input-group-text bi-search" id="basic-addon1">
+                  </span>
+
+                  <input
+                    name="keyword"
+                    type="search"
+                    class="form-control"
+                    id="keyword"
+                    placeholder="TOEIC, Programming, Finance ..."
+                    aria-label="Search"
+                  />
+
+                  <button type="submit" class="form-control">Search</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Hero  -->
+
+      <!-- Recommendation -->
+      <section id="recommendation">
+        <div class="container">
+          <div class="row justify-content-center" id="recommended-certificate">
+            <div class="col-lg-4 col-12 mb-4 mb-lg-0 recommended-loading">
+              <div class="feature-box bg-white shadow-lg">
+                <a href="#">
+                  <div class="d-flex">
+                    <div>
+                      <h5 class="placeholder">Loading...</h5>
+                      <p class="placeholder">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Alias illo accusantium consectetur. Consectetur,
+                        quia. Aut ex tempora quae.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-12 recommended-loading">
+              <div class="feature-box feature-box-overlay">
+                <div class="d-flex h-100">
+                  <img
+                    src="../img/girl-tattoo-computer-screen-ai-art-4k-wallpaper-uhdpaper.com-730@1@l.jpg"
+                    class="custom-block-image img-fluid"
+                    alt=""
+                  />
+
+                  <div class="feature-box-overlay__text d-flex">
+                    <div>
+                      <h5 class="text-white mb-2 placeholder">
+                        Loading...
+                      </h5>
+
+                      <p class="text-white placeholder">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Alias illo accusantium consectetur. Consectetur,
+                        quia. Aut ex tempora quae.
+                      </p>
+
+                      <p class="btn custom-btn mt-2 mt-lg-3 placeholder">
+                        Learn More
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="feature-box__bg-overlay"></div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="hero-img">
-            <div class="img-box">
-              <img src="../img/slider-img.png" alt="cat-cry" />
-            </div>
+        </div>
+      </section>
+      <!-- End Recommendation -->
+
+      <!-- Categories -->
+      <section id="categories">
+        <div class="container">
+          <div class="col-12 text-center">
+            <h2 class="mb-4">Browse Categories</h2>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- end hero section  -->
 
-    <!-- start Testes  -->
-    <section id="test">
-      <div class="container center-align">
-        <div class="test-head">
-          <h1 class="hl">TOEIC® TEST</h1>
+        <div class="container-fluid">
+          <div class="row">
+            <ul
+              class="nav nav-tabs justify-content-center"
+              id="categories-tab"
+              role="tablist"
+            >
+              <li class="nav-item tab-loading" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="loading-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#loading-tab-pane"
+                  type="button"
+                  role="tab"
+                  aria-controls="loading-tab-pane"
+                  aria-selected="true"
+                >
+                  Loading...
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="row index">
-          <div class="test-box">
 
-              <div class="test-content">
-                <div class="test-img">
-                  <img src="../img/listening_q.png" alt="" />
-                  <div class="test-detail">
-                    <div class="col">
-                      <h2>Practice TOEIC</h2>
+        <div class="container">
+          <div class="row" id="categories-tab-content">
+            <div class="col-12">
+              <div class="tab-content tab-loading">
+                <div
+                  class="tab-pane fade show active"
+                  id="loading-tab-pane"
+                  role="tabpanel"
+                  aria-labelledby="loading-tab"
+                  tabindex="0"
+                >
+                  <div class="row">
+                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                      <div class="feature-box bg-white shadow-lg">
+                        <a href="#">
+                          <div class="d-flex">
+                            <div>
+                              <h5 class="mb-2 col-6 placeholder"></h5>
+
+                              <p class="mb-0 col-12 placeholder">
+                                Topic Listing Template based on Bootstrap 5
+                              </p>
+                            </div>
+
+                            <span
+                              class="badge feature-box__enroll-count feature-box__rounded-pill ms-auto col-2 placeholder"
+                              >...</span
+                            >
+                          </div>
+                          <div class="placeholder mt-4 col-12" style="height: 100px;">
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                      <div class="feature-box bg-white shadow-lg">
+                        <a href="#">
+                          <div class="d-flex">
+                            <div>
+                              <h5 class="mb-2 col-6 placeholder"></h5>
+
+                              <p class="mb-0 col-12 placeholder">
+                                Topic Listing Template based on Bootstrap 5
+                              </p>
+                            </div>
+
+                            <span
+                              class="badge feature-box__enroll-count feature-box__rounded-pill ms-auto col-2 placeholder"
+                              >...</span
+                            >
+                          </div>
+                          <div class="placeholder mt-4 col-12" style="height: 100px;">
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                      <div class="feature-box bg-white shadow-lg">
+                        <a href="#">
+                          <div class="d-flex">
+                            <div>
+                              <h5 class="mb-2 col-6 placeholder"></h5>
+
+                              <p class="mb-0 col-12 placeholder">
+                                Topic Listing Template based on Bootstrap 5
+                              </p>
+                            </div>
+
+                            <span
+                              class="badge feature-box__enroll-count feature-box__rounded-pill ms-auto col-2 placeholder"
+                              >...</span
+                            >
+                          </div>
+                          <div class="placeholder mt-4 col-12" style="height: 100px;">
+                          </div>
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="test-items">
-                  <div class="col">
-                    <h4 class="mini-bold sep-10"><img class="icon v-al-bot" src="../img/svg/user-svgrepo-com.svg" alt="">1,000,000 tests taken</h4>
-                    <h4 class="mini-bold sep-10"><img class="icon v-al-bot" src="../img/svg/money-dollars-svgrepo-com.svg" alt="">Free</h4>
-                  </div>
-                  <div class="test-button">
-                    <a href="detail-exam.html">Start now!</a>
-                  </div>
-                </div>
-              </div>
-
-          </div>
-
-          <div class="test-box">
-
-            <div class="test-content">
-              <div class="test-img">
-                <img src="../img/listening_q.png" alt="" />
-                <div class="test-detail">
-                  <div class="col">
-                    <h2>Take full test</h2>
-                  </div>
-                </div>
-              </div>
-              <div class="test-items">
-                <div class="col">
-                  <h4 class="mini-bold sep-10"><img class="icon v-al-bot" src="../img/svg/user-svgrepo-com.svg" alt="">1,000,000 tests taken</h4>
-                  <h4 class="mini-bold sep-10"><img class="icon v-al-bot" src="../img/svg/money-dollars-svgrepo-com.svg" alt="">Free</h4>
-                </div>
-                <div class="test-button">
-                  <a href="#">Comming soon...</a>
-                </div>
               </div>
             </div>
-
+          </div>
         </div>
+      </section>
+      <!-- End Categories -->
+
+      <!-- Footer  -->
+      <div id="footer" class="site-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-12 mb-4 pb-2">
+              <a class="footer__slogan mb-2" href="index.html">
+                  <span>ScoreUp</span>
+              </a>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-6">
+              <h6 class="footer__title mb-3">Resources</h6>
+
+              <ul class="footer__links">
+                  <li class="footer__link-item">
+                      <a href="#" class="footer__link">Home</a>
+                  </li>
+
+                  <li class="footer__link-item">
+                      <a href="#" class="footer__link">Categories</a>
+                  </li>
+
+                  <li class="footer__link-item">
+                      <a href="#" class="footer__link">FAQs</a>
+                  </li>
+
+                  <li class="footer__link-item">
+                      <a href="#" class="footer__link">Contact</a>
+                  </li>
+              </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-6 mb-4 mb-lg-0">
+              <h6 class="footer__title mb-3">Information</h6>
+
+              <p class="text-white d-flex mb-1">
+                  <a href="tel: 305-240-9671" class="footer__link">
+                      123-456-7890
+                  </a>
+              </p>
+
+              <p class="text-white d-flex">
+                  <a href="mailto:info@company.com" class="footer__link">
+                      scoreup@st.neu.edu.com
+                  </a>
+              </p>
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
+              <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  English</button>
+
+                  <ul class="dropdown-menu">
+                      <li><button class="dropdown-item" type="button">Vietnamese</button></li>
+
+                      <li><button class="dropdown-item" type="button">Endlish</button></li>
+                  </ul>
+              </div>
+
+              <p class="copyright-text mt-lg-5 mt-4">Copyright © 2048 Topic Listing Center. All rights reserved.
+              
+          </div>
+          </div>
         </div>
       </div>
-    </section>
-    <!-- end Testes  -->
-    <div id="footer" class="footer"></div>
+      <!-- End Footer  -->
+    </main>
+
+    <!-- JavaScript Files -->
     <script type="module" src="../js/index.js"></script>
+
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <!-- End JavaScript Files -->
   </body>
 </html>
