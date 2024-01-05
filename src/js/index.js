@@ -5,6 +5,89 @@ import { getDatabase, getPage } from "./databaseAPI.js";
 createTopNav("home");
 // createFooter()
 
+//! get recommended certificates
+const initRecommendedCertificates = async () => {
+  const data = await getDatabase("4949e95213e94820934b6c8b3400df97", {
+    sorts: [
+      {
+        property: "piority",
+        direction: "ascending",
+      }
+    ]
+  })
+
+  const recommendedLoading = document.querySelectorAll(".recommended-loading");
+  recommendedLoading.forEach(loading => {
+    loading.remove();
+  })
+
+  const recommendedCertificates = data.slice(0, 2);
+
+  const recommendedCertificatesContainer = document.querySelector("#recommended-certificate");
+  const recommendedCertificate1 = document.createElement("div");
+  recommendedCertificate1.classList.add("col-lg-4", "col-12", "mb-4", "mb-lg-0");
+  recommendedCertificate1.innerHTML = `
+    <div class="feature-box bg-white shadow-lg">
+      <a href="certificate.html?id=${recommendedCertificates[0].id}">
+        <div class="d-flex">
+          <div>
+            <h5>${recommendedCertificates[0].properties.title.title[0]?.plain_text}</h5>
+            <p>
+              ${recommendedCertificates[0].properties.description.rich_text[0]?.plain_text?.split(" ").slice(0, 20).join(" ")}...
+            </p>
+          </div>
+          <span
+            class="badge feature-box__enroll-count feature-box__rounded-pill ms-auto"
+            >999</span
+          >
+        </div>
+      </a>
+    </div>
+  `;
+
+  const recommendedCertificate2 = document.createElement("div");
+  recommendedCertificate2.classList.add("col-lg-6", "col-12");
+  recommendedCertificate2.innerHTML = `
+    <div class="feature-box feature-box-overlay">
+      <div class="d-flex h-100">
+        <img
+          src="${recommendedCertificates[1].properties.img.files[0]?.name}"
+          class="custom-block-image img-fluid"
+          alt=""
+        />
+
+        <div class="feature-box-overlay__text d-flex">
+          <div>
+            <h5 class="text-white mb-2">
+              ${recommendedCertificates[1].properties.title.title[0]?.plain_text}
+            </h5>
+
+            <p class="text-white">
+              ${recommendedCertificates[1].properties.description.rich_text[0]?.plain_text?.split(" ").slice(0, 40).join(" ")}...
+            </p>
+
+            <a href="certificate.html?id=${recommendedCertificates[1].id}" class="btn custom-btn mt-2 mt-lg-3"
+              >Learn More</a
+            >
+          </div>
+
+          <span
+            class="badge feature-box__enroll-count feature-box__rounded-pill ms-auto"
+            >999</span
+          >
+        </div>
+
+        <div class="feature-box__bg-overlay"></div>
+      </div>
+    </div>
+  `;
+
+  recommendedCertificatesContainer.appendChild(recommendedCertificate1);
+  recommendedCertificatesContainer.appendChild(recommendedCertificate2);
+};
+initRecommendedCertificates();
+//! end get recommended certificates
+
 //! get categories
 const initCategories = async () => {
   const data = await getDatabase("6b0acbfcf67a4efca8093feeb59cc471", {
@@ -59,14 +142,14 @@ const initCategories = async () => {
           aria-controls="${category.title.split(" ").join("-").toLowerCase()}-tab-pane"
           aria-selected="true"
         >
-          ${category.title}
+          ${category.title}(${category.certificates.length})
         </button>
       `;
       categoriesTab.appendChild(li);
 
 
       const tabContentItemsHTML = [];
-      category.certificates.forEach((certificate, index) => {
+      category.certificates.slice(0, 3).forEach((certificate, index) => {
         tabContentItemsHTML.push(`
           <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0 mt-4">
             <div class="feature-box bg-white shadow-lg">
@@ -109,6 +192,12 @@ const initCategories = async () => {
           >
             <div class="row">
               ${tabContentItemsHTML.join("")}
+            </div>
+
+            <div class="row justify-content-center mt-4">
+              <a class="btn custom-btn mt-2 mt-lg-3 col-2 justify-content-center" href="category.html?id=${category.id}">
+                Learn More
+              </a>
             </div>
           </div>
         </div>
