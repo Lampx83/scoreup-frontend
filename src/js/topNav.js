@@ -1,4 +1,5 @@
 import {getCookie, setCookie} from "./helpers/cookieFunctions.js";
+import {getDatabase, getPage} from "./databaseAPI.js";
 import config from './config.js';
 const apiUrl = config.apiUrl;
 
@@ -143,6 +144,33 @@ const createTopNav = (idPage = "") => {
         });
       }
       //! end sign up modal
+
+      //! get categories
+      const dropdownCategories = document.querySelector("#dropdown-categories");
+      if (dropdownCategories) {
+        getDatabase("6b0acbfcf67a4efca8093feeb59cc471", {
+          sorts: [
+            {
+              property: "piority",
+              direction: "ascending",
+            }
+          ]
+        })
+          .then(data => {
+            const categorise = data.map(item => {
+              return {
+                id: item.id,
+                title: item.properties.title.title[0].plain_text
+              }
+            });
+            categorise.forEach(category => {
+              const li = document.createElement("li");
+              li.innerHTML = `<a class="dropdown-item" href="/category.html?id=${category.id}">${category.title}</a>`;
+              dropdownCategories.appendChild(li);
+            })
+          })
+      }
+      //! end get categories
     });
 };
 
