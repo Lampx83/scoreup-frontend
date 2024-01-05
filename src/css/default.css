@@ -47,6 +47,15 @@ body {
   font-family: var(--body-font-family);
 }
 
+.section-padding {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.section-bg {
+  background-color: var(--section-bg-color);
+}
+
 /*! START NAVBAR */
 #topNav {
   position: absolute;
