@@ -47,14 +47,134 @@ body {
   font-family: var(--body-font-family);
 }
 
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--dark-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--title-font-family);
+  font-weight: var(--font-weight-semibold);
+}
+
+h1 {
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--h3-font-size);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+}
+
+h5 {
+  font-size: var(--h5-font-size);
+}
+
+h6 {
+  color: var(--white-color);
+  font-size: var(--h6-font-size);
+}
+
+p {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+ul li {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+a,
+button {
+  touch-action: manipulation;
+  transition: all 0.3s;
+}
+
+a {
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+b,
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
 .section-padding {
   padding-top: 100px;
   padding-bottom: 100px;
 }
 
+.section-padding-sm {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .section-bg {
   background-color: var(--section-bg-color);
 }
+
+/*! START CUSTOM BUTTON  */
+.custom-btn {
+  background: var(--custom-btn-bg-color);
+  border: 2px solid transparent;
+  border-radius: var(--border-radius-large);
+  color: var(--white-color);
+  font-size: var(--btn-font-size);
+  font-weight: var(--font-weight-semibold);
+  line-height: normal;
+  transition: all 0.3s;
+  padding: 10px 20px;
+}
+
+.custom-btn:hover {
+  background: var(--custom-btn-bg-hover-color);
+  color: var(--white-color);
+}
+
+.custom-border-btn {
+  background: transparent;
+  border: 2px solid var(--custom-btn-bg-color);
+  color: var(--custom-btn-bg-color);
+}
+
+.custom-border-btn:hover {
+  background: var(--custom-btn-bg-color);
+  border-color: transparent;
+  color: var(--white-color);
+}
+
+.custom-btn-bg-white {
+  border-color: var(--white-color);
+  color: var(--white-color);
+}
+/*! END CUSTOM BUTTON  */
+
 
 /*! START NAVBAR */
 #topNav {
@@ -193,3 +313,91 @@ body {
 
 /** nav-links dropdown-menu  */
 /*! END NAVBAR */
+
+/*! FOOTER  */
+#footer {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background-color: var(--section-bg-color);
+  border-bottom: 10px solid var(--secondary-color);
+  position: relative;
+}
+
+#footer::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 200px 200px;
+  border-color: transparent transparent var(--secondary-color) transparent;
+  pointer-events: none;
+}
+
+#footer .footer__slogan {
+  color: var(--primary-color);
+  font-size: var(--h3-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+#footer .footer__title {
+  color: var(--primary-color); 
+}
+
+#footer .dropdown-menu {
+  padding: 0;
+}
+
+#footer .dropdown-item {
+  color: var(--p-color);
+  font-size: var(--menu-font-size);
+  font-weight: var(--font-weight-medium);
+  padding: 4px 18px;
+}
+
+#footer .dropdown-item:hover {
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+#footer .dropdown-menu li:first-child .dropdown-item {
+  padding-top: 10px;
+}
+
+#footer .dropdown-menu li:last-child .dropdown-item {
+  padding-bottom: 12px;
+}
+
+#footer .dropdown-toggle {
+  background-color: var(--secondary-color);
+  border-color: var(--white-color);
+}
+
+#footer .dropdown-toggle:hover {
+  background-color: var(--primary-color);
+  border-color: transparent;
+}
+
+#footer .footer__links {
+  padding-left: 0;
+}
+
+#footer .footer__link-item {
+  display: block;
+  list-style: none;
+  line-height: normal;
+}
+
+#footer .footer__link {
+  color: var(--secondary-color);
+  font-size: var(--copyright-font-size);
+  font-weight: var(--font-weight-medium);
+  line-height: normal;
+}
+
+#footer .copyright-text {
+  font-size: var(--copyright-font-size);
+}
+/*! END FOOTER  */

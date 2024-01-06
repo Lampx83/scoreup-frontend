@@ -1,0 +1,223 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/*-------------------------------------------------
+  CÀI ĐẶT CSS CHO MỘT SỐ BIẾN THƯỜNG XUYÊN SỬ DỤNG             
+-------------------------------------------------*/
+:root {
+  /*-------------------------------------------------
+  BẢNG MÀU CHÍNH CỦA APP          
+  -------------------------------------------------*/
+  --white-color: #ffffff;
+  --primary-color: #0c134f;
+  --secondary-color: #1d267d;
+  --section-bg-color: #f0f8ff;
+  --custom-btn-bg-color: #91d0e5;
+  --custom-btn-bg-hover-color: #1d267d;
+  --dark-color: #000000;
+  --p-color: #717275;
+  --border-color: #a5d7e8;
+  --link-hover-color: #1d267d;
+
+  --body-font-family: "Open Sans", sans-serif;
+  --title-font-family: "Montserrat", sans-serif;
+
+  --h1-font-size: 58px;
+  --h2-font-size: 46px;
+  --h3-font-size: 32px;
+  --h4-font-size: 28px;
+  --h5-font-size: 24px;
+  --h6-font-size: 22px;
+  --p-font-size: 20px;
+  --menu-font-size: 14px;
+  --btn-font-size: 18px;
+  --copyright-font-size: 16px;
+
+  --border-radius-large: 100px;
+  --border-radius-medium: 20px;
+  --border-radius-small: 10px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+body {
+  background-color: var(--white-color);
+  font-family: var(--body-font-family);
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--dark-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--title-font-family);
+  font-weight: var(--font-weight-semibold);
+}
+
+h1 {
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--h3-font-size);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+}
+
+h5 {
+  font-size: var(--h5-font-size);
+}
+
+h6 {
+  color: var(--white-color);
+  font-size: var(--h6-font-size);
+}
+
+p {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+ul li {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+a,
+button {
+  touch-action: manipulation;
+  transition: all 0.3s;
+}
+
+a {
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+b,
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+/*! Site Header  */
+#header {
+  background-image: linear-gradient(15deg, #0C134F 0%, #1D267D 100%);
+  padding-top: 150px;
+  padding-bottom: 80px;
+}
+
+#header .container {
+  height: 100%;
+}
+
+#header .breadcrumb-item a:hover {
+  color: var(--custom-btn-bg-color);
+}
+
+#header .breadcrumb-item+.breadcrumb-item::before,
+#header .breadcrumb-item a {
+  color: var(--white-color);
+}
+
+#header .custom-icon {
+  color: var(--white-color);
+  font-size: var(--h4-font-size);
+}
+
+#header .custom-icon:hover {
+  color: var(--secondary-color);
+}
+
+#header .topics-detail-block {
+  border-radius: var(--border-radius-medium);
+  position: relative;
+  overflow: hidden;
+}
+
+#header .topics-detail-block-image {
+  display: block;
+  border-radius: var(--border-radius-medium);
+}
+
+blockquote {
+  background-color: var(--section-bg-color);
+  border-radius: var(--border-radius-small);
+  font-family: var(--title-font-family);
+  font-size: var(--h4-font-size);
+  font-weight: var(--font-weight-bold);
+  display: inline-block;
+  text-align: center;
+  margin: 30px;
+  padding: 40px;
+}
+/*! End Site Header  */
+
+/*! Start Certificate Exams  */
+#certificate-info {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#certificate-info .tab-content {
+  background-color: var(--white-color);
+  border-radius: var(--border-radius-medium);
+}
+
+#certificate-info .nav-tabs {
+  border-bottom: 1px solid #ecf3f2;
+  margin-bottom: 40px;
+}
+
+#certificate-info .nav-tabs .nav-link {
+  border-radius: 0;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  color: var(--p-color);
+  font-family: var(--title-font-family);
+  font-size: var(--btn-font-size);
+  font-weight: var(--font-weight-medium);
+  padding: 15px 25px;
+  transition: all 0.3s;
+}
+
+#certificate-info .nav-tabs .nav-link:first-child {
+  margin-right: 20px;
+}
+
+#certificate-info .nav-tabs .nav-item.show .nav-link, 
+#certificate-info .nav-tabs .nav-link.active,
+#certificate-info .nav-tabs .nav-link:focus, 
+#certificate-info .nav-tabs .nav-link:hover {
+  border-bottom-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+/*! End Certificate Exams  */
+
+
