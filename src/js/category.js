@@ -7,6 +7,9 @@ createTopNav("home");
 //! get certificates by category id
 const initGetCertificatesByCategoryId = async () => {
   const queryArr = window.location.search.substring(1).split("&");
+  if (queryArr[0] === "") {
+    window.location.href = "index.html";
+  }
   const queryObj = {};
   queryArr.forEach((query) => {
     const [key, value] = query.split("=");
