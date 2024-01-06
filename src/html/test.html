@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ScoreUp</title>
+    <link rel="stylesheet" href="../css/test.css">
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <div class="top">
+      <div class="btn btn-warning btn-back" onclick="history.back()">
+        Back
+      </div>
+      <div class="timer">
+        <div class="timer__text">
+          <i class="fa-regular fa-clock"></i>
+        </div>
+        <div class="timer__time">00:00</div>
+      </div>
+      <button class="btn btn-danger btn-finish" data-bs-toggle="modal" data-bs-target="#result-modal">
+        Finish
+      </button>
+    </div>
+    
+    <div class="main">
+      <div class="container">
+        <div class="row">
+          <div class="left col-3">
+            <div class="question-palette placeholder-glow">
+              <div class="question-palette__label">
+                Test
+              </div>
+              <div class="question-palette__content placeholder">
+
+              </div>
+            </div>
+          </div>
+          <div class="right col-8 placeholder-glow">
+            <div class="questions placeholder">
+              <btn class="question-hint btn btn-primary btn-hint" data-bs-toggle="modal" data-bs-target="#hint-modal">
+                <i class="fa-solid fa-lightbulb"></i>
+              </btn>
+              <div class="questions__navigation">
+                <button class="btn btn-primary prev">Previous</button>
+                <button class="btn btn-primary next">Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+
+    <div class="modal fade" id="result-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Practice result</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body content-review">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Review</button>
+            <button type="button" class="btn btn-primary" onclick="window.location.reload()">Làm thêm</button>
+            <button type="button" class="btn btn-warning" onclick="window.location.href=`detail-exam.html`">Back to exams</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="hint-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Hint</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body content-hint">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="../js/test.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="https://kit.fontawesome.com/1060f79268.js" crossorigin="anonymous"></script>
+  </body>
+</html>
