@@ -209,3 +209,7 @@ const initCategories = async () => {
 }
 initCategories();
 //! end get categories
+
+//! start search bar 
+
+//! end search bar 
