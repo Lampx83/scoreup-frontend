@@ -3,7 +3,7 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel src/html/*.html",
-    "build": "parcel build --public-url /exam/ src/html/*.html"
+    "build": "parcel build --public-url exam/ src/html/*.html"
   },
   "devDependencies": {
     "buffer": "^6.0.3",
