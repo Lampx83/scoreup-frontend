@@ -17,6 +17,9 @@ const certificateDetail = async () => {
   });
 
   const queryString = window.location.search.slice(1).split("&");
+  if (queryString[0] === "") {
+    window.location.href = "certificate.html";
+  }
   const queryObj = {};
   queryString.forEach((query) => {
     const [key, value] = query.split("=");
@@ -25,8 +28,7 @@ const certificateDetail = async () => {
 
   console.log(queryObj.keyword);
 
-  const certficateList = await Promise.all(
-    data.map(async (item) => {
+  const certficateList = await Promise.all(data.map(async (item) => {
       const newObj = {
         title: item.properties.title.title[0].plain_text,
         categoryID: item.properties.category.relation[0].id.split("-").join(""),
@@ -34,22 +36,19 @@ const certificateDetail = async () => {
         piority: item.properties.piority.number,
         description: item.properties.description.rich_text[0].plain_text,
       };
+
       const relation = await getPage(newObj.categoryID);
       newObj.category = relation.properties.title.title[0].plain_text;
       return newObj;
     })
   );
 
-  const certificateInfo = await Promise.all(
-    certficateList.filter(item => queryObj.keyword == item.title)
-  );
-
-  console.log(certificateInfo.title);
+  const certificateInfo = certficateList.filter(item => queryObj.keyword == item.title)[0];
+  console.log(certificateInfo);
+  console.log(certificateInfo.category);
 
   const breadCrumb = document.querySelector(".breadcrumb");
   if (breadCrumb) {
-    console.log("OK");
-    console.log(certificateInfo);
     breadCrumb.innerHTML = `
       <li class="breadcrumb-item">
         <a href="index.html">Homepage</a>
@@ -61,6 +60,11 @@ const certificateDetail = async () => {
         <a href="#">${certificateInfo.title}</a>
       </li>`; 
   }
+
+  const title = document.querySelector("#header h2");
+  console.log(title);
+
 };
 
 certificateDetail();
+//! end get detailed certificates

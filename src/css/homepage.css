@@ -245,8 +245,9 @@ strong {
   margin: 0;
   max-height: 300px;
   padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
   overflow-y: scroll;
-  transition: 0.5s all ease;
 }
 
 .search-box__list::-webkit-scrollbar {
