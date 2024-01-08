@@ -7,60 +7,129 @@ createFooter();
 
 //! get certificate detail
 const certificateDetail = async () => {
-  const data = await getDatabase("4949e95213e94820934b6c8b3400df97", {
-    sorts: [
-      {
-        property: "piority",
-        direction: "ascending",
-      },
-    ],
-  });
-
   const queryString = window.location.search.slice(1).split("&");
+  if (queryString[0] === "") {
+    window.location.href = "index.html";
+  }
   const queryObj = {};
   queryString.forEach((query) => {
     const [key, value] = query.split("=");
-    queryObj[key] = decodeURIComponent(value.replace(/\+/g, " "));
+    queryObj[key] = value;
   });
+  
+  const header = document.querySelector("#header");
+  const detail = document.querySelector("#certificate-info");
 
-  console.log(queryObj.keyword);
+  //?get certificateInfo
+  const certificate = await getPage(queryObj.id);
 
-  const certficateList = await Promise.all(
-    data.map(async (item) => {
-      const newObj = {
-        title: item.properties.title.title[0].plain_text,
-        categoryID: item.properties.category.relation[0].id.split("-").join(""),
-        imgSrc: item.properties.img.files[0]?.name,
-        piority: item.properties.piority.number,
-        description: item.properties.description.rich_text[0].plain_text,
-      };
-      const relation = await getPage(newObj.categoryID);
-      newObj.category = relation.properties.title.title[0].plain_text;
-      return newObj;
-    })
-  );
+  const certificateInfo = {
+    title: certificate.properties.title.title[0].plain_text,
+    categoryID: certificate.properties.category.relation[0].id
+      .split("-")
+      .join(""),
+    imgSrc: certificate.properties.img.files[0]?.name,
+    piority: certificate.properties.piority.number,
+    description: certificate.properties.description.rich_text[0].plain_text,
+  };
 
-  const certificateInfo = await Promise.all(
-    certficateList.filter(item => queryObj.keyword == item.title)
-  );
+  const relation = await getPage(certificateInfo.categoryID);
+  certificateInfo.category = relation.properties.title.title[0].plain_text;
+  //?get certificateInfo
 
-  console.log(certificateInfo.title);
+  const loading = document.querySelectorAll(".loading");
+  loading.forEach(loading => {
+    loading.remove();
+  })
 
-  const breadCrumb = document.querySelector(".breadcrumb");
-  if (breadCrumb) {
-    console.log("OK");
-    console.log(certificateInfo);
-    breadCrumb.innerHTML = `
-      <li class="breadcrumb-item">
-        <a href="index.html">Homepage</a>
-      </li>
-      <li class="breadcrumb-item">
-        <a href="index.html">${certificateInfo.category}</a>
-      </li>
-      <li class="breadcrumb-item text-white" aria-current="page">
-        <a href="#">${certificateInfo.title}</a>
-      </li>`; 
-  }
+  header.innerHTML = `       
+    <div class="container">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-lg-5 col-12 mb-5">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="index.html">Homepage</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="index.html">${certificateInfo.category}</a>
+              </li>
+              <li class="breadcrumb-item text-white" aria-current="page">
+                <a href="#">${certificateInfo.title}</a>
+              </li>;
+            </ol>
+          </nav>
+
+          <h2 class="text-white">${certificateInfo.title}</h2>
+
+        <div class="d-flex align-items-center mt-5">
+          <a
+            href="#"
+            class="btn custom-btn custom-border-btn smoothscroll me-4"
+            >Take Test</a
+          >
+          <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
+        </div>
+      </div>
+
+      <div class="col-lg-5 col-12">
+        <div class="topics-detail-block bg-white shadow-lg">
+          <img
+            src="${certificateInfo.imgSrc}"
+            class="topics-detail-block-image img-fluid"
+          />
+        </div>
+      </div>
+    </div>
+    `;
+
+  detail.innerHTML = `        
+  <div class="container">
+    <div class="col-lg-8 col-12">
+      <div class="row">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="design-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#design-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="design-tab-pane"
+              aria-selected="true"
+            >
+              About
+            </button>
+          </li>
+
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="feedback-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#feedback-tab-pane"
+              type="button"
+              role="tab"
+              aria-controls="feedback-tab-pane"
+              aria-selected="false"
+            >
+              Feedback
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-12 justify-content-start">
+        <h3 class="mb-4">About ${certificateInfo.title}</h3>
+        <p>${certificateInfo.description}</p>
+      </div>
+    </div>
+  </div>`
 };
 
 certificateDetail();
+//! end get detailed certificates
