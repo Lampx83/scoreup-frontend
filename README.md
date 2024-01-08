@@ -40,6 +40,9 @@ File config:
         AllowOverride All
         Require all granted
     </Directory>
+    
+    ProxyPass "/exam/api" "http://localhost:8020/"
+    ProxyPassReverse "/exam/api" "http://localhost:8020/"
   
 </VirtualHost>
 ```
