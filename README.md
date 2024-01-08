@@ -3,12 +3,12 @@
 ##Deploy
 ### Build
 ```
-npm run buil
+npm run build
 npx parcel serve /dist/index.html
 ```
 ### Copy dist folder to Server
 ```
-scp -r /source/dist/* codelab@101.96.66.219:/var/www/html/score-up
+scp -r /source/dist/* account@101.96.66.219:/var/www/html/score-up
 Ex:
 scp -r /Users/mac/IdeaProjects/scoreup-frontend/dist/* codelab@101.96.66.219:/var/www/html/score-up
 ```
