@@ -40,7 +40,7 @@
 
               <form
                 method="get"
-                class="custom-form mt-4 pt-2 mb-lg-0 mb-5"
+                class="search-box mt-4 pt-2 mb-lg-0 mb-5"
                 role="search"
               >
                 <div class="input-group input-group-lg">
@@ -54,10 +54,15 @@
                     id="keyword"
                     placeholder="TOEIC, Programming, Finance ..."
                     aria-label="Search"
+                    autocomplete="off"
                   />
 
                   <button type="submit" class="form-control">Search</button>
+
                 </div>
+                
+                <div class="search-box__results"></div>
+
               </form>
             </div>
           </div>
@@ -249,6 +254,7 @@
 
     <!-- JavaScript Files -->
     <script type="module" src="../js/index.js"></script>
+    <script type="module" src="../js/helpers/searchBar.js"></script>
 
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
     <!-- End JavaScript Files -->
