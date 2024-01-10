@@ -180,10 +180,15 @@ function showQuizResults () {
   let speed = 20;
 
   let progress = setInterval(() => {
-    progressStartValue++;
-    progressValue.textContent = `${progressStartValue} %`
-    circularProgress.style.background = `conic-gradient(#a5d7e8 ${progressStartValue * 3.6}deg, rgba(255, 255, 255, .1) 0deg)`;
-    if (progressStartValue == progressEndValue) {
+    if (progressStartValue < 100 && progressEndValue < 100) {
+      progressStartValue++;
+      progressValue.textContent = `${progressStartValue} %`
+      circularProgress.style.background = `conic-gradient(#a5d7e8 ${progressStartValue * 3.6}deg, rgba(255, 255, 255, .1) 0deg)`;
+      if (progressStartValue == progressEndValue) {
+        clearInterval(progress);
+      }
+    } else {
+      progressStartValue = progressEndValue = 100;
       clearInterval(progress);
     }
   }, speed);
