@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ScoreUp</title>
+
+    <!-- CSS File -->
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+
+    <link rel="stylesheet" href="../css/default.css" />
+
+    <link rel="stylesheet" href="../css/quiz.css" />
+    <!-- End CSS File -->
+  </head>
+
+  <body>
+    <main>
+      <!-- Navbar -->
+      <!-- <div id="topNav"></div> -->
+      <!-- End Navbar -->
+
+      <div id="quiz-section">
+        <div class="container d-flex justify-content-center my-3">
+          <div class="quiz-box d-flex flex-column">
+            <h2 class="quiz-box__title">ScoreUp</h2>
+            <div class="quiz-box__header d-flex justify-content-between align-items-center">
+              <span class="text-white">Project Management Project</span>
+              <span class="text-white header-score">Score: 0 / 5</span>
+            </div>
+
+            <h4 class="question-text text-white">What does HTML stand for</h4>
+            <div class="option-list"></div>
+
+            <div class="quiz-box__footer d-flex justify-content-between align-items-center">
+              <span class="question-total text-white">1 of 5 Questions</span>
+              <button type="button" class="next-btn">Next</button>
+            </div>
+          </div>
+        </div>
+        <div class="quiz-result">
+          <h2 class="quiz-result__title">Test Result!</h2>
+          <div class="percentage-container">
+            <div class="circular-progress">
+              <span class="progress-value text-white">0%</span>
+            </div>
+            <span class="score-text text-white">Your Score 0 out of 5</span>
+          </div>
+
+          <div class="buttons d-flex">
+            <button class="tryAgain-btn">Try Again</button>
+            <button class="goHome-btn">Go to Home</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer  -->
+      <!-- <div id="footer"></div> -->
+      <!-- End Footer  -->
+    </main>
+
+    <!-- JavaScript Files -->
+    <script type="module" src="../js/quiz.js"></script>
+
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <!-- End JavaScript Files -->
+  </body>
+</html>

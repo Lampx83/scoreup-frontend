@@ -1,0 +1,344 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/*-------------------------------------------------
+  CÀI ĐẶT CSS CHO MỘT SỐ BIẾN THƯỜNG XUYÊN SỬ DỤNG             
+-------------------------------------------------*/
+:root {
+  /*-------------------------------------------------
+  BẢNG MÀU CHÍNH CỦA APP          
+  -------------------------------------------------*/
+  --white-color: #ffffff;
+  --primary-color: #0c134f;
+  --secondary-color: #1d267d;
+  --section-bg-color: #f0f8ff;
+  --custom-btn-bg-color: #91d0e5;
+  --custom-btn-bg-hover-color: #1d267d;
+  --dark-color: #000000;
+  --p-color: #9BA4B5;
+  --border-color: #a5d7e8;
+  --link-hover-color: #1d267d;
+  --sky-color: #DCF2F1;
+  --score-color: #4abbe0;
+  --score-hover: #4abae097;
+  --correct-ans: #00a63d;
+  --incorrect-ans: #a60045;
+  --light-transparent: #0000003c;
+
+  --body-font-family: "Open Sans", sans-serif;
+  --title-font-family: "Montserrat", sans-serif;
+
+  --h1-font-size: 58px;
+  --h2-font-size: 46px;
+  --h3-font-size: 32px;
+  --h4-font-size: 28px;
+  --h5-font-size: 24px;
+  --h6-font-size: 22px;
+  --p-font-size: 20px;
+  --menu-font-size: 14px;
+  --btn-font-size: 18px;
+  --copyright-font-size: 16px;
+
+  --border-radius-large: 100px;
+  --border-radius-medium: 20px;
+  --border-radius-small: 10px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+body {
+  background-color: var(--primary-color);
+  font-family: var(--body-font-family);
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--dark-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--title-font-family);
+  font-weight: var(--font-weight-semibold);
+}
+
+h1 {
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--h3-font-size);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+}
+
+h5 {
+  font-size: var(--h5-font-size);
+}
+
+h6 {
+  color: var(--white-color);
+  font-size: var(--h6-font-size);
+}
+
+p {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+ul li {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+a,
+button {
+  touch-action: manipulation;
+  transition: all 0.3s;
+}
+
+a {
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+b,
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+/*! Start quiz section  */
+#quiz-section {
+  background: var(--sky-color);
+  background-image: linear-gradient(300deg, var(--dark-color) 0%, var(--secondary-color) 100%);
+  min-height: 100vh;
+  padding-top: 150px;
+}
+
+.quiz-box {
+  position: relative;
+  width: 500px;
+  background-color: #0f103577;
+  border: 2px solid var(--custom-btn-bg-color);
+  border-radius: var(--border-radius-small);
+  padding: 20px 30px;
+}
+
+.quiz-box__title {
+  text-align: center;
+  color: var(--sky-color);
+  background: linear-gradient(90deg, #91d0e575, transparent);
+}
+
+.quiz-box__header {
+  padding: 20px 0;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+}
+
+.quiz-box__header span {
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.header-score {
+  background: var(--score-color);
+  border-radius: 6px;
+  padding: 7px;
+}
+
+.question-text {
+  color: var(--sky-color) !important;
+}
+
+.option-list__option {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--white-color);
+  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, .2);
+  font-size: var(--btn-font-size);
+  margin: 15px 0;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+.option-list__option.correct {
+  color: var(--correct-ans) !important;
+  border-color: var(--correct-ans);
+}
+
+.option-list__option.incorrect {
+  color: var(--incorrect-ans) !important;
+  border-color: var(--incorrect-ans);
+}
+
+.option-list__option.disabled {
+  pointer-events: none;
+}
+
+.option-list__option:hover {
+  border-color: rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, .1);
+}
+
+.quiz-box__footer {
+  border-top: 2px solid var(--border-color);
+  padding-top: 15px;
+  margin-top: 25px;
+}
+
+.quiz-box__footer .question-total {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.quiz-box__footer .next-btn {
+  width: 100px;
+  height: 45px;
+  background: rgba(255, 255, 255, .1);
+  border: 2px solid rgba(255, 255, 255, .1);
+  outline: none;
+  border-radius: 6px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, .9);
+  font-weight: 600px;
+  cursor: pointer;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.quiz-box__footer .next-btn.active {
+  pointer-events: auto;
+  background-color: var(--score-color);
+  border-color: var(--score-hover);
+}
+
+.quiz-box__footer .next-btn.active:hover {
+  background-color: var(--light-transparent);
+  border-color: var(--border-color);
+}
+
+.quiz-result {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: max-content;
+  background: transparent;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.5s all ease-in;
+  transition-delay: 0.3s;
+}
+
+.quiz-result.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.quiz-result__title {
+  color: var(--white-color);
+}
+
+.quiz-result .percentage-container {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0 40px;
+}
+
+.circular-progress {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  background: conic-gradient(var(--border-color) 3.6deg, rgba(255, 255, 255, .1) 0deg);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circular-progress::before {
+  content: '';
+  position: absolute;
+  width: 210px;
+  height: 210px;
+  background-image: linear-gradient(300deg, var(--dark-color) 0%, var(--secondary-color) 100%);
+  border-radius: 50%;
+}
+
+.circular-progress .progress-value {
+  position: relative;
+  font-size: 45px;
+  font-weight: 600;
+}
+
+.percentage-container .score-text {
+  font-size: 26px;
+  font-weight: var(--font-weight-semibold);
+  margin-top: 20px;
+}
+
+.buttons button {
+  width: 130px;
+  height: 47px;
+  background: var(--border-color);
+  border: 2px solid var(--border-color);
+  outline: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 20px 20px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.buttons button:nth-child(2) {
+  background: transparent;
+  color: var(--border-color);
+}
+
+.buttons button:nth-child(2):hover {
+  background: var(--border-color);
+  color: var(--dark-color);
+}
+
+.buttons button:nth-child(1):hover {
+  background: var(--light-transparent);
+  color: var(--white-color);
+}
+/*! End quiz section  */

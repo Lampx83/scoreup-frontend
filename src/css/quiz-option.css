@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/*-------------------------------------------------
+  CÀI ĐẶT CSS CHO MỘT SỐ BIẾN THƯỜNG XUYÊN SỬ DỤNG             
+-------------------------------------------------*/
+:root {
+  /*-------------------------------------------------
+  BẢNG MÀU CHÍNH CỦA APP          
+  -------------------------------------------------*/
+  --white-color: #ffffff;
+  --primary-color: #0c134f;
+  --secondary-color: #1d267d;
+  --section-bg-color: #f0f8ff;
+  --custom-btn-bg-color: #91d0e5;
+  --custom-btn-bg-hover-color: #1d267d;
+  --dark-color: #000000;
+  --p-color: #717275;
+  --border-color: #a5d7e8;
+  --link-hover-color: #1d267d;
+
+  --body-font-family: "Open Sans", sans-serif;
+  --title-font-family: "Montserrat", sans-serif;
+
+  --h1-font-size: 58px;
+  --h2-font-size: 46px;
+  --h3-font-size: 32px;
+  --h4-font-size: 28px;
+  --h5-font-size: 24px;
+  --h6-font-size: 22px;
+  --p-font-size: 20px;
+  --menu-font-size: 14px;
+  --btn-font-size: 18px;
+  --copyright-font-size: 16px;
+
+  --border-radius-large: 100px;
+  --border-radius-medium: 20px;
+  --border-radius-small: 10px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+body {
+  background-color: var(--primary-color);
+  font-family: var(--body-font-family);
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--dark-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--title-font-family);
+  font-weight: var(--font-weight-semibold);
+}
+
+h1 {
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--h3-font-size);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+}
+
+h5 {
+  font-size: var(--h5-font-size);
+}
+
+h6 {
+  color: var(--white-color);
+  font-size: var(--h6-font-size);
+}
+
+p {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+ul li {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+a,
+button {
+  touch-action: manipulation;
+  transition: all 0.3s;
+}
+
+a {
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+b,
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+.custom-line {
+  border: 1px #ffffff6f solid;
+}
+
+/*! Start Continue Button  */
+.cont-btn {
+  background: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+  border-radius: var(--border-radius-small);
+  color: #ffffff6d;
+  font-size: var(--btn-font-size);
+  font-weight: var(--font-weight-semibold);
+  line-height: normal;
+  transition: all 0.3s;
+  padding: 10px 30px;
+}
+
+.cont-btn:hover {
+  background: var(--primary-color);
+  border: 2px solid var(--white-color);
+  color: var(--white-color);
+}
+/*! End Continue Button  */
+
+/*! Custom select  */
+.custom-select {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: max-content;
+  height: 40px;
+  color: var(--section-bg-color);
+  background-color: var(--primary-color);
+  font-weight: var(--font-weight-bold);
+  appearance: none;
+}
+/*! End Custom select  */
+
+/*! Quiz Prepare Phase  */
+.quiz-options {
+  position: relative;
+  background-image: linear-gradient(15deg, #0C134F 0%, #1D267D 100%);
+  padding-top: 100px;
+  padding-bottom: 150px;
+  width: 100%;
+  height: 100%;
+}
+
+.quiz-prep {
+  max-width: 1000px;
+  padding: 50px 80px;
+  border: transparent 2px solid;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius-medium);
+}
+
+.quiz-prep__form {
+  padding: 20px 15px;
+  background-image: linear-gradient(90deg, #030833 0%,  #1D267D 100%);
+  border-radius: var(--border-radius-medium);
+}
+
+.quiz-prep__form .form-check-input:checked {
+  background-color: var(--custom-btn-bg-hover-color);
+  border-color: var(--secondary-color);
+}
+
+.quiz-prep__form .form-label,
+.quiz-prep__form .form-check-label {
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.quiz-prep__title {
+  display: flex;
+  justify-content: center;
+}
+
+.quiz-prep__form input[type="number"] {
+  width: max-content;
+  color: var(--section-bg-color);
+  background-color: var(--primary-color);
+  font-weight: var(--font-weight-bold);
+}
+
+.quiz-prep__form input[type="number"]::-webkit-inner-spin-button,
+.quiz-prep__form input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: listbox;
+  margin: 0;
+}
+
+.form-check-input {
+ height: 20px !important;
+}
+/*! End Quiz Prepare Phase  */
