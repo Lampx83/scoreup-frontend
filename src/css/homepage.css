@@ -15,7 +15,7 @@
   --custom-btn-bg-hover-color: #1d267d;
   --dark-color: #000000;
   --p-color: #717275;
-  --border-color: #a5d7e8;
+  --border-color: #daebfa;
   --link-hover-color: #1d267d;
 
   --body-font-family: "Open Sans", sans-serif;
@@ -125,6 +125,8 @@ strong {
   font-weight: var(--font-weight-bold);
 }
 
+
+
 /*! START CUSTOM BUTTON  */
 .custom-btn {
   background: var(--custom-btn-bg-color);
@@ -232,6 +234,39 @@ strong {
 }
 /*! END FEATURE BOX  */
 
+/*! START CUSTOM SEARCH  */
+.search-box {
+  transition: 0.5s all ease;
+}
+.search-box__list {
+  background-color: #fff;
+  border-top: var(--dark-color) 1px solid;
+  border-radius: var(--border-radius-medium);
+  margin: 0;
+  max-height: 300px;
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+.search-box__list::-webkit-scrollbar {
+  display: none;
+}
+
+.search-box__list li {
+  color: var(--dark-color);
+  list-style: none;
+  border-radius: var(--border-radius-small);
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.search-box__list li:hover {
+  background-color: var(--border-color);
+}
+/*! END CUSTOM SEARCH  */
+
 /*! START HERO  */
 #hero {
   background-image: linear-gradient(15deg, #0C134F 0%, #1D267D 100%);
@@ -245,6 +280,7 @@ strong {
   background-color: var(--white-color);
   border-radius: var(--border-radius-large);
   padding: 10px 15px;
+  transition: 0.5s all ease;
 }
 
 #hero .input-group-text {
