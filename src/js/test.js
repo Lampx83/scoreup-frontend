@@ -6,6 +6,7 @@ import {
 
 import * as renderQuestionsFuntions from "./helpers/renderQuestionsFunctions.js";
 import { initTimerCount, initTimerCountdown } from './helpers/timerCounts.js';
+import { checkAuth } from './helpers/auth.js';
 
 const init = async () => {
   //? lấy certificateId từ url
@@ -104,4 +105,5 @@ const init = async () => {
   }
 };
 
+checkAuth();
 init();

@@ -25,6 +25,7 @@ export const showQuestion = (questionId) => {
     const questionTarget = document.querySelector(`.question-main[data-question-id="${questionId}"]`).closest(".question-container");
     if (questionTarget) {
       questionTarget.classList.add("show"); //? hiển thị câu hỏi chuyển đến
+      document.querySelector(`.question-main[data-question-id="${questionId}"]`).scrollIntoView(false);
     }
 
     questionShowingIds.forEach((questionShowingId) => {
@@ -177,6 +178,7 @@ const renderSingleQuestion = (index, question) => {
       `)
     }
   }
+  optionsHtml.sort();
   questionMainOptions.innerHTML = optionsHtml.join('')
 
   //* logic chọn đáp án
@@ -186,15 +188,18 @@ const renderSingleQuestion = (index, question) => {
       const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${question._id}"]`);
       for (const input of inputs) {
         if (input.checked) {
+          input.closest(".question-main__option").classList.add("question-main__option--selected");
           questionPaletteItem.classList.add("question-palette__item--selected");
-          return;
+        }
+        else
+        {
+          questionPaletteItem.classList.remove("question-palette__item--selected");
+          input.closest(".question-main__option").classList.remove("question-main__option--selected");
         }
       }
-      questionPaletteItem.classList.remove("question-palette__item--selected");
     });
   });
   //* end logic chọn đáp án
-  
   questionMain.appendChild(questionMainOptions)
   questionContainer.appendChild(questionMain)
   //! end tạo div options
@@ -233,6 +238,8 @@ const renderMultiQuestions = (count = 0, questions) => {
   }
   //! end tạo div question context
 
+  const questionMainContainer = document.createElement('div')
+  questionMainContainer.classList.add('question-main-container')
   questions.forEach((question) => {
     count += 1;
     const questionMain = document.createElement('div')
@@ -289,13 +296,35 @@ const renderMultiQuestions = (count = 0, questions) => {
         `)
       }
     }
+    optionsHtml.sort();
     questionMainOptions.innerHTML = optionsHtml.join('')
+
+    //* logic chọn đáp án
+    const inputs = questionMainOptions.querySelectorAll("input");
+    inputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${question._id}"]`);
+        for (const input of inputs) {
+          if (input.checked) {
+            input.closest(".question-main__option").classList.add("question-main__option--selected");
+            questionPaletteItem.classList.add("question-palette__item--selected");
+          }
+          else
+          {
+            questionPaletteItem.classList.remove("question-palette__item--selected");
+            input.closest(".question-main__option").classList.remove("question-main__option--selected");
+          }
+        }
+        questionPaletteItem.classList.remove("question-palette__item--selected");
+      });
+    });
+    //* end logic chọn đáp án
     
     questionMain.appendChild(questionMainOptions)
-    questionContainer.appendChild(questionMain)
+    questionMainContainer.appendChild(questionMain)
     //! end tạo div options
   });
-
+  questionContainer.appendChild(questionMainContainer)
   questionContainer.setAttribute('data-question-id', questionIds.join(','))
 
   return questionContainer

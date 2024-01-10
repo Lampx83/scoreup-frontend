@@ -77,6 +77,7 @@ const createTopNav = (idPage = "") => {
       if (btnLogout) {
         btnLogout.addEventListener("click", (e) => {
           setCookie("token", "", -1);
+          setCookie("user", "", -1);
           window.location.reload();
         });
       }
@@ -165,7 +166,7 @@ const createTopNav = (idPage = "") => {
             });
             categorise.forEach(category => {
               const li = document.createElement("li");
-              li.innerHTML = `<a class="dropdown-item" href="/category.html?id=${category.id}">${category.title}</a>`;
+              li.innerHTML = `<a class="dropdown-item" href="${config.baseUrl}/category.html?id=${category.id}">${category.title}</a>`;
               dropdownCategories.appendChild(li);
             })
           })

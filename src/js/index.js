@@ -2,6 +2,7 @@ import createTopNav from "./topNav.js";
 import { getCookie } from "./helpers/cookieFunctions.js";
 import { getDatabase, getPage } from "./databaseAPI.js";
 import createFooter from './footer.js';
+import config from "./config.js";
 createTopNav("home");
 createFooter();
 
@@ -28,7 +29,7 @@ const initRecommendedCertificates = async () => {
   recommendedCertificate1.classList.add("col-lg-4", "col-12", "mb-4", "mb-lg-0");
   recommendedCertificate1.innerHTML = `
     <div class="feature-box bg-white shadow-lg">
-      <a href="certificate.html?id=${recommendedCertificates[0].id}">
+      <a href="${config.baseUrl}/certificate.html?id=${recommendedCertificates[0].id}">
         <div class="d-flex">
           <div>
             <h5>${recommendedCertificates[0].properties.title.title[0]?.plain_text}</h5>
@@ -66,7 +67,7 @@ const initRecommendedCertificates = async () => {
               ${recommendedCertificates[1].properties.description.rich_text[0]?.plain_text?.split(" ").slice(0, 40).join(" ")}...
             </p>
 
-            <a href="certificate.html?id=${recommendedCertificates[1].id}" class="btn custom-btn mt-2 mt-lg-3"
+            <a href="${config.baseUrl}/certificate.html?id=${recommendedCertificates[1].id}" class="btn custom-btn mt-2 mt-lg-3"
               >Learn More</a
             >
           </div>
@@ -153,7 +154,7 @@ const initCategories = async () => {
         tabContentItemsHTML.push(`
           <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0 mt-4">
             <div class="feature-box bg-white shadow-lg">
-              <a href="certificate.html?id=${certificate.id}">
+              <a href="${config.baseUrl}/certificate.html?id=${certificate.id}">
                 <div class="d-flex">
                   <div>
                     <h5 class="mb-2">${certificate.title}</h5>
@@ -195,7 +196,7 @@ const initCategories = async () => {
             </div>
 
             <div class="row justify-content-center mt-4">
-              <a class="btn custom-btn mt-2 mt-lg-3 col-2 justify-content-center" href="category.html?id=${category.id}">
+              <a class="btn custom-btn mt-2 mt-lg-3 col-2 justify-content-center" href="${config.baseUrl}/category.html?id=${category.id}">
                 Learn More
               </a>
             </div>

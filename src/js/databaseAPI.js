@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from './config.js';
+import * as cookieFuntions from "./helpers/cookieFunctions.js";
 const apiUrl = config.apiUrl;
 
 export const getDatabase = (database,body = {}, config = {}) => {
@@ -34,10 +35,28 @@ export const getQuestions = ({
       console.error('Error:', error);
       throw error;
     });
-}
+};
 
 export const getPage = (pageId, body = {}, config = {}) => {
   return axios.get(`${apiUrl}/pages/${pageId}`,body, config)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      throw error;
+    });
+};
+
+export const privateRequest = ({endpoint, body = {}, config = {}, method = "GET"}) => {
+  return axios({
+    method,
+    url: `${apiUrl}/${endpoint}`,
+    headers: {
+      'Authorization': `Bearer ${cookieFuntions.getCookie("token")}`
+    },
+    data: body
+  })
     .then(response => {
       return response.data;
     })
