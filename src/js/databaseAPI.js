@@ -13,8 +13,20 @@ export const getDatabase = (database,body = {}, config = {}) => {
     });
 };
 
-export const getQuestions = (body = {}, config = {}) => {
-  return axios.post(`${apiUrl}/questions`,body, config)
+export const getQuestions = ({
+  notionDatabaseId,
+  tag,
+  limit,
+  multiQuestions = false,
+  config = {}
+}) => {
+  return axios.post(`${apiUrl}/questions`,
+  {
+    notionDatabaseId,
+    tag,
+    limit: parseInt(limit),
+    multiQuestions
+  }, config)
     .then(response => {
       return response.data;
     })

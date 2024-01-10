@@ -140,9 +140,13 @@ button {
 .question-palette__item--incorrect {
   background-color: #ff5252 !important;
 }
+.question-palette__item--selected {
+  background-color: #81c6ff;
+}
 .question-palette__item--active {
   background-color: #2196f3;
   font-size: larger;
+  border: 3px solid black;
 }
 /* end question palette */
 
@@ -171,11 +175,11 @@ button {
   width: 90%;
   margin: auto;
 }
-.question-main__audio {
+.question-container__audio {
   text-align: center;
   padding: 10px 0;
 }
-.question-main__audio audio {
+.question-container__audio audio {
   outline: none;
 }
 .question-main__content {
@@ -206,7 +210,7 @@ button {
   cursor: pointer;
 }
 .question-main__option input {
-  display: none;
+  /* display: none; */
 }
 .questions__navigation {
   display: flex;
@@ -218,5 +222,14 @@ button {
   position: absolute;
   right: 0;
   margin: 10px 20px;
+}
+
+.question-container__context {
+  padding: 20px;
+  text-align: left;
+  background-color: #d3d2d2;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
 }
 /* end question */
