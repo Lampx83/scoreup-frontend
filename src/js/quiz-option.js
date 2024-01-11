@@ -14,6 +14,3 @@ quizNum.addEventListener('input', () => {
   quizNum.value = val;
 })
 //! End number of quizzes Option 
-
-const quiz = document.querySelector('#quiz');
-console.log(quiz);

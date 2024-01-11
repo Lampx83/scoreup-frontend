@@ -62,12 +62,10 @@ const certificateDetail = async () => {
 
           <h2 class="text-white">${certificateInfo.title}</h2>
 
-        <div class="d-flex align-items-center mt-5">
-          <a
-            href="quiz-option.html"
-            class="btn custom-btn custom-border-btn smoothscroll me-4"
-            >Take Test</a
-          >
+        <div class="d-flex align-items-center mt-4">
+          <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption">
+            Start Test
+          </button>
           <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
         </div>
       </div>
@@ -133,3 +131,14 @@ const certificateDetail = async () => {
 
 certificateDetail();
 //! end get detailed certificates
+
+
+//! popup quiz option 
+const quizNum = document.querySelector('.quiz-prep__form input[type="number"]');
+quizNum.addEventListener('input', () => {
+  let val = parseInt(quizNum.value);
+  if (isNaN(val) || val < 1) val = 1;
+  else if (val > 99) val = 99;
+  quizNum.value = val;
+})
+//! popup quiz option 

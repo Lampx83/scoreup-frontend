@@ -121,6 +121,46 @@
       </div>
       <!--  EndCertificate Exams  -->
 
+      <!-- Button trigger modal -->
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="quizOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="quizOptionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content quiz-options">
+            <div class="modal-header d-flex justify-content-center">
+              <h5 class="modal-title quiz-prep__title" id="quizOption">Quiz Options</h5>
+            </div>
+            <div class="modal-body">
+              <form class="quiz-prep__form gy-3 gx-3 align-items-center" action="quiz.html">
+                <span class="text-hl">(Optional)</span>
+                <div class="row align-items-center flex-start">
+                  <label for="quantity" class="col-auto form-label text-white" for="quizNum">Nhập số câu hỏi:</label>
+                  <input type="number" class="col-auto form-control" id="quizNum" name="quantity" min="1" max="99" value="10">
+                </div>
+                <div class="custom-line my-3 col-auto"></div>
+                <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="singleQuestion" name="sq" checked>
+                  <label class="form-check-label text-white" for="flexSwitchCheckDefault">Single Questions</label>
+                </div>
+                <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="multiQuestion" name="mq">
+                  <label class="form-check-label text-white" for="flexSwitchCheckChecked">Multi Questions</label>
+                </div>
+                <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="showAnswers" name="ans">
+                  <label class="form-check-label text-white" for="flexSwitchCheckChecked">Hiển thị đáp án ngay</label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn back-btn" data-bs-dismiss="modal">Back</button>
+              <a href="quiz.html" class="btn cont-btn">Start</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Footer  -->
       <div id="footer" class="site-footer"></div>
       <!-- End Footer  -->
