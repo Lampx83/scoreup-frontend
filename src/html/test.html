@@ -58,7 +58,7 @@
     
 
 
-    <div class="modal fade" id="result-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="result-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -75,7 +75,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="modal fade" id="hint-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -89,6 +89,28 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="result-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content quiz-result">
+          <div class="modal-header">
+            <h2 class="quiz-result__title">Test Result!</h2>
+          </div>
+          <div class="percentage-container">
+            <div class="circular-progress">
+              <span class="progress-value text-white">0%</span>
+            </div>
+            <span class="score-text text-white">Your Score 0 out of 5</span>
+          </div>
+    
+          <div class="buttons d-flex">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Review</button>
+            <button type="button" class="tryAgain-btn" onclick="window.location.reload()">Try Again</button>
+            <button type="button" class="goHome-btn" onclick="window.history.back()">Go to Home</button>
           </div>
         </div>
       </div>
