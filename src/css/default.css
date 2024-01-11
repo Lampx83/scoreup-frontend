@@ -125,6 +125,10 @@ strong {
   font-weight: var(--font-weight-bold);
 }
 
+.text-hl {
+  color: var(--custom-btn-bg-color);
+}
+
 .section-padding {
   padding-top: 100px;
   padding-bottom: 100px;
@@ -175,19 +179,21 @@ strong {
 }
 /*! END CUSTOM BUTTON  */
 
+/* main {
+  position: relative;
+} */
 
 /*! START NAVBAR */
 #topNav {
-  position: absolute;
   top: 0;
   right: 0;
   left: 0;
+  z-index: 999;
 }
 
 /** navbar background */
 #topNav .navbar {
   background-color: var(--primary-color);
-  /* background-color: transparent; */
   border-bottom: 1px solid var(--dark-color);
   z-index: 9;
 }
@@ -315,12 +321,15 @@ strong {
 /*! END NAVBAR */
 
 /*! FOOTER  */
+
 #footer {
   padding-top: 100px;
   padding-bottom: 100px;
   background-color: var(--section-bg-color);
+  width: 100%;
   border-bottom: 10px solid var(--secondary-color);
   position: relative;
+  bottom: 0;
 }
 
 #footer::after {

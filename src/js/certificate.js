@@ -64,7 +64,7 @@ const certificateDetail = async () => {
 
         <div class="d-flex align-items-center mt-5">
           <a
-            href="#"
+            href="quiz-option.html"
             class="btn custom-btn custom-border-btn smoothscroll me-4"
             >Take Test</a
           >
