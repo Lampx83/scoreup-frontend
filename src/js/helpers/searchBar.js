@@ -1,4 +1,5 @@
 import { getDatabase } from "../databaseAPI.js";
+import config from "../config.js";
 
 const searchFunction = async () => {
   const data = await getDatabase("4949e95213e94820934b6c8b3400df97", {
@@ -25,7 +26,7 @@ const searchFunction = async () => {
     if (filteredKeys.length > 0) {
     // <li><a href="${/certificate.html?id=${item.id}}"><li>${item.title}</li></a></li>
 
-      const content = filteredKeys.map((item) => `<a href="certificate.html?id=${item.id}"><li>${item.title}</li></a>`);
+      const content = filteredKeys.map((item) => `<a href="${config.baseUrl}/certificate.html?id=${item.id}"><li>${item.title}</li></a>`);
       searchList.innerHTML = `<ul class="search-box__list mt-1 flex-column">${content.join("")}</ul>`;
       searchList.querySelectorAll("a").forEach((item) => {
         console.log(item.innerText);

@@ -30,13 +30,10 @@
       <!-- End Navbar -->
 
       <!-- Site header  -->
-      <div
-        id="header"
-        class="d-flex flex-column justify-content-center align-items-center"
-      >
-        <div class="container loading">
-          <div class="row justify-content-between align-items-center">
-            <div class="col-lg-5 col-12 mb-5">
+      <div id="header" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+          <div class="header-section row justify-content-between align-items-center">
+            <div class="col-lg-5 col-12 mb-5 loading">
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item placeholder">Homepage</li>
@@ -45,20 +42,14 @@
 
               <h2 class="text-white placeholder">Certificate</h2>
 
-              <div class="d-flex align-items-center mt-5">
-                <a
-                  href="quiz-option.html"
-                  class="btn custom-btn custom-border-btn smoothscroll me-4"
-                  >Take Test</a
-                >
-                <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
+              <div class="d-flex align-items-center mt-5 placeholder">
               </div>
             </div>
 
-            <div class="col-lg-5 col-12">
+            <div class="col-lg-5 col-12 loading">
               <div class="topics-detail-block bg-white shadow-lg placeholder">
                 <img
-                  src="../img/girl-tattoo-computer-screen-ai-art-4k-wallpaper-uhdpaper.com-730@1@l.jpg"
+                  src="../img/painting-mountain-lake-with-mountain-background.jpg"
                   class="topics-detail-block-image img-fluid"
                 />
               </div>
@@ -70,7 +61,7 @@
 
       <!-- Certificate Info  -->
       <div id="certificate-info" class="section-padding-sm">
-        <div class="container loading">
+        <div class="container">
           <div class="col-lg-8 col-12">
             <div class="row">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -106,8 +97,8 @@
           </div>
         </div>
         <div class="container">
-          <div class="row">
-            <div class="col-lg-8 col-12 justify-content-start">
+          <div class="certificate-info__des row">
+            <div class="col-lg-8 col-12 loading">
               <h3 class="mb-4 placeholder">Introduction to TOEIC</h3>
               <p class="placeholder">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero
@@ -120,6 +111,79 @@
         </div>
       </div>
       <!--  EndCertificate Exams  -->
+
+      <!-- Button trigger modal -->
+
+
+      <!-- Quiz Modal -->
+      <div class="modal fade" id="quizOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="quizOptionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content quiz-options">
+            <div class="modal-header d-flex justify-content-center">
+              <h5 class="modal-title quiz-prep__title" id="quizOption">Quiz Options</h5>
+            </div>
+            <div class="modal-body">
+              <form class="quiz-prep__form gy-3 gx-3 align-items-center" id="quizOptionForm" action="quiz.html">
+                <span class="text-hl">(Optional)</span>
+                <div class="row align-items-center flex-start">
+                  <label for="quantity" class="col-auto form-label text-white" for="quizNumQuiz">Nhập số câu hỏi:</label>
+                  <input type="number" class="col-auto form-control" id="quizNumQuiz" name="quantity" min="1" max="99" value="10">
+                </div>
+                <div class="custom-line my-3 col-auto"></div>
+                <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="singleQuestionQuiz">
+                  <label class="form-check-label text-white" for="singleQuestionQuiz">Single Questions</label>
+                </div>
+                <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="multiQuestionQuiz">
+                  <label class="form-check-label text-white" for="multiQuestionQuiz">Multi Questions</label>
+                </div>
+                <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="showAnswersQuiz" value="show_answers" checked>
+                  <label class="form-check-label text-white" for="showAnswersQuiz">Hiển thị đáp án ngay</label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn back-btn" data-bs-dismiss="modal">Back</button>
+              <button type="button" class="btn cont-btn">Start</button>
+              <!-- <a href="quiz.html" class="btn cont-btn">Start</a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Test Modal -->
+      <div class="modal fade" id="testOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="testOptionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content quiz-options">
+            <div class="modal-header d-flex justify-content-center">
+              <h5 class="modal-title quiz-prep__title" id="testOption">Test Options</h5>
+            </div>
+            <div class="modal-body">
+              <form class="quiz-prep__form gy-3 gx-3 align-items-center" id="testOptionForm" action="test.html">
+                <span class="text-hl">(Optional)</span>
+                <div class="row align-items-center flex-start">
+                  <label for="quantity" class="col-auto form-label text-white" for="quizNum">Nhập số câu hỏi:</label>
+                  <input type="number" class="col-auto form-control" id="quizNum" name="quantity" min="1" max="99" value="10">
+                </div>
+                <div class="custom-line my-3 col-auto"></div>
+                <div class="col-auto">
+                  <div class="row justify-content-between">
+                    <label class="col-auto form-label text-white">Choose Parts:</label>
+                    <div class="col-8 tags-option">
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn back-btn" data-bs-dismiss="modal">Back</button>
+              <button type="button" class="btn cont-btn">Start</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Footer  -->
       <div id="footer" class="site-footer"></div>

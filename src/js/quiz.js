@@ -2,6 +2,8 @@ import createTopNav from "./topNav.js";
 import { getCookie } from "./helpers/cookieFunctions.js";
 import { getDatabase, getPage } from "./databaseAPI.js";
 import createFooter from "./footer.js";
+import config from "./config.js";
+
 // createTopNav("home");
 // createFooter();
 
@@ -91,20 +93,21 @@ goHomeBtn.onclick = () => {
 }
 
 tryAgainBtn.onclick = () => {
-  setTimeout(function() {
-    quizBox.classList.remove('d-none');
-  }, 1000);
-  // quizBox.classList.remove('d-none');
-  nextBtn.classList.remove('active');
-  resultBox.classList.remove('active');
+  location.reload();
+  // setTimeout(function() {
+  //   quizBox.classList.remove('d-none');
+  // }, 1000);
+  // // quizBox.classList.remove('d-none');
+  // nextBtn.classList.remove('active');
+  // resultBox.classList.remove('active');
 
-  questionCount = 0;
-  questionNum = 1;
-  userScore = 0;
+  // questionCount = 0;
+  // questionNum = 1;
+  // userScore = 0;
 
-  showQuestions(questionCount);
-  questionCounter(questionNum);
-  headerScore();
+  // showQuestions(questionCount);
+  // questionCounter(questionNum);
+  // headerScore();
 }
 
 showQuestions(0);
@@ -171,7 +174,7 @@ function showQuizResults () {
   resultBox.classList.add('active'); 
 
   const scoreText = document.querySelector('.score-text');
-  scoreText.textContent = `Your Score ${userScore} out of ${questions.length}`
+  scoreText.textContent = `You Score ${userScore} out of ${questions.length}`
 
   const circularProgress = resultBox.querySelector('.circular-progress');
   const progressValue = resultBox.querySelector('.progress-value');
@@ -180,16 +183,19 @@ function showQuizResults () {
   let speed = 20;
 
   let progress = setInterval(() => {
-    if (progressStartValue < 100 && progressEndValue < 100) {
+
+    if (userScore === 0) {
+      progressValue.textContent = `${progressStartValue} %`;
+      circularProgress.style.background = `conic-gradient(#a5d7e8 ${progressStartValue * 3.6}deg, rgba(255, 255, 255, .1) 0deg)`;
+      clearInterval(progress);
+    } else {
       progressStartValue++;
       progressValue.textContent = `${progressStartValue} %`
       circularProgress.style.background = `conic-gradient(#a5d7e8 ${progressStartValue * 3.6}deg, rgba(255, 255, 255, .1) 0deg)`;
       if (progressStartValue == progressEndValue) {
         clearInterval(progress);
-      }
-    } else {
-      progressStartValue = progressEndValue = 100;
-      clearInterval(progress);
+      }  
     }
+
   }, speed);
 }

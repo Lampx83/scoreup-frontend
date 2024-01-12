@@ -2,6 +2,7 @@ import createTopNav from "./topNav.js";
 import { getCookie } from "./helpers/cookieFunctions.js";
 import { getDatabase, getPage } from "./databaseAPI.js";
 import createFooter from "./footer.js";
+import config from "./config.js";
 createTopNav("home");
 createFooter();
 
@@ -16,22 +17,28 @@ const certificateDetail = async () => {
     const [key, value] = query.split("=");
     queryObj[key] = value;
   });
+
+  // console.log(window.location.search.slice(1).split("="));
   
-  const header = document.querySelector("#header");
-  const detail = document.querySelector("#certificate-info");
+  const headerSection = document.querySelector(".header-section");
+  const cerInfo = document.querySelector(".certificate-info__des");
 
   //?get certificateInfo
   const certificate = await getPage(queryObj.id);
 
+  // console.log(certificate);
+
   const certificateInfo = {
     title: certificate.properties.title.title[0].plain_text,
-    categoryID: certificate.properties.category.relation[0].id
-      .split("-")
-      .join(""),
+    databaseID: certificate.properties.database_id.rich_text[0].plain_text,
+    categoryID: certificate.properties.category.relation[0].id.split("-").join(""),
+    section: certificate.properties.sections_info.rich_text[0].plain_text.toLowerCase().split(";").map(item => item.split(":")[0]),
     imgSrc: certificate.properties.img.files[0]?.name,
     piority: certificate.properties.piority.number,
     description: certificate.properties.description.rich_text[0].plain_text,
   };
+
+  // console.log(certificateInfo);
 
   const relation = await getPage(certificateInfo.categoryID);
   certificateInfo.category = relation.properties.title.title[0].plain_text;
@@ -42,94 +49,128 @@ const certificateDetail = async () => {
     loading.remove();
   })
 
-  header.innerHTML = `       
-    <div class="container">
-      <div class="row justify-content-between align-items-center">
-        <div class="col-lg-5 col-12 mb-5">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item">
-                <a href="index.html">Homepage</a>
-              </li>
-              <li class="breadcrumb-item">
-                <a href="index.html">${certificateInfo.category}</a>
-              </li>
-              <li class="breadcrumb-item text-white" aria-current="page">
-                <a href="#">${certificateInfo.title}</a>
-              </li>;
-            </ol>
-          </nav>
+  //# render header 
+  const headerInfo = document.createElement('div');
+  headerInfo.classList.add('col-lg-5', 'col-12', 'mb-5');
+  headerInfo.innerHTML = `
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Homepage</a>
+        </li>
+        <li class="breadcrumb-item">
+          <a href="index.html">${certificateInfo.category}</a>
+        </li>
+        <li class="breadcrumb-item text-white" aria-current="page">
+          <a href="#">${certificateInfo.title}</a>
+        </li>;
+      </ol>
+    </nav>
 
-          <h2 class="text-white">${certificateInfo.title}</h2>
+    <h2 class="text-white">${certificateInfo.title}</h2>
 
-        <div class="d-flex align-items-center mt-5">
-          <a
-            href="quiz-option.html"
-            class="btn custom-btn custom-border-btn smoothscroll me-4"
-            >Take Test</a
-          >
-          <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
-        </div>
-      </div>
-
-      <div class="col-lg-5 col-12">
-        <div class="topics-detail-block bg-white shadow-lg">
-          <img
-            src="${certificateInfo.imgSrc}"
-            class="topics-detail-block-image img-fluid"
-          />
-        </div>
-      </div>
+    <div class="d-flex align-items-center mt-4">  
+      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#testOption">
+        Full Test
+      </button>
+      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption">
+        Short Quiz
+      </button>
+      <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
     </div>
-    `;
-
-  detail.innerHTML = `        
-  <div class="container">
-    <div class="col-lg-8 col-12">
-      <div class="row">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link active"
-              id="design-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#design-tab-pane"
-              type="button"
-              role="tab"
-              aria-controls="design-tab-pane"
-              aria-selected="true"
-            >
-              About
-            </button>
-          </li>
-
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link"
-              id="feedback-tab"
-              data-bs-toggle="tab"
-              data-bs-target="#feedback-tab-pane"
-              type="button"
-              role="tab"
-              aria-controls="feedback-tab-pane"
-              aria-selected="false"
-            >
-              Feedback
-            </button>
-          </li>
-        </ul>
-      </div>
+    `
+  const headerImg = document.createElement('div');
+  headerImg.classList.add('col-lg-5', 'col-12');
+  headerImg.innerHTML = `
+    <div class="topics-detail-block bg-white shadow-lg">
+      <img
+        src="${certificateInfo.imgSrc}"
+        class="topics-detail-block-image img-fluid"
+      />
     </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-12 justify-content-start">
-        <h3 class="mb-4">About ${certificateInfo.title}</h3>
-        <p>${certificateInfo.description}</p>
-      </div>
+    `
+  headerSection.appendChild(headerInfo);
+  headerSection.appendChild(headerImg);
+  //# end render header 
+
+  //# render certificate detail 
+  const cerDes = document.createElement('div');
+  cerDes.classList.add('col-lg-8', 'col-12');
+  cerDes.innerHTML = `
+    <div class="col-lg-8 col-12 justify-content-start">
+      <h3 class="mb-4">About ${certificateInfo.title}</h3>
+      <p>${certificateInfo.description}</p>
     </div>
-  </div>`
+    `
+  cerInfo.appendChild(cerDes);
+  //# end render certificate detail 
+
+  //# render popUp Test
+  const tagsOption = document.querySelector(".tags-option");
+  certificateInfo.section.forEach((item, idx) => {
+    if (idx == 0) {
+      const option = document.createElement("div");
+      option.classList.add("form-check");
+      option.innerHTML = `
+        <input class="form-check-input" type="checkbox" value="${item}" checked>
+        <label class="form-check-label text-white">
+          ${item}
+        </label>
+      `
+      tagsOption.appendChild(option);
+    }
+    const option = document.createElement("div");
+    option.classList.add("form-check");
+    option.innerHTML = `
+      <input class="form-check-input" type="checkbox" value="${item}">
+      <label class="form-check-label text-white">
+        ${item}
+      </label>
+    `
+    tagsOption.appendChild(option);
+  })
+  //# render popUp Test 
+
+  //# navigate popUp Test 
+  const testForm = document.querySelector("#testOption");
+  const testStartBtn = testForm.querySelector(".cont-btn");
+  testStartBtn.onclick = () => {
+    const tagOptions = testForm.querySelectorAll('input[type="checkbox"]:checked');
+    let url = testForm.querySelector("#testOptionForm").getAttribute("action");
+    tagOptionsArr = [...tagOptions];
+    const tags = tagOptionsArr.map(item => item.defaultValue.split(" ").join("_")).join(",");
+    url += `?certificateID=${queryObj.id}&tags=${tags}`;
+    console.log(url);
+
+    // window.location.href = url;
+  };
+  //# end navigate popUp Test 
+
+  //# navigate popUp Quiz
+  const quizForm = document.querySelector("#quizOption");
+  const quizStartBtn = quizForm.querySelector(".cont-btn");
+  quizStartBtn.onclick = () => {
+    const tagOptions = quizForm.querySelectorAll('input[type="checkbox"]:checked');
+    let url = quizForm.querySelector("#quizOptionForm").getAttribute("action");
+    tagOptionsArr = [...tagOptions];
+    const tags = tagOptionsArr.map(item => item.defaultValue.split(" ").join("_")).join(",");
+    url += `?certificateID=${queryObj.id}&tags=${tags}`;
+    window.location.href = url;
+  };
+  //# End navigate popUp Quiz
+
 };
 
 certificateDetail();
 //! end get detailed certificates
+
+
+//! popup quiz option 
+const quizNum = document.querySelector('.quiz-prep__form input[type="number"]');
+quizNum.addEventListener('input', () => {
+  let val = parseInt(quizNum.value);
+  if (isNaN(val) || val < 1) val = 1;
+  else if (val > 99) val = 99;
+  quizNum.value = val;
+})
+//! popup quiz option 
