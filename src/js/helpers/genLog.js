@@ -34,10 +34,30 @@ export const commitLogQuestion = ({
 
   if (answer && logQuestion.duration > 2) {
     privateRequest({
-      endpoint: "logQuestion",
+      endpoint: "questions/logQuestion",
       body: logQuestion,
       method: "POST"
-    })
-    console.log("logged")
+    });
   }
+}
+
+export const commitResult = ({
+  certificateId,
+  correctIds,
+  incorrectIds,
+  duration
+}) => {
+  const result = {
+    certificateId,
+    correctIds,
+    incorrectIds,
+    userEmail: JSON.parse(cookieFuntions.getCookie("user")).email,
+    duration,
+  }
+
+  privateRequest({
+    endpoint: "questions/result",
+    body: result,
+    method: "POST"
+  });
 }

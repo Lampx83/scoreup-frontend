@@ -26,7 +26,7 @@ button {
   left: 0;
   right: 0;
   z-index: 999;
-  background-image: linear-gradient(20deg, var(--primary-color) 30%, var(--custom-btn-bg-color) 100%);
+  background-image: linear-gradient(20deg, var(--custom-btn-bg-color) 30%, var(--primary-color) 100%);
 }
 
 .btn-finish {
@@ -38,6 +38,14 @@ button {
   cursor: pointer;
   text-align: center;
   transition: all 0.3s ease-in-out;
+  background-color: var(--border-color) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--dark-color) !important;
+}
+
+.btn-finish:hover {
+  background-color: var(--light-transparent) !important;
+  color: var(--white-color) !important;
 }
 
 .btn-back {
@@ -153,7 +161,7 @@ button {
   min-width: 25px;
   padding: 7px;
   margin: 3px;
-  border-radius: 8px;
+  border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;

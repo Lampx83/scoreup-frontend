@@ -16,13 +16,14 @@ const init = async () => {
     const [key, value] = item.split('=');
     queryObject[key] = value;
   });
-  if (!queryString) {
+  if (!queryString || !queryObject.certificateId) {
     window.location.href = "index.html";
     return;
   }
-
+  
   //? lấy thông tin certificate
   const certificateInfo = await getPage(queryObject.certificateId);
+  window.certificateInfo = certificateInfo;
 
   //? set title cho page
   const certificateTitles = document.querySelectorAll('.certificate-title');
@@ -99,9 +100,11 @@ const init = async () => {
     const timeLimit = certificateInfo.properties.time_limit.rich_text[0]?.plain_text;
     const timer = initTimerCountdown(timeLimit);
     window.timer = timer;
+    window.timeIn = new Date();
   } else {
     const timer = initTimerCount();
     window.timer = timer;
+    window.timeIn = new Date();
   }
 };
 

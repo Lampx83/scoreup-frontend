@@ -1,13 +1,4 @@
-
-/**
- * !CÁC LOGIC
- * *1. add event cho các ô chọn câu hỏi bằng select question và hàm show question
- * *2. add event cho các ô chọn đáp án bằng select option 
- * *3. navigation question bằng btn prev và next (lùi, tiến câu hỏi)
- * *4. show result: khi chạy hàm này sẽ trigger modal result
- */
-
-import { initLogQuestion, commitLogQuestion } from "./genLog";
+import { initLogQuestion, commitLogQuestion, commitResult } from "./genLog";
 
 //! show question func
 export const showQuestion = (questionId) => {
@@ -500,10 +491,13 @@ export const initFormLogic = (max_score = 100) => {
 
       //! dừng đồng hồ
       const currentTimer = document.querySelector(".timer__time");
-      const currentTimerValue = currentTimer.innerHTML;
-      currentTimer.classList.add("timer__time--red");
-      clearInterval(window.timer);
-      currentTimer.innerHTML = currentTimerValue;
+      if (currentTimer)
+      {
+        const currentTimerValue = currentTimer.innerHTML;
+        currentTimer.classList.add("timer__time--red");
+        clearInterval(window.timer);
+        currentTimer.innerHTML = currentTimerValue;
+      }
       //! end dừng đồng hồ
 
       //! hiển thị modal result
@@ -536,6 +530,22 @@ export const initFormLogic = (max_score = 100) => {
         }
       }, 1);
       //! end hiển thị modal result
+
+      //! ghi lại kết quả test
+      const correctIds = Array.from(document.querySelectorAll(".question-main[data-question-status='correct']")).map(question => {
+        return question.getAttribute('data-question-id')
+      })
+      const incorrectIds = Array.from(document.querySelectorAll(".question-main[data-question-status='incorrect']")).map(question => {
+        return question.getAttribute('data-question-id')
+      })
+      console.log(correctIds, incorrectIds)
+      commitResult({
+        certificateId: window.certificateInfo.id,
+        correctIds: correctIds,
+        incorrectIds: incorrectIds,
+        duration: (new Date() - new Date(window.timeIn)) / 1000
+      })
+      //! end ghi lại kết quả test
     })
   }
 }
