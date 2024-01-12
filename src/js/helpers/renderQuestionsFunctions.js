@@ -538,7 +538,6 @@ export const initFormLogic = (max_score = 100) => {
       const incorrectIds = Array.from(document.querySelectorAll(".question-main[data-question-status='incorrect']")).map(question => {
         return question.getAttribute('data-question-id')
       })
-      console.log(correctIds, incorrectIds)
       commitResult({
         certificateId: window.certificateInfo.id,
         correctIds: correctIds,
