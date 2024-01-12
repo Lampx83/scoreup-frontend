@@ -1,31 +1,62 @@
-
-/**
- * !CÁC LOGIC
- * *1. add event cho các ô chọn câu hỏi bằng select question và hàm show question
- * *2. add event cho các ô chọn đáp án bằng select option 
- * *3. navigation question bằng btn prev và next (lùi, tiến câu hỏi)
- * *4. show result: khi chạy hàm này sẽ trigger modal result
- */
+import { initLogQuestion, commitLogQuestion, commitResult } from "./genLog";
 
 //! show question func
 export const showQuestion = (questionId) => {
   const questionShowing = document.querySelector(".question-container.show"); //? lấy câu hỏi đang hiển thị
   const questionShowingIds = questionShowing?.getAttribute("data-question-id").split(','); //? lấy id câu hỏi đang hiển thị
-  if (questionShowingIds && questionId !== questionShowingIds) { //? nếu id câu hỏi chuyển đến khác id câu hỏi đang hiển thị
+
+  const questionShowingMain = questionShowing?.querySelector(".question-main.show");
+  if (questionShowingMain) {
+    //! lưu log câu hỏi cũ
+    const selectedOptions = questionShowingMain.querySelectorAll("input:checked");
+    const correctOptionsIds = questionShowingMain.querySelector(".question-main__options").getAttribute("data-correct-option").split(",");
+    if (selectedOptions.length) {
+      let answer = [];
+      let check = true;
+      selectedOptions.forEach((selectedOption) => {
+        const selectedOptionId = selectedOption.closest(".question-main__option").getAttribute("data-option-id");
+        answer.push(selectedOptionId);
+        if (!correctOptionsIds.includes(selectedOptionId)) {
+          check = false;
+        }
+      });
+      commitLogQuestion({
+        answer: answer,
+        status: check ? "correct" : "incorrect"
+      });
+    } else {
+      commitLogQuestion({
+        answer: null,
+        status: "unanswered"
+      }); 
+    }
+  }
+
+  if (questionShowingIds) { //? nếu id câu hỏi chuyển đến khác id câu hỏi đang hiển thị
     questionShowing.classList.remove("show"); //? ẩn câu hỏi đang hiển thị
 
-    //! dừng audio
-    const questionShowingAudio = questionShowing.querySelector('.question-container__audio audio')
-    if (questionShowingAudio) {
-      questionShowingAudio.pause()
-      questionShowingAudio.currentTime = 0
+    if (!questionShowingIds.includes(questionId)) {
+      //! dừng audio
+      const questionShowingAudio = questionShowing.querySelector('.question-container__audio audio')
+      if (questionShowingAudio) {
+        questionShowingAudio.pause()
+      }
+      //! end dừng audio
     }
-    //! end dừng audio
 
     const questionTarget = document.querySelector(`.question-main[data-question-id="${questionId}"]`).closest(".question-container");
     if (questionTarget) {
       questionTarget.classList.add("show"); //? hiển thị câu hỏi chuyển đến
-      document.querySelector(`.question-main[data-question-id="${questionId}"]`).scrollIntoView(false);
+      const questionMainsTarget = questionTarget.querySelectorAll(`.question-main`);
+      Array.from(questionMainsTarget).forEach((questionMainTarget) => {
+        if (!(questionMainTarget.getAttribute("data-question-id") === questionId)) {
+          questionMainTarget.classList.remove("show");
+        } else {
+          questionMainTarget.classList.add("show");
+          //! khởi tạo log câu hỏi mới
+          initLogQuestion({questionId});
+        }
+      });
     }
 
     questionShowingIds.forEach((questionShowingId) => {
@@ -42,6 +73,10 @@ export const showQuestion = (questionId) => {
     const questionTarget = document.querySelector(`.question-container[data-question-id="${questionId}"]`);
     if (questionTarget) {
       questionTarget.classList.add("show"); //? hiển thị câu hỏi chuyển đến
+      questionTarget.querySelector(".question-main").classList.add("show");
+      //! khởi tạo log câu hỏi mới
+      initLogQuestion({questionId: questionTarget.querySelector(".question-main").getAttribute("data-question-id")});
+
       const questionTargetIds = questionTarget.getAttribute("data-question-id").split(',');
       questionTargetIds.forEach((questionTargetId) => {
         const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionTargetId}"]`);
@@ -151,7 +186,7 @@ const renderSingleQuestion = (index, question) => {
   questionMainContent.classList.add('question-main__content')
   questionMainContent.innerHTML = `
     <h6 class="question-main__title">
-      Question ${index}: ${question.properties.question.rich_text[0].plain_text}
+      <strong>Question ${index}:</strong> ${question.properties.question.rich_text[0].plain_text}
     </h6>
     <div class="question-main__img">
       <img src="${question.properties.img.files[0]?.file.url}" alt="">
@@ -186,16 +221,20 @@ const renderSingleQuestion = (index, question) => {
   inputs.forEach((input) => {
     input.addEventListener("change", () => {
       const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${question._id}"]`);
+      let check = false;
       for (const input of inputs) {
         if (input.checked) {
           input.closest(".question-main__option").classList.add("question-main__option--selected");
           questionPaletteItem.classList.add("question-palette__item--selected");
+          check = true;
         }
         else
         {
-          questionPaletteItem.classList.remove("question-palette__item--selected");
           input.closest(".question-main__option").classList.remove("question-main__option--selected");
         }
+      }
+      if (!check) {
+        questionPaletteItem.classList.remove("question-palette__item--selected");
       }
     });
   });
@@ -211,6 +250,7 @@ const renderMultiQuestions = (count = 0, questions) => {
   const questionContainer = document.createElement('div')
   questionContainer.classList.add('question-container')
   let questionIds = [];
+  let questionIndex = [];
   //! tạo div audio
   if (questions[0].properties.audio.files[0]?.file.url) {
     const questionContainerAudio = document.createElement('div')
@@ -246,7 +286,7 @@ const renderMultiQuestions = (count = 0, questions) => {
     questionMain.classList.add('question-main')
     questionMain.setAttribute('data-question-id', question._id)
     questionMain.setAttribute('data-question-index', count)
-
+    questionIndex.push(count);
     questionIds.push(question._id);
 
     if (question.properties.hint.rich_text?.length > 0 && question.properties.hint.rich_text[0].plain_text.length > 0 && question.properties.hint.rich_text[0].plain_text.split(' ').join('') !== '') {
@@ -269,7 +309,7 @@ const renderMultiQuestions = (count = 0, questions) => {
     questionMainContent.classList.add('question-main__content')
     questionMainContent.innerHTML = `
       <h6 class="question-main__title">
-        Question ${count}: ${question.properties.question.rich_text[0].plain_text}
+        <strong>Question ${count}:</strong> ${question.properties.question.rich_text[0].plain_text}
       </h6>
       <div class="question-main__img">
         <img src="${question.properties.img.files[0]?.file.url}" alt="">
@@ -304,18 +344,21 @@ const renderMultiQuestions = (count = 0, questions) => {
     inputs.forEach((input) => {
       input.addEventListener("change", () => {
         const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${question._id}"]`);
+        let check = false;
         for (const input of inputs) {
           if (input.checked) {
+            check = true;
             input.closest(".question-main__option").classList.add("question-main__option--selected");
             questionPaletteItem.classList.add("question-palette__item--selected");
           }
           else
           {
-            questionPaletteItem.classList.remove("question-palette__item--selected");
             input.closest(".question-main__option").classList.remove("question-main__option--selected");
           }
         }
-        questionPaletteItem.classList.remove("question-palette__item--selected");
+        if (!check) {
+          questionPaletteItem.classList.remove("question-palette__item--selected");
+        }
       });
     });
     //* end logic chọn đáp án
@@ -324,6 +367,16 @@ const renderMultiQuestions = (count = 0, questions) => {
     questionMainContainer.appendChild(questionMain)
     //! end tạo div options
   });
+
+  //! chú thích các câu hỏi có trong set
+  const questionContainerNote = document.createElement('div')
+  questionContainerNote.classList.add('question-container__note')
+  questionContainerNote.innerHTML = `
+    <p>Questions ${questionIndex[0] + " to " + questionIndex[questionIndex.length - 1]}</p>
+  `
+  questionContainer.appendChild(questionContainerNote)
+  //! end chú thích các câu hỏi có trong set
+
   questionContainer.appendChild(questionMainContainer)
   questionContainer.setAttribute('data-question-id', questionIds.join(','))
 
@@ -337,8 +390,8 @@ export const navigateQuestion = () => {
     const btnPrev = btnNav.querySelector('.prev')
     const btnNext = btnNav.querySelector('.next')
     btnPrev.addEventListener('click', () => {
-      const currentQuestion = document.querySelector('.question-container.show').querySelectorAll('.question-main')
-      const currentQuestionIndex = currentQuestion[0].getAttribute('data-question-index')
+      const currentQuestion = document.querySelector('.question-container.show').querySelector('.question-main.show')
+      const currentQuestionIndex = currentQuestion.getAttribute('data-question-index')
       const preQuestionIndex = parseInt(currentQuestionIndex) - 1
       const preQuestionId = document.querySelector(`.question-main[data-question-index="${preQuestionIndex}"]`)?.getAttribute('data-question-id')
       if (preQuestionId) {
@@ -346,8 +399,8 @@ export const navigateQuestion = () => {
       }
     })
     btnNext.addEventListener('click', () => {
-      const currentQuestion = document.querySelector('.question-container.show').querySelectorAll('.question-main')
-      const currentQuestionIndex = currentQuestion[currentQuestion.length - 1].getAttribute('data-question-index')
+      const currentQuestion = document.querySelector('.question-container.show').querySelector('.question-main.show')
+      const currentQuestionIndex = currentQuestion.getAttribute('data-question-index')
       const nextQuestionIndex = parseInt(currentQuestionIndex) + 1
       const nextQuestionId = document.querySelector(`.question-main[data-question-index="${nextQuestionIndex}"]`)?.getAttribute('data-question-id')
       if (nextQuestionId) {
@@ -438,61 +491,60 @@ export const initFormLogic = (max_score = 100) => {
 
       //! dừng đồng hồ
       const currentTimer = document.querySelector(".timer__time");
-      const currentTimerValue = currentTimer.innerHTML;
-      currentTimer.classList.add("timer__time--red");
-      clearInterval(window.timer);
-      currentTimer.innerHTML = currentTimerValue;
+      if (currentTimer)
+      {
+        const currentTimerValue = currentTimer.innerHTML;
+        currentTimer.classList.add("timer__time--red");
+        clearInterval(window.timer);
+        currentTimer.innerHTML = currentTimerValue;
+      }
       //! end dừng đồng hồ
 
       //! hiển thị modal result
-      const resultModalContent = document.querySelector("#result-content");
+      const resultModal = document.querySelector('#result-modal')
       const questions = document.querySelectorAll(".question-main");
       const totalQuestions = questions.length;
       const correctQuestions = document.querySelectorAll(".question-main[data-question-status='correct']").length;
       const incorrectQuestions = document.querySelectorAll(".question-main[data-question-status='incorrect']").length;
-      const score = Math.round((correctQuestions / totalQuestions) * max_score);
-      resultModalContent.innerHTML = `
-        <div class="result">
-          <div class="result__title">
-            <h3>Result</h3>
-          </div>
-          <div class="result__content">
-            <div class="result__content-item">
-              <div class="result__content-item-title">
-                <h6>Total questions</h6>
-              </div>
-              <div class="result__content-item-value">
-                <h6>${totalQuestions}</h6>
-              </div>
-            </div>
-            <div class="result__content-item">
-              <div class="result__content-item-title">
-                <h6>Correct questions</h6>
-              </div>
-              <div class="result__content-item-value">
-                <h6>${correctQuestions}</h6>
-              </div>
-            </div>
-            <div class="result__content-item">
-              <div class="result__content-item-title">
-                <h6>Incorrect questions</h6>
-              </div>
-              <div class="result__content-item-value">
-                <h6>${incorrectQuestions}</h6>
-              </div>
-            </div>
-            <div class="result__content-item">
-              <div class="result__content-item-title">
-                <h6>Score</h6>
-              </div>
-              <div class="result__content-item-value">
-                <h6>${score}%</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
+      const score = Math.round((correctQuestions / totalQuestions));
+
+      const scoreText = document.querySelector('.score-text');
+      scoreText.textContent = `Your Score ${correctQuestions} out of ${questions.length}`
+
+      const circularProgress = resultModal.querySelector('.circular-progress');
+      const progressValue = resultModal.querySelector('.progress-value');
+      let progressStartValue = 0;
+      let progressEndValue = (correctQuestions / totalQuestions) * 100;
+
+      let progress = setInterval(() => {
+        if (progressStartValue < 100 && progressEndValue < 100 && progressStartValue < progressEndValue) {
+          progressStartValue += 0.2;
+          progressValue.textContent = `${progressStartValue.toFixed(1)} %`;
+          circularProgress.style.background = `conic-gradient(#a5d7e8 ${progressStartValue * 3.6}deg, rgba(255, 255, 255, .1) 0deg)`;
+          if (progressStartValue == progressEndValue) {
+            clearInterval(progress);
+          }
+        } else {
+          progressStartValue = progressEndValue = 100;
+          clearInterval(progress);
+        }
+      }, 1);
       //! end hiển thị modal result
+
+      //! ghi lại kết quả test
+      const correctIds = Array.from(document.querySelectorAll(".question-main[data-question-status='correct']")).map(question => {
+        return question.getAttribute('data-question-id')
+      })
+      const incorrectIds = Array.from(document.querySelectorAll(".question-main[data-question-status='incorrect']")).map(question => {
+        return question.getAttribute('data-question-id')
+      })
+      commitResult({
+        certificateId: window.certificateInfo.id,
+        correctIds: correctIds,
+        incorrectIds: incorrectIds,
+        duration: (new Date() - new Date(window.timeIn)) / 1000
+      })
+      //! end ghi lại kết quả test
     })
   }
 }

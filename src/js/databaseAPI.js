@@ -27,7 +27,13 @@ export const getQuestions = ({
     tag,
     limit: parseInt(limit),
     multiQuestions
-  }, config)
+  },
+  {
+    headers: {
+      'Authorization': `Bearer ${cookieFuntions.getCookie("token")}`
+    },
+    ...config
+  })
     .then(response => {
       return response.data;
     })

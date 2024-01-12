@@ -13,7 +13,6 @@ export const checkAuth = async () => {
       endpoint: "user/info",
       method: "GET"
     });
-    console.log(data);
     if (data.statusCode == 200)
     {
       cookieFuntions.setCookie("user", JSON.stringify(data.metadata), 1);
