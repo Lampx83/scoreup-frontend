@@ -14,12 +14,15 @@
   --custom-btn-bg-color: #91d0e5;
   --custom-btn-bg-hover-color: #1d267d;
   --dark-color: #000000;
-  --p-color: #717275;
+  --p-color: #9BA4B5;
   --border-color: #a5d7e8;
   --link-hover-color: #1d267d;
   --sky-color: #DCF2F1;
   --score-color: #4abbe0;
   --score-hover: #4abae097;
+  --correct-ans: #00a63d;
+  --incorrect-ans: #a60045;
+  --light-transparent: #0000003c;
 
   --body-font-family: "Open Sans", sans-serif;
   --title-font-family: "Montserrat", sans-serif;
@@ -360,3 +363,11 @@ blockquote {
  height: 20px !important;
 }
 /*! End Quiz Prepare Phase  */
+
+/*! Start Test Prepare Phase  */
+.cer-tags {
+  width: auto;
+  background-color: transparent;
+  color: white;
+}
+/*! End Test Prepare Phase  */
