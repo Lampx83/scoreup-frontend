@@ -56,10 +56,10 @@ const certificateDetail = async () => {
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="index.html">Homepage</a>
+          <a href="${config.baseUrl}/index.html">Homepage</a>
         </li>
         <li class="breadcrumb-item">
-          <a href="index.html">${certificateInfo.category}</a>
+          <a href="${config.baseUrl}/index.html">${certificateInfo.category}</a>
         </li>
         <li class="breadcrumb-item text-white" aria-current="page">
           <a href="#">${certificateInfo.title}</a>
@@ -125,11 +125,21 @@ const certificateDetail = async () => {
   const testStartBtn = testForm.querySelector(".cont-btn");
   testStartBtn.onclick = () => {
     const tagOptions = testForm.querySelectorAll('input[type="checkbox"]:checked');
-    let url = testForm.querySelector("#testOptionForm").getAttribute("action");
-    tagOptionsArr = [...tagOptions];
+    let url = config.baseUrl + "/" + testForm.querySelector("#testOptionForm").getAttribute("action");
+    let tagOptionsArr = [...tagOptions];
     const tags = tagOptionsArr.map(item => item.defaultValue.toLowerCase().split(" ").join("_")).join(",");
     url += `?certificateId=${queryObj.id.split("_").join("")}&tags=${tags}`;
     // console.log(url);
+
+    //! check if user is logged in
+    const token = getCookie("token");
+    if (!token) {
+      const loginBtn = document.querySelector("#login-btn");
+      loginBtn.click();
+      return;
+    }
+    //! end check if user is logged in
+
     window.location.href = url;
   };
   //# end navigate popUp Test 
@@ -139,8 +149,8 @@ const certificateDetail = async () => {
   const quizStartBtn = quizForm.querySelector(".cont-btn");
   quizStartBtn.onclick = () => {
     const tagOptions = quizForm.querySelectorAll('input[type="checkbox"]:checked');
-    let url = quizForm.querySelector("#quizOptionForm").getAttribute("action");
-    tagOptionsArr = [...tagOptions];
+    let url = config.baseUrl + "/" + quizForm.querySelector("#quizOptionForm").getAttribute("action");
+    let tagOptionsArr = [...tagOptions];
     const tags = tagOptionsArr.map(item => item.defaultValue.split(" ").join("_")).join(",");
     url += `?certificateId=${queryObj.id.split("-").join("")}&tags=${tags}`;
     window.location.href = url;
