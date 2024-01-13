@@ -32,13 +32,13 @@ const certificateDetail = async () => {
     title: certificate.properties.title.title[0].plain_text,
     databaseID: certificate.properties.database_id.rich_text[0].plain_text,
     categoryID: certificate.properties.category.relation[0].id.split("-").join(""),
-    section: certificate.properties.sections_info.rich_text[0].plain_text.toLowerCase().split(";").map(item => item.split(":")[0]),
+    section: certificate.properties.sections_info.rich_text[0].plain_text.split(";").map(item => item.split(":")[0]),
     imgSrc: certificate.properties.img.files[0]?.name,
     piority: certificate.properties.piority.number,
     description: certificate.properties.description.rich_text[0].plain_text,
   };
 
-  // console.log(certificateInfo);
+  console.log(certificateInfo);
 
   const relation = await getPage(certificateInfo.categoryID);
   certificateInfo.category = relation.properties.title.title[0].plain_text;
@@ -73,8 +73,8 @@ const certificateDetail = async () => {
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#testOption">
         Full Test
       </button>
-      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption">
-        Short Quiz
+      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption" disabled>
+        Short Quiz (Coming Soon)
       </button>
       <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
     </div>
@@ -107,24 +107,13 @@ const certificateDetail = async () => {
 
   //# render popUp Test
   const tagsOption = document.querySelector(".tags-option");
-  certificateInfo.section.forEach((item, idx) => {
-    if (idx == 0) {
-      const option = document.createElement("div");
-      option.classList.add("form-check");
-      option.innerHTML = `
-        <input class="form-check-input" type="checkbox" value="${item}" checked>
-        <label class="form-check-label text-white">
-          ${item}
-        </label>
-      `
-      tagsOption.appendChild(option);
-    }
+  certificateInfo.section.forEach(item => {
     const option = document.createElement("div");
     option.classList.add("form-check");
     option.innerHTML = `
       <input class="form-check-input" type="checkbox" value="${item}">
       <label class="form-check-label text-white">
-        ${item}
+        ${item.split("-")[0]}
       </label>
     `
     tagsOption.appendChild(option);
@@ -138,11 +127,10 @@ const certificateDetail = async () => {
     const tagOptions = testForm.querySelectorAll('input[type="checkbox"]:checked');
     let url = testForm.querySelector("#testOptionForm").getAttribute("action");
     tagOptionsArr = [...tagOptions];
-    const tags = tagOptionsArr.map(item => item.defaultValue.split(" ").join("_")).join(",");
-    url += `?certificateID=${queryObj.id}&tags=${tags}`;
-    console.log(url);
-
-    // window.location.href = url;
+    const tags = tagOptionsArr.map(item => item.defaultValue.toLowerCase().split(" ").join("_")).join(",");
+    url += `?certificateId=${queryObj.id.split("_").join("")}&tags=${tags}`;
+    // console.log(url);
+    window.location.href = url;
   };
   //# end navigate popUp Test 
 
@@ -154,7 +142,7 @@ const certificateDetail = async () => {
     let url = quizForm.querySelector("#quizOptionForm").getAttribute("action");
     tagOptionsArr = [...tagOptions];
     const tags = tagOptionsArr.map(item => item.defaultValue.split(" ").join("_")).join(",");
-    url += `?certificateID=${queryObj.id}&tags=${tags}`;
+    url += `?certificateId=${queryObj.id.split("-").join("")}&tags=${tags}`;
     window.location.href = url;
   };
   //# End navigate popUp Quiz
