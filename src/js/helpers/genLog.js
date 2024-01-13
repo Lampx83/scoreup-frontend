@@ -32,7 +32,7 @@ export const commitLogQuestion = ({
   logQuestion.timeIn = logQuestion.timeIn;
   logQuestion.timeOut = logQuestion.timeOut;
 
-  if (answer && logQuestion.duration > 2) {
+  if (answer && logQuestion.duration > 0.3) {
     privateRequest({
       endpoint: "questions/logQuestion",
       body: logQuestion,
