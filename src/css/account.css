@@ -1,0 +1,207 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+}
+
+body{
+    display: flex;
+    background:#fff;
+    width: auto;;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+
+/* ===== Sidebar ===== */
+.sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    height: 100%;
+    padding: 0 1.7rem;
+    color: #fff;
+    overflow: hidden;
+    background: #0C134F
+}
+
+@media (max-width: 1000px){
+    .sidebar{
+        width: 100px;
+    }
+    .logout{
+        visibility: hidden;
+    }
+}
+.logo{
+    height: 80px;
+    padding: 16px;
+}
+
+.menu{
+    height: 88%;
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin-top: 20%;
+}
+
+.menu li{
+    padding: 1.5rem 1rem;
+    margin: 8px 0;
+    border-radius: 8px;
+}
+
+.menu a:hover, .active{
+    color: #fff;
+    font-weight: bold;
+}
+
+.menu a{
+    color: #91D0E5;
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.menu a span{
+    overflow: hidden;
+}
+
+.menu a i{
+    font-size: 1.2rem;
+}
+
+.logout div{
+    display: flex;
+    border-radius: 40px;
+    background-color: #91D0E5;
+    justify-content: center;
+    align-items: center;
+    color:#0C134f;
+    position: absolute;
+    bottom: 13%;
+    height: 50px;
+    width: 90%;
+    font-weight: bold;
+}
+
+.logout div:hover{
+    color: white;
+    background-color: #E96300;
+    transition: all 0.3s;
+}
+
+.logout span{
+    padding-left: 1.5rem;
+}
+
+.goback{
+    position: absolute;
+    top: 5%;
+    color:#fff;
+    font-size: 1.2rem;
+}
+
+/* ===== Main content ===== */
+
+.main{
+    margin-top: 60px;
+    margin-left: 300px;
+    margin-bottom: 50px;
+    width: 50%;
+    position: relative;
+}
+
+h3{
+    margin-top: 3rem;
+    margin-bottom: 10px;
+}
+
+.personal-info, .password {
+    margin-left: 100px;
+}
+
+.personal-info, .password div {
+    text-align: right;
+}
+
+input{
+    position: relative;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    height: 40px;
+    border: 1px solid #e5e5e5;
+    outline-color: #e5e5e5;
+    margin: 6px 0;
+    margin-left: 40px;
+    box-sizing: border-box;
+    padding: 5px 20px;
+    color: #1C1C1C;
+}
+
+.personal-info input{
+    width: 350px;
+}
+
+.password input{
+    width: 300px;
+}
+
+
+.delete{
+    position: relative;
+    background:url(../img/svg/delete.svg) no-repeat right;
+    padding-right: 20px;
+    background-size: 20px;
+
+}
+
+input[type="checkbox"]{
+    width: auto;
+    padding: auto;
+    display: column;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.cancel{
+    display: block;
+}
+
+/* ===== User's Avatar ===== */
+.avatar{
+    border: 2px solid #0C134F;
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    vertical-align: middle;
+    position: absolute;
+    top:0;
+    right:0;
+}
+
+/* ===== Cancel/Save button ===== */
+.cancel, .save{
+    margin-top: 100px;
+    margin-right: 10px;
+    display: inline-block;
+    border: 1px solid #0C134F;
+    padding: 10px 20px;
+    border-radius: 20px;
+    width: 120px;
+    text-align: center;
+}
+
+.cancel:hover,.save:hover{
+    color: #fff;
+    background: #0C134F;
+    transition: 0.3s;
+}
