@@ -4,6 +4,12 @@ import config from "../config.js";
 const searchFunction = async () => {
   const data = await getDatabase("4949e95213e94820934b6c8b3400df97", {
     sorts: [{ property: "piority", direction: "ascending" }],
+    filter: {
+      property: "active",
+      checkbox: {
+        equals: true,
+      },
+    },
   });
 
   const availableKeys = data.map((item) => {

@@ -38,8 +38,6 @@ const certificateDetail = async () => {
     description: certificate.properties.description.rich_text[0].plain_text,
   };
 
-  console.log(certificateInfo);
-
   const relation = await getPage(certificateInfo.categoryID);
   certificateInfo.category = relation.properties.title.title[0].plain_text;
   //?get certificateInfo
