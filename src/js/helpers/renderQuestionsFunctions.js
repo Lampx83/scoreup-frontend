@@ -1,3 +1,4 @@
+import config from "../config";
 import { initLogQuestion, commitLogQuestion, commitResult } from "./genLog";
 
 //! show question func
@@ -148,12 +149,12 @@ const renderSingleQuestion = (index, question) => {
   questionContainer.setAttribute('data-question-id', question._id)
 
   //! tạo div audio
-  if (question.properties.audio.files[0]?.file.url) {
+  if (question.properties.audio.rich_text[0]?.plain_text) {
     const questionContainerAudio = document.createElement('div')
     questionContainerAudio.classList.add('question-container__audio')
     questionContainerAudio.innerHTML = `
       <audio controls>
-        <source src="${question.properties.audio.files[0].file.url}" type="audio/mpeg">
+        <source src="${config.mediaUrl + question.properties.audio.rich_text[0]?.plain_text}" type="audio/mpeg">
         Your browser does not support the audio element.
       </audio>
     `
@@ -189,7 +190,7 @@ const renderSingleQuestion = (index, question) => {
       <strong>Question ${index}:</strong> ${question.properties.question.rich_text[0].plain_text}
     </h6>
     <div class="question-main__img">
-      <img src="${question.properties.img.files[0]?.file.url}" alt="">
+      <img src="${config.mediaUrl + question.properties.img.rich_text[0]?.plain_text}" alt="">
     </div>
   `
   questionMain.appendChild(questionMainContent)
@@ -252,12 +253,12 @@ const renderMultiQuestions = (count = 0, questions) => {
   let questionIds = [];
   let questionIndex = [];
   //! tạo div audio
-  if (questions[0].properties.audio.files[0]?.file.url) {
+  if (questions[0].properties.audio.rich_text[0]?.plain_text) {
     const questionContainerAudio = document.createElement('div')
     questionContainerAudio.classList.add('question-container__audio')
     questionContainerAudio.innerHTML = `
       <audio controls>
-        <source src="${questions[0].properties.audio.files[0].file.url}" type="audio/mpeg">
+        <source src="${config.mediaUrl + questions[0].properties.audio.rich_text[0]?.plain_text}" type="audio/mpeg">
         Your browser does not support the audio element.
       </audio>
     `
@@ -267,6 +268,7 @@ const renderMultiQuestions = (count = 0, questions) => {
 
   //! tạo div question context
   if (questions[0].properties.context.rich_text?.length > 0) {
+    questions[0].properties.context.rich_text[0].plain_text = questions[0].properties.context.rich_text[0].plain_text.replaceAll("src='", "src='" + config.mediaUrl)
     const questionContainerContext = document.createElement('div')
     questionContainerContext.classList.add('question-container__context')
     questionContainerContext.innerHTML = `
@@ -312,7 +314,7 @@ const renderMultiQuestions = (count = 0, questions) => {
         <strong>Question ${count}:</strong> ${question.properties.question.rich_text[0].plain_text}
       </h6>
       <div class="question-main__img">
-        <img src="${question.properties.img.files[0]?.file.url}" alt="">
+        <img src="${config.mediaUrl + question.properties.img.rich_text[0]?.plain_text}" alt="">
       </div>
     `
     questionMain.appendChild(questionMainContent)
