@@ -306,6 +306,9 @@ button {
 .question-container__context p {
   font-size: 16px !important;
 }
+.question-container__context img {
+  max-width: 100%;
+}
 
 /* .question-main-container {
   max-height: 35vh;

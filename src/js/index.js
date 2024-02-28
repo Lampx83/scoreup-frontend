@@ -14,7 +14,13 @@ const initRecommendedCertificates = async () => {
         property: "piority",
         direction: "ascending",
       }
-    ]
+    ],
+    "filter": {
+      "property": "active",
+      "checkbox": {
+          "equals": true
+      }
+    }
   })
 
   const recommendedLoading = document.querySelectorAll(".recommended-loading");
@@ -97,7 +103,13 @@ const initCategories = async () => {
         property: "piority",
         direction: "ascending",
       }
-    ]
+    ],
+    "filter": {
+      "property": "active",
+      "checkbox": {
+          "equals": true
+      }
+    }
   })
   const categories = await Promise.all(data.map(async item => {
     const category = {
@@ -107,6 +119,9 @@ const initCategories = async () => {
     
     const certificates = item.properties.certificates.relation.map(async item => {
       const certificate = await getPage(item.id);
+      if (certificate.properties.active.checkbox !== true) {
+        return null; // Skip this certificate
+      }
       return {
         id: certificate.id,
         title: certificate.properties.title.title[0].plain_text,
@@ -115,7 +130,7 @@ const initCategories = async () => {
         attempts: certificate.properties?.attempts,
       };
     });
-    category.certificates = await Promise.all(certificates);
+    category.certificates = (await Promise.all(certificates)).filter(certificate => certificate !== null);
     return category;
   }))
 

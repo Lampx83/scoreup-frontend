@@ -155,7 +155,13 @@ const createTopNav = (idPage = "") => {
               property: "piority",
               direction: "ascending",
             }
-          ]
+          ],
+          "filter": {
+            "property": "active",
+            "checkbox": {
+                "equals": true
+            }
+          }
         })
           .then(data => {
             const categorise = data.map(item => {

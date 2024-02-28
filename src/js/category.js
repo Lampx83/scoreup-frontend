@@ -29,8 +29,11 @@ const initGetCertificatesByCategoryId = async () => {
   const certificateIds = data.properties.certificates.relation.map(item => item.id);
   const certificates = await Promise.all(certificateIds.map(async (id) => {
     const certificate = await getPage(id);
+    if (certificate.properties.active.checkbox !== true) {
+      return null;
+    }
     return certificate;
-  }));
+  })).then((certificates) => certificates.filter((certificate) => certificate !== null));
 
   const certificateLoading = document.querySelector("#certificate-loading");
   certificateLoading.remove();
