@@ -10,7 +10,7 @@ createFooter();
 const initGetCertificatesByCategoryId = async () => {
   const queryArr = window.location.search.substring(1).split("&");
   if (queryArr[0] === "") {
-    window.location.href = config.baseUrl + "index.html";
+    window.location.href = config.baseUrl + "/index.html";
   }
   const queryObj = {};
   queryArr.forEach((query) => {
@@ -63,7 +63,7 @@ const initGetCertificatesByCategoryId = async () => {
                 ${certificate.properties.description.rich_text[0]?.plain_text?.split(" ").slice(0, 20).join(" ")}...
               </p>
 
-              <a href="${config.baseUrl}certificate.html?id=${certificate.id}" class="btn custom-btn mt-3 mt-lg-4">Learn More</a>
+              <a href="${config.baseUrl}/certificate.html?id=${certificate.id}" class="btn custom-btn mt-3 mt-lg-4">Learn More</a>
             </div>
 
             <span class="badge bg-design feature-box__rounded-pill feature-box__enroll-count ms-auto">999</span>

@@ -373,9 +373,11 @@ const renderMultiQuestions = (count = 0, questions) => {
   //! chú thích các câu hỏi có trong set
   const questionContainerNote = document.createElement('div')
   questionContainerNote.classList.add('question-container__note')
-  questionContainerNote.innerHTML = `
-    <p>Questions ${questionIndex[0] + " to " + questionIndex[questionIndex.length - 1]}</p>
-  `
+  if (questionIndex.length > 1) {
+    questionContainerNote.innerHTML = `
+      <p>Questions ${questionIndex[0] + " to " + questionIndex[questionIndex.length - 1]}</p>
+    `
+  }
   questionContainer.appendChild(questionContainerNote)
   //! end chú thích các câu hỏi có trong set
 
