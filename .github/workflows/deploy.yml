@@ -1,0 +1,47 @@
+name: Deploy front-end ScoreUp to server
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      HOST: "101.96.66.219"
+      USERNAME: "duyviet2101"
+      PASSWORD: "21012004Viet"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Install dependencies
+        run: npm install
+
+      - name: Add baseUrl for config.js
+        run: |
+          sed -i 's/baseUrl: '',/baseUrl: \'/exam\',/' src/js/config.js
+        
+      - name: Build
+        run: npm run build
+    
+      - name: Check if build succeeded
+        run: |
+          if [ -d "dist" ]; then
+            echo "Build successful!"
+          else
+            echo "Build failed!"
+            exit 1
+          fi
+
+      - name: copy to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ env.HOST }}
+          username: ${{ env.USERNAME }}
+          password: ${{ env.PASSWORD }}
+          source: ./dist/*
+          target: /var/www/html/score-up
