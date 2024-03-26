@@ -1,5 +1,5 @@
 <template>
-    <div>Hello123 {{ name }}!</div>
+    <div>Hello new {{ name }}!</div>
   </template>
   
   <script>
