@@ -48,5 +48,7 @@ jobs:
           host: ${{ env.HOST }}
           username: ${{ env.USERNAME }}
           password: ${{ env.PASSWORD }}
-          source: "dist/*"
+          source: "dist/"
           target: /var/www/html/score-up
+          strip_components: 1
+          rm: true
