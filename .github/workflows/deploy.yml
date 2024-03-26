@@ -1,0 +1,7 @@
+name: Deploy front-end ScoreUp to server
+
+on:
+  pull_request:
+    types: closed
+
+jobs:
