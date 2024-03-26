@@ -23,7 +23,7 @@ jobs:
 
       - name: Add baseUrl for config.js
         run: |
-          sed -i 's/baseUrl: '',/baseUrl: \'/exam\',/' src/js/config.js
+            sed -i 's/baseUrl: '\'''\''/baseUrl: '\''\/exam'\''/' src/js/config.js
         
       - name: Build
         run: npm run build
