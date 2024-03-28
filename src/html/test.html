@@ -21,7 +21,7 @@
         </div>
         <div class="timer__time">00:00:00</div>
       </div>
-      <button type="submit" form="test-form" class="btn btn-danger btn-finish" data-bs-toggle="modal" data-bs-target="#result-modal">
+      <button type="submit" id="submit-btn" form="test-form" class="btn btn-danger btn-finish" data-bs-toggle="modal" data-bs-target="#result-modal">
         Finish
       </button>
     </div>
@@ -110,8 +110,98 @@
     
           <div class="buttons d-flex">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Review</button>
-            <button type="button" class="tryAgain-btn" onclick="window.location.reload()">Try Again</button>
-            <button type="button" class="goHome-btn" onclick="window.history.back()">Go to Home</button>
+            <button type="button" class="tryAgain-btn" action="reload">Try Again</button>
+            <button type="button" class="goBack-btn" action="back">Go back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="askForInfoBtn" class="btn btn-danger btn-finish" data-bs-toggle="modal" data-bs-target="#askForInfoModal">
+    </button>
+    <div class="modal fade" id="askForInfoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="signupModalTitle" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 mx-auto" id="askForInfoTitle">Tell us more about yourself...</h1>
+            <button type="button" class="btn-close mx-0 position-absolute end-0 mx-3" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="askForInfo-form">
+              <div class="mb-3">
+                <label for="genderInput">Gender</label>
+                <div class="input-group flex-nowrap">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <img src="../imgs/icons/person-half-dress-solid.svg" style="width: 25px; height: 25px">
+                  </span>
+                  <select class="form-select" id="genderInput" name="gender" required>
+                    <option value="">You are ...</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="none">Others</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="birthInput" class="form-label">Birth</label>
+                <div class="input-group flex-nowrap">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <img src="../imgs/icons/calendar.svg" alt="" style="width: 25px; height: 25px">
+                  </span>
+                  <input name="birth" type="date" id="birthInput" class="form-control" aria-label="Birth" aria-describedby="addon-wrapping" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="occupationInput" class="form-label">Occupation</label>
+                <div class="input-group flex-nowrap">
+                  <span class="input-group-text" id="addon-wrapping">
+                    <img src="../imgs/icons/occupation.svg" alt="" style="width: 25px; height: 25px">
+                  </span>
+                  <select class="form-select" id="occupationInput" name="occupation" required>
+                    <option value="">Select your occupation</option>
+                    <option value="student">Student</option>
+                    <option value="developer">Developer</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="engineer">Engineer</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label>What topics are you interested in?</label>
+                <div class="topics">
+                  <div class="input-group mb-3">
+                    <div class="input-group-text">
+                      <input name="topics" id="Language" class="form-check-input mt-0" type="checkbox" value="Language" aria-label="Checkbox for following text input">
+                    </div>
+                    <label for="Language" class="form-control">Language</label>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-text">
+                      <input name="topics" id="Business" class="form-check-input mt-0" type="checkbox" value="Business" aria-label="Checkbox for following text input">
+                    </div>
+                    <label for="Business" class="form-control">Business</label>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-text">
+                      <input name="topics" id="Medical" class="form-check-input mt-0" type="checkbox" value="Medical" aria-label="Checkbox for following text input">
+                    </div>
+                    <label for="Medical" class="form-control">Medical</label>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-text">
+                      <input name="topics" id="College and Graduate Programs" class="form-check-input mt-0" type="checkbox" value="College and Graduate Programs" aria-label="Checkbox for following text input">
+                    </div>
+                    <label for="College and Graduate Programs" class="form-control">College and Graduate Programs</label>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer mx-auto">
+            <button type="submit" form="askForInfo-form" class="btn btn-primary" id="btnSubmitInfo">Submit</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           </div>
         </div>
       </div>
