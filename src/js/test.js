@@ -1,8 +1,10 @@
 import {
   getDatabase,
   getPage,
-  getQuestions
+  getQuestions,
+  privateRequest
 } from './databaseAPI.js';
+import {getCookie} from './helpers/cookieFunctions.js';
 
 import * as renderQuestionsFuntions from "./helpers/renderQuestionsFunctions.js";
 import { initTimerCount, initTimerCountdown } from './helpers/timerCounts.js';
@@ -24,7 +26,7 @@ const init = async () => {
   if (queryObject.tags && queryObject.tags.length > 0){
     queryObject.tags = queryObject.tags.split(",");
   }
-  console.log(queryObject);
+  // console.log(queryObject);
   
   //? lấy thông tin certificate
   const certificateInfo = await getPage(queryObject.certificateId);
@@ -136,3 +138,68 @@ const init = async () => {
 
 checkAuth();
 init();
+
+//! ask for infor
+const askForInfo = (button) => {
+  const isAsked = (JSON.parse(getCookie("user"))).askedForInfo;
+  if (!isAsked) {
+    const askForInfoBtn = document.querySelector("#askForInfoBtn");
+    askForInfoBtn.click();
+
+    const askForInfoForm = document.querySelector("#askForInfo-form");
+    askForInfoForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const gender = document.querySelector("#genderInput").value;
+      const birth = document.querySelector("#birthInput").value;
+      const occupation = document.querySelector("#occupationInput").value;
+      const topics = [...document.querySelectorAll("input[name='topics']")].filter(item => item.checked).map(item => item.value);
+
+      const response = await privateRequest({
+        endpoint: "user/edit",
+        method: "PATCH",
+        body: {
+          gender,
+          birth,
+          occupation,
+          topicsInterested: topics,
+          askedForInfo: true
+        }
+      });
+
+      if (response.statusCode === 200) {
+        alert("Update successed!");
+        checkAuth();
+      } else {
+        alert("Update failed!");
+      }
+
+      const actionButton = button.getAttribute("action");
+      if (actionButton === "reload") {
+        window.location.reload();
+      } else if (actionButton === "back") {
+        window.history.back();
+      }
+    });
+  }
+  else 
+  {
+    return false;
+  }
+}
+
+const tryAgainBtn = document.querySelector(".tryAgain-btn");
+tryAgainBtn.addEventListener("click", async () => {
+  if (!askForInfo(tryAgainBtn)) {
+    window.location.reload();
+  };
+});
+
+const goBackBtn = document.querySelector(".goBack-btn");
+goBackBtn.addEventListener("click", async () => {
+  if (!askForInfo(goBackBtn)) {
+    window.history.back();
+  };
+});
+
+//! end ask for infor

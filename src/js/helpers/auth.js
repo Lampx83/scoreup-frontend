@@ -15,13 +15,14 @@ export const checkAuth = async () => {
     });
     if (data.statusCode == 200)
     {
+      cookieFuntions.setCookie("user", "", -1);
       cookieFuntions.setCookie("user", JSON.stringify(data.metadata), 1);
     }
     else
     {
-      cookieFuntions.setCookie("token", "", 1);
-      cookieFuntions.setCookie("user", "", 1);
-      window.location.href = "login.html";
+      cookieFuntions.setCookie("token", "", -1);
+      cookieFuntions.setCookie("user", "", -1);
+      window.location.href = "index.html";
     }
   }
 }

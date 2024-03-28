@@ -165,13 +165,22 @@
       </div>
       <div class="modal-body">
         <form id="sign-up-form">
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="fullNameSignUp" class="form-label">Full name</label>
             <div class="input-group flex-nowrap">
               <span class="input-group-text" id="addon-wrapping">
                 <img src="../imgs/icons/user-dark.svg" alt="" style="width: 25px;">
               </span>
               <input type="text" id="fullNameSignUp" class="form-control" aria-label="fullname" aria-describedby="addon-wrapping" required>
+            </div>
+          </div> -->
+          <div class="mb-3">
+            <label for="usernameSignUp" class="form-label">Username</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/username.svg" alt="" style="width: 25px;">
+              </span>
+              <input type="text" id="usernameSignUp" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" required>
             </div>
           </div>
           <div class="mb-3">
@@ -183,15 +192,38 @@
               <input type="email" id="emailSignUp" name="email" class="form-control" aria-label="email" aria-describedby="addon-wrapping" required>
             </div>
           </div>
-          <div class="mb-3">
-            <label for="usernameSignUp" class="form-label">Username</label>
+          <!-- <div class="mb-3">
+            <label for="genderSignUp">Gender</label>
             <div class="input-group flex-nowrap">
               <span class="input-group-text" id="addon-wrapping">
-                <img src="../imgs/icons/username.svg" alt="" style="width: 25px;">
+                <img src="../imgs/icons/person-half-dress-solid.svg" style="width: 25px; height: 25px">
               </span>
-              <input type="text" id="usernameSignUp" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" required>
+              <select class="form-select" id="genderSignUp" name="gender" required>
+                <option value="">You are ...</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="none">Others</option>
+              </select>
             </div>
           </div>
+          <div class="mb-3">
+            <label for="birthSignUp" class="form-label">Birth</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/calendar.svg" alt="" style="width: 25px; height: 25px">
+              </span>
+              <input name="birth" type="date" id="birthSignUp" class="form-control" aria-label="Birth" aria-describedby="addon-wrapping" required>
+            </div>
+          </div>
+           <div class="mb-3">
+            <label for="occupationSignUp" class="form-label">Occupation</label>
+            <div class="input-group flex-nowrap">
+              <span class="input-group-text" id="addon-wrapping">
+                <img src="../imgs/icons/occupation.svg" alt="" style="width: 25px; height: 25px">
+              </span>
+              <input name="occupation" type="text" id="occupationSignUp" class="form-control" aria-label="Occupation" aria-describedby="addon-wrapping" required>
+            </div>
+          </div> -->
           <div class="mb-3">
             <label for="passwordSignUp" class="form-label">Password</label>
             <div class="input-group flex-nowrap">

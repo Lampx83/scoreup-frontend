@@ -457,6 +457,12 @@ export const initFormLogic = (max_score = 100) => {
   {
     testForm.addEventListener("submit", (e) => {
       e.preventDefault();
+
+      //! cancel submit btn
+      const submitBtn = document.querySelector("#submit-btn");
+      submitBtn.type = "button";
+      //!end cancel submit btn
+
       const optionsContainers = testForm.querySelectorAll(".question-main__options")
 
       const inputs = testForm.querySelectorAll("input");

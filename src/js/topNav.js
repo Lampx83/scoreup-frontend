@@ -1,5 +1,6 @@
 import {getCookie, setCookie} from "./helpers/cookieFunctions.js";
 import {getDatabase, getPage} from "./databaseAPI.js";
+import { checkAuth } from "./helpers/auth.js";
 import config from './config.js';
 const apiUrl = config.apiUrl;
 
@@ -56,11 +57,12 @@ const createTopNav = (idPage = "") => {
             },
           })
             .then((response) => response.json())
-            .then((data) => {
+            .then( async (data) => {
               if (data.statusCode === 200)
               {
                 const rememberMe = document.querySelector("#remembder-me").checked;
-                setCookie("token", data.metadata.token, rememberMe ? 30 : 1);
+                setCookie("token", data.metadata.token, rememberMe ? 7 : 1);
+                await checkAuth();
                 window.location.reload();
               }
               else
@@ -78,6 +80,7 @@ const createTopNav = (idPage = "") => {
         btnLogout.addEventListener("click", (e) => {
           setCookie("token", "", -1);
           setCookie("user", "", -1);
+          setCookie("user", "", -1);
           window.location.reload();
         });
       }
@@ -93,7 +96,6 @@ const createTopNav = (idPage = "") => {
           const password = document.querySelector("#passwordSignUp").value;
           const confirmPassword = document.querySelector("#confirmPasswordSignUp").value;
           const email = document.querySelector("#emailSignUp").value;
-          const fullName = document.querySelector("#fullNameSignUp").value;
 
           const usernameRegex = /^(?!.*[\s!@#$%^&*()_+={}\[\]:;<>,.?/~`])\S+$/;
           if (!usernameRegex.test(username)) {
@@ -112,16 +114,12 @@ const createTopNav = (idPage = "") => {
             alert("Email is invalid. (not null)");
             return;
           }
-          if (!fullName) {
-            alert("Full name is invalid. (not null)");
-            return;
-          }
 
           const data = {
             username: username,
             password: password,
+            passwordConfirm: confirmPassword,
             email: email,
-            fullName: fullName,
           };
           fetch(`${apiUrl}/auth/register`, {
             method: "POST",
@@ -131,10 +129,11 @@ const createTopNav = (idPage = "") => {
             },
           })
             .then((response) => response.json())
-            .then((data) => {
+            .then(async (data) => {
               if (data.statusCode === 201)
               {
                 setCookie("token", data.metadata.token, 1);
+                await checkAuth();
                 window.location.reload();
               }
               else
