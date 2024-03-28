@@ -181,6 +181,7 @@ const askForInfo = (button) => {
         window.history.back();
       }
     });
+    return true;
   }
   else 
   {
