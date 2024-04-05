@@ -116,8 +116,12 @@ body{
     margin-top: 60px;
     margin-left: 300px;
     margin-bottom: 50px;
-    width: 50%;
+    width: 60%;
     position: relative;
+}
+
+.container{
+    margin-left: 100px;
 }
 
 h3{
@@ -126,7 +130,7 @@ h3{
 }
 
 .personal-info, .password {
-    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .personal-info, .password div {
@@ -172,10 +176,6 @@ input[type="checkbox"]{
     margin-bottom: 15px;
 }
 
-.cancel{
-    display: block;
-}
-
 /* ===== User's Avatar ===== */
 .avatar{
     border: 2px solid #0C134F;
@@ -184,11 +184,15 @@ input[type="checkbox"]{
     border-radius: 50%;
     vertical-align: middle;
     position: absolute;
-    top:0;
-    right:0;
+    top:-10px;
+    right:-50px;
 }
 
 /* ===== Cancel/Save button ===== */
+.cancel{
+    display: block;
+}
+
 .cancel, .save{
     margin-top: 100px;
     margin-right: 10px;
