@@ -49,7 +49,13 @@
           <div><h1>Account</h1></div>
 
           <!-- User's Avatar -->
-          <img src="../img/svg/head-only.png" alt="avatar" class="avatar">
+          <div class="profile-pic">
+            <div class="overlay">
+              <i class="fa-solid fa-camera" style="color: #ffffff; margin: 10px;"></i>
+            </div>
+            <img src="../img/svg/head-only.png" id="output" width="90" />
+            <input id="file" type="file" onchange="loadFile(event)"/>
+          </div>
 
           <!-- Personal Information -->
           <div><h3>Personal Information</h3></div>

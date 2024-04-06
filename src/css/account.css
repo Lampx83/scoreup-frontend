@@ -159,7 +159,6 @@ input{
     width: 300px;
 }
 
-
 .delete{
     position: relative;
     background:url(../img/svg/delete.svg) no-repeat right;
@@ -177,17 +176,50 @@ input[type="checkbox"]{
 }
 
 /* ===== User's Avatar ===== */
-.avatar{
-    border: 2px solid #0C134F;
-    height: 90px;
-    width: 90px;
-    border-radius: 50%;
-    vertical-align: middle;
-    position: absolute;
-    top:-10px;
-    right:-50px;
+.profile-pic{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.profile-pic img{
+    border: 2px solid #0C134F;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top:-5px;
+    right:-50px;
+    object-fit: cover;
+    color: transparent;
+    transition: all 0.3s ease;
+    display: inline-block;
+    align-items: center;
+}
+
+.profile-pic input {
+    display: none;
+}
+
+.profile-pic:hover>.overlay{
+    position: absolute;
+    width:100px;
+    height:100px;
+    border-radius: 50%;
+    top:-5px;
+    right:-50px;
+    background-color:#000;
+    opacity:0.5;
+    z-index: 100;
+    display: inline-block;
+    cursor: pointer;   
+}
+
+.overlay i{
+    position: absolute;
+    top: 34%;
+    left: 32%;
+}
 /* ===== Cancel/Save button ===== */
 .cancel{
     display: block;
