@@ -50,11 +50,11 @@
 
           <!-- User's Avatar -->
           <div class="profile-pic">
-            <div class="overlay">
+            <label for="upload" class="overlay">
               <i class="fa-solid fa-camera" style="color: #ffffff; margin: 10px;"></i>
-            </div>
-            <img src="../img/svg/head-only.png" id="output" width="90" />
-            <input id="file" type="file" onchange="loadFile(event)"/>
+            </label>
+            <img src="../img/svg/head-only.png" id="chosen-image" width="90" />
+            <input id="upload" type="file" accept="image/*" onchange="loadFile(event)"/>
           </div>
 
           <!-- Personal Information -->
@@ -102,6 +102,6 @@
             <a href=""><div class="save">Save</div></a>
           </div>
     </form>
-        
+    <script src="../js/avatar.js"></script>
   </body>
 </html>
