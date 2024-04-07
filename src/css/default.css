@@ -410,3 +410,21 @@ strong {
   font-size: var(--copyright-font-size);
 }
 /*! END FOOTER  */
+
+/*! highlighter */
+.highlight-green {
+  background-color: #d4edda;
+}
+.highlight-red {
+  background-color: #f8d7da;
+}
+.editor a {
+  display: inline;
+  text-decoration: underline;
+  background-color: #dad7f8;
+  color: var(--dark-color);
+}
+.editor:focus {
+  outline: none;
+}
+/*! end highlighter */
