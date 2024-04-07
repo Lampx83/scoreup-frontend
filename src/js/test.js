@@ -10,6 +10,7 @@ import * as renderQuestionsFuntions from "./helpers/renderQuestionsFunctions.js"
 import { initTimerCount, initTimerCountdown } from './helpers/timerCounts.js';
 import { checkAuth } from './helpers/auth.js';
 import config from './config.js';
+import { initEditor } from './helpers/medium-editor.js';
 
 const init = async () => {
   //? lấy certificateId từ url
@@ -137,7 +138,10 @@ const init = async () => {
 };
 
 checkAuth();
-init();
+init()
+  .then(() => {
+    initEditor();
+  });
 
 //! ask for infor
 const askForInfo = (button) => {

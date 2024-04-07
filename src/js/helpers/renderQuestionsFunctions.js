@@ -186,7 +186,7 @@ const renderSingleQuestion = (index, question) => {
   const questionMainContent = document.createElement('div')
   questionMainContent.classList.add('question-main__content')
   questionMainContent.innerHTML = `
-    <h6 class="question-main__title">
+    <h6 class="question-main__title editor">
       <strong>Question ${index}:</strong> ${question.properties.question.rich_text[0].plain_text}
     </h6>
     <div class="question-main__img">
@@ -198,7 +198,7 @@ const renderSingleQuestion = (index, question) => {
 
   //! tạo div options
   const questionMainOptions = document.createElement('div')
-  questionMainOptions.classList.add('question-main__options')
+  questionMainOptions.classList.add('question-main__options', 'editor')
   questionMainOptions.setAttribute('data-question-id', question._id)
   questionMainOptions.setAttribute('data-correct-option', question.properties.correct.rich_text[0].plain_text)
   let optionsHtml = [];
@@ -272,7 +272,7 @@ const renderMultiQuestions = (count = 0, questions) => {
     const questionContainerContext = document.createElement('div')
     questionContainerContext.classList.add('question-container__context')
     questionContainerContext.innerHTML = `
-      <div class="question-container__context-content">
+      <div class="question-container__context-content editor">
         ${questions[0].properties.context.rich_text[0].plain_text}
       </div>
     `
@@ -310,7 +310,7 @@ const renderMultiQuestions = (count = 0, questions) => {
     const questionMainContent = document.createElement('div')
     questionMainContent.classList.add('question-main__content')
     questionMainContent.innerHTML = `
-      <h6 class="question-main__title">
+      <h6 class="question-main__title editor">
         <strong>Question ${count}:</strong> ${question.properties.question.rich_text[0].plain_text}
       </h6>
       <div class="question-main__img">
@@ -322,7 +322,7 @@ const renderMultiQuestions = (count = 0, questions) => {
   
     //! tạo div options
     const questionMainOptions = document.createElement('div')
-    questionMainOptions.classList.add('question-main__options')
+    questionMainOptions.classList.add('question-main__options', 'editor');
     questionMainOptions.setAttribute('data-question-id', question._id)
     questionMainOptions.setAttribute('data-correct-option', question.properties.correct.rich_text[0].plain_text)
     let optionsHtml = [];
@@ -463,7 +463,7 @@ export const initFormLogic = (max_score = 100) => {
       submitBtn.type = "button";
       //!end cancel submit btn
 
-      const optionsContainers = testForm.querySelectorAll(".question-main__options")
+      const optionsContainers = testForm.querySelectorAll(".question-main__options");
 
       const inputs = testForm.querySelectorAll("input");
       inputs.forEach((input) => {
