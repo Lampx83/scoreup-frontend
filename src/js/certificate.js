@@ -69,6 +69,9 @@ const certificateDetail = async () => {
 
     <div class="d-flex align-items-center mt-4">  
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#testOption">
+        Practice Test
+      </button>
+      <button type="button" class="btn custom-btn" onclick="window.location.href='/test.html?certificateId=${queryObj.id}'">
         Full Test
       </button>
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption" disabled>
@@ -126,7 +129,7 @@ const certificateDetail = async () => {
     let url = config.baseUrl + "/" + testForm.querySelector("#testOptionForm").getAttribute("action");
     let tagOptionsArr = [...tagOptions];
     const tags = tagOptionsArr.map(item => item.defaultValue.toLowerCase().split(" ").join("_")).join(",");
-    url += `?certificateId=${queryObj.id.split("_").join("")}&tags=${tags}`;
+    url += `?certificateId=${queryObj.id.split("_").join("")}&tags=${tags}&mode=practice`;
     // console.log(url);
 
     //! check if user is logged in
