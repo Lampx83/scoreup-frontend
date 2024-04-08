@@ -250,6 +250,8 @@ const init = async () => {
           userScore += 1;
           headerScoreUpdate(userScore, setQuestions.length);
           option.classList.add("correct", "selected");
+          option.style.setProperty('color', 'var(--correct-ans)', 'important');
+          option.style.setProperty('background', 'var(--correct-ans-bg)', 'important');
           const options = document.querySelectorAll(
             `.option-list__option[data-option-id="${questionId}"`
           );
@@ -259,6 +261,8 @@ const init = async () => {
         } else {
           headerScoreUpdate(userScore, setQuestions.length);
           option.classList.add("incorrect", "selected");
+          option.style.setProperty('color', 'var(--incorrect-ans)', 'important');
+          option.style.setProperty('background', 'var(--incorrect-ans-bg)', 'important');
           correctOptionElement.classList.add("correct");
           const options = document.querySelectorAll(
             `.option-list__option[data-option-id="${questionId}"`
