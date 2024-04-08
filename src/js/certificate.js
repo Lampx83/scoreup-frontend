@@ -71,7 +71,7 @@ const certificateDetail = async () => {
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#testOption">
         Practice Test
       </button>
-      <button type="button" class="btn custom-btn" onclick="window.location.href='/test.html?certificateId=${queryObj.id}'">
+      <button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/test.html?certificateId=${queryObj.id}'">
         Full Test
       </button>
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption" >
