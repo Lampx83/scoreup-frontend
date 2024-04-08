@@ -11,9 +11,9 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
-      HOST: "101.96.66.219"
-      USERNAME: "duyviet2101"
-      PASSWORD: "21012004Viet"
+      HOST: ${{ secrets.SERVER_HOST }}
+      USERNAME: ${{ secrets.SERVER_USERNAME }}
+      PASSWORD: ${{ secrets.SERVER_PASSWORD }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

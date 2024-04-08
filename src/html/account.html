@@ -13,7 +13,7 @@
   </head>
   <body>
     <div class="sidebar">
-      <div class="logo"></div>
+      <div class="go-back"></div>
       <a href="#" class="goback">
         <i class="fa-solid fa-chevron-left"></i>
       </a>
@@ -49,7 +49,13 @@
           <div><h1>Account</h1></div>
 
           <!-- User's Avatar -->
-          <img src="../img/svg/head-only.png" alt="avatar" class="avatar">
+          <div class="profile-pic">
+            <label for="upload" class="overlay">
+              <i class="fa-solid fa-camera" style="color: #ffffff; margin: 10px;"></i>
+            </label>
+            <img src="../img/svg/head-only.png" id="chosen-image" width="90" />
+            <input id="upload" type="file" accept="image/*" onchange="loadFile(event)"/>
+          </div>
 
           <!-- Personal Information -->
           <div><h3>Personal Information</h3></div>
@@ -96,6 +102,6 @@
             <a href=""><div class="save">Save</div></a>
           </div>
     </form>
-        
+    <script src="../js/avatar.js"></script>
   </body>
 </html>

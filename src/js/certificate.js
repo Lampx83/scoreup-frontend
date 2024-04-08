@@ -18,24 +18,24 @@ const certificateDetail = async () => {
     queryObj[key] = value;
   });
 
-  // console.log(window.location.search.slice(1).split("="));
-  
   const headerSection = document.querySelector(".header-section");
   const cerInfo = document.querySelector(".certificate-info__des");
 
   //?get certificateInfo
   const certificate = await getPage(queryObj.id);
 
-  // console.log(certificate);
-
   const certificateInfo = {
-    title: certificate.properties.title.title[0].plain_text,
-    databaseID: certificate.properties.database_id.rich_text[0].plain_text,
-    categoryID: certificate.properties.category.relation[0].id.split("-").join(""),
-    section: certificate.properties.sections_info.rich_text[0].plain_text.split(";").map(item => item.split(":")[0]),
+    title: certificate.properties.title.title[0]?.plain_text,
+    databaseID: certificate.properties.database_id.rich_text[0]?.plain_text,
+    categoryID: certificate.properties.category.relation[0]?.id
+      .split("-")
+      .join(""),
+    section: certificate.properties.sections_info.rich_text[0]?.plain_text
+      .split(";")
+      .map((item) => item.split(":")[0]),
     imgSrc: certificate.properties.img.files[0]?.name,
-    piority: certificate.properties.piority.number,
-    description: certificate.properties.description.rich_text[0].plain_text,
+    piority: certificate.properties?.piority.number,
+    description: certificate.properties.description.rich_text[0]?.plain_text,
   };
 
   const relation = await getPage(certificateInfo.categoryID);
@@ -43,13 +43,13 @@ const certificateDetail = async () => {
   //?get certificateInfo
 
   const loading = document.querySelectorAll(".loading");
-  loading.forEach(loading => {
+  loading.forEach((loading) => {
     loading.remove();
-  })
+  });
 
-  //# render header 
-  const headerInfo = document.createElement('div');
-  headerInfo.classList.add('col-lg-5', 'col-12', 'mb-5');
+  //# render header
+  const headerInfo = document.createElement("div");
+  headerInfo.classList.add("col-lg-5", "col-12", "mb-5");
   headerInfo.innerHTML = `
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
@@ -74,14 +74,14 @@ const certificateDetail = async () => {
       <button type="button" class="btn custom-btn" onclick="window.location.href='/test.html?certificateId=${queryObj.id}'">
         Full Test
       </button>
-      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption" disabled>
-        Short Quiz (Coming Soon)
+      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption" >
+        Short Quiz
       </button>
       <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
     </div>
-    `
-  const headerImg = document.createElement('div');
-  headerImg.classList.add('col-lg-5', 'col-12');
+    `;
+  const headerImg = document.createElement("div");
+  headerImg.classList.add("col-lg-5", "col-12");
   headerImg.innerHTML = `
     <div class="topics-detail-block bg-white shadow-lg">
       <img
@@ -89,26 +89,26 @@ const certificateDetail = async () => {
         class="topics-detail-block-image img-fluid"
       />
     </div>
-    `
+    `;
   headerSection.appendChild(headerInfo);
   headerSection.appendChild(headerImg);
-  //# end render header 
+  //# end render header
 
-  //# render certificate detail 
-  const cerDes = document.createElement('div');
-  cerDes.classList.add('col-lg-8', 'col-12');
+  //# render certificate detail
+  const cerDes = document.createElement("div");
+  cerDes.classList.add("col-lg-8", "col-12");
   cerDes.innerHTML = `
     <div class="col-lg-8 col-12 justify-content-start">
       <h3 class="mb-4">About ${certificateInfo.title}</h3>
       <p>${certificateInfo.description}</p>
     </div>
-    `
+    `;
   cerInfo.appendChild(cerDes);
-  //# end render certificate detail 
+  //# end render certificate detail
 
   //# render popUp Test
   const tagsOption = document.querySelector(".tags-option");
-  certificateInfo.section.forEach(item => {
+  certificateInfo.section.forEach((item) => {
     const option = document.createElement("div");
     option.classList.add("form-check");
     option.innerHTML = `
@@ -116,21 +116,28 @@ const certificateDetail = async () => {
       <label class="form-check-label text-white">
         ${item.split("-")[0]}
       </label>
-    `
+    `;
     tagsOption.appendChild(option);
-  })
-  //# render popUp Test 
+  });
+  //# render popUp Test
 
-  //# navigate popUp Test 
+  //# navigate popUp Test
   const testForm = document.querySelector("#testOption");
   const testStartBtn = testForm.querySelector(".cont-btn");
   testStartBtn.onclick = () => {
-    const tagOptions = testForm.querySelectorAll('input[type="checkbox"]:checked');
-    let url = config.baseUrl + "/" + testForm.querySelector("#testOptionForm").getAttribute("action");
+    const tagOptions = testForm.querySelectorAll(
+      'input[type="checkbox"]:checked'
+    );
+    let url =
+      config.baseUrl +
+      "/" +
+      testForm.querySelector("#testOptionForm").getAttribute("action");
     let tagOptionsArr = [...tagOptions];
-    const tags = tagOptionsArr.map(item => item.defaultValue.toLowerCase().split(" ").join("_")).join(",");
+
+    const tags = tagOptionsArr
+      .map((item) => item.defaultValue.toLowerCase().split(" ").join("_"))
+      .join(",");
     url += `?certificateId=${queryObj.id.split("_").join("")}&tags=${tags}&mode=practice`;
-    // console.log(url);
 
     //! check if user is logged in
     const token = getCookie("token");
@@ -143,33 +150,69 @@ const certificateDetail = async () => {
 
     window.location.href = url;
   };
-  //# end navigate popUp Test 
+  //# end navigate popUp Test
+
+  const quizForm = document.querySelector("#quizOption");
+  //# render popUp Quiz
+  const tagsOptionQuiz = document.querySelector("#quizOptionForm");
+  certificateInfo.section.forEach((item) => {
+    const option = document.createElement("div");
+    option.classList.add("form-check");
+    option.innerHTML = `
+      <input class="form-check-input" type="checkbox" value="${item}">
+      <label class="form-check-label text-white">
+        ${item.split("-")[0]}
+      </label>
+    `;
+    tagsOptionQuiz.appendChild(option);
+  });
+  const quizOptions = quizForm.querySelectorAll(
+    '.form-check-input[type="checkbox"]'
+  );
+  quizOptions.forEach((option) => {
+    option.onclick = (event) => {
+      if (event.target.checked) {
+        quizOptions.forEach((cb) => {
+          if (cb !== event.target) {
+            cb.disabled = true;
+          }
+        });
+      } else {
+        // Enable all checkboxes when this checkbox is unchecked
+        quizOptions.forEach((cb) => {
+          cb.disabled = false;
+        });
+      }
+    };
+  });
+  //# render popUp Quiz
 
   //# navigate popUp Quiz
-  const quizForm = document.querySelector("#quizOption");
   const quizStartBtn = quizForm.querySelector(".cont-btn");
   quizStartBtn.onclick = () => {
-    const tagOptions = quizForm.querySelectorAll('input[type="checkbox"]:checked');
+    const limitQs = quizForm.querySelector('input[type="number"]').value;
+    const tagOptions = quizForm.querySelectorAll(
+      'input[type="checkbox"]:checked'
+    );
     let url = config.baseUrl + "/" + quizForm.querySelector("#quizOptionForm").getAttribute("action");
     let tagOptionsArr = [...tagOptions];
-    const tags = tagOptionsArr.map(item => item.defaultValue.split(" ").join("_")).join(",");
-    url += `?certificateId=${queryObj.id.split("-").join("")}&tags=${tags}`;
+    const tags = tagOptionsArr.map((item) => item.defaultValue.toLowerCase().split(" ").join("_")).join(",");
+
+    url += `?certificateId=${queryObj.id.split("-").join("")}&tags=${tags}&limit=${limitQs}`;
     window.location.href = url;
   };
   //# End navigate popUp Quiz
-
 };
 
 certificateDetail();
 //! end get detailed certificates
 
-
-//! popup quiz option 
+//! popup quiz option
 const quizNum = document.querySelector('.quiz-prep__form input[type="number"]');
-quizNum.addEventListener('input', () => {
+quizNum.addEventListener("input", () => {
   let val = parseInt(quizNum.value);
   if (isNaN(val) || val < 1) val = 1;
   else if (val > 99) val = 99;
   quizNum.value = val;
-})
-//! popup quiz option 
+});
+//! popup quiz option
