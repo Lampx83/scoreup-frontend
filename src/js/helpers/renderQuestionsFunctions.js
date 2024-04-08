@@ -143,7 +143,7 @@ export const initPaletteHTML = (sectionTitle, sectionQuestions, count = 0) => {
   //! end tạo palette chứa các câu hỏi
 }
 
-const renderSingleQuestion = (index, question) => {
+const renderSingleQuestion = (index, question, mode) => {
   const questionContainer = document.createElement('div')
   questionContainer.classList.add('question-container')
   questionContainer.setAttribute('data-question-id', question._id)
@@ -175,9 +175,12 @@ const renderSingleQuestion = (index, question) => {
   //! tạo button hint
   const questionHint = document.createElement('div')
   questionHint.classList.add('question-hint', 'btn', 'btn-primary', 'btn-hint')
+  if (!(mode == "practice")) {
+    questionHint.classList.add('d-none');
+  };
   questionHint.setAttribute('data-bs-toggle', 'modal')
   questionHint.setAttribute('data-bs-target', '#hint-modal')
-  questionHint.innerHTML = `<i class="fa-solid fa-lightbulb"></i> Hint`
+  questionHint.innerHTML = `<i class="fa-solid fa-lightbulb"></i> Key`
   questionMain.appendChild(questionHint)
   //! end tạo button hint
 
@@ -247,7 +250,7 @@ const renderSingleQuestion = (index, question) => {
   return questionContainer
 }
 
-const renderMultiQuestions = (count = 0, questions) => {
+const renderMultiQuestions = (count = 0, questions, mode) => {
   const questionContainer = document.createElement('div')
   questionContainer.classList.add('question-container')
   let questionIds = [];
@@ -300,9 +303,12 @@ const renderMultiQuestions = (count = 0, questions) => {
     //! tạo button hint
     const questionHint = document.createElement('div')
     questionHint.classList.add('question-hint', 'btn', 'btn-primary', 'btn-hint')
+    if (!(mode == "practice")) {
+      questionHint.classList.add('d-none');
+    };
     questionHint.setAttribute('data-bs-toggle', 'modal')
     questionHint.setAttribute('data-bs-target', '#hint-modal')
-    questionHint.innerHTML = `<i class="fa-solid fa-lightbulb"></i> Hint`
+    questionHint.innerHTML = `<i class="fa-solid fa-lightbulb"></i> Key`
     questionMain.appendChild(questionHint)
     //! end tạo button hint
   
@@ -411,6 +417,14 @@ export const navigateQuestion = () => {
         showQuestion(nextQuestionId)
       }
     })
+
+    const btnFlag = btnNav.querySelector('.flag');
+    btnFlag.addEventListener('click', () => {
+      const currentQuestion = document.querySelector('.question-container.show').querySelector('.question-main.show')
+      const currentQuestionId = currentQuestion.getAttribute('data-question-id')
+      const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${currentQuestionId}"]`);
+      questionPaletteItem.classList.toggle('question-palette__item--flagged')
+    })
   }
 }
 //! end navigation question
@@ -431,20 +445,20 @@ export const showHint = () => {
 }
 //! end show hint
 
-export const initQuestionHTML = (sectionTitle, sectionQuestions, count = 0) => {
+export const initQuestionHTML = (sectionTitle, sectionQuestions, count = 0, mode) => {
   const questionsDiv = document.querySelector('.questions')
   const questionsNavigation = document.querySelector('.questions__navigation')
 
   //! render câu hỏi
   if (sectionTitle.includes("multi")) {
     sectionQuestions.forEach((setQuestions) => {
-      questionsDiv.insertBefore(renderMultiQuestions(count, setQuestions.questions), questionsNavigation)
+      questionsDiv.insertBefore(renderMultiQuestions(count, setQuestions.questions, mode), questionsNavigation)
       count += setQuestions.questions.length;
     });
   } else {
     sectionQuestions.forEach((question, index) => {
       count += 1;
-      questionsDiv.insertBefore(renderSingleQuestion(count, question), questionsNavigation)
+      questionsDiv.insertBefore(renderSingleQuestion(count, question, mode), questionsNavigation)
     });
   }
   //!end render câu hỏi
@@ -509,6 +523,13 @@ export const initFormLogic = (max_score = 100) => {
         currentTimer.innerHTML = currentTimerValue;
       }
       //! end dừng đồng hồ
+
+      //! hiển thị nút hint
+      const btnsHint = document.querySelectorAll('.btn-hint')
+      btnsHint.forEach((btn) => {
+        btn.classList.remove('d-none')
+      })
+      //! end hiển thị nút hint
 
       //! hiển thị modal result
       const resultModal = document.querySelector('#result-modal')

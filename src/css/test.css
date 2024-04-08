@@ -279,6 +279,9 @@ button {
   align-items: center;
   padding: 10px 0;
 }
+.question-palette__item--flagged {
+  background-color: #ffc107 !important;
+}
 .question-hint {
   position: absolute;
   right: 0px;

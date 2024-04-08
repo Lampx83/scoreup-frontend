@@ -87,7 +87,7 @@ const init = async () => {
 
       //! render palette
       renderQuestionsFuntions.initPaletteHTML(sectionTitle + "-multi", sectionQuestions, count);
-      renderQuestionsFuntions.initQuestionHTML(sectionTitle + "-multi", sectionQuestions, count);
+      renderQuestionsFuntions.initQuestionHTML(sectionTitle + "-multi", sectionQuestions, count, queryObject.mode);
       
       count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
     } else {
@@ -107,7 +107,7 @@ const init = async () => {
       questionsBySection[sectionTitle] = sectionQuestions;
       //! render palette
       renderQuestionsFuntions.initPaletteHTML(sectionTitle, sectionQuestions, count);
-      renderQuestionsFuntions.initQuestionHTML(sectionTitle, sectionQuestions, count);
+      renderQuestionsFuntions.initQuestionHTML(sectionTitle, sectionQuestions, count, queryObject.mode);
       count += sectionQuestions.length;
     }
   };
