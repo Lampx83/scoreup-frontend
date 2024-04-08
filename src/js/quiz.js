@@ -7,11 +7,7 @@ import { all } from "axios";
 import { type } from "jquery";
 
 const quizBox = document.querySelector(".quiz-box");
-// const optionList = quizBox.querySelector(".option-list");
-// const resultBox = document.querySelector(".quiz-result");
-// const tryAgainBtn = document.querySelector(".tryAgain-btn");
-// const nextBtn = quizBox.querySelector(".next-btn");
-// const goHomeBtn = resultBox.querySelector(".goHome-btn");
+const resultBox = document.querySelector(".quiz-result");
 
 let userScore = 0;
 let questionArr = [];
@@ -24,52 +20,31 @@ const headerScoreUpdate = (userScore, questionLength) => {
   headerScoreText.textContent = `Score: ${userScore} / ${questionLength}`;
 };
 
-const questionCounter = (index) => {
-  const questionTotal = quizBox.querySelector(".question-total");
-  questionTotal.textContent = `${index} of ${questionLength} Questions`;
+const renderQuizHeader = (headerTitle, questionLength, showAnswerNow) => {
+  if (showAnswerNow) {
+    const quizHeader = document.querySelector(".quiz-box__header");
+    quizHeader.innerHTML = "";
+    const headerTitleElement = document.createElement("span");
+    headerTitleElement.classList.add("header-title");
+    headerTitleElement.textContent = headerTitle;
+    quizHeader.appendChild(headerTitleElement);
+
+    const headerScore = document.createElement("span");
+    headerScore.classList.add("text-white", "header-score");
+    headerScore.textContent = `Score: 0 / ${questionLength}`;
+    quizHeader.appendChild(headerScore);
+  } else {
+    const quizHeader = document.querySelector(".quiz-box__header");
+    quizHeader.innerHTML = "";
+    const headerTitleElement = document.createElement("span");
+    headerTitleElement.classList.add("header-title");
+    headerTitleElement.textContent = headerTitle;
+    quizHeader.appendChild(headerTitleElement);
+  }
 };
 
-const showQuestion = (index, question) => {
-  const questionText = quizBox.querySelector(".question-text");
-  questionText.innerHTML = `${index}. ${question.question}`;
-
-  question.options.forEach((option) => {
-    const optionDiv = document.createElement("div");
-    optionDiv.classList.add("option-list__option");
-    optionDiv.innerHTML = `<span>${option.optionText}</span>`;
-    optionList.appendChild(optionDiv);
-    optionDiv.onclick = () => {
-      let correctAnswer = question.answer;
-      let userAnswer = option.userAnswer;
-      if (correctAnswer == userAnswer) {
-        optionDiv.classList.add("correct");
-        userScore += 1;
-        headerScoreUpdate();
-      } else {
-        optionDiv.classList.add("incorrect");
-
-        const correctAnswerText = question.options.filter(
-          (item) => item.userAnswer == correctAnswer
-        )[0].optionText;
-        const allOptions = quizBox.querySelectorAll(".option-list__option");
-        for (let i = 0; i < allOptions.length; i++) {
-          if (allOptions[i].innerText == correctAnswerText) {
-            allOptions[i].classList.add("correct");
-          }
-          allOptions[i].classList.add("disabled");
-        }
-      }
-
-      nextBtn.classList.add("active");
-    };
-  });
-
-  console.log(question);
-};
-
-
-const showQuizResults = () => {
-  quizBox.classList.add("d-none");
+const showQuizResults = (userScore, questionLength) => {
+  
   resultBox.classList.add("active");
 
   const scoreText = document.querySelector(".score-text");
@@ -80,7 +55,7 @@ const showQuizResults = () => {
   let progressStartValue = 0;
   let progressEndValue = (userScore / questionLength) * 100;
   console.log(progressEndValue);
-  let speed = 1;
+  let speed = 0.01;
 
   let progress = setInterval(() => {
     if (userScore === 0) {
@@ -115,10 +90,15 @@ const renderQuestions = (setQuestions) => {
     // end render swiperSlide
 
     // render form
-    const form = document.createElement("form");
-    form.classList.add("d-flex", "flex-column", "align-items-center");
-    form.setAttribute("data-question-id", question._id);
-    form.setAttribute(
+    const questionDiv = document.createElement("div");
+    questionDiv.classList.add(
+      "d-flex",
+      "flex-column",
+      "align-items-center",
+      "swiper-slide__question"
+    );
+    questionDiv.setAttribute("data-question-id", question._id);
+    questionDiv.setAttribute(
       "data-correct-option",
       question.properties.correct.rich_text[0].plain_text
     );
@@ -145,7 +125,7 @@ const renderQuestions = (setQuestions) => {
       questionImg.alt = "question image";
       questionBox.appendChild(questionImg);
     }
-    form.appendChild(questionBox);
+    questionDiv.appendChild(questionBox);
     // render question text
 
     // render options
@@ -179,8 +159,8 @@ const renderQuestions = (setQuestions) => {
     });
     // end sort options
 
-    form.appendChild(options);
-    swiperSlide.appendChild(form);
+    questionDiv.appendChild(options);
+    swiperSlide.appendChild(questionDiv);
     // end render options
     swiperWrapper.appendChild(swiperSlide);
   });
@@ -219,7 +199,11 @@ const init = async () => {
     queryObject[key] = value;
   });
 
-  // console.log(queryObject)
+  if (queryObject.showAnswerNow === "true") {
+    queryObject.showAnswerNow = true;
+  } else {
+    queryObject.showAnswerNow = false;
+  }
 
   if (!queryString || !queryObject.certificateId) {
     window.location.href = "index.html";
@@ -231,7 +215,9 @@ const init = async () => {
   window.certificateInfo = certificateInfo;
   const notionDatabaseId =
     certificateInfo.properties.database_id.rich_text[0]?.plain_text;
-
+  const certificateTitle =
+    certificateInfo.properties.title.title[0]?.plain_text;
+  console.log(certificateInfo);
   //? lấy thông tin các section của bài thi
 
   let metadata = {
@@ -241,54 +227,127 @@ const init = async () => {
     notionDatabaseId: notionDatabaseId,
   };
   const data = await getQuestions(metadata);
-  
   const setQuestions = data[0].questions;
   renderQuestions(setQuestions);
   headerScoreUpdate(0, setQuestions.length);
 
   // logic show answer immdiately
-  let showAnswerNow = true;
+  const showAnswerNow = queryObject.showAnswerNow;
+  renderQuizHeader(certificateTitle, setQuestions.length, showAnswerNow);
   if (showAnswerNow) {
     document.querySelectorAll(".option-list__option").forEach((option) => {
       option.onclick = () => {
         const questionId = option.getAttribute("data-option-id");
         const answerKey = option.getAttribute("answer-key");
-        
-        const correctOption = document.querySelector(
-          `[data-question-id="${questionId}"]`
-        ).getAttribute("data-correct-option");
+        const correctOption = document
+          .querySelector(`[data-question-id="${questionId}"]`)
+          .getAttribute("data-correct-option");
         const correctOptionElement = document.querySelector(
           `[data-option-id="${questionId}"][answer-key="${correctOption}"] `
         );
 
-        console.log(answerKey)
-        console.log(correctOption)
         if (answerKey == correctOption) {
           userScore += 1;
           headerScoreUpdate(userScore, setQuestions.length);
-          option.classList.add("correct");
-          const options = document.querySelectorAll(`.option-list__option[data-option-id="${questionId}"`);  
+          option.classList.add("correct", "selected");
+          const options = document.querySelectorAll(
+            `.option-list__option[data-option-id="${questionId}"`
+          );
           for (let i = 0; i < options.length; i++) {
             options[i].classList.add("disabled");
           }
         } else {
           headerScoreUpdate(userScore, setQuestions.length);
-          option.classList.add("incorrect");
+          option.classList.add("incorrect", "selected");
           correctOptionElement.classList.add("correct");
-          const options = document.querySelectorAll(`.option-list__option[data-option-id="${questionId}"`);  
+          const options = document.querySelectorAll(
+            `.option-list__option[data-option-id="${questionId}"`
+          );
           for (let i = 0; i < options.length; i++) {
             options[i].classList.add("disabled");
           }
         }
       };
     });
+  } else {
+    //# choose answer
+    document.querySelectorAll(".option-list__option").forEach((option) => {
+      option.onclick = () => {
+        const questionId = option.getAttribute("data-option-id");
+
+        const options = document.querySelectorAll(
+          `.option-list__option[data-option-id="${questionId}"`
+        );
+        for (let i = 0; i < options.length; i++) {
+          options[i].classList.remove("selected", "disabled");
+        }
+        option.classList.add("selected", "disabled");
+      };
+    });
+    //# end choose answer
   }
-  // end logic show answer immdiately
 
+  //# submit logic
+  const submitBtn = document.querySelector(".submit-btn");
+  submitBtn.onclick = () => {
+    let correctAnswers = 0;
 
+    //# Calculate score
+    document.querySelectorAll(".option-list__option").forEach((option) => {
+      const questionId = option.getAttribute("data-option-id");
+      const answerKey = option.getAttribute("answer-key");
+      const correctOption = document
+        .querySelector(`[data-question-id="${questionId}"]`)
+        .getAttribute("data-correct-option");
+      const correctOptionElement = document.querySelector(
+        `[data-option-id="${questionId}"][answer-key="${correctOption}"] `
+      );
+
+      if (option.classList.contains("selected")) {
+        if (answerKey == correctOption) {
+          correctAnswers += 1;
+          option.classList.add("correct");
+          option.style.setProperty('color', 'var(--correct-ans)', 'important');
+          option.style.setProperty('background', 'var(--correct-ans-bg)', 'important');
+        } else {
+          option.classList.add("incorrect");
+          option.style.setProperty('color', 'var(--incorrect-ans)', 'important');
+          option.style.setProperty('background', 'var(--incorrect-ans-bg)', 'important');
+          correctOptionElement.classList.add("correct");
+        }
+        const options = document.querySelectorAll(
+          `.option-list__option[data-option-id="${questionId}"`
+        );
+        for (let i = 0; i < options.length; i++) {
+          options[i].classList.add("disabled");
+        }
+      } else {
+        if (answerKey == correctOption) {
+          correctOptionElement.classList.add("correct");
+        }
+        option.classList.add("disabled");
+      }
+    });
+    userScore = correctAnswers;
+    //# Calculate score
+    showQuizResults(userScore, setQuestions.length);
+  };
+  //# end submit logic
+
+  //# try again 
+  const tryAgainBtn = document.querySelector(".tryAgain-btn");
+  tryAgainBtn.onclick = () => {
+    window.location.reload();
+  }
+  //# end try again 
+
+  //# go home 
+  const goHomeBtn = document.querySelector(".goHome-btn");
+  goHomeBtn.onclick = () => {
+    window.location.href = `certificate.html?id=${certificateInfo.id}`;
+  }
+  //# end go home
 };
-
-
 
 checkAuth();
 init();
