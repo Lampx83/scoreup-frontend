@@ -25,6 +25,7 @@
   --correct-ans-bg: #e8f2ee;
   --incorrect-ans: #d30002;
   --incorrect-ans-bg: #fae6e6;
+  --selected-ans: #b3dcea;
   --light-transparent: #0000003c;
 
   --body-font-family: "Open Sans", sans-serif;
@@ -144,7 +145,7 @@ strong {
 }
 
 .quiz-box_content {
-  height: 900px;
+  height: 600px;
 }
 
 .quiz-box {
@@ -164,19 +165,26 @@ strong {
   /* background: linear-gradient(90deg, #91d0e575, transparent); */
 }
 
-.quiz-box__header {
+.quiz-box__header,
+.quiz-box__footer {
   padding: 20px 0;
 }
 
-.quiz-box__header span {
+.quiz-box__header span,
+.quiz-box__footer span {
   font-size: 18px;
   font-weight: var(--font-weight-semibold);
 }
 
-.header-score {
+.header-score,
+.submit-btn {
   background: var(--score-color);
   border-radius: 6px;
-  padding: 7px;
+  padding: 7px 15px;
+}
+
+.submit-btn:hover {
+  background: var(--score-hover);
 }
 
 
@@ -202,7 +210,7 @@ strong {
   padding: 15px 12px;
   background: var(--light-p-color);
   border-radius: 6px;
-  border: 2px solid var(--light-p-color);
+
   font-size: var(--btn-font-size);
   margin: 8px 0;
   cursor: pointer;
@@ -212,13 +220,19 @@ strong {
 .option-list__option.correct {
   color: var(--correct-ans) !important;
   background: var(--correct-ans-bg) !important;
-  border-color: var(--correct-ans-bg);
+  border-color: var(--correct-ans-bg) ;
 }
 
 .option-list__option.incorrect {
   color: var(--incorrect-ans) !important;
-  background: var(--incorrect-ans-bg);
+  background: var(--incorrect-ans-bg) !important;
   border-color: var(--incorrect-ans-bg);
+}
+
+.option-list__option.selected {
+  color: var(--dark-color) !important;
+  background: var(--selected-ans) !important;
+  border-color: var(--custom-btn-bg-color);
 }
 
 .option-list__option.disabled {
@@ -267,7 +281,7 @@ strong {
   border-color: var(--border-color);
 }
 
-/* Quiz Results */
+/*! Quiz Results */
 .quiz-result {
   position: absolute;
   top: 50%;
@@ -369,16 +383,15 @@ strong {
   background: var(--light-p-color);
   border: var(--light-p-color);
 }
-/* End quiz Results */
+/*! End quiz Results */
 
 /*! End quiz section  */
 
 /*! Start swiper section  */
 .swiper {
   width: 90%;
-  height: 70%;
+  height: 100%;
   min-height: 70%;
-  /* height: fit-content; */
 }
 
 .swiper-wrapper {
@@ -411,7 +424,7 @@ strong {
   background: var(--score-color);
 }
 
-.swiper-slide form {
+.swiper-slide__question {
   width: 100%;
 }
 

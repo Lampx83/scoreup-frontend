@@ -159,7 +159,7 @@ const certificateDetail = async () => {
     const option = document.createElement("div");
     option.classList.add("form-check");
     option.innerHTML = `
-      <input class="form-check-input" type="checkbox" value="${item}">
+      <input class="form-check-input skill" type="checkbox" value="${item}">
       <label class="form-check-label text-white">
         ${item.split("-")[0]}
       </label>
@@ -167,11 +167,11 @@ const certificateDetail = async () => {
     tagsOptionQuiz.appendChild(option);
   });
   const quizOptions = quizForm.querySelectorAll(
-    '.form-check-input[type="checkbox"]'
+    '.form-check-input[type="checkbox"].skill'
   );
   quizOptions.forEach((option) => {
     option.onclick = (event) => {
-      if (event.target.checked) {
+      if (event.target.checked ) {
         quizOptions.forEach((cb) => {
           if (cb !== event.target) {
             cb.disabled = true;
@@ -190,15 +190,16 @@ const certificateDetail = async () => {
   //# navigate popUp Quiz
   const quizStartBtn = quizForm.querySelector(".cont-btn");
   quizStartBtn.onclick = () => {
+    const showAnswerNow = quizForm.querySelector("#showAnswerNow").checked;
     const limitQs = quizForm.querySelector('input[type="number"]').value;
     const tagOptions = quizForm.querySelectorAll(
-      'input[type="checkbox"]:checked'
+      'input[type="checkbox"]:checked.skill'
     );
     let url = config.baseUrl + "/" + quizForm.querySelector("#quizOptionForm").getAttribute("action");
     let tagOptionsArr = [...tagOptions];
     const tags = tagOptionsArr.map((item) => item.defaultValue.toLowerCase().split(" ").join("_")).join(",");
 
-    url += `?certificateId=${queryObj.id.split("-").join("")}&tags=${tags}&limit=${limitQs}`;
+    url += `?certificateId=${queryObj.id.split("-").join("")}&tags=${tags}&limit=${limitQs}&showAnswerNow=${showAnswerNow}`;
     window.location.href = url;
   };
   //# End navigate popUp Quiz
