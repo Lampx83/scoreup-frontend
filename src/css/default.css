@@ -238,10 +238,11 @@ strong {
   line-height: 40px;
   text-align: center;
   transition: all 0.3s ease;
+  color: var(--primary-color);
 }
 
 #topNav .navbar-icon:hover {
-  background: var(--primary-color);
+  background: var(--secondary-color);
   color: var(--white-color);
 }
 /** end navbar profile */
@@ -318,6 +319,32 @@ strong {
 }
 
 /** nav-links dropdown-menu  */
+
+.user-actions a {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+.user-avatar-topnav img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.user-avatar-topnav {
+  background-color: var(--secondary-color);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  transition: all 0.3s;
+}
+.user-avatar-topnav:hover {
+  background-color: var(--custom-btn-bg-color);
+}
 /*! END NAVBAR */
 
 /*! FOOTER  */

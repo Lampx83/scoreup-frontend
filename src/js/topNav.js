@@ -17,8 +17,12 @@ const createTopNav = (idPage = "") => {
       //! get info if user is logged in
       const token = getCookie("token");
       if (token) {
+        const userInfo = JSON.parse(getCookie("user"));
         const buttons = document.querySelector(".user-buttons");
         buttons.style.display = "none";
+
+        const avatar = document.querySelector(".user-avatar-topnav img");
+        avatar.src = userInfo.avatar;
       }
       else 
       {
