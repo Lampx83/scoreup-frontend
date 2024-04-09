@@ -1,181 +1,266 @@
-*{
-    margin: 0;
+/********** Template CSS **********/
+:root {
+    --primary: #009CFF;
+    --light: #F3F6F9;
+    --dark: #191C24;
+}
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    right: 45px;
+    bottom: 45px;
+    z-index: 99;
+}
+
+/*** Button ***/
+.btn {
+    transition: .5s;
+}
+
+.btn.btn-primary {
+    color: #FFFFFF;
+}
+
+.btn-square {
+    width: 38px;
+    height: 38px;
+}
+
+.btn-sm-square {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-lg-square {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
     padding: 0;
-    border: none;
-    outline: none;
-    box-sizing: border-box;
-    font-family: "Open Sans", sans-serif;
-}
-
-body{
-    display: flex;
-    background:#fff;
-    width: auto;;
-    height: 100%;
-    overflow-x: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    border-radius: 50px;
 }
 
 
-/* ===== Sidebar ===== */
-.sidebar{
+/*** Layout ***/
+.sidebar {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: 250px;
-    height: 100%;
-    padding: 0 1.7rem;
-    color: #fff;
-    overflow: hidden;
-    background: #0C134F
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--light);
+    transition: 0.5s;
+    z-index: 999;
 }
 
-@media (max-width: 1000px){
-    .sidebar{
-        width: 100px;
+.content {
+    margin-left: 250px;
+    min-height: 100vh;
+    background: #FFFFFF;
+    transition: 0.5s;
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        margin-left: 0;
     }
-    .logout{
-        visibility: hidden;
+
+    .sidebar.open {
+        margin-left: -250px;
+    }
+
+    .content {
+        width: calc(100% - 250px);
+    }
+
+    .content.open {
+        width: 100%;
+        margin-left: 0;
     }
 }
-.go-back{
-    height: 80px;
-    padding: 16px;
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        margin-left: -250px;
+    }
+
+    .sidebar.open {
+        margin-left: 0;
+    }
+
+    .content {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
-.menu{
-    height: 88%;
-    position: relative;
-    list-style: none;
-    padding: 0;
-    margin-top: 20%;
+
+/*** Navbar ***/
+.sidebar .navbar .navbar-nav .nav-link {
+    padding: 7px 20px;
+    color: var(--dark);
+    font-weight: 500;
+    border-left: 3px solid var(--light);
+    border-radius: 0 30px 30px 0;
+    outline: none;
 }
 
-.menu li{
-    padding: 1.5rem 1rem;
-    margin: 8px 0;
-    border-radius: 8px;
+.sidebar .navbar .navbar-nav .nav-link:hover,
+.sidebar .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+    background: #FFFFFF;
+    border-color: var(--primary);
 }
 
-.menu a:hover, .active{
-    color: #fff;
-    font-weight: bold;
-}
-
-.menu a{
-    color: #91D0E5;
-    font-size: 14px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.menu a span{
-    overflow: hidden;
-}
-
-.menu a i{
-    font-size: 1.2rem;
-}
-
-.logout div{
-    display: flex;
-    border-radius: 40px;
-    background-color: #91D0E5;
-    justify-content: center;
-    align-items: center;
-    color:#0C134f;
-    position: absolute;
-    bottom: 13%;
-    height: 50px;
-    width: 90%;
-    font-weight: bold;
-}
-
-.logout div:hover{
-    color: white;
-    background-color: #E96300;
-    transition: all 0.3s;
-}
-
-.logout span{
-    padding-left: 1.5rem;
-}
-
-.goback{
-    position: absolute;
-    top: 5%;
-    color:#fff;
-    font-size: 1.2rem;
-}
-
-/* ===== Main content ===== */
-
-.main{
-    margin-top: 60px;
-    margin-left: 300px;
-    margin-bottom: 50px;
-    width: 60%;
-    position: relative;
-}
-
-.container{
-    margin-left: 100px;
-}
-
-h3{
-    margin-top: 3rem;
-    margin-bottom: 10px;
-}
-
-.personal-info, .password {
-    margin-right: 100px;
-}
-
-.personal-info, .password div {
-    text-align: right;
-}
-
-input{
-    position: relative;
-    background-color: #f7f7f7;
-    border-radius: 5px;
+.sidebar .navbar .navbar-nav .nav-link i {
+    width: 40px;
     height: 40px;
-    border: 1px solid #e5e5e5;
-    outline-color: #e5e5e5;
-    margin: 6px 0;
-    margin-left: 40px;
-    box-sizing: border-box;
-    padding: 5px 20px;
-    color: #1C1C1C;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border-radius: 40px;
 }
 
-.personal-info input{
-    width: 350px;
+.sidebar .navbar .navbar-nav .nav-link:hover i,
+.sidebar .navbar .navbar-nav .nav-link.active i {
+    background: var(--light);
 }
 
-.password input{
-    width: 300px;
+.sidebar .navbar .dropdown-toggle::after {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    transition: .5s;
 }
 
-.delete{
+.sidebar .navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+}
+
+.sidebar .navbar .dropdown-item {
+    padding-left: 25px;
+    border-radius: 0 30px 30px 0;
+}
+
+.content .navbar .navbar-nav .nav-link {
+    margin-left: 25px;
+    padding: 12px 0;
+    color: var(--dark);
+    outline: none;
+}
+
+.content .navbar .navbar-nav .nav-link:hover,
+.content .navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
+.content .navbar .sidebar-toggler,
+.content .navbar .navbar-nav .nav-link i {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border-radius: 40px;
+}
+
+.content .navbar .dropdown-toggle::after {
+    margin-left: 6px;
+    vertical-align: middle;
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    transition: .5s;
+}
+
+.content .navbar .dropdown-toggle[aria-expanded=true]::after {
+    transform: rotate(-180deg);
+}
+
+@media (max-width: 575.98px) {
+    .content .navbar .navbar-nav .nav-link {
+        margin-left: 15px;
+    }
+}
+
+
+/*** Date Picker ***/
+.bootstrap-datetimepicker-widget.bottom {
+    top: auto !important;
+}
+
+.bootstrap-datetimepicker-widget .table * {
+    border-bottom-width: 0px;
+}
+
+.bootstrap-datetimepicker-widget .table th {
+    font-weight: 500;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+    background: var(--primary);
+}
+
+.bootstrap-datetimepicker-widget table td.today::before {
+    border-bottom-color: var(--primary);
+}
+
+
+/*** Testimonial ***/
+.progress .progress-bar {
+    width: 0px;
+    transition: 2s;
+}
+
+
+/*** Testimonial ***/
+.testimonial-carousel .owl-dots {
+    margin-top: 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.testimonial-carousel .owl-dot {
     position: relative;
-    background:url(../img/svg/delete.svg) no-repeat right;
-    padding-right: 20px;
-    background-size: 20px;
-
+    display: inline-block;
+    margin: 0 5px;
+    width: 15px;
+    height: 15px;
+    border: 5px solid var(--primary);
+    border-radius: 15px;
+    transition: .5s;
 }
 
-input[type="checkbox"]{
-    width: auto;
-    padding: auto;
-    display: column;
-    height: auto;
-    margin-bottom: 15px;
+.testimonial-carousel .owl-dot.active {
+    background: var(--dark);
+    border-color: var(--primary);
 }
 
-/* ===== User's Avatar ===== */
+
 .profile-pic{
     display: flex;
     align-items: center;
@@ -184,16 +269,12 @@ input[type="checkbox"]{
 
 .profile-pic img{
     border: 2px solid #0C134F;
-    height: 100px;
-    width: 100px;
+    height: 150px;
+    width: 150px;
     border-radius: 50%;
-    position: absolute;
-    top:-5px;
-    right:-50px;
     object-fit: cover;
     color: transparent;
     transition: all 0.3s ease;
-    display: inline-block;
     align-items: center;
 }
 
@@ -201,43 +282,20 @@ input[type="checkbox"]{
     display: none;
 }
 
+.profile-pic .overlay{
+    display: none;
+}
+
 .profile-pic:hover>.overlay{
     position: absolute;
-    width:100px;
-    height:100px;
+    width:150px;
+    height:150px;
     border-radius: 50%;
-    top:-5px;
-    right:-50px;
     background-color:#000;
     opacity:0.5;
     z-index: 100;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;   
-}
-
-.overlay i{
-    position: absolute;
-    top: 34%;
-    left: 32%;
-}
-/* ===== Cancel/Save button ===== */
-.cancel{
-    display: block;
-}
-
-.cancel, .save{
-    margin-top: 100px;
-    margin-right: 10px;
-    display: inline-block;
-    border: 1px solid #0C134F;
-    padding: 10px 20px;
-    border-radius: 20px;
-    width: 120px;
-    text-align: center;
-}
-
-.cancel:hover,.save:hover{
-    color: #fff;
-    background: #0C134F;
-    transition: 0.3s;
 }

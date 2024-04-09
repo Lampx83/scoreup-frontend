@@ -1,107 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
-    <link rel="icon" href="../img/svg/favicon-32x32.png" />
-    <link rel="stylesheet" href="../css/account.css" />
-    <script
-      src="https://kit.fontawesome.com/713fe87388.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <div class="sidebar">
-      <div class="go-back"></div>
-      <a href="#" class="goback">
-        <i class="fa-solid fa-chevron-left"></i>
-      </a>
-      <ul class="menu" class="active">
-        <li>
-          <a href="#">
-            <i class="fa-solid fa-user"></i>
-            <span>Account</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>History & Charts</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i class="fa-solid fa-circle-question"></i>
-            <span>Help</span>
-          </a>
-        </li>
-        <li class="logout">
-          <a href=""><div><i class="fa-solid fa-arrow-right-from-bracket"></i>
-          <span>Log out</span></div></a>
-        </li>
-      </ul>
+
+<head>
+  <meta charset="utf-8">
+  <title>Profile</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- libraries -->
+  <link rel="stylesheet" href="../../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+  <!-- Template Stylesheet -->
+  <link href="../css/account.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-xxl position-relative bg-white d-flex p-0">
+
+    <!-- Sidebar Start -->
+    <div class="sidebar pe-4 pb-3">
+      <nav class="navbar bg-light navbar-light">
+        <a href="" class="navbar-brand mx-4 mb-3">
+          <h3 class="text-primary">ScoreUp</h3>
+        </a>
+        <div class="d-flex align-items-center ms-4 mb-4">
+          <div class="position-relative user-avatar">
+            <img class="rounded-circle" src="../img/full body.png" alt="" style="width: 40px; height: 40px;">
+            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+            </div>
+          </div>
+          <div class="ms-3 user-name">
+            <h6 class="mb-0">Username</h6>
+          </div>
+        </div>
+        <div class="navbar-nav w-100">
+          <a href="" class="nav-item nav-link active"><i class="fa fa-user me-2"></i>Information</a>
+        </div>
+      </nav>
     </div>
+    <!-- Sidebar End -->
 
-    <div class="main">
-      <div class="container">
-        <form action="">
-          <div><h1>Account</h1></div>
 
-          <!-- User's Avatar -->
-          <div class="profile-pic">
-            <label for="upload" class="overlay">
-              <i class="fa-solid fa-camera" style="color: #ffffff; margin: 10px;"></i>
-            </label>
-            <img src="../img/svg/head-only.png" id="chosen-image" width="90" />
-            <input id="upload" type="file" accept="image/*" onchange="loadFile(event)"/>
+    <!-- Content Start -->
+    <div class="content">
+      <!-- Navbar Start -->
+      <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+        <div class="navbar-nav align-items-center ms-auto">
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              <i class="fa fa-envelope me-lg-2"></i>
+              <span class="d-none d-lg-inline-flex">Message</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+              <!-- <a href="#" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="../img/full body.png" alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="../img/full body.png" alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="../img/full body.png" alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a> -->
+              <!-- <hr class="dropdown-divider"> -->
+              <a href="#" class="dropdown-item text-center">0 message</a>
+            </div>
           </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              <i class="fa fa-bell me-lg-2"></i>
+              <span class="d-none d-lg-inline-flex">Notification</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+              <!-- <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Profile updated</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">New user added</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Password changed</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider"> -->
+              <a href="#" class="dropdown-item text-center">0 notification</a>
+            </div>
+          </div>
+          <!-- <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="../img/full body.png" alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex">Username</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">My Profile</a>
+                            <a href="#" class="dropdown-item">Settings</a>
+                            <a href="#" class="dropdown-item">Log Out</a>
+                        </div>
+                    </div> -->
+        </div>
+      </nav>
+      <!-- Navbar End -->
 
-          <!-- Personal Information -->
-          <div><h3>Personal Information</h3></div>
-          <div class="personal-info">
-            <div>
-              <label for="username">Username</label>
-              <input type="text" id="username" name="username" class="delete" />
+
+      <!-- Form Start -->
+      <div class="container-fluid pt-4 px-4">
+        <form class="form-edit-info-user">
+          <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4">Avatar</h6>
+            <div class="d-flex justify-content-center">
+              <div class="profile-pic">
+                <label for="upload" class="overlay">
+                  <i class="fa-solid fa-camera fa" style="color: #ffffff; margin: 10px;"></i>
+                </label>
+                <img src="../img/svg/head-only.png" id="chosen-image" width="90" />
+                <input id="upload" type="file" accept="image/*" name="avatar" onchange="loadFile(event)" />
+              </div>
             </div>
-            <div>
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" class="delete" />
+            <h6 class="mb-4">Personal info</h6>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fa-regular fa-user fa"></i>
+              </span>
+              <input required name="username" type="text" class="form-control" placeholder="Username" aria-label="Username"
+                aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fa-regular fa-envelope fa"></i>
+              </span>
+              <input required name="email" type="text" class="form-control" placeholder="Email" aria-label="Email"
+                aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fa-regular fa-phone fa"></i>
+              </span>
+              <input name="phone" type="text" class="form-control" placeholder="Phone" aria-label="Phone"
+                aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fa-regular fa-address-card fa"></i>
+              </span>
+              <select class="form-select" id="occupation" name="occupation">
+                <option value="">Select your occupation</option>
+                <option value="student">Student</option>
+                <option value="developer">Developer</option>
+                <option value="teacher">Teacher</option>
+                <option value="engineer">Engineer</option>
+                <option value="doctor">Doctor</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="genderInput">Gender</label>
+              <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">
+                  <img src="../imgs/icons/person-half-dress-solid.svg" style="width: 25px; height: 25px">
+                </span>
+                <select class="form-select" id="genderInput" name="gender">
+                  <option value="">You are ...</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
+              </div>
+            </div>
+            <label for="birth">Birth</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fa-regular fa-calendar-alt fa"></i>
+              </span>
+              <input name="birth" type="date" id="birth" class="form-control" placeholder="Birth" aria-label="Birth"
+                aria-describedby="basic-addon1">
+            </div>
+
+            <h6 class="mb-4">Password</h6>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fa-regular fa-lock fa"></i>
+              </span>
+              <input name="oldPassword" type="password" class="form-control" placeholder="Old Password"
+                aria-label="Old Password" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fa-regular fa-lock fa"></i>
+              </span>
+              <input name="newPassword" type="password" class="form-control" placeholder="New Password"
+                aria-label="New Password" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1">
+                <i class="fa-regular fa-lock fa"></i>
+              </span>
+              <input name="confirmNewPassword" type="password" class="form-control" placeholder="Confirm New Password"
+                aria-label="Confirm New Password" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">Save</button>
             </div>
           </div>
-  
-          <!-- Reset Password -->
-          <div><h3>Reset Password</h3></div>
-          <div class="password">
-            <div>
-              <label for="oldpass">Current password</label>
-              <input type="password" id="oldpass" name="oldpass" />
+        </form>
+      </div>
+      <!-- Form End -->
+
+
+      <!-- Footer Start -->
+      <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+          <div class="row">
+            <div class="col-12 col-sm-6 text-center text-sm-start">
+              &copy; <a href="#">ScoreUp</a>, All Right Reserved.
             </div>
-            <div>
-              <label for="newpass">New password</label>
-              <input type="password" id="newpass" name="newpass" />
-            </div>
-          </div>
-  
-          <!-- Test Preferences -->
-          <div><h3>Test Preferences</h3></div>
-          <div class="preferences">
-            <div>
-              <input type="checkbox" id="opt1" name="opt1" />
-              <label for="opt1">Option 1</label>
-            </div>
-            <div>
-              <input type="checkbox" id="opt2" name="opt2" />
-              <label for="opt2">Option 2</label>
+            <div class="col-12 col-sm-6 text-center text-sm-end">
+              <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+              Designed By <a href="https://htmlcodex.com">HTML Codex</a>
             </div>
           </div>
-          
-          <!-- Cancel/Save button -->
-          <div class="cancel-save-btn">
-            <a href=""><div class="cancel">Cancel</div></a>
-            <a href=""><div class="save">Save</div></a>
-          </div>
-    </form>
-    <script src="../js/avatar.js"></script>
-  </body>
+        </div>
+      </div>
+      <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+  </div>
+  <!-- Template Javascript -->
+  <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
+  <script type="module" src="../js/account.js"></script>
+</body>
+
 </html>

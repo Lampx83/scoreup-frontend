@@ -59,9 +59,10 @@ export const privateRequest = ({endpoint, body = {}, config = {}, method = "GET"
     method,
     url: `${apiUrl}/${endpoint}`,
     headers: {
-      'Authorization': `Bearer ${cookieFuntions.getCookie("token")}`
+      'Authorization': `Bearer ${cookieFuntions.getCookie("token")}`,
+      ...config.headers
     },
-    data: body
+    data: body,
   })
     .then(response => {
       return response.data;

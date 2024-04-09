@@ -6,12 +6,6 @@
     </a>
     <!-- End slogan -->
 
-    <!-- Show profile button -->
-    <div class="d-lg-none ms-auto me-4">
-      <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
-    </div>
-    <!-- End show profile button -->
-
     <!-- Dropdown button  -->
     <button
       class="navbar-toggler"
@@ -60,51 +54,52 @@
 
           </ul>
         </li>
-
         <!-- End item with dropdown  -->
-      </ul>
-      <!-- End list item  -->
 
-      <!-- Show profile button -->
-      <div class="d-none d-lg-block">
-        <div class="user-buttons">
-          <ul class="navbar-nav ms-lg-5  ms-lg-auto">
-            <li class="nav-item">
-              <a id="login-btn" class="nav-link" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
-                >Login</a
-              >
-            </li>
-            <li class="nav-item">
-              <a id="signup-btn" class="nav-link" href="#"  data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a>
-            </li>
-          </ul>
-        </div>
-        <div class="user-actions">
-          <div class="nav-item dropdown">
-            <a
-            class="nav-link navbar-icon bi-person smoothscroll"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            >
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li>
-                <a class="dropdown-item" href="#"
-                  >My certificates</a
+        <li class="nav-item">
+          <div class="user-buttons">
+            <ul class="navbar-nav ms-lg-5  ms-lg-auto">
+              <li class="nav-item">
+                <a id="login-btn" class="nav-link" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+                  >Login</a
                 >
               </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
-                <a class="dropdown-item" href="#" id="btn-logout">Logout</a>
+              <li class="nav-item">
+                <a id="signup-btn" class="nav-link" href="#"  data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a>
               </li>
             </ul>
           </div>
-        </div>
-      </div>
-      <!-- End show profile button -->
+        </li>
+
+        <li class="nav-item">
+          <div class="user-actions">
+            <div class="nav-item dropdown">
+              <div class="user-avatar-topnav">  
+                <img
+                class="smoothscroll"
+                src="../imgs/icons/user.svg"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >
+              </div>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="account.html">Profile</a></li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    >My certificates</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#" id="btn-logout">Logout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- End list item  -->
     </div>
     <!-- End responsive navbar  -->
   </div>

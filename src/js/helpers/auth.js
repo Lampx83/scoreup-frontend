@@ -5,7 +5,8 @@ import { privateRequest } from "../databaseAPI.js";
 export const checkAuth = async () => {
   const token = cookieFuntions.getCookie("token");
   if (!token) {
-    window.location.href = "index.html";
+    alert("You need to login first");
+    window.history.back();
   }
   else
   {
