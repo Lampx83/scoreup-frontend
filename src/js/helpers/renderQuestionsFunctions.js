@@ -88,7 +88,7 @@ export const showQuestion = (questionId) => {
 }
 //! end show question func
 
-export const initPaletteHTML = (sectionTitle, sectionQuestions, count = 0) => {
+export const initPaletteHTML = (sectionTitle, sectionQuestions, count = 0, multi) => {
   //! tạo palette chứa các câu hỏi
   //? xoá hiệu ứng loading
   const questionPaletteContent = document.querySelector('.question-palette__content')
@@ -99,14 +99,14 @@ export const initPaletteHTML = (sectionTitle, sectionQuestions, count = 0) => {
 
   const questionPaletteTitle = document.createElement('h5')
   questionPaletteTitle.classList.add('question-palette__title')
-  questionPaletteTitle.innerHTML = sectionTitle.replace("-multi", "");
+  questionPaletteTitle.innerHTML = sectionTitle;
   questionPaletteContent.appendChild(questionPaletteTitle)
 
   const questionPaletteList = document.createElement('div')
   questionPaletteList.classList.add('question-palette__list')
   questionPaletteContent.appendChild(questionPaletteList)
 
-  if (sectionTitle.includes("multi")) {
+  if (multi) {
     const sectionQuestionsFlat = [];
     sectionQuestions.forEach((setQuestions) => {
       sectionQuestionsFlat.push(...setQuestions.questions);
@@ -445,12 +445,12 @@ export const showHint = () => {
 }
 //! end show hint
 
-export const initQuestionHTML = (sectionTitle, sectionQuestions, count = 0, mode) => {
+export const initQuestionHTML = (sectionTitle, sectionQuestions, count = 0, mode, multi) => {
   const questionsDiv = document.querySelector('.questions')
   const questionsNavigation = document.querySelector('.questions__navigation')
 
   //! render câu hỏi
-  if (sectionTitle.includes("multi")) {
+  if (multi) {
     sectionQuestions.forEach((setQuestions) => {
       questionsDiv.insertBefore(renderMultiQuestions(count, setQuestions.questions, mode), questionsNavigation)
       count += setQuestions.questions.length;
