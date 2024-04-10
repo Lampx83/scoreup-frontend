@@ -1,6 +1,6 @@
 import config from "../config";
 import { initLogQuestion, commitLogQuestion, commitResult } from "./genLog";
-
+// active workflow
 //! show question func
 export const showQuestion = (questionId) => {
   const questionShowing = document.querySelector(".question-container.show"); //? lấy câu hỏi đang hiển thị
