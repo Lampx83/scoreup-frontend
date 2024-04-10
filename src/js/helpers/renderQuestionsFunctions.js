@@ -97,14 +97,17 @@ export const initPaletteHTML = (sectionTitle, sectionQuestions, count = 0, multi
   questionPaletteContent.classList.remove('placeholder')
   //?end xoá hiệu ứng loading
 
+  const questionPaletteSection = document.createElement('div')
+  questionPaletteSection.classList.add('question-palette__section', 'mb-3')
+
   const questionPaletteTitle = document.createElement('h5')
-  questionPaletteTitle.classList.add('question-palette__title')
+  questionPaletteTitle.classList.add('question-palette__title', 'mb-1')
   questionPaletteTitle.innerHTML = sectionTitle;
-  questionPaletteContent.appendChild(questionPaletteTitle)
+  questionPaletteSection.appendChild(questionPaletteTitle)
 
   const questionPaletteList = document.createElement('div')
   questionPaletteList.classList.add('question-palette__list')
-  questionPaletteContent.appendChild(questionPaletteList)
+  questionPaletteSection.appendChild(questionPaletteList)
 
   if (multi) {
     const sectionQuestionsFlat = [];
@@ -125,6 +128,7 @@ export const initPaletteHTML = (sectionTitle, sectionQuestions, count = 0, multi
         showQuestion(questionId); //? chuyển đến câu hỏi
       });
     });
+    questionPaletteContent.appendChild(questionPaletteSection);
   } else {
     sectionQuestions.forEach((question, index) => {
       const questionPaletteItem = document.createElement('div')
@@ -139,6 +143,7 @@ export const initPaletteHTML = (sectionTitle, sectionQuestions, count = 0, multi
         showQuestion(questionId); //? chuyển đến câu hỏi
       });
     });
+    questionPaletteContent.appendChild(questionPaletteSection);
   }
   //! end tạo palette chứa các câu hỏi
 }
@@ -425,6 +430,14 @@ export const navigateQuestion = () => {
       const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${currentQuestionId}"]`);
       questionPaletteItem.classList.toggle('question-palette__item--flagged')
     })
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        btnPrev.click();
+      } else if (e.key === "ArrowRight") {
+        btnNext.click();
+      }
+    })
   }
 }
 //! end navigation question
@@ -532,34 +545,72 @@ export const initFormLogic = (max_score = 100) => {
       //! end hiển thị nút hint
 
       //! hiển thị modal result
+      //? lấy score pattern
+      const searchParams = new URLSearchParams(window.location.search);
+      const mode = searchParams.get("mode");
       const resultModal = document.querySelector('#result-modal')
       const questions = document.querySelectorAll(".question-main");
       const totalQuestions = questions.length;
-      const correctQuestions = document.querySelectorAll(".question-main[data-question-status='correct']").length;
-      const incorrectQuestions = document.querySelectorAll(".question-main[data-question-status='incorrect']").length;
-      const score = Math.round((correctQuestions / totalQuestions));
+      const correctQuestions = document.querySelectorAll(".question-main[data-question-status='correct']");
+      const max_score = parseInt(window.certificateInfo.properties.max_score.rich_text[0]?.plain_text) ? parseInt(window.certificateInfo.properties.max_score.rich_text[0]?.plain_text) : 100;
 
-      const scoreText = document.querySelector('.score-text');
-      scoreText.textContent = `Your Score ${correctQuestions} out of ${questions.length}`
-
-      const circularProgress = resultModal.querySelector('.circular-progress');
-      const progressValue = resultModal.querySelector('.progress-value');
-      let progressStartValue = 0;
-      let progressEndValue = (correctQuestions / totalQuestions) * 100;
-
-      let progress = setInterval(() => {
-        if (progressStartValue < 100 && progressEndValue < 100 && progressStartValue < progressEndValue) {
-          progressStartValue += 0.2;
-          progressValue.textContent = `${progressStartValue.toFixed(1)} %`;
-          circularProgress.style.background = `conic-gradient(#a5d7e8 ${progressStartValue * 3.6}deg, rgba(255, 255, 255, .1) 0deg)`;
-          if (progressStartValue == progressEndValue) {
+      if (mode && mode == "fullTest") {
+        let score = 0;
+        if (window.certificateInfo.properties.scoring_pattern.rich_text[0]?.plain_text) {
+          const scorePattern = JSON.parse(window.certificateInfo.properties.scoring_pattern.rich_text[0]?.plain_text);
+          const result = {};
+    
+          correctQuestions.forEach((question) => {
+            const id = question.getAttribute('data-question-id');
+            const sectionTitle = document.querySelector(`.question-palette__item[btn-data-question-id="${id}"]`).closest('.question-palette__section').querySelector('.question-palette__title').textContent;
+    
+            for (const key in scorePattern) {
+              if (key.includes(sectionTitle)) {
+                if (!result[key]) {
+                  result[key] = 0;
+                }
+                result[key] += 1;
+              }
+            }
+          });
+    
+          for (const key in result) {
+            score += (scorePattern[key][result[key]]);
+          }
+        } else score = (correctQuestions.length / totalQuestions) * max_score;
+        
+        const scoreText = document.querySelector('.score-text');
+        scoreText.textContent = `Your Score ${correctQuestions.length} out of ${questions.length}`
+  
+        const circularProgress = resultModal.querySelector('.circular-progress');
+        const progressValue = resultModal.querySelector('.progress-value');
+        progressValue.textContent = `${score.toFixed(0)}`;
+        circularProgress.style.background = `conic-gradient(#a5d7e8 ${(score / max_score) * 360}deg, rgba(255, 255, 255, .1) 0deg)`;
+  
+      } else {
+        const scoreText = document.querySelector('.score-text');
+        scoreText.textContent = `Your Score ${correctQuestions.length} out of ${questions.length}`
+  
+        const circularProgress = resultModal.querySelector('.circular-progress');
+        const progressValue = resultModal.querySelector('.progress-value');
+        let progressStartValue = 0;
+        let progressEndValue = (correctQuestions.length / totalQuestions) * 100;
+  
+        let progress = setInterval(() => {
+          if (progressStartValue < 100 && progressEndValue < 100 && progressStartValue < progressEndValue) {
+            progressStartValue += 0.2;
+            progressValue.textContent = `${progressStartValue.toFixed(1)} %`;
+            circularProgress.style.background = `conic-gradient(#a5d7e8 ${progressStartValue * 3.6}deg, rgba(255, 255, 255, .1) 0deg)`;
+            if (progressStartValue == progressEndValue) {
+              clearInterval(progress);
+            }
+          } else {
+            progressStartValue = progressEndValue = 100;
             clearInterval(progress);
           }
-        } else {
-          progressStartValue = progressEndValue = 100;
-          clearInterval(progress);
-        }
-      }, 1);
+        }, 1);
+      }
+
       //! end hiển thị modal result
 
       //! ghi lại kết quả test
