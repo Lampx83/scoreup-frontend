@@ -40,76 +40,51 @@ const init = async () => {
   });
 
   //? lấy thông tin các section của bài thi
-  let sectionsInfoString = certificateInfo.properties.sections_info.rich_text[0]?.plain_text;
-  const sectionsInfo = {};
-  
-  if (!queryObject.tags) {    
-    sectionsInfoString.split(";").forEach(item => {
-      const [key, value] = item.split(":");
-      sectionsInfo[key] = value;
-    });
+  // !section info json
+  const sectionsInfoJson = JSON.parse(certificateInfo.properties.sections_info_json.rich_text[0]?.plain_text);
+  let sectionsInfo = [];
+  if (!queryObject.tags) {
+    sectionsInfo = [...sectionsInfoJson];
   } else {
-    sectionsInfoString.split(";").forEach(item => {
-      const [key, value] = item.split(":");
-      if (queryObject.tags.some(tag => {
-        return (key.toLowerCase().split(" ").join("_")).includes(tag);
-      })) {
-        sectionsInfo[key] = value;
+    sectionsInfoJson.forEach((sectionInfo) => {
+      if (sectionInfo.tag && queryObject.tags.includes(sectionInfo.tag)) {
+        sectionsInfo.push(sectionInfo);
       }
     });
   }
+  // !end section info json
 
   const notionDatabaseId = certificateInfo.properties.database_id.rich_text[0]?.plain_text;
 
   //? lặp qua từng section, lấy câu hỏi của từng section
-  const questionsBySection = {};
   let count = 0;
-  for (let sectionTitle in sectionsInfo) {
-    const sectionLimit = sectionsInfo[sectionTitle];
+  for (let sectionInfo of sectionsInfo) {
+    const sectionLimit = sectionInfo.number_questions;
     let sectionQuestions = [];
-    if (sectionTitle.includes("-multi")) {
-      sectionTitle = sectionTitle.replace("-multi", "");
-      sectionQuestions = await getQuestions({
-        notionDatabaseId,
-        tag: sectionTitle.toLowerCase().split(" ").join("_"),
-        limit: parseInt(sectionLimit),
-        multiQuestions: true
-      })
-      questionsBySection[sectionTitle + "-multi"] = sectionQuestions;
+    
+    sectionQuestions = await getQuestions({
+      notionDatabaseId,
+      tag: sectionInfo.tag,
+      limit: parseInt(sectionLimit),
+      multiQuestions: sectionInfo.multi
+    })
 
-      //? xoá hiệu ứng loading
-      const questionsDiv = document.querySelector('.questions')
-      const questions = questionsDiv.closest('.questions')
-      questions.classList.remove('placeholder')
-      const right = questions.closest('.right')
-      right.classList.remove('placeholder-glow')
-      //? end xoá hiệu ứng loading
+    //? xoá hiệu ứng loading
+    const questionsDiv = document.querySelector('.questions')
+    const questions = questionsDiv.closest('.questions')
+    questions.classList.remove('placeholder')
+    const right = questions.closest('.right')
+    right.classList.remove('placeholder-glow')
+    //? end xoá hiệu ứng loading
 
-      //! render palette
-      renderQuestionsFuntions.initPaletteHTML(sectionTitle + "-multi", sectionQuestions, count);
-      renderQuestionsFuntions.initQuestionHTML(sectionTitle + "-multi", sectionQuestions, count, queryObject.mode);
-      
+    //! render
+    renderQuestionsFuntions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
+    renderQuestionsFuntions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
+    
+    if (sectionInfo.multi)
       count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
-    } else {
-      //? xoá hiệu ứng loading
-      const questionsDiv = document.querySelector('.questions')
-      const questions = questionsDiv.closest('.questions')
-      questions.classList.remove('placeholder')
-      const right = questions.closest('.right')
-      right.classList.remove('placeholder-glow')
-      //? end xoá hiệu ứng loading
-
-      sectionQuestions = await getQuestions({
-        notionDatabaseId,
-        tag: sectionTitle.toLowerCase().split(" ").join("_"),
-        limit: parseInt(sectionLimit),
-      })
-      questionsBySection[sectionTitle] = sectionQuestions;
-      //! render palette
-      renderQuestionsFuntions.initPaletteHTML(sectionTitle, sectionQuestions, count);
-      renderQuestionsFuntions.initQuestionHTML(sectionTitle, sectionQuestions, count, queryObject.mode);
+    else
       count += sectionQuestions.length;
-    }
   };
   //! lấy questionContainer đầu tiên rồi hiển thị
   const questionContainers = document.querySelectorAll(".question-container");
@@ -125,7 +100,7 @@ const init = async () => {
   renderQuestionsFuntions.initFormLogic();
 
   //! đếm giờ, set biến global timer
-  if (certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
+  if (queryObject.mode == "fullTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
     const timeLimit = certificateInfo.properties.time_limit.rich_text[0]?.plain_text;
     const timer = initTimerCountdown(timeLimit);
     window.timer = timer;

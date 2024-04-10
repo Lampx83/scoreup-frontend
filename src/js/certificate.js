@@ -71,7 +71,7 @@ const certificateDetail = async () => {
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#testOption">
         Practice Test
       </button>
-      <button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/test.html?certificateId=${queryObj.id}'">
+      <button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/test.html?certificateId=${queryObj.id}&mode=fullTest'">
         Full Test
       </button>
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption" >
@@ -112,7 +112,7 @@ const certificateDetail = async () => {
     const option = document.createElement("div");
     option.classList.add("form-check");
     option.innerHTML = `
-      <input class="form-check-input" type="checkbox" value="${item}">
+      <input class="form-check-input" type="checkbox" value="${item.split("-")[0]}">
       <label class="form-check-label text-white">
         ${item.split("-")[0]}
       </label>

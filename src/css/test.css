@@ -178,9 +178,11 @@ button {
 .question-palette__item:hover {
   background-color: var(--secondary-color);
 }
-
+.question-palette__item--flagged {
+  background-color: #ffc107 !important;
+}
 .question-palette__item--selected {
-  background-color: #81c6ff !important;
+  background-color: #81c6ff;
 }
 .question-palette__item--correct {
   background-color: #53ce57 !important;
@@ -278,9 +280,6 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-}
-.question-palette__item--flagged {
-  background-color: #ffc107 !important;
 }
 .question-hint {
   position: absolute;
