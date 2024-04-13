@@ -1,26 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-/*-------------------------------------------------
+
+/* -------------------------------------------------
   CÀI ĐẶT CSS CHO MỘT SỐ BIẾN THƯỜNG XUYÊN SỬ DỤNG             
--------------------------------------------------*/
+------------------------------------------------- */
 :root {
-  /*-------------------------------------------------
+
+  /* -------------------------------------------------
   BẢNG MÀU CHÍNH CỦA APP          
-  -------------------------------------------------*/
-  --white-color: #ffffff;
+  ------------------------------------------------- */
+  --white-color: #fff;
   --primary-color: #0c134f;
   --secondary-color: #1d267d;
   --section-bg-color: #f0f8ff;
   --custom-btn-bg-color: #91d0e5;
   --custom-btn-bg-hover-color: #1d267d;
-  --dark-color: #000000;
+  --dark-color: #000;
   --p-color: #717275;
   --border-color: #a5d7e8;
   --link-hover-color: #1d267d;
-
   --body-font-family: "Open Sans", sans-serif;
   --title-font-family: "Montserrat", sans-serif;
-
   --h1-font-size: 58px;
   --h2-font-size: 46px;
   --h3-font-size: 32px;
@@ -31,11 +31,9 @@
   --menu-font-size: 14px;
   --btn-font-size: 18px;
   --copyright-font-size: 16px;
-
   --border-radius-large: 100px;
   --border-radius-medium: 20px;
   --border-radius-small: 10px;
-
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -177,6 +175,7 @@ strong {
   border-color: var(--white-color);
   color: var(--white-color);
 }
+
 /*! END CUSTOM BUTTON  */
 
 /* main {
@@ -197,6 +196,7 @@ strong {
   border-bottom: 1px solid var(--dark-color);
   z-index: 9;
 }
+
 /** end navbar background */
 
 /** navbar background slogan */
@@ -206,6 +206,7 @@ strong {
   font-weight: var(--font-weight-bold);
   display: block;
 }
+
 /** end navbar background slogan */
 
 /** navbar link */
@@ -225,6 +226,7 @@ strong {
 #topNav .navbar-nav .nav-link:hover {
   color: var(--custom-btn-bg-color);
 }
+
 /** end navbar link */
 
 /** navbar profile */
@@ -245,6 +247,7 @@ strong {
   background: var(--secondary-color);
   color: var(--white-color);
 }
+
 /** end navbar profile */
 
 /** navbar responsive menu  */
@@ -266,23 +269,24 @@ strong {
 #topNav .navbar-toggler .navbar-toggler-icon {
   color: var(--white-color);
 }
+
 /** end navbar responsive menu  */
 
 /** nav-links dropdown-menu  */
 #topNav .navbar .dropdown-menu {
   background: var(--white-color);
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 17.5%);
   border: 0;
   display: inherit;
   opacity: 0;
   min-width: 9rem;
   margin-top: 20px;
-  padding: 13px 0 10px 0;
+  padding: 13px 0 10px;
   transition: all 0.3s;
   pointer-events: none;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (width >= 992px) {
   #topNav .navbar .dropdown:hover .dropdown-menu {
     opacity: 1;
     margin-top: 0;
@@ -290,7 +294,7 @@ strong {
   }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (width <= 992px) {
   #topNav .navbar .dropdown .dropdown-menu {
     opacity: 1;
     margin-top: 0;
@@ -326,11 +330,13 @@ strong {
   justify-content: center;
   color: var(--primary-color);
 }
+
 .user-avatar-topnav img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
 }
+
 .user-avatar-topnav {
   background-color: var(--secondary-color);
   padding: 2px;
@@ -342,9 +348,11 @@ strong {
   width: 40px;
   transition: all 0.3s;
 }
+
 .user-avatar-topnav:hover {
   background-color: var(--custom-btn-bg-color);
 }
+
 /*! END NAVBAR */
 
 /*! FOOTER  */
@@ -436,22 +444,27 @@ strong {
 #footer .copyright-text {
   font-size: var(--copyright-font-size);
 }
+
 /*! END FOOTER  */
 
 /*! highlighter */
 .highlight-green {
   background-color: #d4edda;
 }
+
 .highlight-red {
   background-color: #f8d7da;
 }
+
 .editor a {
   display: inline;
   text-decoration: underline;
   background-color: #dad7f8;
   color: var(--dark-color);
 }
+
 .editor:focus {
   outline: none;
 }
+
 /*! end highlighter */

@@ -30,14 +30,16 @@ body{
     background: #0C134F
 }
 
-@media (max-width: 1000px){
+@media (width <= 1000px){
     .sidebar{
         width: 100px;
     }
+
     .logout{
         visibility: hidden;
     }
 }
+
 .logo{
     height: 80px;
     padding: 16px;

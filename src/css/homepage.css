@@ -1,26 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-/*-------------------------------------------------
+
+/* -------------------------------------------------
   CÀI ĐẶT CSS CHO MỘT SỐ BIẾN THƯỜNG XUYÊN SỬ DỤNG             
--------------------------------------------------*/
+------------------------------------------------- */
 :root {
-  /*-------------------------------------------------
+
+  /* -------------------------------------------------
   BẢNG MÀU CHÍNH CỦA APP          
-  -------------------------------------------------*/
-  --white-color: #ffffff;
+  ------------------------------------------------- */
+  --white-color: #fff;
   --primary-color: #0c134f;
   --secondary-color: #1d267d;
   --section-bg-color: #f0f8ff;
   --custom-btn-bg-color: #91d0e5;
   --custom-btn-bg-hover-color: #1d267d;
-  --dark-color: #000000;
+  --dark-color: #000;
   --p-color: #717275;
   --border-color: #daebfa;
   --link-hover-color: #1d267d;
-
   --body-font-family: "Open Sans", sans-serif;
   --title-font-family: "Montserrat", sans-serif;
-
   --h1-font-size: 58px;
   --h2-font-size: 46px;
   --h3-font-size: 32px;
@@ -31,11 +31,9 @@
   --menu-font-size: 14px;
   --btn-font-size: 18px;
   --copyright-font-size: 16px;
-
   --border-radius-large: 100px;
   --border-radius-medium: 20px;
   --border-radius-small: 10px;
-
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -161,6 +159,7 @@ strong {
   border-color: var(--white-color);
   color: var(--white-color);
 }
+
 /*! END CUSTOM BUTTON  */
 
 /*! START FEATURE BOX  */
@@ -232,12 +231,14 @@ strong {
   height: 100%;
   opacity: 0.85;
 }
+
 /*! END FEATURE BOX  */
 
 /*! START CUSTOM SEARCH  */
 .search-box {
   transition: 0.5s all ease;
 }
+
 .search-box__list {
   background-color: #fff;
   border-top: var(--dark-color) 1px solid;
@@ -265,6 +266,7 @@ strong {
 .search-box__list li:hover {
   background-color: var(--border-color);
 }
+
 /*! END CUSTOM SEARCH  */
 
 /*! START HERO  */
@@ -307,6 +309,7 @@ strong {
 #hero button[type="submit"]:hover {
   background-color: var(--primary-color);
 }
+
 /*! END HERO  */
 
 /*! START RECOMMENDATION */
@@ -321,6 +324,7 @@ strong {
   bottom: 100px;
   margin-bottom: -100px;
 }
+
 /*! END RECOMMENDATION */
 
 /*! START CATEGORIES */
@@ -363,5 +367,6 @@ strong {
   border-bottom-color: var(--custom-btn-bg-color);
   color: var(--custom-btn-bg-color);
 }
+
 /*! END CATEGORIES */
 

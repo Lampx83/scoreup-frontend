@@ -1,0 +1,22 @@
+{
+  "extends": "stylelint-config-standard",
+  "ignoreFiles": [
+    "node_modules/**/*",
+    "dist/**/*"
+  ],
+  "rules": {
+    "block-no-empty": null,
+    "color-no-invalid-hex": true,
+    "comment-empty-line-before": ["always", {
+      "ignore": ["stylelint-commands", "after-comment"]
+    }],
+    "rule-empty-line-before": ["always", {
+      "except": ["first-nested"],
+      "ignore": ["after-comment"]
+    }],
+    "selector-pseudo-class-no-unknown": null,
+    "selector-class-pattern": null,
+    "no-descending-specificity": null,
+    "selector-id-pattern": null
+  }
+}
