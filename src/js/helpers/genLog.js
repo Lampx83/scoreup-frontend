@@ -29,8 +29,8 @@ export const commitLogQuestion = ({
 
   logQuestion.duration = (logQuestion.timeOut - logQuestion.timeIn) / 1000;
   
-  logQuestion.timeIn = logQuestion.timeIn;
-  logQuestion.timeOut = logQuestion.timeOut;
+  // logQuestion.timeIn = logQuestion.timeIn;
+  // logQuestion.timeOut = logQuestion.timeOut;
 
   if (answer && logQuestion.duration > 0.3) {
     privateRequest({

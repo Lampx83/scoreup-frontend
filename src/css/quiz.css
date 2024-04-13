@@ -1,19 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-/*-------------------------------------------------
+
+/* -------------------------------------------------
   CÀI ĐẶT CSS CHO MỘT SỐ BIẾN THƯỜNG XUYÊN SỬ DỤNG             
--------------------------------------------------*/
+------------------------------------------------- */
 :root {
-  /*-------------------------------------------------
+
+  /* -------------------------------------------------
   BẢNG MÀU CHÍNH CỦA APP          
-  -------------------------------------------------*/
-  --white-color: #ffffff;
+  ------------------------------------------------- */
+  --white-color: #fff;
   --primary-color: #0c134f;
   --secondary-color: #1d267d;
   --section-bg-color: #f0f8ff;
   --custom-btn-bg-color: #91d0e5;
   --custom-btn-bg-hover-color: #1d267d;
-  --dark-color: #000000;
+  --dark-color: #000;
   --p-color: #9ba4b5;
   --light-p-color: #ecedf2;
   --border-color: #a5d7e8;
@@ -26,10 +28,8 @@
   --incorrect-ans: #d30002;
   --incorrect-ans-bg: #fae6e6;
   --light-transparent: #0000003c;
-
   --body-font-family: "Open Sans", sans-serif;
   --title-font-family: "Montserrat", sans-serif;
-
   --h1-font-size: 58px;
   --h2-font-size: 46px;
   --h3-font-size: 32px;
@@ -40,11 +40,9 @@
   --menu-font-size: 14px;
   --btn-font-size: 18px;
   --copyright-font-size: 16px;
-
   --border-radius-large: 100px;
   --border-radius-medium: 20px;
   --border-radius-small: 10px;
-
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -152,6 +150,7 @@ strong {
   max-height: 1000px;
   width: 90%;
   background-color: var(--white-color);
+
   /* border: 2px solid var(--custom-btn-bg-color); */
   /* box-shadow: 10px 10px 1px var(--p-color); */
   border-radius: var(--border-radius-small);
@@ -161,6 +160,7 @@ strong {
 .quiz-title {
   text-align: center;
   color: var(--dark-color);
+
   /* background: linear-gradient(90deg, #91d0e575, transparent); */
 }
 
@@ -183,9 +183,11 @@ strong {
 .question-box {
   max-height: 200px;
   overflow: auto;
+  padding-top: 10px;
 }
 
 .question-box__text {
+
   /* color: var(--sky-color) !important; */
   color: var(--dark-color);
 }
@@ -244,12 +246,12 @@ strong {
 .quiz-box__footer .next-btn {
   width: 100px;
   height: 45px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgb(255 255 255 / 10%);
+  border: 2px solid rgb(255 255 255 / 10%);
   outline: none;
   border-radius: 6px;
   font-size: 16px;
-  color: rgb(255, 255, 255);
+  color: rgb(255 255 255);
   font-weight: 600px;
   cursor: pointer;
   pointer-events: none;
@@ -275,6 +277,7 @@ strong {
   transform: translate(-50%, -50%);
   min-width: max-content;
   background: var(--white-color);
+
   /* border: 2px solid var(--border-color); */
   box-shadow: 10px 10px 1px var(--p-color);
   border-radius: 6px;
@@ -332,7 +335,7 @@ strong {
   position: relative;
   font-size: 45px;
   font-weight: 600;
-  color: #000000;
+  color: #000;
 }
 
 .percentage-container .score-text {
@@ -369,6 +372,7 @@ strong {
   background: var(--light-p-color);
   border: var(--light-p-color);
 }
+
 /* End quiz Results */
 
 /*! End quiz section  */
@@ -378,6 +382,7 @@ strong {
   width: 90%;
   height: 70%;
   min-height: 70%;
+
   /* height: fit-content; */
 }
 
@@ -389,7 +394,7 @@ strong {
   text-align: center;
   height: 100%;
   font-size: 18px;
-  background: #ffffff;
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -415,7 +420,4 @@ strong {
   width: 100%;
 }
 
-.question-box {
-  padding-top: 10px;
-}
 /*! Start swiper section  */

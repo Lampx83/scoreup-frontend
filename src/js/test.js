@@ -1,5 +1,4 @@
 import {
-  getDatabase,
   getPage,
   getQuestions,
   privateRequest
@@ -9,7 +8,6 @@ import {getCookie} from './helpers/cookieFunctions.js';
 import * as renderQuestionsFuntions from "./helpers/renderQuestionsFunctions.js";
 import { initTimerCount, initTimerCountdown } from './helpers/timerCounts.js';
 import { checkAuth } from './helpers/auth.js';
-import config from './config.js';
 import { initEditor } from './helpers/medium-editor.js';
 
 const init = async () => {

@@ -1,5 +1,5 @@
 import {getCookie, setCookie} from "./helpers/cookieFunctions.js";
-import {getDatabase, getPage} from "./databaseAPI.js";
+import {getDatabase} from "./databaseAPI.js";
 import { checkAuth } from "./helpers/auth.js";
 import config from './config.js';
 const apiUrl = config.apiUrl;
@@ -39,7 +39,7 @@ const createTopNav = (idPage = "") => {
           const username = document.querySelector("#usernameLogin").value;
           const password = document.querySelector("#passwordLogin").value;
 
-          const usernameRegex = /^(?!.*[\s!@#$%^&*()_+={}\[\]:;<>,.?/~`])\S+$/;
+          const usernameRegex = /^(?!.*[\s!@#$%^&*()_+={}[\]:;<>,.?/~`])\S+$/;
               if (!usernameRegex.test(username)) {
             alert("Username is invalid. (not null, no special characters, no space)");
             return;
@@ -81,7 +81,7 @@ const createTopNav = (idPage = "") => {
       //! logout
       const btnLogout = document.querySelector("#btn-logout");
       if (btnLogout) {
-        btnLogout.addEventListener("click", (e) => {
+        btnLogout.addEventListener("click", () => {
           setCookie("token", "", -1);
           setCookie("user", "", -1);
           setCookie("user", "", -1);
@@ -101,7 +101,7 @@ const createTopNav = (idPage = "") => {
           const confirmPassword = document.querySelector("#confirmPasswordSignUp").value;
           const email = document.querySelector("#emailSignUp").value;
 
-          const usernameRegex = /^(?!.*[\s!@#$%^&*()_+={}\[\]:;<>,.?/~`])\S+$/;
+          const usernameRegex = /^(?!.*[\s!@#$%^&*()_+={}[\]:;<>,.?/~`])\S+$/;
           if (!usernameRegex.test(username)) {
             alert("Username is invalid. (not null, no special characters, no space)");
             return;

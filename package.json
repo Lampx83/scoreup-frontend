@@ -3,12 +3,20 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel src/html/*.html",
-    "build": "parcel build --public-url /exam src/html/*.html"
+    "build": "parcel build --public-url /exam src/html/*.html",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "buffer": "^6.0.3",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "htmlhint": "^1.1.4",
+    "husky": "^9.0.11",
     "parcel": "^2.10.0",
-    "process": "^0.11.10"
+    "process": "^0.11.10",
+    "stylelint": "^16.3.1",
+    "stylelint-config-standard": "^36.0.0"
   },
   "dependencies": {
     "@parcel/transformer-sass": "^2.10.0",
