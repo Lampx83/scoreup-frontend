@@ -31,11 +31,11 @@
     <!-- Sidebar Start -->
     <div class="sidebar bg-light pe-4 pb-3">
       <nav class="navbar navbar-light">
-      <!-- Slogan  -->
-      <a class="navbar-brand ms-auto mb-4" href="index.html">
-        <img src="../img/logo_full_body.svg" alt="ScoreUp" style="width: 150px" />
-      </a>
-      <!-- End slogan --> 
+        <!-- Slogan  -->
+        <a class="navbar-brand ms-auto mb-4" href="index.html">
+          <img src="../img/logo_full_body.svg" alt="ScoreUp" style="width: 150px" />
+        </a>
+        <!-- End slogan -->
         <div class="d-flex align-items-center ms-4 mb-4">
           <div class="position-relative user-avatar">
             <img class="rounded-circle" src="../img/full body.png" alt="" style="width: 40px; height: 40px;">
@@ -46,15 +46,33 @@
             <h6 class="mb-0">Username</h6>
           </div>
         </div>
-        <div class="navbar-nav w-100">
-          <a href="" class="nav-item nav-link active"><i class="fa fa-user me-2"></i>Information</a>
+        <div class="navbar-nav w-100 nav ">
+          <a href="#" class="nav-item nav-link active" id="information-tab-link" data-bs-toggle="tab"
+            data-bs-target="#information-tab">
+            <i class="fa fa-user me-2"></i>Information
+          </a>
+          <a href="#" class="nav-item nav-link" id="dashboard-tab-link" data-bs-toggle="tab"
+            data-bs-target="#dashboard-tab">
+            <i class="bi bi-bar-chart-fill me-2"></i>Dashboard
+          </a>
         </div>
-      </nav>
+        <!-- <nav
+          class="nav nav-tabs flex-column"
+        >
+          <a class="nav-link active" href="#" aria-current="page"
+            >Active link</a
+          >
+          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link disabled" href="#">Disabled link</a>
+        </nav>
+        
+      </nav> -->
     </div>
     <!-- Sidebar End -->
 
 
     <!-- Content Start -->
+
     <div class="content">
       <!-- Navbar Start -->
       <nav class="navbar navbar-expand navbar-light sticky-top px-4 py-0">
@@ -85,137 +103,306 @@
       <!-- Navbar End -->
 
 
+
       <!-- Form Start -->
-      <div class="bg-lightcontainer-fluid pt-4 px-4 shadow-lg mt-4 rounded-3">
-        <form class="form-edit-info-user">
-          <div class=" rounded h-100 p-4">
-            <h6 class="mb-4">Avatar</h6>
-            <div class="d-flex justify-content-center">
-              <div class="profile-pic">
-                <label for="upload" class="overlay">
-                  <i class="fa-solid fa-camera fa" style="color: #ffffff; margin: 10px;"></i>
-                </label>
-                <img src="../img/svg/head-only.png" id="chosen-image" width="90" />
-                <input id="upload" type="file" accept="image/*" name="avatar" onchange="loadFile(event)" />
+      <div class="tab-content" id="nav-tabContent">
+
+        <!-- Information Tab Start -->
+        <div class="tab-pane show active " id="information-tab">
+          <div class="bg-lightcontainer-fluid pt-4 px-4 shadow-lg mt-4 rounded-3">
+            <form class="form-edit-info-user">
+              <div class=" rounded h-100 p-4">
+                <h6 class="mb-4">Avatar</h6>
+                <div class="d-flex justify-content-center">
+                  <div class="profile-pic">
+                    <label for="upload" class="overlay">
+                      <i class="fa-solid fa-camera fa" style="color: #ffffff; margin: 10px;"></i>
+                    </label>
+                    <img src="../img/svg/head-only.png" id="chosen-image" width="90" />
+                    <input id="upload" type="file" accept="image/*" name="avatar" onchange="loadFile(event)" />
+                  </div>
+                </div>
+                <h6 class="mb-4">Personal info</h6>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-regular fa-user fa"></i>
+                  </span>
+                  <input required name="username" type="text" class="form-control" placeholder="Username"
+                    aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-regular fa-envelope fa"></i>
+                  </span>
+                  <input requi name="email" type="text" class="form-control" placeholder="Email" aria-label="Email"
+                    aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-regular fa-phone fa"></i>
+                  </span>
+                  <input name="phone" type="text" class="form-control" placeholder="Phone" aria-label="Phone"
+                    aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-regular fa-address-card fa"></i>
+                  </span>
+                  <select class="form-select" id="occupation" name="occupation">
+                    <option value="">Select your occupation</option>
+                    <option value="student">Student</option>
+                    <option value="developer">Developer</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="engineer">Engineer</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="genderInput">Gender</label>
+                  <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping">
+                      <img src="../imgs/icons/person-half-dress-solid.svg" style="width: 25px; height: 25px">
+                    </span>
+                    <select class="form-select" id="genderInput" name="gender">
+                      <option value="">You are ...</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="others">Others</option>
+                    </select>
+                  </div>
+                </div>
+                <label for="birth">Birth</label>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-regular fa-calendar-alt fa"></i>
+                  </span>
+                  <input name="birth" type="date" id="birth" class="form-control" placeholder="Birth" aria-label="Birth"
+                    aria-describedby="basic-addon1">
+                </div>
+
+                <h6 class="mb-4">Password</h6>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-regular fa-lock fa"></i>
+                  </span>
+                  <input name="oldPassword" type="password" class="form-control" placeholder="Old Password"
+                    aria-label="Old Password" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-regular fa-lock fa"></i>
+                  </span>
+                  <input name="newPassword" type="password" class="form-control" placeholder="New Password"
+                    aria-label="New Password" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa-regular fa-lock fa"></i>
+                  </span>
+                  <input name="confirmNewPassword" type="password" class="form-control"
+                    placeholder="Confirm New Password" aria-label="Confirm New Password"
+                    aria-describedby="basic-addon1">
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
               </div>
-            </div>
-            <h6 class="mb-4">Personal info</h6>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">
-                <i class="fa-regular fa-user fa"></i>
-              </span>
-              <input required name="username" type="text" class="form-control" placeholder="Username"
-                aria-label="Username" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">
-                <i class="fa-regular fa-envelope fa"></i>
-              </span>
-              <input requi name="email" type="text" class="form-control" placeholder="Email" aria-label="Email"
-                aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">
-                <i class="fa-regular fa-phone fa"></i>
-              </span>
-              <input name="phone" type="text" class="form-control" placeholder="Phone" aria-label="Phone"
-                aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">
-                <i class="fa-regular fa-address-card fa"></i>
-              </span>
-              <select class="form-select" id="occupation" name="occupation">
-                <option value="">Select your occupation</option>
-                <option value="student">Student</option>
-                <option value="developer">Developer</option>
-                <option value="teacher">Teacher</option>
-                <option value="engineer">Engineer</option>
-                <option value="doctor">Doctor</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="genderInput">Gender</label>
-              <div class="input-group flex-nowrap">
-                <span class="input-group-text" id="addon-wrapping">
-                  <img src="../imgs/icons/person-half-dress-solid.svg" style="width: 25px; height: 25px">
-                </span>
-                <select class="form-select" id="genderInput" name="gender">
-                  <option value="">You are ...</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="others">Others</option>
-                </select>
-              </div>
-            </div>
-            <label for="birth">Birth</label>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">
-                <i class="fa-regular fa-calendar-alt fa"></i>
-              </span>
-              <input name="birth" type="date" id="birth" class="form-control" placeholder="Birth" aria-label="Birth"
-                aria-describedby="basic-addon1">
-            </div>
-
-            <h6 class="mb-4">Password</h6>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">
-                <i class="fa-regular fa-lock fa"></i>
-              </span>
-              <input name="oldPassword" type="password" class="form-control" placeholder="Old Password"
-                aria-label="Old Password" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">
-                <i class="fa-regular fa-lock fa"></i>
-              </span>
-              <input name="newPassword" type="password" class="form-control" placeholder="New Password"
-                aria-label="New Password" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">
-                <i class="fa-regular fa-lock fa"></i>
-              </span>
-              <input name="confirmNewPassword" type="password" class="form-control" placeholder="Confirm New Password"
-                aria-label="Confirm New Password" aria-describedby="basic-addon1">
-            </div>
-
-            <div class="d-flex justify-content-end">
-              <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-          </div>
-        </form>
-      </div>
-      <!-- Form End -->
-
-
-      <!-- Footer Start -->
-      <div class="container-fluid pt-4 px-4">
-        <div class="bg-light rounded-top p-4">
-          <div class="row">
-            <div class="col-12 col-sm-6 text-center text-sm-start">
-              &copy; <a href="#">ScoreUp</a>, All Right Reserved.
-            </div>
-            <div class="col-12 col-sm-6 text-center text-sm-end">
-              <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-              Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-            </div>
+            </form>
           </div>
         </div>
+        <!-- Information Tab End -->
+
+        <!-- Dashboard Tab Start -->
+        <div class="tab-pane" id="dashboard-tab">
+          <div class="bg-lightcontainer-fluid pt-4 px-4 shadow-lg mt-4 rounded-3">
+
+
+            <div class=" rounded h-100 p-4">
+              <h5 class="mb-4">My Tests</h5>
+              <div class="container gy-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-body flex-grow-1">
+                        <h5 class="card-title text-center">TOEIC</h5>
+                        <p class="card-text text-left">The Test of English for International Communication (TOEIC) is an
+                          international standardized test of English language proficiency for non-native speakers. It is
+                          intentionally designed to measure the everyday English skills of people working in an
+                          international environment.</p>
+                      </div>
+                      <button type="button" class=" btn btn-primary m-2">Take Test</button>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-body flex-grow-1">
+                        <h5 class="card-title text-center">SAT</h5>
+                        <p class="card-text text-left">The SAT is an entrance exam used by most colleges and
+                          universities to make admissions decisions. The SAT is a multiple-choice, pencil-and-paper test
+                          created and administered by the College Board.</p>
+
+                      </div>
+                      <button type="button" class=" btn btn-primary m-2">Take Test</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                  <div class="col">
+                    <h5 class="float-start">Recent Tests Results</h5>
+                  </div>
+                  <div class="col-3">
+                    <select class="form-select" id="test-select" name="testSelect">
+                      <option value="">Select your test</option>
+                      <option value="toeic">TOEIC</option>
+                      <option value="sat">SAT</option>
+                    </select>
+                  </div>
+                </div>
+              <div class="w-100 mt-4 container">
+                
+                <div class="row">
+                  <div class="col-md-4" data-test-type="toeic">
+                    <div class="card h-100 d-flex toeic-card flex-column">
+                      <div class="card-body flex-grow-1">
+                        <div class="row">
+                          <div class="col">
+                            <h6 class="float-start">TOEIC</h6>
+                          </div>
+                          <div class="col text-sm-end">
+                            <h7>20/09/2024</h7>
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-8">
+                            <h7 class="float-start">Listening - Full Test</h7>
+
+                          </div>
+                          <div class="col text-sm-end">
+                            <h7>8:00 AM</h7>                           
+
+                          </div>
+                        </div>
+                        <div class="row mt-2">
+                          <h2>550/990</h2>
+                        </div>
+                      </div>
+                      <button type="button" class=" btn btn-primary m-2">Retake</button>
+                    </div>
+                  </div>
+                  <div class="col-md-4" data-test-type="sat">
+                    <div class="card h-100 d-flex flex-column sat-card">
+                      <div class="card-body flex-grow-1">
+                        <div class="row">
+                          <div class="col">
+                            <h6 class="float-start">SAT</h6>
+                          </div>
+                          <div class="col text-sm-end">
+                            <h7>10/09/2024</h7>
+
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-8">
+                            <h7 class="float-start">Listening - Full Test</h7>
+
+                          </div>
+                          <div class="col text-sm-end">
+                            <h7>8:00 AM</h7>                           
+
+                          </div>
+                        </div>
+                        <div class="row mt-2">
+                          <h2>1290/1600</h2>
+                        </div>
+                      </div>
+                      <button type="button" class=" btn btn-primary m-2">Retake</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+
+
+
+
+        </div>
+
       </div>
-      <!-- Footer End -->
     </div>
-    <!-- Content End -->
+
+  </div>
+
+  <!-- Form End -->
 
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+  <!-- Footer Start -->
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded-top p-4">
+      <div class="row">
+        <div class="col-12 col-sm-6 text-center text-sm-start">
+          &copy; <a href="#">ScoreUp</a>, All Right Reserved.
+        </div>
+        <div class="col-12 col-sm-6 text-center text-sm-end">
+          <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+          Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer End -->
+  </div>
+  <!-- Content End -->
+
+
+  <!-- Back to Top -->
+  <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
   </div>
   <!-- Template Javascript -->
   <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../../node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
   <script type="module" src="../js/account.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the dropdown element
+        const testSelect = document.getElementById('test-select'); // Changed id name
+        
+        // Get all test cards
+        const testCards = document.querySelectorAll('[data-test-type]');
+        
+        // Function to show/hide cards based on dropdown selection
+        function filterCards() {
+            const selectedTest = testSelect.value;
+            
+            // Loop through each card
+            testCards.forEach(card => {
+                const cardType = card.getAttribute('data-test-type');
+                
+                // Show card if it matches the selected test or show all cards if no test selected
+                if (selectedTest === cardType || selectedTest === '') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        // Add change event listener to the dropdown
+        testSelect.addEventListener('change', filterCards);
+        
+        // Initial filter to show all cards
+        filterCards();
+    });
+</script>
 </body>
 
 </html>

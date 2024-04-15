@@ -2,6 +2,7 @@ import {checkAuth} from "./helpers/auth.js";
 import {getCookie} from "./helpers/cookieFunctions.js";
 import { privateRequest } from "./databaseAPI.js";
 
+
 document.querySelector('.sidebar-toggler').addEventListener('click', function() {
   var elements = document.querySelectorAll('.sidebar, .content');
   elements.forEach(function(element) {
@@ -96,3 +97,37 @@ checkAuth().then(() => {
   }
   // end get info user
 });
+
+
+window.onload=function()
+document.addEventListener('DOMContentLoaded', function() {
+  // Get the dropdown element
+  const testSelect = document.getElementById('test-select'); // Changed id name
+  
+  // Get all test cards
+  const testCards = document.querySelectorAll('[data-test-type]');
+  
+  // Function to show/hide cards based on dropdown selection
+  function filterCards() {
+      const selectedTest = testSelect.value;
+      
+      // Loop through each card
+      testCards.forEach(card => {
+          const cardType = card.getAttribute('data-test-type');
+          
+          // Show card if it matches the selected test or show all cards if no test selected
+          if (selectedTest === cardType || selectedTest === '') {
+              card.style.display = 'block';
+          } else {
+              card.style.display = 'none';
+          }
+      });
+  }
+  
+  // Add change event listener to the dropdown
+  testSelect.addEventListener('change', filterCards);
+  
+  // Initial filter to show all cards
+  filterCards();
+});
+
