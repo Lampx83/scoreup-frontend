@@ -22,7 +22,8 @@ const createTopNav = (idPage = "") => {
         buttons.style.display = "none";
 
         const avatar = document.querySelector(".user-avatar-topnav img");
-        avatar.src = userInfo.avatar;
+        if (userInfo.avatar)
+          avatar.src = userInfo.avatar;
       }
       else 
       {

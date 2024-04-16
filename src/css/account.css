@@ -64,7 +64,6 @@
 }
 
 .content {
-    margin-left: 250px;
     min-height: 100vh;
     background: #FFF;
     transition: 0.5s;
@@ -84,7 +83,8 @@
     }
 
     .content.open {
-        width: 100%;
+
+        /* width: 100%; */
         margin-left: 0;
     }
 }
@@ -145,6 +145,7 @@
     content: "\f107";
     font-weight: 900;
     transition: .5s;
+    font-family: "Font Awesome 5 Free";
 }
 
 .sidebar .navbar .dropdown-toggle[aria-expanded="true"]::after {
@@ -202,6 +203,7 @@
     content: "\f107";
     font-weight: 900;
     transition: .5s;
+    font-family: "Font Awesome 5 Free";
 }
 
 .content .navbar .dropdown-toggle[aria-expanded="true"]::after {

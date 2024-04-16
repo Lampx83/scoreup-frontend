@@ -89,7 +89,11 @@ checkAuth().then(() => {
   }
   if (userInfo) {
     const userAvatar = document.querySelector(".user-avatar img");
-    userAvatar.src = userInfo.avatar;
+    if (userInfo.avatar)
+    {
+      userAvatar.src = userInfo.avatar;
+      console.log(userInfo.avatar);
+    }
   
     const userName = document.querySelector(".user-name");
     userName.innerHTML = userInfo.username;
