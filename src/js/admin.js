@@ -1,4 +1,5 @@
 import { getDatabase, getPage } from "./databaseAPI.js";
+import config from "./config.js";
 import axios from 'axios';
 
 const initAdminCertsTable = async () => {
@@ -27,7 +28,8 @@ const initAdminCertsTable = async () => {
             button.innerHTML = "Updating...";
             button.disabled = true;
 
-            const response = (await axios.patch('https://foliastudy.com/exam/api/v1/api/questions/update/' + id)).data;
+            // const response = (await axios.patch('https://foliastudy.com/exam/api/v1/api/questions/update/' + id)).data;
+            const response = (await axios.patch(`${config.apiUrl}/questions/update/` + id)).data;
             
             if (response.statusCode === 200) {
                 button.innerHTML = "Updated";

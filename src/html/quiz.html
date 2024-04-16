@@ -36,18 +36,16 @@
             <div
               class="quiz-box__header d-flex justify-content-between align-items-center"
             >
-              <span>Project Management Project</span>
+              <span class="header-title">Project Management Project</span>
               <span class="text-white header-score">Score: 0 / 5</span>
             </div>
           </div>
         </div>
         <div class="container">
-          <div class="quiz-box_content">
+          <form class="quiz-box_content">
             <div class="swiper mySwiper">
               <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  Slide 1
-                </div>
+                <div class="swiper-slide">Slide 1</div>
                 <div class="swiper-slide">Slide 2</div>
                 <div class="swiper-slide">Slide 3</div>
                 <div class="swiper-slide">Slide 4</div>
@@ -61,50 +59,52 @@
               <div class="swiper-button-prev"></div>
               <div class="swiper-pagination"></div>
             </div>
+          </form>
+        </div>
+        <div class="container d-flex justify-content-center my-3">
+          <div class="quiz-box d-flex flex-column">
+            <div
+              class="quiz-box__footer d-flex justify-content-between align-items-center"
+            >
+              <span class="footer-title">Project Management Project</span>
+              <button
+                type="button"
+                class="submit-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#quizResultModal"
+              > Submit </button>
+            </div>
           </div>
         </div>
+        <!-- Button trigger modal -->
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#quizResultModal">
+          Launch demo modal
+        </button> -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="quizResultModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+              
+            <div class="quiz-result">
+              <h2 class="quiz-result__title">Test Result!</h2>
+              <div class="percentage-container">
+                <div class="circular-progress">
+                  <span class="progress-value">0%</span>
+                </div>
+                <span class="score-text">Your score 0 out of 5</span>
+              </div>
+              <div class="buttons d-flex">
+                <button class="tryAgain-btn">Try again</button>
+                <button class="goHome-btn">Go home</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Modal  -->
+
       </div>
 
-      <!-- <div id="quiz-section">
-        <div class="container d-flex justify-content-center my-3">
-          <div class="quiz-box row">
-            <div class="paragraph col-lg-6 ">
-              Paragraph box
-            </div>
-            <div class="d-flex flex-column col-lg-6">
-              <h2 class="quiz-title">Question Zone</h2>
-              <div class="quiz-box__header d-flex justify-content-between align-items-center">
-                <span>Project Management Project</span>
-                <span class="text-white header-score">Score: 0 / 5</span>
-              </div>
-              
-              <h4 class="question-text">What does HTML stand for</h4>
-              <div class="quiz-box_content"></div>
-              <div class="option-list"></div>
-              
-              <div class="quiz-box__footer d-flex justify-content-between align-items-center">
-                <span class="question-total">1 of 5 Questions</span>
-                <button type="button" class="next-btn">Next</button>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="quiz-result">
-          <h2 class="quiz-result__title">Test Result!</h2>
-          <div class="percentage-container">
-            <div class="circular-progress">
-              <span class="progress-value">0%</span>
-            </div>
-            <span class="score-text">Your Score 0 out of 5</span>
-          </div>
-
-          <div class="buttons d-flex">
-            <button class="tryAgain-btn">Try Again</button>
-            <button class="goHome-btn">Go to Home</button>
-          </div>
-        </div>
-      </div> -->
 
       <!-- Footer  -->
       <!-- <div id="footer"></div> -->
@@ -116,9 +116,7 @@
     <script type="module" src="../js/quiz.js"></script>
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
 
-    <script>
-
-    </script>
+    <script></script>
     <!-- End JavaScript Files -->
   </body>
 </html>
