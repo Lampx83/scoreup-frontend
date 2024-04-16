@@ -284,6 +284,7 @@ strong {
   padding: 13px 0 10px;
   transition: all 0.3s;
   pointer-events: none;
+  right: 0;
 }
 
 @media screen and (width >= 992px) {
