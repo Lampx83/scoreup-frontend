@@ -17,6 +17,7 @@
     "selector-pseudo-class-no-unknown": null,
     "selector-class-pattern": null,
     "no-descending-specificity": null,
-    "selector-id-pattern": null
+    "selector-id-pattern": null,
+    "font-family-no-missing-generic-family-keyword": null
   }
 }
