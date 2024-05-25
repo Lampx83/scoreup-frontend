@@ -58,6 +58,18 @@ const init = async () => {
 
   //? lặp qua từng section, lấy câu hỏi của từng section
   let count = 0;
+
+  //? nếu là miniTest thì giảm số lượng câu hỏi
+  if (queryObject.mode == "miniTest") {
+    for (let sectionInfo of sectionsInfo) {
+      sectionInfo.number_questions /= 3;
+    }
+  } else if (queryObject.mode == "shortTest") {
+    for (let sectionInfo of sectionsInfo) {
+      sectionInfo.number_questions /= 2;
+    }
+  }
+
   for (let sectionInfo of sectionsInfo) {
     const sectionLimit = sectionInfo.number_questions;
     let sectionQuestions = [];
@@ -101,7 +113,17 @@ const init = async () => {
 
   //! đếm giờ, set biến global timer
   if (queryObject.mode == "fullTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
-    const timeLimit = certificateInfo.properties.time_limit.rich_text[0]?.plain_text;
+    const timeLimit = parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text);
+    const timer = initTimerCountdown(timeLimit);
+    window.timer = timer;
+    window.timeIn = new Date();
+  } else if (queryObject.mode == "miniTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
+    const timeLimit = parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text) / 3;
+    const timer = initTimerCountdown(timeLimit);
+    window.timer = timer;
+    window.timeIn = new Date();
+  } else if (queryObject.mode == "shortTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
+    const timeLimit = parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text) / 2;
     const timer = initTimerCountdown(timeLimit);
     window.timer = timer;
     window.timeIn = new Date();

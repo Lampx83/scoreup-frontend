@@ -155,7 +155,36 @@
         </div>
       </div>
  
-      <!-- Test Modal -->
+      <!-- Practice Test Modal -->
+      <div class="modal fade" id="practiceTestOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="practiceTestOptionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content quiz-options">
+            <div class="modal-header d-flex justify-content-center">
+              <h5 class="modal-title quiz-prep__title">Practice Options</h5>
+            </div>
+            <div class="modal-body">
+              <form class="quiz-prep__form gy-3 gx-3 align-items-center" id="practiceTestOptionForm" action="test.html">
+                <span class="text-hl">(Optional - If you want to do a full test, leave the options blank.)</span>
+                <div class="custom-line my-3 col-auto"></div>
+                <div class="col-auto">
+                  <div class="row justify-content-between">
+                    <label class="col-auto form-label text-white">Choose Parts:</label>
+                    <div class="col-8 tags-option">
+                    </div>
+                  </div>
+                </div>
+                <div class="custom-line my-3 col-auto"></div>
+              </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn back-btn" data-bs-dismiss="modal">Back</button>
+              <button type="button" class="btn cont-btn">Start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test modal -->
       <div class="modal fade" id="testOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="testOptionLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content quiz-options">
@@ -164,12 +193,30 @@
             </div>
             <div class="modal-body">
               <form class="quiz-prep__form gy-3 gx-3 align-items-center" id="testOptionForm" action="test.html">
-                <span class="text-hl">(Optional - If you want to do a full test, leave the options blank.)</span>
+                <span class="text-hl"></span>
                 <div class="custom-line my-3 col-auto"></div>
                 <div class="col-auto">
                   <div class="row justify-content-between">
-                    <label class="col-auto form-label text-white">Choose Parts:</label>
+                    <label class="col-auto form-label text-white">Choose Mode:</label>
                     <div class="col-8 tags-option">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mode" id="miniTest" value="miniTest">
+                        <label class="form-check-label text-white" for="miniTest">
+                          Mini Test (one-third of the standard test)
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mode" id="shortTest" value="shortTest">
+                        <label class="form-check-label text-white" for="shortTest">
+                          Short Test (one-half of the standard test)
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mode" id="fullTest" value="fullTest" checked>
+                        <label class="form-check-label text-white" for="fullTest">
+                          Full Test
+                        </label>
+                      </div>
                     </div>
                   </div>
                 </div>

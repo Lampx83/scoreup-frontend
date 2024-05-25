@@ -68,11 +68,20 @@ const certificateDetail = async () => {
     <h2 class="text-white">${certificateInfo.title}</h2>
 
     <div class="d-flex align-items-center mt-4">  
-      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#testOption">
+      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#practiceTestOption">
         Practice Test
+      </button>
+      <!--<button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/test.html?certificateId=${queryObj.id}&mode=miniTest'">
+        Mini Test
+      </button>
+      <button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/test.html?certificateId=${queryObj.id}&mode=shortTest'">
+        Short Test
       </button>
       <button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/test.html?certificateId=${queryObj.id}&mode=fullTest'">
         Full Test
+      </button>-->
+      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#testOption">
+        Test
       </button>
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption" >
         Short Quiz
@@ -106,7 +115,26 @@ const certificateDetail = async () => {
   cerInfo.appendChild(cerDes);
   //# end render certificate detail
 
-  //# render popUp Test
+  //# navigate popUp Test
+  const testForm = document.querySelector("#testOption");
+  const testStartBtn = testForm.querySelector(".cont-btn");
+  testStartBtn.onclick = () => {
+    //! check if user is logged in
+    const token = getCookie("token");
+    if (!token) {
+      const loginBtn = document.querySelector("#login-btn");
+      loginBtn.click();
+      return;
+    }
+    //! end check if user is logged in
+    const mode = testForm.querySelector('input[type="radio"]:checked').value;
+    let url = config.baseUrl + "/" + testForm.querySelector("#testOptionForm").getAttribute("action");
+    url += `?certificateId=${queryObj.id.split("-").join("")}&mode=${mode}`;
+    window.location.href = url;
+  };
+  //# end navigate popUp Test
+
+  //# render popUp Practice Test
   const tagsOption = document.querySelector(".tags-option");
   certificateInfo.section.forEach((item) => {
     const option = document.createElement("div");
@@ -119,19 +147,19 @@ const certificateDetail = async () => {
     `;
     tagsOption.appendChild(option);
   });
-  //# render popUp Test
+  //# render popUp Practice Test
 
-  //# navigate popUp Test
-  const testForm = document.querySelector("#testOption");
-  const testStartBtn = testForm.querySelector(".cont-btn");
-  testStartBtn.onclick = () => {
-    const tagOptions = testForm.querySelectorAll(
+  //# navigate popUp Practice Test
+  const practiceTestForm = document.querySelector("#practiceTestOption");
+  const practiceTestStartBtn = practiceTestForm.querySelector(".cont-btn");
+  practiceTestStartBtn.onclick = () => {
+    const tagOptions = practiceTestForm.querySelectorAll(
       'input[type="checkbox"]:checked'
     );
     let url =
       config.baseUrl +
       "/" +
-      testForm.querySelector("#testOptionForm").getAttribute("action");
+      practiceTestForm.querySelector("#practiceTestOptionForm").getAttribute("action");
     let tagOptionsArr = [...tagOptions];
 
     const tags = tagOptionsArr
@@ -190,6 +218,15 @@ const certificateDetail = async () => {
   //# navigate popUp Quiz
   const quizStartBtn = quizForm.querySelector(".cont-btn");
   quizStartBtn.onclick = () => {
+    //! check if user is logged in
+    const token = getCookie("token");
+    if (!token) {
+      const loginBtn = document.querySelector("#login-btn");
+      loginBtn.click();
+      return;
+    }
+    //! end check if user is logged in
+
     const showAnswerNow = quizForm.querySelector("#showAnswerNow").checked;
     const limitQs = quizForm.querySelector('input[type="number"]').value;
     const tagOptions = quizForm.querySelectorAll(
