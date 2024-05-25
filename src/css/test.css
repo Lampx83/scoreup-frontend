@@ -538,3 +538,20 @@ input:checked+.slider::before {
 }
 
 /* end toogle */
+
+.viewer-toolbar ::marker {
+  font-size: 0 !important;
+}
+
+.notification {
+  background-color: var(--custom-btn-bg-color);
+  padding: 5px 10px;
+  width: fit-content;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  transition: all 0.3s ease-in-out;
+}

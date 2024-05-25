@@ -9,6 +9,8 @@ import * as renderQuestionsFuntions from "./helpers/renderQuestionsFunctions.js"
 import { initTimerCount, initTimerCountdown } from './helpers/timerCounts.js';
 import { checkAuth } from './helpers/auth.js';
 import { initEditor } from './helpers/medium-editor.js';
+import Viewer from 'viewerjs';
+
 
 const init = async () => {
   //? lấy certificateId từ url
@@ -114,6 +116,39 @@ checkAuth();
 init()
   .then(() => {
     initEditor();
+    const viewer = new Viewer(document.querySelector('.images'), {
+      navbar: false,
+      title: false,
+      toolbar: {
+        zoomIn: true,
+        zoomOut: true,
+        oneToOne: true,
+        reset: true,
+        rotateLeft: true,
+        rotateRight: true,
+        flipHorizontal: true,
+        flipVertical: true,
+      },
+      keyboard: false,
+      loop: false,
+      viewed() {
+        viewer.zoomTo(1.5);
+        // alert("You can zoom in/out by using mouse wheel or by clicking on the image and press 'Ctrl' and scroll up/down");
+        const notification = document.createElement('div');
+        notification.classList.add('notification');
+        notification.innerHTML = "You can zoom in/out by using mouse wheel or use the toolbar below the image.\nYou can also move the image by dragging it.";
+        document.body.appendChild(notification);
+        let opacity = 1;
+        const interval = setInterval(() => {
+          opacity -= 0.05;
+          notification.style.opacity  = opacity;
+        }, 500);
+        setTimeout(() => {
+          clearInterval(interval);
+          notification.remove();
+        }, 5000);
+      }
+    })
   });
 
 //! ask for infor
