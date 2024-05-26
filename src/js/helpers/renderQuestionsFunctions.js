@@ -531,6 +531,10 @@ export const initFormLogic = (max_score = 100) => {
       submitBtn.type = "button";
       //!end cancel submit btn
 
+      //! xoa testProcess
+      localStorage.removeItem("testProcess");
+      //! end xoa testProcess
+
       const optionsContainers = testForm.querySelectorAll(".question-main__options");
 
       const inputs = testForm.querySelectorAll("input");
