@@ -65,11 +65,13 @@ export const showQuestion = (questionId) => {
       btnShowing?.classList.remove("question-palette__item--active"); //? chuyển btn sang trạng thái không chọn
     });
 
-    const questionTargetIds = questionTarget.getAttribute("data-question-id").split(',');
-    questionTargetIds.forEach((questionTargetId) => {
-      const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionTargetId}"]`);
-      btnTarget?.classList.add("question-palette__item--active"); //? chuyển btn sang trạng thái chọn
-    });
+    // const questionTargetIds = questionTarget.getAttribute("data-question-id").split(',');
+    // questionTargetIds.forEach((questionTargetId) => {
+    //   const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionTargetId}"]`);
+    //   btnTarget?.classList.add("question-palette__item--active"); //? chuyển btn sang trạng thái chọn
+    // });
+    const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionId}"]`);
+    btnTarget?.classList.add("question-palette__item--active"); //? chuyển btn sang trạng thái chọn
   } else if (!questionShowingIds) {
     const questionTarget = document.querySelector(`.question-container[data-question-id="${questionId}"]`);
     if (questionTarget) {
@@ -79,10 +81,12 @@ export const showQuestion = (questionId) => {
       initLogQuestion({questionId: questionTarget.querySelector(".question-main").getAttribute("data-question-id")});
 
       const questionTargetIds = questionTarget.getAttribute("data-question-id").split(',');
-      questionTargetIds.forEach((questionTargetId) => {
-        const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionTargetId}"]`);
-        btnTarget?.classList.add("question-palette__item--active"); //? chuyển btn sang trạng thái chọn
-      });
+      // questionTargetIds.forEach((questionTargetId) => {
+      //   const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionTargetId}"]`);
+      //   btnTarget?.classList.add("question-palette__item--active"); //? chuyển btn sang trạng thái chọn
+      // });
+      const btnTarget = document.querySelector(`.btn-select-question[btn-data-question-id="${questionTargetIds[0]}"]`);
+      btnTarget?.classList.add("question-palette__item--active"); //? chuyển btn sang trạng thái chọn
     }
   }
 }
@@ -225,10 +229,15 @@ const renderSingleQuestion = (index, question, mode) => {
   optionsHtml.sort();
   questionMainOptions.innerHTML = optionsHtml.join('')
 
-  //* logic chọn đáp án
+  //* logic chọn đáp án & lưu lại process
   const inputs = questionMainOptions.querySelectorAll("input");
   inputs.forEach((input) => {
     input.addEventListener("change", () => {
+      //! lấy process
+      let selectedQuestionsProcess = JSON.parse(localStorage.getItem("testProcess")).selectedQuestions || [];
+      selectedQuestionsProcess = selectedQuestionsProcess.filter(item => item._id !== question._id);
+      //! end lấy process
+
       const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${question._id}"]`);
       let check = false;
       for (const input of inputs) {
@@ -236,6 +245,12 @@ const renderSingleQuestion = (index, question, mode) => {
           input.closest(".question-main__option").classList.add("question-main__option--selected");
           questionPaletteItem.classList.add("question-palette__item--selected");
           check = true;
+
+          //! lưu lại process
+          selectedQuestionsProcess.push({
+            _id: question._id,
+            answer: input.value
+          });
         }
         else
         {
@@ -245,6 +260,12 @@ const renderSingleQuestion = (index, question, mode) => {
       if (!check) {
         questionPaletteItem.classList.remove("question-palette__item--selected");
       }
+
+      //! lưu lại process
+      let testProcess = JSON.parse(localStorage.getItem("testProcess"));
+      testProcess.selectedQuestions = selectedQuestionsProcess;
+      localStorage.setItem("testProcess", JSON.stringify(testProcess));
+      //! end lưu lại process
     });
   });
   //* end logic chọn đáp án
@@ -276,12 +297,14 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
 
   //! tạo div question context
   if (questions[0].properties.context.rich_text?.length > 0) {
-    questions[0].properties.context.rich_text[0].plain_text = questions[0].properties.context.rich_text[0].plain_text.replaceAll("src='", "src='" + config.mediaUrl)
+    // console.log(questions[0].properties.context.rich_text[0].plain_text)
+    // questions[0].properties.context.rich_text[0].plain_text = questions[0].properties.context.rich_text[0].plain_text.replaceAll("src='", "src='" + config.mediaUrl)
+    const context = questions[0].properties.context.rich_text[0].plain_text.replaceAll("src='", "src='" + config.mediaUrl)
     const questionContainerContext = document.createElement('div')
     questionContainerContext.classList.add('question-container__context')
     questionContainerContext.innerHTML = `
       <div class="question-container__context-content editor">
-        ${questions[0].properties.context.rich_text[0].plain_text}
+        ${context}
       </div>
     `
     questionContainer.appendChild(questionContainerContext)
@@ -352,17 +375,29 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
     optionsHtml.sort();
     questionMainOptions.innerHTML = optionsHtml.join('')
 
-    //* logic chọn đáp án
+    //* logic chọn đáp án & lưu lại process
     const inputs = questionMainOptions.querySelectorAll("input");
     inputs.forEach((input) => {
       input.addEventListener("change", () => {
+        //! lấy process
+        let selectedQuestionsProcess = JSON.parse(localStorage.getItem("testProcess")).selectedQuestions || [];
+        selectedQuestionsProcess = selectedQuestionsProcess.filter(item => item._id !== question._id);
+        //! end lấy process
+
         const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${question._id}"]`);
         let check = false;
+
         for (const input of inputs) {
           if (input.checked) {
             check = true;
             input.closest(".question-main__option").classList.add("question-main__option--selected");
             questionPaletteItem.classList.add("question-palette__item--selected");
+
+            //! lưu lại process
+            selectedQuestionsProcess.push({
+              _id: question._id,
+              answer: input.value
+            });
           }
           else
           {
@@ -372,6 +407,12 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
         if (!check) {
           questionPaletteItem.classList.remove("question-palette__item--selected");
         }
+
+        //! lưu lại process
+        let testProcess = JSON.parse(localStorage.getItem("testProcess"));
+        testProcess.selectedQuestions = selectedQuestionsProcess;
+        localStorage.setItem("testProcess", JSON.stringify(testProcess));
+        //! end lưu lại process
       });
     });
     //* end logic chọn đáp án
