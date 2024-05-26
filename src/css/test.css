@@ -240,6 +240,10 @@ button {
   display: block;
 }
 
+.question-container img {
+  cursor: pointer;
+}
+
 .question-main {
   width: 90%;
   margin: auto;

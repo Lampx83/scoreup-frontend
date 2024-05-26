@@ -70,34 +70,79 @@ const init = async () => {
     }
   }
 
-  for (let sectionInfo of sectionsInfo) {
-    const sectionLimit = sectionInfo.number_questions;
-    let sectionQuestions = [];
-    
-    sectionQuestions = await getQuestions({
-      notionDatabaseId,
-      tag: sectionInfo.tag,
-      limit: parseInt(sectionLimit),
-      multiQuestions: sectionInfo.multi
-    })
+  //? nếu đã có process thì lấy từ local storage
+  let testProcess = JSON.parse(localStorage.getItem("testProcess"));
+  if (testProcess && testProcess.certificateId === queryObject.certificateId && testProcess.mode === queryObject.mode && JSON.stringify(testProcess.tags) === JSON.stringify(queryObject.tags)){
+    sectionsInfo = testProcess.sectionsInfo;
+    for (let i = 0; i < sectionsInfo.length; i++) {
+      const sectionInfo = sectionsInfo[i];
+      const sectionQuestions = sectionInfo.sectionQuestions;
+  
+      //? xoá hiệu ứng loading
+      const questionsDiv = document.querySelector('.questions')
+      const questions = questionsDiv.closest('.questions')
+      questions.classList.remove('placeholder')
+      const right = questions.closest('.right')
+      right.classList.remove('placeholder-glow')
+      //? end xoá hiệu ứng loading
+  
+      //! render
+      renderQuestionsFuntions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
+      renderQuestionsFuntions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
+      
+      if (sectionInfo.multi)
+        count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
+      else
+        count += sectionQuestions.length;
+    };
+  } else {
+    //! save process to local storage
+    const testProcess = {
+      certificateId: queryObject.certificateId,
+      mode: queryObject.mode,
+      tags: queryObject.tags,
+      sectionsInfo: sectionsInfo
+    };
+    //! end save process to local storage
+  
+    for (let i = 0; i < sectionsInfo.length; i++) {
+      const sectionInfo = sectionsInfo[i];
+      const sectionLimit = sectionInfo.number_questions;
+      let sectionQuestions = [];
+      
+      sectionQuestions = await getQuestions({
+        notionDatabaseId,
+        tag: sectionInfo.tag,
+        limit: parseInt(sectionLimit),
+        multiQuestions: sectionInfo.multi
+      })
+  
+      testProcess.sectionsInfo[i].sectionQuestions = sectionQuestions;
+  
+      //? xoá hiệu ứng loading
+      const questionsDiv = document.querySelector('.questions')
+      const questions = questionsDiv.closest('.questions')
+      questions.classList.remove('placeholder')
+      const right = questions.closest('.right')
+      right.classList.remove('placeholder-glow')
+      //? end xoá hiệu ứng loading
+  
+      //! render
+      renderQuestionsFuntions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
+      renderQuestionsFuntions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
+      
+      if (sectionInfo.multi)
+        count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
+      else
+        count += sectionQuestions.length;
+    };
+  
+    //! save process to local storage
+    localStorage.setItem("testProcess", JSON.stringify(testProcess));
+    //! end save process to local storage
+  }
+  testProcess = JSON.parse(localStorage.getItem("testProcess"));
 
-    //? xoá hiệu ứng loading
-    const questionsDiv = document.querySelector('.questions')
-    const questions = questionsDiv.closest('.questions')
-    questions.classList.remove('placeholder')
-    const right = questions.closest('.right')
-    right.classList.remove('placeholder-glow')
-    //? end xoá hiệu ứng loading
-
-    //! render
-    renderQuestionsFuntions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
-    renderQuestionsFuntions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
-    
-    if (sectionInfo.multi)
-      count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
-    else
-      count += sectionQuestions.length;
-  };
   //! lấy questionContainer đầu tiên rồi hiển thị
   const questionContainers = document.querySelectorAll(".question-container");
   renderQuestionsFuntions.showQuestion(questionContainers[0].getAttribute("data-question-id"));
@@ -112,7 +157,16 @@ const init = async () => {
   renderQuestionsFuntions.initFormLogic();
 
   //! đếm giờ, set biến global timer
-  if (queryObject.mode == "fullTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
+  if (testProcess && testProcess.remainingTime) {
+    const timer = initTimerCountdown(testProcess.remainingTime / 60);
+    window.timer = timer;
+    window.timeIn = new Date();
+  } else if (testProcess && testProcess.timeTaken) {
+    const timer = initTimerCount(testProcess.timeTaken);
+    console.log(testProcess.timeTaken);
+    window.timer = timer;
+    window.timeIn = new Date();
+  } else if (queryObject.mode == "fullTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
     const timeLimit = parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text);
     const timer = initTimerCountdown(timeLimit);
     window.timer = timer;
@@ -128,7 +182,7 @@ const init = async () => {
     window.timer = timer;
     window.timeIn = new Date();
   } else {
-    const timer = initTimerCount();
+    const timer = initTimerCount(0);
     window.timer = timer;
     window.timeIn = new Date();
   }
@@ -171,6 +225,15 @@ init()
         }, 5000);
       }
     })
+
+    //! load process
+    const testProcessSelected = JSON.parse(localStorage.getItem("testProcess")).selectedQuestions || [];
+    testProcessSelected.forEach((question) => {
+      const questionMain = document.querySelector(`.question-main[data-question-id="${question._id}"]`);
+      const input = questionMain.querySelector(`input[value="${question.answer}"]`);
+      input.click();
+    });
+    //! end load process
   });
 
 //! ask for infor
@@ -235,6 +298,14 @@ goBackBtn.addEventListener("click", async () => {
   if (!askForInfo(goBackBtn)) {
     window.history.back();
   };
+});
+
+const pauseBtn = document.querySelector("#pause-btn");
+pauseBtn.addEventListener("click", async () => {
+  const check = confirm("Save and go back to home page?");
+  if (check) {
+    window.history.back();
+  }
 });
 
 //! end ask for infor
