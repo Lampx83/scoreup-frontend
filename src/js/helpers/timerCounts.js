@@ -16,9 +16,10 @@ export const initTimerCountdown = (min, timer = undefined) => {
       document.querySelector(".btn-finish").click();
     }
 
-    if (time % 60 === 0) {
+    if (time % 30 === 0) {
       const testProcess = JSON.parse(localStorage.getItem("testProcess"));
       testProcess.remainingTime = time;
+      testProcess.timeTaken = min * 60 - time;
       localStorage.setItem("testProcess", JSON.stringify(testProcess));
     }
   }, 1000);
@@ -35,7 +36,7 @@ export const initTimerCount = (timeTaken) => {
     time++;
     timer__time.innerHTML = `${hours}:${minutes}:${seconds}`;
     
-    if (time % 60 === 0) {
+    if (time % 30 === 0) {
       const testProcess = JSON.parse(localStorage.getItem("testProcess"));
       testProcess.timeTaken = time;
       localStorage.setItem("testProcess", JSON.stringify(testProcess));

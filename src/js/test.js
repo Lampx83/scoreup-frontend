@@ -157,34 +157,33 @@ const init = async () => {
   renderQuestionsFuntions.initFormLogic();
 
   //! đếm giờ, set biến global timer
-  if (testProcess && testProcess.remainingTime) {
-    const timer = initTimerCountdown(testProcess.remainingTime / 60);
-    window.timer = timer;
-    window.timeIn = new Date();
-  } else if (testProcess && testProcess.timeTaken) {
-    const timer = initTimerCount(testProcess.timeTaken);
-    console.log(testProcess.timeTaken);
-    window.timer = timer;
-    window.timeIn = new Date();
-  } else if (queryObject.mode == "fullTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
-    const timeLimit = parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text);
-    const timer = initTimerCountdown(timeLimit);
-    window.timer = timer;
-    window.timeIn = new Date();
-  } else if (queryObject.mode == "miniTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
-    const timeLimit = parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text) / 3;
-    const timer = initTimerCountdown(timeLimit);
-    window.timer = timer;
-    window.timeIn = new Date();
-  } else if (queryObject.mode == "shortTest" && certificateInfo.properties.time_limit.rich_text[0]?.plain_text) {
-    const timeLimit = parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text) / 2;
-    const timer = initTimerCountdown(timeLimit);
-    window.timer = timer;
-    window.timeIn = new Date();
+  if (testProcess && (testProcess.remainingTime || testProcess.timeTaken)) {
+    console.log(queryObject.mode)
+    switch (queryObject.mode) {
+      case "fullTest":
+      case "miniTest":
+      case "shortTest":
+        window.timer = initTimerCountdown(testProcess.remainingTime / 60);
+        break;
+      case "practice":
+        window.timer = initTimerCount(testProcess.timeTaken);
+        break;
+    }
   } else {
-    const timer = initTimerCount(0);
-    window.timer = timer;
-    window.timeIn = new Date();
+    switch (queryObject.mode) {
+      case "fullTest":
+        window.timer = initTimerCountdown(parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text));
+        break;
+      case "miniTest":
+        window.timer = initTimerCountdown(parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text) / 3);
+        break;
+      case "shortTest":
+        window.timer = initTimerCountdown(parseInt(certificateInfo.properties.time_limit.rich_text[0]?.plain_text) / 2);
+        break;
+      case "practice":
+        window.timer = initTimerCount(0);
+        break;
+    };
   }
 };
 

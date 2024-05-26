@@ -531,10 +531,6 @@ export const initFormLogic = (max_score = 100) => {
       submitBtn.type = "button";
       //!end cancel submit btn
 
-      //! xoa testProcess
-      localStorage.removeItem("testProcess");
-      //! end xoa testProcess
-
       const optionsContainers = testForm.querySelectorAll(".question-main__options");
 
       const inputs = testForm.querySelectorAll("input");
@@ -669,9 +665,14 @@ export const initFormLogic = (max_score = 100) => {
         certificateId: window.certificateInfo.id,
         correctIds: correctIds,
         incorrectIds: incorrectIds,
-        duration: (new Date() - new Date(window.timeIn)) / 1000
+        duration: localStorage.getItem("testProcess") ? JSON.parse(localStorage.getItem("testProcess")).timeTaken : 0,
+        mode: mode
       })
       //! end ghi lại kết quả test
+
+      //! xoa testProcess
+      localStorage.removeItem("testProcess");
+      //! end xoa testProcess
     })
   }
 }
