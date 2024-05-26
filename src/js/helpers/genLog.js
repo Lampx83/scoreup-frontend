@@ -45,7 +45,8 @@ export const commitResult = ({
   certificateId,
   correctIds,
   incorrectIds,
-  duration
+  duration,
+  mode
 }) => {
   const result = {
     certificateId,
@@ -53,6 +54,7 @@ export const commitResult = ({
     incorrectIds,
     userEmail: JSON.parse(cookieFuntions.getCookie("user")).email,
     duration,
+    mode
   }
 
   privateRequest({
