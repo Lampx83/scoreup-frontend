@@ -2,7 +2,7 @@
   "name": "my-project",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
-    "start": "parcel src/html/*.html",
+    "start": "parcel src/html/*.html --no-cache",
     "build": "parcel build --public-url /exam src/html/*.html",
     "prepare": "husky"
   },

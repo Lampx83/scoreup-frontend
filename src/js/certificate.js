@@ -69,7 +69,7 @@ const certificateDetail = async () => {
 
     <div class="d-flex align-items-center mt-4">  
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#practiceTestOption">
-        Practice Test
+        Practice
       </button>
       <!--<button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/test.html?certificateId=${queryObj.id}&mode=miniTest'">
         Mini Test
@@ -81,9 +81,9 @@ const certificateDetail = async () => {
         Full Test
       </button>-->
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#testOption">
-        Test
+        Take Test
       </button>
-      <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#quizOption" >
+      <button type="button" class="btn custom-btn d-none" data-bs-toggle="modal" data-bs-target="#quizOption" >
         Short Quiz
       </button>
       <a href="#top" class="custom-icon bi-bookmark smoothscroll"></a>
