@@ -357,6 +357,7 @@ button {
 
 .question-container__context img {
   max-width: 100%;
+  width: 100%;
 }
 
 /* .question-main-container {
@@ -552,7 +553,7 @@ input:checked+.slider::before {
   padding: 5px 10px;
   width: fit-content;
   border-radius: 5px;
-  position: absolute;
+  position: fixed;
   top: 50px;
   left: 50%;
   transform: translateX(-50%);

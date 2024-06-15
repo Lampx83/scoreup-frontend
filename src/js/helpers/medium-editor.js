@@ -74,10 +74,9 @@ export const initEditor = () => {
     };
   });
 
-  const toggleEditorBtn = document.querySelector('.toggle-editor-btn').querySelector('input');
+  const toggleEditorBtn = document.querySelector('.toggle-editor-btn')?.querySelector('input');
   if (toggleEditorBtn) {
     toggleEditorBtn.addEventListener('change', () => {
-      console.log('toggleEditorBtn.checked', toggleEditorBtn.checked);
       if (toggleEditorBtn.checked) {
         editors.forEach(editor => {
           editor.setAttribute('contenteditable', 'true');

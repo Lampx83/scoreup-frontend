@@ -42,6 +42,7 @@
     "jquery": "^3.7.1",
     "medium-editor": "^5.23.3",
     "owl.carousel": "^2.3.4",
+    "prettier": "^3.3.2",
     "rangy": "^1.3.1",
     "viewerjs": "^1.11.6",
     "vue": "^3.3.4"

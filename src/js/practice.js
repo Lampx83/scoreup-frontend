@@ -63,47 +63,47 @@ const init = async () => {
 
   //? lặp qua từng section, lấy câu hỏi của từng section
   let count = 0;
-
-  //? nếu đã có process thì lấy từ local storage
-  for (let i = 0; i < sectionsInfo.length; i++) {
-    const sectionInfo = sectionsInfo[i];
-    const sectionLimit = sectionInfo.number_questions;
-    let sectionQuestions = [];
-    
-    sectionQuestions = await getQuestions({
-      notionDatabaseId,
-      tag: sectionInfo.tag,
-      limit: parseInt(sectionLimit),
-      multiQuestions: sectionInfo.multi
-    })
-
-    //? xoá hiệu ứng loading
-    const questionsDiv = document.querySelector('.questions')
-    const questions = questionsDiv.closest('.questions')
-    questions.classList.remove('placeholder')
-    const right = questions.closest('.right')
-    right.classList.remove('placeholder-glow')
-    //? end xoá hiệu ứng loading
-
-    //! render
-    renderQuestionsFuntions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
-    renderQuestionsFuntions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
-    
-    if (sectionInfo.multi)
-      count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
-    else
-      count += sectionQuestions.length;
-  };
-
-  //! lấy questionContainer đầu tiên rồi hiển thị
-  const questionContainers = document.querySelectorAll(".question-container");
-  renderQuestionsFuntions.showQuestion(questionContainers[0].getAttribute("data-question-id"));
-  
-  //! logic chuyển câu hỏi
-  renderQuestionsFuntions.navigateQuestion();
-
-  //! logic show hint
-  renderQuestionsFuntions.showHint();
+  //
+  // //? nếu đã có process thì lấy từ local storage
+  // for (let i = 0; i < sectionsInfo.length; i++) {
+  //   const sectionInfo = sectionsInfo[i];
+  //   const sectionLimit = sectionInfo.number_questions;
+  //   let sectionQuestions = [];
+  //
+  //   sectionQuestions = await getQuestions({
+  //     notionDatabaseId,
+  //     tag: sectionInfo.tag,
+  //     limit: parseInt(sectionLimit),
+  //     multiQuestions: sectionInfo.multi
+  //   })
+  //
+  //   //? xoá hiệu ứng loading
+  //   const questionsDiv = document.querySelector('.questions')
+  //   const questions = questionsDiv.closest('.questions')
+  //   questions.classList.remove('placeholder')
+  //   const right = questions.closest('.right')
+  //   right.classList.remove('placeholder-glow')
+  //   //? end xoá hiệu ứng loading
+  //
+  //   //! render
+  //   renderQuestionsFuntions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
+  //   renderQuestionsFuntions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
+  //
+  //   if (sectionInfo.multi)
+  //     count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
+  //   else
+  //     count += sectionQuestions.length;
+  // };
+  //
+  // //! lấy questionContainer đầu tiên rồi hiển thị
+  // const questionContainers = document.querySelectorAll(".question-container");
+  // renderQuestionsFuntions.showQuestion(questionContainers[0].getAttribute("data-question-id"));
+  //
+  // //! logic chuyển câu hỏi
+  // renderQuestionsFuntions.navigateQuestion();
+  //
+  // //! logic show hint
+  // renderQuestionsFuntions.showHint();
 };
 
 checkAuth();
@@ -143,87 +143,4 @@ init()
         }, 5000);
       }
     })
-
-    //! load process
-    const testProcessSelected = JSON.parse(localStorage.getItem("testProcess")).selectedQuestions || [];
-    testProcessSelected.forEach((question) => {
-      const questionMain = document.querySelector(`.question-main[data-question-id="${question._id}"]`);
-      const input = questionMain.querySelector(`input[value="${question.answer}"]`);
-      input.click();
-    });
-    //! end load process
   });
-
-//! ask for infor
-const askForInfo = (button) => {
-  const isAsked = (JSON.parse(getCookie("user"))).askedForInfo;
-  if (!isAsked) {
-    const askForInfoBtn = document.querySelector("#askForInfoBtn");
-    askForInfoBtn.click();
-
-    const askForInfoForm = document.querySelector("#askForInfo-form");
-    askForInfoForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      
-      const gender = document.querySelector("#genderInput").value;
-      const birth = document.querySelector("#birthInput").value;
-      const occupation = document.querySelector("#occupationInput").value;
-      const topics = [...document.querySelectorAll("input[name='topics']")].filter(item => item.checked).map(item => item.value);
-
-      const response = await privateRequest({
-        endpoint: "user/edit",
-        method: "PATCH",
-        body: {
-          gender,
-          birth,
-          occupation,
-          topicsInterested: topics,
-          askedForInfo: true
-        }
-      });
-
-      if (response.statusCode === 200) {
-        alert("Update successed!");
-        checkAuth();
-      } else {
-        alert("Update failed!");
-      }
-
-      const actionButton = button.getAttribute("action");
-      if (actionButton === "reload") {
-        window.location.reload();
-      } else if (actionButton === "back") {
-        window.history.back();
-      }
-    });
-    return true;
-  }
-  else 
-  {
-    return false;
-  }
-}
-
-// const tryAgainBtn = document.querySelector(".tryAgain-btn");
-// tryAgainBtn.addEventListener("click", async () => {
-//   if (!askForInfo(tryAgainBtn)) {
-//     window.location.reload();
-//   };
-// });
-
-// const goBackBtn = document.querySelector(".goBack-btn");
-// goBackBtn.addEventListener("click", async () => {
-//   if (!askForInfo(goBackBtn)) {
-//     window.history.back();
-//   };
-// });
-
-// const pauseBtn = document.querySelector("#pause-btn");
-// pauseBtn.addEventListener("click", async () => {
-//   const check = confirm("Save and go back to home page?");
-//   if (check) {
-//     window.history.back();
-//   }
-// });
-
-//! end ask for infor
