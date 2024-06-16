@@ -11,7 +11,7 @@ import {
   privateRequest
 } from './databaseAPI.js';
 
-import * as renderQuestionsFuntions from "./helpers/renderQuestionsFunctions.js";
+import * as renderQuestionsFunctions from "./helpers/renderQuestionsFunctionsPractice.js";
 import { checkAuth } from './helpers/auth.js';
 import { initEditor } from './helpers/medium-editor.js';
 import Viewer from 'viewerjs';
@@ -54,9 +54,14 @@ const btnTogglePalette = document.querySelector('.question-palette__label');
 if (btnTogglePalette) {
   btnTogglePalette.addEventListener('click', () => {
     const paletteContent = document.querySelector('.question-palette');
-    // paletteContent.classList.toggle('hidden');
-    paletteContent.style.top = paletteContent.style.top === '0px' ? `calc(${-paletteContent.offsetHeight + paletteContent.querySelector('.question-palette__label').offsetHeight}px)` : '0';
-
+    const questionLabel = document.querySelector('.question-palette__label');
+    if (paletteContent.style.top === '0px' || !paletteContent.style.top) {
+      paletteContent.style.top = `calc(${-paletteContent.offsetHeight + questionLabel.offsetHeight}px)`;
+      questionLabel.querySelector('i').style.transform = 'rotate(180deg)';
+    } else {
+      paletteContent.style.top = '0';
+      questionLabel.querySelector('i').style.transform = 'rotate(0deg)';
+    }
   })
 }
 // end toggle question palette
@@ -85,7 +90,7 @@ const init = async () => {
   //? set title cho page
   const certificateTitles = document.querySelectorAll('.certificate-title');
   certificateTitles.forEach((title) => {
-    title.innerHTML = "Test " + certificateInfo.properties.title.title[0]?.plain_text;
+    title.innerHTML = "Practice " + certificateInfo.properties.title.title[0]?.plain_text;
   });
 
   //? lấy thông tin các section của bài thi
@@ -107,47 +112,30 @@ const init = async () => {
 
   //? lặp qua từng section, lấy câu hỏi của từng section
   let count = 0;
-  //
-  // //? nếu đã có process thì lấy từ local storage
-  // for (let i = 0; i < sectionsInfo.length; i++) {
-  //   const sectionInfo = sectionsInfo[i];
-  //   const sectionLimit = sectionInfo.number_questions;
-  //   let sectionQuestions = [];
-  //
-  //   sectionQuestions = await getQuestions({
-  //     notionDatabaseId,
-  //     tag: sectionInfo.tag,
-  //     limit: parseInt(sectionLimit),
-  //     multiQuestions: sectionInfo.multi
-  //   })
-  //
-  //   //? xoá hiệu ứng loading
-  //   const questionsDiv = document.querySelector('.questions')
-  //   const questions = questionsDiv.closest('.questions')
-  //   questions.classList.remove('placeholder')
-  //   const right = questions.closest('.right')
-  //   right.classList.remove('placeholder-glow')
-  //   //? end xoá hiệu ứng loading
-  //
-  //   //! render
-  //   renderQuestionsFuntions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
-  //   renderQuestionsFuntions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
-  //
-  //   if (sectionInfo.multi)
-  //     count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
-  //   else
-  //     count += sectionQuestions.length;
-  // };
-  //
-  // //! lấy questionContainer đầu tiên rồi hiển thị
-  // const questionContainers = document.querySelectorAll(".question-container");
-  // renderQuestionsFuntions.showQuestion(questionContainers[0].getAttribute("data-question-id"));
-  //
-  // //! logic chuyển câu hỏi
-  // renderQuestionsFuntions.navigateQuestion();
-  //
+
+  for (let i = 0; i < sectionsInfo.length; i++) {
+    const sectionInfo = sectionsInfo[i];
+    const sectionLimit = sectionInfo.number_questions;
+    let sectionQuestions = [];
+
+    sectionQuestions = await getQuestions({
+      notionDatabaseId,
+      tag: sectionInfo.tag,
+      limit: parseInt(sectionLimit),
+      multiQuestions: sectionInfo.multi
+    });
+
+    //! render
+    renderQuestionsFunctions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
+    renderQuestionsFunctions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
+
+    if (sectionInfo.multi)
+      count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
+    else
+      count += sectionQuestions.length;
+  }
   // //! logic show hint
-  // renderQuestionsFuntions.showHint();
+  // renderQuestionsFunctions.showHint();
 };
 
 checkAuth();

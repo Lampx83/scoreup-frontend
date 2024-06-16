@@ -226,9 +226,7 @@ button {
   background-color: var(--secondary-color);
 }
 
-.prevent-select {
-  user-select: none; /* Safari */
-  user-select: none; /* IE 10 and IE 11 */
+.prevent-select { /* Safari */ /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
 
@@ -585,6 +583,10 @@ input:checked + .slider::before {
 }
 
 /* actions */
+.question-main__actions {
+  display: flex;
+  align-items: center;
+}
 
 .btn-mastered {
   background-color: #2980b9;
