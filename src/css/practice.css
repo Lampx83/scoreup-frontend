@@ -211,22 +211,9 @@ button {
 /* end main */
 
 /* question palette */
-.question-palette {
-  max-height: 50vh;
-  overflow: auto;
-  background-color: transparent !important;
-  box-shadow:
-    0 5px 5px -3px rgb(0 0 0 / 20%),
-    0 8px 10px 1px rgb(0 0 0 / 14%),
-    0 3px 14px 2px rgb(0 0 0 / 12%);
-  border-radius: 10px;
-  border-top-left-radius: 0;
-  position: sticky;
-  align-self: flex-start;
-}
-
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -239,14 +226,42 @@ button {
   background-color: var(--secondary-color);
 }
 
+.prevent-select {
+  user-select: none; /* Safari */
+  user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.question-palette {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.question-palette.hidden {
+  top: -20px;
+}
+
 .question-palette__content {
-  border-radius: 10px;
-  border-top-left-radius: 0;
-  width: 100%;
+  border-radius: 10px 10px 10px 0;
   background-color: #fff;
-  padding: 5px 10px;
-  min-height: 200px;
-  height: 100%;
+  cursor: pointer;
+  padding: 10px 10px 0;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.question-palette__list {
+  padding-bottom: 10px;
+  height: 120px;
+  width: fit-content;
+  overflow: auto;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  transition: all 0.3s linear;
 }
 
 .question-palette__label {
@@ -254,33 +269,15 @@ button {
   font-weight: bold;
   display: inline-block;
   padding: 3px 8px;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-}
-
-.question-palette__title {
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.question-palette__list {
-
-  /* display: grid;
-  grid-template-columns: repeat(10, 1fr); */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin: auto;
+  border-radius: 0 0 5px 5px;
+  cursor: pointer;
 }
 
 .question-palette__item {
-  flex-basis: 10%;
-  font-size: 14px;
+  height: 40px;
+  min-width: 40px;
   font-weight: bold;
   color: #fff;
-  height: 25px;
-  min-width: 25px;
   padding: 7px;
   margin: 3px;
   border-radius: 4px;
@@ -290,6 +287,8 @@ button {
   cursor: pointer;
   background-color: var(--p-color);
   transition: all 0.3s ease-in-out;
+  border: 1px solid #ccc;
+  text-align: center;
 }
 
 .question-palette__item:hover {

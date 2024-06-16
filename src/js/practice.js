@@ -16,6 +16,50 @@ import { checkAuth } from './helpers/auth.js';
 import { initEditor } from './helpers/medium-editor.js';
 import Viewer from 'viewerjs';
 
+// drag questions palette
+const slider = document.querySelector('.question-palette__list');
+let mouseDown = false;
+let startX, scrollLeft;
+
+if (slider) {
+  const startDragging = (e) => {
+    mouseDown = true;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+  }
+
+  const stopDragging = (e) => {
+    mouseDown = false;
+  }
+
+  const move = (e) => {
+    e.preventDefault();
+    if(!mouseDown) { return; }
+    const x = e.pageX - slider.offsetLeft;
+    const scroll = x - startX;
+    slider.scrollLeft = scrollLeft - scroll;
+  }
+  // drag questions palette
+
+  // Add the event listeners
+  slider.addEventListener('mousemove', move, false);
+  slider.addEventListener('mousedown', startDragging, false);
+  slider.addEventListener('mouseup', stopDragging, false);
+  slider.addEventListener('mouseleave', stopDragging, false);
+}
+// end drag questions palette
+
+// toggle question palette
+const btnTogglePalette = document.querySelector('.question-palette__label');
+if (btnTogglePalette) {
+  btnTogglePalette.addEventListener('click', () => {
+    const paletteContent = document.querySelector('.question-palette');
+    // paletteContent.classList.toggle('hidden');
+    paletteContent.style.top = paletteContent.style.top === '0px' ? `calc(${-paletteContent.offsetHeight + paletteContent.querySelector('.question-palette__label').offsetHeight}px)` : '0';
+
+  })
+}
+// end toggle question palette
 
 const init = async () => {
   //? lấy certificateId từ url
