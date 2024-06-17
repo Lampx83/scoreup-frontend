@@ -595,7 +595,7 @@ export const initFormLogic = (max_score = 100) => {
       const correctQuestions = document.querySelectorAll(".question-main[data-question-status='correct']");
       const max_score = parseInt(window.certificateInfo.properties.max_score.rich_text[0]?.plain_text) ? parseInt(window.certificateInfo.properties.max_score.rich_text[0]?.plain_text) : 100;
 
-      if (mode && mode == "fullTest") {
+      if (mode && mode === "fullTest") {
         let score = 0;
         if (window.certificateInfo.properties.scoring_pattern.rich_text[0]?.plain_text) {
           const scorePattern = JSON.parse(window.certificateInfo.properties.scoring_pattern.rich_text[0]?.plain_text);

@@ -69,34 +69,6 @@ h6 {
   font-weight: var(--font-weight-medium);
 }
 
-h1 {
-  font-size: var(--h1-font-size);
-  font-weight: var(--font-weight-bold);
-}
-
-h2 {
-  font-size: var(--h2-font-size);
-  font-weight: var(--font-weight-bold);
-}
-
-h3 {
-  font-size: var(--h3-font-size);
-}
-
-h4 {
-  font-size: var(--h4-font-size);
-}
-
-h5 {
-  font-size: var(--h5-font-size);
-}
-
-p {
-  color: var(--p-color);
-  font-size: var(--p-font-size);
-  font-weight: var(--font-weight-normal);
-}
-
 ul li {
   color: var(--p-color);
   font-size: var(--p-font-size);
@@ -226,7 +198,9 @@ button {
   background-color: var(--secondary-color);
 }
 
-.prevent-select { /* Safari */ /* IE 10 and IE 11 */
+.prevent-select { /* Safari */
+
+ /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
 
@@ -297,10 +271,6 @@ button {
   background-color: #ffc107 !important;
 }
 
-.question-palette__item--selected {
-  background-color: #81c6ff;
-}
-
 .question-palette__item--correct {
   background-color: #53ce57 !important;
 }
@@ -361,10 +331,9 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
-.question-main__option:hover,
-.question-main__option--selected {
-  background-color: #2195f3 !important;
-  box-shadow: 0 0 5px 3px rgb(0 0 0 / 20%) !important;
+.question-main__option:hover {
+  background-color: #2195f3;
+  box-shadow: 0 0 5px 3px rgb(0 0 0 / 20%);
   color: var(--white-color);
 }
 
@@ -434,6 +403,7 @@ button {
 
 .question-container__context p {
   font-size: 16px !important;
+  color: black;
 }
 
 .question-container__context img {
@@ -441,23 +411,6 @@ button {
   width: 100%;
 }
 
-/* .question-main-container {
-  max-height: 35vh;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  overflow: auto;
-} */
-/* .question-main-container > .question-main::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background-color: var(--border-color);
-} */
 .question-container__note p {
   font-size: 16px !important;
   font-weight: bold;

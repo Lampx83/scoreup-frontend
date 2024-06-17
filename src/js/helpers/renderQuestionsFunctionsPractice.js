@@ -34,8 +34,288 @@ export const initPaletteHTML = (sectionTitle, sectionQuestions, count = 0, multi
   //! end tạo palette chứa các câu hỏi
 }
 
-const renderComment = () => {
-  document.querySelector('.question-main__comments')?.classList.toggle('active')
+const renderComment = (e) => {
+  const html = `
+    <div class="comment-form">
+      <div class="comment-avatar">
+        <img src="https://avatar.iran.liara.run/public" />
+      </div>
+      <div class="comment-form__body">
+        <div class="messageBox">
+          <input
+            required=""
+            placeholder="Message..."
+            type="text"
+            id="messageInput"
+          />
+          <div class="fileUploadWrapper">
+            <label for="file">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 337 337"
+              >
+                <circle
+                  stroke-width="20"
+                  stroke="#6c6c6c"
+                  fill="none"
+                  r="158.5"
+                  cy="168.5"
+                  cx="168.5"
+                ></circle>
+                <path
+                  stroke-linecap="round"
+                  stroke-width="25"
+                  stroke="#6c6c6c"
+                  d="M167.759 79V259"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-width="25"
+                  stroke="#6c6c6c"
+                  d="M79 167.138H259"
+                ></path>
+              </svg>
+              <span class="tooltip">Add an image</span>
+            </label>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept="image/*"
+            />
+          </div>
+          <button id="sendButton">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 664 663"
+            >
+              <path
+                fill="none"
+                d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+              ></path>
+              <path
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="33.67"
+                stroke="#6c6c6c"
+                d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper">
+      <ul class="list" depth="0" style="--depth: 0">
+        <li class="" style="--nested: true">
+          <div class="comment">
+            <div class="comment-avatar">
+              <img src="https://avatar.iran.liara.run/public" />
+            </div>
+            <div class="">
+              <!-- body -->
+              <div class="comment__body">
+                <p><strong>Ahmad Shadeed</strong></p>
+                <p>
+                  I like that, looks so cool and steady. This is the
+                  way to build such a high performant element in
+                  Javascript. I will keep doing it.
+                </p>
+              </div>
+              <!-- actions -->
+              <div class="comment__actions">
+                <a href="#">Like</a>
+                <a href="#">Reply</a>
+              </div>
+            </div>
+          </div>
+          <ul class="list" depth="1" style="--depth: 1">
+            <li style="">
+              <div class="comment">
+                <div class="comment-avatar">
+                  <img src="https://avatar.iran.liara.run/public" />
+                </div>
+                <div class="">
+                  <!-- body -->
+                  <div class="comment__body">
+                    <p><strong>Ahmad Shadeed</strong></p>
+                    <p>
+                      I like that, looks so cool and steady. This is
+                      the way to build such a high performant
+                      element in Javascript. I will keep doing it.
+                    </p>
+                  </div>
+                  <!-- actions -->
+                  <div class="comment__actions">
+                    <a href="#">Like</a>
+                    <a href="#">Reply</a>
+                    <a>2h</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li style="--nested: true">
+              <div class="comment">
+                <div class="comment-avatar">
+                  <img src="https://avatar.iran.liara.run/public" />
+                </div>
+                <div class="">
+                  <!-- body -->
+                  <div class="comment__body">
+                    <p><strong>Ahmad Shadeed</strong></p>
+                    <p>I like that, loo I will keep doing it.</p>
+                  </div>
+                  <!-- actions -->
+                  <div class="comment__actions">
+                    <a href="#">Like</a>
+                    <a href="#">Reply</a>
+                  </div>
+                </div>
+              </div>
+              <ul class="list" depth="2" style="--depth: 2">
+                <li style="">
+                  <div class="comment">
+                    <div class="comment-avatar">
+                      <img
+                        src="https://avatar.iran.liara.run/public"
+                      />
+                    </div>
+                    <div class="">
+                      <!-- body -->
+                      <div class="comment__body">
+                        <p><strong>Ahmad Shadeed</strong></p>
+                        <p>
+                          I like that, looks so cool and steady.
+                          This is the way to build such a high
+                          performant element in Javascript. I will
+                          keep doing it.
+                        </p>
+                      </div>
+                      <!-- actions -->
+                      <div class="comment__actions">
+                        <a href="#">Like</a>
+                        <a href="#">Reply</a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li style="--nested: true">
+                  <div class="comment">
+                    <div class="comment-avatar">
+                      <img
+                        src="https://avatar.iran.liara.run/public"
+                      />
+                    </div>
+                    <div class="">
+                      <!-- body -->
+                      <div class="comment__body">
+                        <p><strong>Ahmad Shadeed</strong></p>
+                        <p>
+                          I like that, looks so cool and steady.
+                          This is the way to build such a high
+                          performant element in Javascript. I will
+                          keep doing it.
+                        </p>
+                      </div>
+                      <!-- actions -->
+                      <div class="comment__actions">
+                        <a href="#">Like</a>
+                        <a href="#">Reply</a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+            <li style="--nested: true">
+              <div class="comment">
+                <div class="comment-avatar">
+                  <img src="https://avatar.iran.liara.run/public" />
+                </div>
+                <div class="">
+                  <!-- body -->
+                  <div class="comment__body">
+                    <p><strong>Ahmad Shadeed</strong></p>
+                    <p>
+                      I like that, looks so cool and steady. This is
+                      the way to build such a high performant
+                      element in Javascript. I will keep doing it.
+                    </p>
+                  </div>
+                  <!-- actions -->
+                  <div class="comment__actions">
+                    <a href="#">Like</a>
+                    <a href="#">Reply</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <div class="comment">
+            <div class="comment-avatar">
+              <img src="https://avatar.iran.liara.run/public" />
+            </div>
+            <div class="">
+              <!-- body -->
+              <div class="comment__body">
+                <p><strong>Ahmad Shadeed</strong></p>
+                <p>
+                  I like that, looks so cool and steady. This is the
+                  way to build such a high performant element in
+                  Javascript. I will keep doing it.
+                </p>
+              </div>
+              <!-- actions -->
+              <div class="comment__actions">
+                <a href="#">Like</a>
+                <a href="#">Reply</a>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="comment">
+            <div class="comment-avatar">
+              <img src="https://avatar.iran.liara.run/public" />
+            </div>
+            <div class="">
+              <!-- body -->
+              <div class="comment__body">
+                <p><strong>Ahmad Shadeed</strong></p>
+                <p>
+                  I like that, looks so cool and steady. This is the
+                  way to build such a high performant element in
+                  Javascript. I will keep doing it.
+                </p>
+              </div>
+              <!-- actions -->
+              <div class="comment__actions">
+                <a href="#">Like</a>
+                <a href="#">Reply</a>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  `
+  let target = e.target
+  if (target.getAttribute('data-question-id') === null) {
+    target = target.closest('.btn-comment')
+  }
+  const commentsDiv = document.querySelector(`.question-main__comments[data-question-id="${target.getAttribute('data-question-id')}"]`)
+
+  if (commentsDiv.classList.contains('active')) {
+    commentsDiv.classList.remove('active')
+    return
+  }
+
+  commentsDiv.classList.add('active')
+  commentsDiv.innerHTML = html
 }
 
 const renderSingleQuestion = (index, question, mode) => {
@@ -64,12 +344,12 @@ const renderSingleQuestion = (index, question, mode) => {
   if (question.properties.hint.rich_text?.length > 0 && question.properties.hint.rich_text[0].plain_text.length > 0 && question.properties.hint.rich_text[0].plain_text.split(' ').join('') !== '') {
     questionMain.setAttribute('data-question-hint', question.properties.hint.rich_text[0].plain_text)
   } else {
-    questionMain.setAttribute('data-question-hint', 'Sorry, no hint for this question')
+    questionMain.setAttribute('data-question-hint', 'Sorry, no explain for this question')
   }
 
   //! tạo button hint
   const questionHint = document.createElement('div')
-  questionHint.classList.add('question-hint', 'btn', 'btn-primary', 'btn-hint')
+  questionHint.classList.add('question-hint', 'btn', 'btn-primary', 'btn-hint', 'd-none')
   if (!(mode === "practice")) {
     questionHint.classList.add('d-none');
   };
@@ -86,7 +366,7 @@ const renderSingleQuestion = (index, question, mode) => {
     <h6 class="question-main__title editor">
       <strong>Question ${index}:</strong> ${question.properties.question.rich_text[0].plain_text}
     </h6>
-    <div class="question-main__img">
+    <div class="question-main__img text-center">
       <img src="${config.mediaUrl + question.properties.img.rich_text[0]?.plain_text}" alt="">
     </div>
   `
@@ -122,6 +402,8 @@ const renderSingleQuestion = (index, question, mode) => {
     <div class="col-6">
       <button
         class="btn-comment"
+        type="button"
+        data-question-id="${question._id}"
       >
         <span class="IconContainer">
           <svg fill="white" viewBox="0 0 512 512" height="1em">
@@ -141,35 +423,24 @@ const renderSingleQuestion = (index, question, mode) => {
       <button class="btn btn-not-sure">Not sure</button>
     </div>
   `
+
   const commentBtn = questionMainActions.querySelector('.btn-comment')
   commentBtn.addEventListener('click', renderComment)
+
+  const notSureBtn = questionMainActions.querySelector('.btn-not-sure')
+  notSureBtn.addEventListener('click', () => {
+    const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id='${question._id}']`)
+    questionPaletteItem.classList.toggle('question-palette__item--flagged')
+  })
+
   questionMain.appendChild(questionMainActions)
+
+  const questionMainComments = document.createElement('div')
+  questionMainComments.classList.add('question-main__comments')
+  questionMainComments.setAttribute('data-question-id', question._id)
+  questionMain.appendChild(questionMainComments)
   //! end tao div actions
 
-  //* logic chọn đáp án & lưu lại process
-  const inputs = questionMainOptions.querySelectorAll("input");
-  inputs.forEach((input) => {
-    input.addEventListener("change", () => {
-
-      const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${question._id}"]`);
-      let check = false;
-      for (const input of inputs) {
-        if (input.checked) {
-          input.closest(".question-main__option").classList.add("question-main__option--selected");
-          questionPaletteItem.classList.add("question-palette__item--selected");
-          check = true;
-        }
-        else
-        {
-          input.closest(".question-main__option").classList.remove("question-main__option--selected");
-        }
-      }
-      if (!check) {
-        questionPaletteItem.classList.remove("question-palette__item--selected");
-      }
-    });
-  });
-  //* end logic chọn đáp án
   questionContainer.appendChild(questionMain)
   //! end tạo div options
 
@@ -225,12 +496,12 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
     if (question.properties.hint.rich_text?.length > 0 && question.properties.hint.rich_text[0].plain_text.length > 0 && question.properties.hint.rich_text[0].plain_text.split(' ').join('') !== '') {
       questionMain.setAttribute('data-question-hint', question.properties.hint.rich_text[0].plain_text)
     } else {
-      questionMain.setAttribute('data-question-hint', 'Sorry, no hint for this question')
+      questionMain.setAttribute('data-question-hint', 'Sorry, no explain for this question')
     }
 
     //! tạo button hint
     const questionHint = document.createElement('div')
-    questionHint.classList.add('question-hint', 'btn', 'btn-primary', 'btn-hint')
+    questionHint.classList.add('question-hint', 'btn', 'btn-primary', 'btn-hint', 'd-none')
     if (!(mode === "practice")) {
       questionHint.classList.add('d-none');
     };
@@ -247,7 +518,7 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
       <h6 class="question-main__title editor">
         <strong>Question ${count}:</strong> ${question.properties.question.rich_text[0].plain_text}
       </h6>
-      <div class="question-main__img">
+      <div class="question-main__img text-center">
         <img src="${config.mediaUrl + question.properties.img.rich_text[0]?.plain_text}" alt="">
       </div>
     `
@@ -283,6 +554,8 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
       <div class="col-6">
         <button
           class="btn-comment"
+          type="button"
+          data-question-id="${question._id}"
         >
           <span class="IconContainer">
             <svg fill="white" viewBox="0 0 512 512" height="1em">
@@ -301,37 +574,23 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
         <button class="btn btn-mastered">Mastered</button>
         <button class="btn btn-not-sure">Not sure</button>
       </div>
-    `
+     `
+
     const commentBtn = questionMainActions.querySelector('.btn-comment')
     commentBtn.addEventListener('click', renderComment)
+
+    const notSureBtn = questionMainActions.querySelector('.btn-not-sure')
+    notSureBtn.addEventListener('click', () => {
+      const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id='${question._id}']`)
+      questionPaletteItem.classList.toggle('question-palette__item--flagged')
+    })
+
     questionMain.appendChild(questionMainActions)
 
-    //* logic chọn đáp án & lưu lại process
-    const inputs = questionMainOptions.querySelectorAll("input");
-    inputs.forEach((input) => {
-      input.addEventListener("change", () => {
-
-        const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${question._id}"]`);
-        let check = false;
-
-        for (const input of inputs) {
-          if (input.checked) {
-            check = true;
-            input.closest(".question-main__option").classList.add("question-main__option--selected");
-            questionPaletteItem.classList.add("question-palette__item--selected");
-          }
-          else
-          {
-            input.closest(".question-main__option").classList.remove("question-main__option--selected");
-          }
-        }
-        if (!check) {
-          questionPaletteItem.classList.remove("question-palette__item--selected");
-        }
-      });
-    });
-    //* end logic chọn đáp án
-    
+    const questionMainComments = document.createElement('div')
+    questionMainComments.classList.add('question-main__comments')
+    questionMainComments.setAttribute('data-question-id', question._id)
+    questionMain.appendChild(questionMainComments)
 
     questionMainContainer.appendChild(questionMain)
     //! end tạo div options
@@ -353,50 +612,6 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
 
   return questionContainer
 }
-
-//! navigation question
-export const navigateQuestion = () => {
-  const btnNav = document.querySelector('.questions__navigation')
-  if (btnNav) {
-    const btnPrev = btnNav.querySelector('.prev')
-    const btnNext = btnNav.querySelector('.next')
-    btnPrev.addEventListener('click', () => {
-      const currentQuestion = document.querySelector('.question-container.show').querySelector('.question-main.show')
-      const currentQuestionIndex = currentQuestion.getAttribute('data-question-index')
-      const preQuestionIndex = parseInt(currentQuestionIndex) - 1
-      const preQuestionId = document.querySelector(`.question-main[data-question-index="${preQuestionIndex}"]`)?.getAttribute('data-question-id')
-      if (preQuestionId) {
-        showQuestion(preQuestionId)
-      }
-    })
-    btnNext.addEventListener('click', () => {
-      const currentQuestion = document.querySelector('.question-container.show').querySelector('.question-main.show')
-      const currentQuestionIndex = currentQuestion.getAttribute('data-question-index')
-      const nextQuestionIndex = parseInt(currentQuestionIndex) + 1
-      const nextQuestionId = document.querySelector(`.question-main[data-question-index="${nextQuestionIndex}"]`)?.getAttribute('data-question-id')
-      if (nextQuestionId) {
-        showQuestion(nextQuestionId)
-      }
-    })
-
-    const btnFlag = btnNav.querySelector('.flag');
-    btnFlag.addEventListener('click', () => {
-      const currentQuestion = document.querySelector('.question-container.show').querySelector('.question-main.show')
-      const currentQuestionId = currentQuestion.getAttribute('data-question-id')
-      const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id="${currentQuestionId}"]`);
-      questionPaletteItem.classList.toggle('question-palette__item--flagged')
-    })
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") {
-        btnPrev.click();
-      } else if (e.key === "ArrowRight") {
-        btnNext.click();
-      }
-    })
-  }
-}
-//! end navigation question
 
 //! show hint
 export const showHint = () => {
@@ -433,162 +648,35 @@ export const initQuestionHTML = (sectionTitle, sectionQuestions, count = 0, mode
   //!end render câu hỏi
 }
 
-//! logic form
-export const initFormLogic = (max_score = 100) => {
-  const testForm = document.querySelector("#test-form");
-  if (testForm)
-  {
-    testForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      //! cancel submit btn
-      const submitBtn = document.querySelector("#submit-btn");
-      submitBtn.type = "button";
-      //!end cancel submit btn
-
-      const optionsContainers = testForm.querySelectorAll(".question-main__options");
-
-      const inputs = testForm.querySelectorAll("input");
-      inputs.forEach((input) => {
-        input.disabled = true;
-      });
-
-      optionsContainers.forEach(item => {
-        const selectedOptions = item.querySelectorAll("input:checked");
-        const correctOptionsIds = item.getAttribute("data-correct-option").split(",");
-
-        selectedOptions.forEach((selectedOption) => {
-          const selectedOptionId = selectedOption.closest(".question-main__option").getAttribute("data-option-id");
-          
-          if (!correctOptionsIds.includes(selectedOptionId)) {
-            selectedOption.closest(".question-main__option").classList.add("question-main__option--incorrect");
-            document.querySelector(".question-palette__item[btn-data-question-id='" + item.getAttribute("data-question-id") + "']").classList.add("question-palette__item--incorrect");
-            item.closest(".question-main").setAttribute("data-question-status", "incorrect");
-          } else {
-            selectedOption.closest(".question-main__option").classList.add("question-main__option--correct");
-            document.querySelector(".question-palette__item[btn-data-question-id='" + item.getAttribute("data-question-id") + "']").classList.add("question-palette__item--correct");
-            item.closest(".question-main").setAttribute("data-question-status", "correct");
-          }
+export const logicSelectOption = () => {
+  const optionsContainers = document.querySelectorAll('.question-main__options');
+  optionsContainers.forEach((container) => {
+    const correctOption = container.getAttribute('data-correct-option');
+    const inputs = container.querySelectorAll('input');
+    inputs.forEach((input) => {
+      input.addEventListener('change', (e) => {
+        inputs.forEach((input) => {
+          input.disabled = true;
         });
 
-        correctOptionsIds.forEach((correctOptionId) => {
-          const correctOption = item.querySelector(`.question-main__option[data-option-id="${correctOptionId}"]`);
-          correctOption.classList.add("question-main__option--correct");
+        const selectedOption = input.closest('.question-main__option');
+        const selectedValue = selectedOption.getAttribute('data-option-id');
+        const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id='${container.getAttribute('data-question-id')}']`);
+        if (selectedValue === correctOption) {
+          selectedOption.classList.add('question-main__option--correct');
+          questionPaletteItem.classList.add('question-palette__item--correct');
+        } else {
+          selectedOption.classList.add('question-main__option--incorrect');
+          questionPaletteItem.classList.add('question-palette__item--incorrect');
 
-          if (!selectedOptions.length || selectedOptions.length != correctOptionsIds.length) {
-            document.querySelector(".question-palette__item[btn-data-question-id='" + item.getAttribute("data-question-id") + "']").classList.add("question-palette__item--incorrect");
-            item.closest(".question-main").setAttribute("data-question-status", "incorrect");
-          }
-        });
+          const correctOptionElement = container.querySelector(`.question-main__option[data-option-id="${correctOption}"]`);
+          correctOptionElement.classList.add('question-main__option--correct');
+        }
+
+      //   show hint
+        const keyBtn = container.closest('.question-main').querySelector('.btn-hint');
+        keyBtn.classList.remove('d-none');
       });
-
-      //! dừng đồng hồ
-      const currentTimer = document.querySelector(".timer__time");
-      if (currentTimer)
-      {
-        const currentTimerValue = currentTimer.innerHTML;
-        currentTimer.classList.add("timer__time--red");
-        clearInterval(window.timer);
-        currentTimer.innerHTML = currentTimerValue;
-      }
-      //! end dừng đồng hồ
-
-      //! hiển thị nút hint
-      const btnsHint = document.querySelectorAll('.btn-hint')
-      btnsHint.forEach((btn) => {
-        btn.classList.remove('d-none')
-      })
-      //! end hiển thị nút hint
-
-      //! hiển thị modal result
-      //? lấy score pattern
-      const searchParams = new URLSearchParams(window.location.search);
-      const mode = searchParams.get("mode");
-      const resultModal = document.querySelector('#result-modal')
-      const questions = document.querySelectorAll(".question-main");
-      const totalQuestions = questions.length;
-      const correctQuestions = document.querySelectorAll(".question-main[data-question-status='correct']");
-      const max_score = parseInt(window.certificateInfo.properties.max_score.rich_text[0]?.plain_text) ? parseInt(window.certificateInfo.properties.max_score.rich_text[0]?.plain_text) : 100;
-
-      if (mode && mode == "fullTest") {
-        let score = 0;
-        if (window.certificateInfo.properties.scoring_pattern.rich_text[0]?.plain_text) {
-          const scorePattern = JSON.parse(window.certificateInfo.properties.scoring_pattern.rich_text[0]?.plain_text);
-          const result = {};
-    
-          correctQuestions.forEach((question) => {
-            const id = question.getAttribute('data-question-id');
-            const sectionTitle = document.querySelector(`.question-palette__item[btn-data-question-id="${id}"]`).closest('.question-palette__section').querySelector('.question-palette__title').textContent;
-    
-            for (const key in scorePattern) {
-              if (key.includes(sectionTitle)) {
-                if (!result[key]) {
-                  result[key] = 0;
-                }
-                result[key] += 1;
-              }
-            }
-          });
-    
-          for (const key in result) {
-            score += (scorePattern[key][result[key]]);
-          }
-        } else score = (correctQuestions.length / totalQuestions) * max_score;
-        
-        const scoreText = document.querySelector('.score-text');
-        scoreText.textContent = `Your Score ${correctQuestions.length} out of ${questions.length}`
-  
-        const circularProgress = resultModal.querySelector('.circular-progress');
-        const progressValue = resultModal.querySelector('.progress-value');
-        progressValue.textContent = `${score.toFixed(0)}`;
-        circularProgress.style.background = `conic-gradient(#a5d7e8 ${(score / max_score) * 360}deg, rgba(255, 255, 255, .1) 0deg)`;
-  
-      } else {
-        const scoreText = document.querySelector('.score-text');
-        scoreText.textContent = `Your Score ${correctQuestions.length} out of ${questions.length}`
-  
-        const circularProgress = resultModal.querySelector('.circular-progress');
-        const progressValue = resultModal.querySelector('.progress-value');
-        let progressStartValue = 0;
-        let progressEndValue = (correctQuestions.length / totalQuestions) * 100;
-  
-        let progress = setInterval(() => {
-          if (progressStartValue < 100 && progressEndValue < 100 && progressStartValue < progressEndValue) {
-            progressStartValue += 0.2;
-            progressValue.textContent = `${progressStartValue.toFixed(1)} %`;
-            circularProgress.style.background = `conic-gradient(#a5d7e8 ${progressStartValue * 3.6}deg, rgba(255, 255, 255, .1) 0deg)`;
-            if (progressStartValue == progressEndValue) {
-              clearInterval(progress);
-            }
-          } else {
-            progressStartValue = progressEndValue = 100;
-            clearInterval(progress);
-          }
-        }, 1);
-      }
-
-      //! end hiển thị modal result
-
-      //! ghi lại kết quả test
-      const correctIds = Array.from(document.querySelectorAll(".question-main[data-question-status='correct']")).map(question => {
-        return question.getAttribute('data-question-id')
-      })
-      const incorrectIds = Array.from(document.querySelectorAll(".question-main[data-question-status='incorrect']")).map(question => {
-        return question.getAttribute('data-question-id')
-      })
-      commitResult({
-        certificateId: window.certificateInfo.id,
-        correctIds: correctIds,
-        incorrectIds: incorrectIds,
-        duration: localStorage.getItem("testProcess") ? JSON.parse(localStorage.getItem("testProcess")).timeTaken : 0,
-        mode: mode
-      })
-      //! end ghi lại kết quả test
-
-      //! xoa testProcess
-      localStorage.removeItem("testProcess");
-      //! end xoa testProcess
-    })
-  }
+    });
+  });
 }
-//! end logic form

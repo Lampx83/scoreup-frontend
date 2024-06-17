@@ -135,7 +135,10 @@ const init = async () => {
       count += sectionQuestions.length;
   }
   // //! logic show hint
-  // renderQuestionsFunctions.showHint();
+  renderQuestionsFunctions.showHint();
+
+  // logic select option
+  renderQuestionsFunctions.logicSelectOption();
 };
 
 checkAuth();
