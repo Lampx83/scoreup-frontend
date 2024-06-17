@@ -352,10 +352,11 @@ const renderSingleQuestion = (index, question, mode) => {
   questionHint.classList.add('question-hint', 'btn', 'btn-primary', 'btn-hint', 'd-none')
   if (!(mode === "practice")) {
     questionHint.classList.add('d-none');
-  };
+  }
   questionHint.setAttribute('data-bs-toggle', 'modal')
   questionHint.setAttribute('data-bs-target', '#hint-modal')
   questionHint.innerHTML = `<i class="fa-solid fa-lightbulb"></i> Key`
+  questionHint.addEventListener('click', handleHintClick)
   questionMain.appendChild(questionHint)
   //! end tạo button hint
 
@@ -393,6 +394,7 @@ const renderSingleQuestion = (index, question, mode) => {
   }
   optionsHtml.sort();
   questionMainOptions.innerHTML = optionsHtml.join('')
+  handleSelectOption(questionMainOptions, question._id, question.properties.correct.rich_text[0].plain_text)
   questionMain.appendChild(questionMainOptions)
 
   //! tao div actions
@@ -508,6 +510,7 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
     questionHint.setAttribute('data-bs-toggle', 'modal')
     questionHint.setAttribute('data-bs-target', '#hint-modal')
     questionHint.innerHTML = `<i class="fa-solid fa-lightbulb"></i> Key`
+    questionHint.addEventListener('click', handleHintClick)
     questionMain.appendChild(questionHint)
     //! end tạo button hint
   
@@ -545,6 +548,7 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
     }
     optionsHtml.sort();
     questionMainOptions.innerHTML = optionsHtml.join('')
+    handleSelectOption(questionMainOptions, question._id, question.properties.correct.rich_text[0].plain_text)
     questionMain.appendChild(questionMainOptions)
 
     //! tao div actions
@@ -614,18 +618,10 @@ const renderMultiQuestions = (count = 0, questions, mode) => {
 }
 
 //! show hint
-export const showHint = () => {
-  const btnsShowHint = document.querySelectorAll('.btn-hint')
-  if (btnsShowHint && btnsShowHint.length > 0)
-  {
-    btnsShowHint.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const hint = btn.closest('.question-main').getAttribute('data-question-hint')
-        const hintModalContent = document.querySelector('.content-hint')
-        hintModalContent.innerHTML = hint
-      })
-    })
-  }
+export const handleHintClick = (e) => {
+  const hint = e.target.closest('.question-main').getAttribute('data-question-hint')
+  const hintModalContent = document.querySelector('.content-hint')
+  hintModalContent.innerHTML = hint
 }
 //! end show hint
 
@@ -648,35 +644,31 @@ export const initQuestionHTML = (sectionTitle, sectionQuestions, count = 0, mode
   //!end render câu hỏi
 }
 
-export const logicSelectOption = () => {
-  const optionsContainers = document.querySelectorAll('.question-main__options');
-  optionsContainers.forEach((container) => {
-    const correctOption = container.getAttribute('data-correct-option');
-    const inputs = container.querySelectorAll('input');
-    inputs.forEach((input) => {
-      input.addEventListener('change', (e) => {
-        inputs.forEach((input) => {
-          input.disabled = true;
-        });
-
-        const selectedOption = input.closest('.question-main__option');
-        const selectedValue = selectedOption.getAttribute('data-option-id');
-        const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id='${container.getAttribute('data-question-id')}']`);
-        if (selectedValue === correctOption) {
-          selectedOption.classList.add('question-main__option--correct');
-          questionPaletteItem.classList.add('question-palette__item--correct');
-        } else {
-          selectedOption.classList.add('question-main__option--incorrect');
-          questionPaletteItem.classList.add('question-palette__item--incorrect');
-
-          const correctOptionElement = container.querySelector(`.question-main__option[data-option-id="${correctOption}"]`);
-          correctOptionElement.classList.add('question-main__option--correct');
-        }
-
-      //   show hint
-        const keyBtn = container.closest('.question-main').querySelector('.btn-hint');
-        keyBtn.classList.remove('d-none');
+const handleSelectOption = (container, questionId, correctOption) => {
+  const inputs = container.querySelectorAll('input');
+  inputs.forEach((input) => {
+    input.addEventListener('change', (e) => {
+      inputs.forEach((input) => {
+        input.disabled = true;
       });
+
+      const selectedOption = input.closest('.question-main__option');
+      const selectedValue = selectedOption.getAttribute('data-option-id');
+      const questionPaletteItem = document.querySelector(`.question-palette__item[btn-data-question-id='${questionId}']`);
+      if (selectedValue === correctOption) {
+        selectedOption.classList.add('question-main__option--correct');
+        questionPaletteItem.classList.add('question-palette__item--correct');
+      } else {
+        selectedOption.classList.add('question-main__option--incorrect');
+        questionPaletteItem.classList.add('question-palette__item--incorrect');
+
+        const correctOptionElement = container.querySelector(`.question-main__option[data-option-id="${correctOption}"]`);
+        correctOptionElement.classList.add('question-main__option--correct');
+      }
+
+      // show hint
+      const keyBtn = container.closest('.question-main').querySelector('.btn-hint');
+      keyBtn.classList.remove('d-none');
     });
   });
 }

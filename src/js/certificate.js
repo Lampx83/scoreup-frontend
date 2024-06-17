@@ -69,6 +69,7 @@ const certificateDetail = async () => {
 
     <div class="d-flex align-items-center mt-4">  
       <button type="button" class="btn custom-btn" data-bs-toggle="modal" data-bs-target="#practiceTestOption">
+<!--      <button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/practice.html?certificateId=${queryObj.id}&mode=practice'">-->
         Practice
       </button>
       <!--<button type="button" class="btn custom-btn" onclick="window.location.href='${config.baseUrl}/test.html?certificateId=${queryObj.id}&mode=miniTest'">

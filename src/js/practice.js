@@ -113,32 +113,42 @@ const init = async () => {
   //? lặp qua từng section, lấy câu hỏi của từng section
   let count = 0;
 
-  for (let i = 0; i < sectionsInfo.length; i++) {
-    const sectionInfo = sectionsInfo[i];
-    const sectionLimit = sectionInfo.number_questions;
-    let sectionQuestions = [];
+  const renderQuestions = async () => {
+    for (let i = 0; i < sectionsInfo.length; i++) {
+      const sectionInfo = sectionsInfo[i];
+      // const sectionLimit = sectionInfo.number_questions;
+      const sectionLimit = 5;
+      let sectionQuestions = [];
 
-    sectionQuestions = await getQuestions({
-      notionDatabaseId,
-      tag: sectionInfo.tag,
-      limit: parseInt(sectionLimit),
-      multiQuestions: sectionInfo.multi
-    });
+      sectionQuestions = await getQuestions({
+        notionDatabaseId,
+        tag: sectionInfo.tag,
+        limit: parseInt(sectionLimit),
+        multiQuestions: sectionInfo.multi
+      });
 
-    //! render
-    renderQuestionsFunctions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
-    renderQuestionsFunctions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
+      //! render
+      renderQuestionsFunctions.initPaletteHTML(sectionInfo.section, sectionQuestions, count, sectionInfo.multi);
+      renderQuestionsFunctions.initQuestionHTML(sectionInfo.section, sectionQuestions, count, queryObject.mode, sectionInfo.multi);
 
-    if (sectionInfo.multi)
-      count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
-    else
-      count += sectionQuestions.length;
+      if (sectionInfo.multi)
+        count += sectionQuestions.map(item => item.questions.length).reduce((a, b) => a + b, 0);
+      else
+        count += sectionQuestions.length;
+    }
   }
-  // //! logic show hint
-  renderQuestionsFunctions.showHint();
 
-  // logic select option
-  renderQuestionsFunctions.logicSelectOption();
+  await renderQuestions()
+
+  let rendering = false
+  window.addEventListener('scroll', async() => {
+    if (document.documentElement.scrollTop + document.documentElement.clientHeight + 1500 >= document.documentElement.scrollHeight && !rendering) {
+      rendering = true
+      await renderQuestions()
+      rendering = false
+    }
+  })
+
 };
 
 checkAuth();
