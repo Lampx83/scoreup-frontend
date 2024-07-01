@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ScoreUp</title>
+
+    <link rel="icon" href="../img/svg/favicon-32x32.png" />
+
+    <!-- CSS File -->
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+
+    <link rel="stylesheet" href="../css/default.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="../css/quiz.css" />
+    <!-- End CSS File -->
+  </head>
+
+  <body>
+    <main>
+      <div id="quiz-section">
+        <div class="container d-flex justify-content-center my-3">
+          <div class="quiz-box d-flex flex-column">
+            <div
+              class="quiz-box__header d-flex justify-content-between align-items-center"
+            >
+              <span class="header-title">Project Management Project</span>
+              <span class="text-white header-score">Score: 0 / 5</span>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <form class="quiz-box_content">
+            <div class="swiper mySwiper">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+                <div class="swiper-slide">Slide 4</div>
+                <div class="swiper-slide">Slide 5</div>
+                <div class="swiper-slide">Slide 6</div>
+                <div class="swiper-slide">Slide 7</div>
+                <div class="swiper-slide">Slide 8</div>
+                <div class="swiper-slide">Slide 9</div>
+              </div>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-pagination"></div>
+            </div>
+          </form>
+        </div>
+        <div class="container d-flex justify-content-center my-3">
+          <div class="quiz-box d-flex flex-column">
+            <div
+              class="quiz-box__footer d-flex justify-content-between align-items-center"
+            >
+              <span class="footer-title">Project Management Project</span>
+              <button
+                type="button"
+                class="submit-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#quizResultModal"
+              > Submit </button>
+            </div>
+          </div>
+        </div>
+        <!-- Button trigger modal -->
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#quizResultModal">
+          Launch demo modal
+        </button> -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="quizResultModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+              
+            <div class="quiz-result">
+              <h2 class="quiz-result__title">Test Result!</h2>
+              <div class="percentage-container">
+                <div class="circular-progress">
+                  <span class="progress-value">0%</span>
+                </div>
+                <span class="score-text">Your score 0 out of 5</span>
+              </div>
+              <div class="buttons d-flex">
+                <button class="tryAgain-btn">Try again</button>
+                <button class="goHome-btn">Go home</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Modal  -->
+
+      </div>
+
+
+
+      <!-- Footer  -->
+      <!-- <div id="footer"></div> -->
+      <!-- End Footer  -->
+    </main>
+
+    <!-- JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="module" src="../js/quiz.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+
+    <script></script>
+    <!-- End JavaScript Files -->
+  </body>
+</html>

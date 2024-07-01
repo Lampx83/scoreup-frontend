@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ScoreUp</title>
+
+    <link rel="icon" href="../img/svg/favicon-32x32.png" />
+
+      <!-- CSS File -->
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="../css/default.css" />
+
+    <link rel="stylesheet" href="../css/homepage.css" />
+    <!-- End CSS File -->
+  </head>
+
+  <body>
+    <main>
+      <!-- Navbar -->
+      <div id="topNav"></div>
+      <!-- End Navbar -->
+
+      <!-- Hero  -->
+      <section id="hero">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-12 mx-auto">
+              <h1 class="text-white text-center">Test, Learn, Grow</h1>
+
+              <h6 class="text-center">Online Exams Platform</h6>
+              <form
+                method="get"
+                class="search-box mt-4 pt-2 mb-lg-0 mb-5"
+                role="search"
+              >
+                <div class="input-group input-group-lg">
+                  <span class="input-group-text bi-search" id="basic-addon1">
+                  </span>
+
+                  <input
+                    name="keyword"
+                    type="search"
+                    class="form-control"
+                    id="keyword"
+                    placeholder="TOEIC, Programming, Finance ..."
+                    aria-label="Search"
+                    autocomplete="off"
+                  />
+
+                  <button type="submit" class="form-control">Search</button>
+
+                </div>
+                
+                <div class="search-box__results"></div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Hero  -->
+
+      <!-- Recommendation -->
+      <section id="recommendation">
+        <div class="container">
+          <div class="row justify-content-center" id="recommended-certificate">
+            <div class="col-lg-4 col-12 mb-4 mb-lg-0 recommended-loading">
+              <div class="feature-box bg-white shadow-lg">
+                <a href="#">
+                  <div class="d-flex">
+                    <div>
+                      <h5 class="placeholder">Loading...</h5>
+                      <p class="placeholder">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Alias illo accusantium consectetur. Consectetur,
+                        quia. Aut ex tempora quae.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-12 recommended-loading">
+              <div class="feature-box feature-box-overlay">
+                <div class="d-flex h-100">
+                  <img
+                    src="../img/girl-tattoo-computer-screen-ai-art-4k-wallpaper-uhdpaper.com-730@1@l.jpg"
+                    class="custom-block-image img-fluid"
+                    alt=""
+                  />
+
+                  <div class="feature-box-overlay__text d-flex">
+                    <div>
+                      <h5 class="text-white mb-2 placeholder">
+                        Loading...
+                      </h5>
+
+                      <p class="text-white placeholder">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing
+                        elit. Alias illo accusantium consectetur. Consectetur,
+                        quia. Aut ex tempora quae.
+                      </p>
+
+                      <p class="btn custom-btn mt-2 mt-lg-3 placeholder">
+                        Learn More
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="feature-box__bg-overlay"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Recommendation -->
+
+      <!-- Categories -->
+      <section id="categories">
+        <div class="container">
+          <div class="col-12 text-center">
+            <h2 class="mb-4">Browse Categories</h2>
+          </div>
+        </div>
+
+        <div class="container-fluid">
+          <div class="row">
+            <ul
+              class="nav nav-tabs justify-content-center"
+              id="categories-tab"
+              role="tablist"
+            >
+              <li class="nav-item tab-loading" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="loading-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#loading-tab-pane"
+                  type="button"
+                  role="tab"
+                  aria-controls="loading-tab-pane"
+                  aria-selected="true"
+                >
+                  Loading...
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row" id="categories-tab-content">
+            <div class="col-12">
+              <div class="tab-content tab-loading">
+                <div
+                  class="tab-pane fade show active"
+                  id="loading-tab-pane"
+                  role="tabpanel"
+                  aria-labelledby="loading-tab"
+                  tabindex="0"
+                >
+                  <div class="row">
+                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                      <div class="feature-box bg-white shadow-lg">
+                        <a href="#">
+                          <div class="d-flex">
+                            <div>
+                              <h5 class="mb-2 col-6 placeholder"></h5>
+
+                              <p class="mb-0 col-12 placeholder">
+                                Topic Listing Template based on Bootstrap 5
+                              </p>
+                            </div>
+
+                            <span
+                              class="badge feature-box__enroll-count feature-box__rounded-pill ms-auto col-2 placeholder"
+                              >...</span
+                            >
+                          </div>
+                          <div class="placeholder mt-4 col-12" style="height: 100px;">
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                      <div class="feature-box bg-white shadow-lg">
+                        <a href="#">
+                          <div class="d-flex">
+                            <div>
+                              <h5 class="mb-2 col-6 placeholder"></h5>
+
+                              <p class="mb-0 col-12 placeholder">
+                                Topic Listing Template based on Bootstrap 5
+                              </p>
+                            </div>
+
+                            <span
+                              class="badge feature-box__enroll-count feature-box__rounded-pill ms-auto col-2 placeholder"
+                              >...</span
+                            >
+                          </div>
+                          <div class="placeholder mt-4 col-12" style="height: 100px;">
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                      <div class="feature-box bg-white shadow-lg">
+                        <a href="#">
+                          <div class="d-flex">
+                            <div>
+                              <h5 class="mb-2 col-6 placeholder"></h5>
+
+                              <p class="mb-0 col-12 placeholder">
+                                Topic Listing Template based on Bootstrap 5
+                              </p>
+                            </div>
+
+                            <span
+                              class="badge feature-box__enroll-count feature-box__rounded-pill ms-auto col-2 placeholder"
+                              >...</span
+                            >
+                          </div>
+                          <div class="placeholder mt-4 col-12" style="height: 100px;">
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- End Categories -->
+
+      <!-- Footer  -->
+      <div id="footer" class="site-footer"></div>
+      <!-- End Footer  -->
+    </main>
+
+    <!-- JavaScript Files -->
+    <script type="module" src="../js/index.js"></script>
+    <script type="module" src="../js/helpers/searchBar.js"></script>
+
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <!-- End JavaScript Files -->
+  </body>
+</html>

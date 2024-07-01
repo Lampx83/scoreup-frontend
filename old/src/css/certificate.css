@@ -1,0 +1,378 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+/* -------------------------------------------------
+  CÀI ĐẶT CSS CHO MỘT SỐ BIẾN THƯỜNG XUYÊN SỬ DỤNG             
+------------------------------------------------- */
+:root {
+
+  /* -------------------------------------------------
+  BẢNG MÀU CHÍNH CỦA APP          
+  ------------------------------------------------- */
+  --white-color: #fff;
+  --primary-color: #0c134f;
+  --secondary-color: #1d267d;
+  --section-bg-color: #f0f8ff;
+  --custom-btn-bg-color: #91d0e5;
+  --custom-btn-bg-hover-color: #1d267d;
+  --dark-color: #000;
+  --p-color: #9BA4B5;
+  --border-color: #a5d7e8;
+  --link-hover-color: #1d267d;
+  --sky-color: #DCF2F1;
+  --score-color: #4abbe0;
+  --score-hover: #4abae097;
+  --correct-ans: #00a63d;
+  --incorrect-ans: #a60045;
+  --light-transparent: #0000003c;
+  --body-font-family: "Open Sans", sans-serif;
+  --title-font-family: "Montserrat", sans-serif;
+  --h1-font-size: 58px;
+  --h2-font-size: 46px;
+  --h3-font-size: 32px;
+  --h4-font-size: 28px;
+  --h5-font-size: 24px;
+  --h6-font-size: 22px;
+  --p-font-size: 20px;
+  --menu-font-size: 14px;
+  --btn-font-size: 18px;
+  --copyright-font-size: 16px;
+  --border-radius-large: 100px;
+  --border-radius-medium: 20px;
+  --border-radius-small: 10px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+body {
+  background-color: var(--white-color);
+  font-family: var(--body-font-family);
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--dark-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--title-font-family);
+  font-weight: var(--font-weight-semibold);
+}
+
+h1 {
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-weight-bold);
+}
+
+h3 {
+  font-size: var(--h3-font-size);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+}
+
+h5 {
+  font-size: var(--h5-font-size);
+}
+
+h6 {
+  color: var(--white-color);
+  font-size: var(--h6-font-size);
+}
+
+p {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+ul li {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  font-weight: var(--font-weight-normal);
+}
+
+a,
+button {
+  touch-action: manipulation;
+  transition: all 0.3s;
+}
+
+a {
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover-color);
+}
+
+b,
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+/*! Site Header  */
+#header {
+  background-image: linear-gradient(15deg, #0C134F 0%, #1D267D 100%);
+  padding-top: 100px;
+  padding-bottom: 80px;
+}
+
+#header .container {
+  height: 100%;
+}
+
+#header .breadcrumb-item a:hover {
+  color: var(--custom-btn-bg-color);
+}
+
+#header .breadcrumb-item+.breadcrumb-item::before,
+#header .breadcrumb-item a {
+  color: var(--white-color);
+}
+
+#header .custom-icon {
+  color: var(--white-color);
+  font-size: var(--h4-font-size);
+}
+
+#header .custom-btn {
+  color: #000;
+  border: 2px solid rgb(255 255 255 / 20%);
+  border-radius: var(--border-radius-small);
+  margin-right: 20px;
+}
+
+#header .custom-btn:hover {
+  color: var(--sky-color);
+  border: 2px solid rgb(255 255 255 / 50%);
+  background: var(--light-transparent);
+}
+
+#header .custom-icon:hover {
+  color: var(--secondary-color);
+}
+
+#header .topics-detail-block {
+  border-radius: var(--border-radius-medium);
+  position: relative;
+  overflow: hidden;
+}
+
+#header .topics-detail-block-image {
+  display: block;
+  border-radius: var(--border-radius-medium);
+}
+
+blockquote {
+  background-color: var(--section-bg-color);
+  border-radius: var(--border-radius-small);
+  font-family: var(--title-font-family);
+  font-size: var(--h4-font-size);
+  font-weight: var(--font-weight-bold);
+  display: inline-block;
+  text-align: center;
+  margin: 30px;
+  padding: 40px;
+}
+
+/*! End Site Header  */
+
+/*! Start Certificate Exams  */
+#certificate-info {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#certificate-info .tab-content {
+  background-color: var(--white-color);
+  border-radius: var(--border-radius-medium);
+}
+
+#certificate-info .nav-tabs {
+  border-bottom: 1px solid #ecf3f2;
+  margin-bottom: 40px;
+}
+
+#certificate-info .nav-tabs .nav-link {
+  border-radius: 0;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  color: var(--p-color);
+  font-family: var(--title-font-family);
+  font-size: var(--btn-font-size);
+  font-weight: var(--font-weight-medium);
+  padding: 15px 25px;
+  transition: all 0.3s;
+}
+
+#certificate-info .nav-tabs .nav-link:first-child {
+  margin-right: 20px;
+}
+
+#certificate-info .nav-tabs .nav-item.show .nav-link, 
+#certificate-info .nav-tabs .nav-link.active,
+#certificate-info .nav-tabs .nav-link:focus, 
+#certificate-info .nav-tabs .nav-link:hover {
+  border-bottom-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+/*! End Certificate Exams  */
+
+.custom-line {
+  border: 1px #ffffff6f solid;
+}
+
+/*! Start Continue Button  */
+.cont-btn {
+  background: var(--score-hover);
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: var(--border-radius-small);
+  color: #ffffff6d;
+  font-size: var(--btn-font-size);
+  font-weight: var(--font-weight-semibold);
+  line-height: normal;
+  transition: all 0.3s;
+  padding: 10px 25px;
+}
+
+.cont-btn:hover {
+  background: var(--score-color);
+  border-color: rgb(255 255 255 / 10%);
+  color: var(--white-color);
+}
+
+.back-btn {
+  border: 1px solid rgb(255 255 255 / 20%);
+  background: transparent;
+  border-radius: var(--border-radius-small);
+  color: #ffffff6d;
+  font-size: var(--btn-font-size);
+  font-weight: var(--font-weight-semibold);
+  line-height: normal;
+  transition: all 0.3s;
+  padding: 10px 25px;
+}
+
+.back-btn:hover {
+
+  /* background: var(--primary-color); */
+  border-color: rgb(255 255 255 / 10%);
+  background: rgb(255 255 255 / 10%);
+  color: var(--white-color);
+}
+
+/*! End Continue Button  */
+
+/*! Custom select  */
+.custom-select {
+  box-shadow: 0 10px 25px rgb(0 0 0 / 20%);
+  width: max-content;
+  height: 40px;
+  color: var(--section-bg-color);
+  background-color: var(--primary-color);
+  font-weight: var(--font-weight-bold);
+  appearance: none;
+}
+
+/*! End Custom select  */
+
+/*! Quiz Prepare Phase  */
+.quiz-options { 
+  background-image: linear-gradient(300deg, #060606 0%, var(--secondary-color) 100%);
+  border-radius: var(--border-radius-medium);
+  box-shadow: 5px 10px 18px #00000076;
+  padding: 20px 15px;
+}
+
+.quiz-options .modal-header {
+  border-bottom: none;
+}
+
+.quiz-options .modal-header .btn-close {
+  background-color: var(--sky-color);
+  border-radius: 10px;
+}
+
+.quiz-options .modal-footer {
+  border-top: none;
+}
+
+.quiz-prep {
+  max-width: 1000px;
+  padding: 10px;
+  border: transparent 2px solid;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius-medium);
+}
+
+.quiz-prep__form {
+  padding: 20px 15px;
+  background: #00000056;
+  border-radius: var(--border-radius-medium);
+}
+
+.quiz-prep__form .form-check-input:checked {
+  background-color: var(--custom-btn-bg-hover-color);
+  border-color: var(--secondary-color);
+}
+
+.quiz-prep__form .form-label,
+.quiz-prep__form .form-check-label {
+  font-weight: var(--font-weight-bold);
+  margin: 0;
+}
+
+.quiz-prep__title {
+  font-size: var(--h2-font-size);
+  font-weight: var(--font-weight-bold);
+  color: var(--sky-color);
+}
+
+.quiz-prep__form input[type="number"] {
+  width: max-content;
+  color: var(--section-bg-color);
+  background-color: var(--primary-color);
+  font-weight: var(--font-weight-bold);
+}
+
+.quiz-prep__form input[type="number"]::-webkit-inner-spin-button,
+.quiz-prep__form input[type="number"]::-webkit-outer-spin-button {
+  appearance: listbox;
+  margin: 0;
+}
+
+.form-check-input {
+ height: 20px !important;
+}
+
+/*! End Quiz Prepare Phase  */
+
+/*! Start Test Prepare Phase  */
+.cer-tags {
+  width: auto;
+  background-color: transparent;
+  color: white;
+}
+
+/*! End Test Prepare Phase  */

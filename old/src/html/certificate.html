@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ScoreUp</title>
+
+    <!-- CSS File -->
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+
+    <link rel="icon" href="../img/svg/favicon-32x32.png" />
+
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+
+    <link rel="stylesheet" href="../css/default.css" />
+
+    <link rel="stylesheet" href="../css/certificate.css" />
+    <!-- End CSS File -->
+  </head>
+
+  <body>
+    <main>
+      <!-- Navbar -->
+      <div id="topNav"></div>
+      <!-- End Navbar -->
+
+      <!-- Site header  -->
+      <div id="header" class="d-flex flex-column justify-content-center align-items-center">
+        <div class="container">
+          <div class="header-section row justify-content-between align-items-center">
+            <div class="col-lg-5 col-12 mb-5 loading">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item placeholder">Homepage</li>
+                </ol>
+              </nav>
+
+              <h2 class="text-white placeholder">Certificate</h2>
+
+              <div class="d-flex align-items-center mt-5 placeholder">
+              </div>
+            </div>
+
+            <div class="col-lg-5 col-12 loading">
+              <div class="topics-detail-block bg-white shadow-lg placeholder">
+                <img
+                  src="../img/painting-mountain-lake-with-mountain-background.jpg"
+                  class="topics-detail-block-image img-fluid"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Site header  -->
+
+      <!-- Certificate Info  -->
+      <div id="certificate-info" class="section-padding-sm">
+        <div class="container">
+          <div class="col-lg-8 col-12">
+            <div class="row">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link active"
+                    id="design-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#design-tab-pane"
+                    type="button"
+                    role="tab"
+                    aria-controls="design-tab-pane"
+                    aria-selected="true"
+                  > About
+                  </button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="feedback-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#feedback-tab-pane"
+                    type="button"
+                    role="tab"
+                    aria-controls="feedback-tab-pane"
+                    aria-selected="false"
+                  > Feedback
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="certificate-info__des row">
+            <div class="col-lg-8 col-12 loading">
+              <h3 class="mb-4 placeholder">Introduction to TOEIC</h3>
+              <p class="placeholder">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vero
+                odio, maxime repudiandae necessitatibus earum voluptatibus
+                itaque! Illo, earum voluptas. Reiciendis veritatis sed obcaecati
+                nostrum, blanditiis facilis dolor fugit ipsam veniam!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--  EndCertificate Exams  -->
+
+      <!-- Button trigger modal -->
+
+
+      <!-- Quiz Modal -->
+      <div class="modal fade" id="quizOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="quizOptionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content quiz-options">
+            <div class="modal-header d-flex justify-content-center">
+              <h5 class="modal-title quiz-prep__title">Quiz Options</h5>
+            </div>
+            <div class="modal-body">
+              <form class="quiz-prep__form gy-3 gx-3 align-items-center" id="quizOptionForm" action="quiz.html">
+                <span class="text-hl">Pick one topic</span>
+                <div class="row align-items-center flex-start">
+                  <label class="col-auto form-label text-white" for="quizNumQuiz">Nhập số câu hỏi:</label>
+                  <input type="number" class="col-auto form-control" id="quizNumQuiz" name="quantity" min="1" max="99" value="5">
+                </div>
+                <div class="custom-line my-3 col-auto"></div>
+                <!-- <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="singleQuestionQuiz">
+                  <label class="form-check-label text-white" for="singleQuestionQuiz">Single Questions</label>
+                </div>
+                <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="multiQuestionQuiz">
+                  <label class="form-check-label text-white" for="multiQuestionQuiz">Multi Questions</label>
+                </div> -->
+                <div class="form-check form-switch my-2">
+                  <input class="form-check-input" type="checkbox" id="showAnswerNow" value="show_answers" checked>
+                  <label class="form-check-label text-white" for="showAnswerNow">Hiển thị đáp án ngay</label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn back-btn" data-bs-dismiss="modal">Back</button>
+              <button type="button" class="btn cont-btn">Start</button>
+              <!-- <a href="quiz.html" class="btn cont-btn">Start</a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Practice Test Modal -->
+      <div class="modal fade" id="practiceTestOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="practiceTestOptionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content quiz-options">
+            <div class="modal-header d-flex justify-content-center">
+              <h5 class="modal-title quiz-prep__title">Practice Options</h5>
+            </div>
+            <div class="modal-body">
+              <form class="quiz-prep__form gy-3 gx-3 align-items-center" id="practiceTestOptionForm" action="test.html">
+                <span class="text-hl">(Optional - If you want to do a full test, leave the options blank.)</span>
+                <div class="custom-line my-3 col-auto"></div>
+                <div class="col-auto">
+                  <div class="row justify-content-between">
+                    <label class="col-auto form-label text-white">Choose Parts:</label>
+                    <div class="col-8 tags-option">
+                    </div>
+                  </div>
+                </div>
+                <div class="custom-line my-3 col-auto"></div>
+              </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn back-btn" data-bs-dismiss="modal">Back</button>
+              <button type="button" class="btn cont-btn">Start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test modal -->
+      <div class="modal fade" id="testOption" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="testOptionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content quiz-options">
+            <div class="modal-header d-flex justify-content-center">
+              <h5 class="modal-title quiz-prep__title">Test Options</h5>
+            </div>
+            <div class="modal-body">
+              <form class="quiz-prep__form gy-3 gx-3 align-items-center" id="testOptionForm" action="test.html">
+                <span class="text-hl"></span>
+                <div class="custom-line my-3 col-auto"></div>
+                <div class="col-auto">
+                  <div class="row justify-content-between">
+                    <label class="col-auto form-label text-white">Choose Mode:</label>
+                    <div class="col-8 tags-option">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mode" id="miniTest" value="miniTest">
+                        <label class="form-check-label text-white" for="miniTest">
+                          Mini Test (one-third of the standard test)
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mode" id="shortTest" value="shortTest">
+                        <label class="form-check-label text-white" for="shortTest">
+                          Short Test (one-half of the standard test)
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="mode" id="fullTest" value="fullTest" checked>
+                        <label class="form-check-label text-white" for="fullTest">
+                          Full Test
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="custom-line my-3 col-auto"></div>
+              </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+              <button type="button" class="btn back-btn" data-bs-dismiss="modal">Back</button>
+              <button type="button" class="btn cont-btn">Start</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer  -->
+      <div id="footer" class="site-footer"></div>
+      <!-- End Footer  -->
+    </main>
+
+    <!-- JavaScript Files -->
+    <script type="module" src="../js/certificate.js"></script>
+
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <!-- End JavaScript Files -->
+  </body>
+</html>

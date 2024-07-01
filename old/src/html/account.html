@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Profile</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- libraries -->
+  <link rel="stylesheet" href="../../node_modules/owl.carousel/dist/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+  <!-- Template Stylesheet -->
+  <link href="../css/account.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-xxl position-relative bg-white d-flex p-0 justify-content-center">
+
+    <!-- Sidebar Start -->
+    <div class="sidebar bg-light pe-4 pb-3 open">
+      <nav class="navbar navbar-light">
+      <!-- Slogan  -->
+      <a class="navbar-brand ms-auto mb-4" href="index.html">
+        <img src="../img/logo_full_body.svg" alt="ScoreUp" style="width: 150px" />
+      </a>
+      <!-- End slogan --> 
+        <div class="d-flex align-items-center ms-4 mb-4">
+          <div class="position-relative user-avatar">
+            <img class="rounded-circle" src="../img/svg/head-only.png" alt="" style="width: 40px; height: 40px;">
+            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+            </div>
+          </div>
+          <div class="ms-3 user-name">
+            <h6 class="mb-0">Username</h6>
+          </div>
+        </div>
+        <div class="navbar-nav w-100">
+          <a href="" class="nav-item nav-link active"><i class="fa fa-user me-2"></i>Information</a>
+        </div>
+      </nav>
+    </div>
+    <!-- Sidebar End -->
+
+
+    <!-- Content Start -->
+    <div class="content open">
+      <!-- Navbar Start -->
+      <nav class="navbar navbar-expand navbar-light sticky-top px-4 py-0">
+        <a href="#" class="sidebar-toggler flex-shrink-0" style="color: black;">
+          <i class="fa fa-bars"></i>
+        </a>
+        <div class="navbar-nav align-items-center ms-auto">
+          <a href="/" class="nav-link">
+            <i class="fa fa-home me-lg-2" style="color: black;"></i>
+            <span class="d-none d-lg-inline-flex">Homepage</span>
+          </a>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              <i class="fa fa-envelope me-lg-2" style="color: black;"></i>
+              <span class="d-none d-lg-inline-flex">Message</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end bg-secondary shadow-lg border-0 rounded-0 rounded-bottom m-0">
+              <a href="#" class="dropdown-item text-center">0 message</a>
+            </div>
+          </div>
+          <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              <i class="fa fa-bell me-lg-2" style="color: black;"></i>
+              <span class="d-none d-lg-inline-flex">Notification</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end bg-secondary shadow-lg border-0 rounded-0 rounded-bottom m-0">
+              <a href="#" class="dropdown-item text-center">0 notification</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <!-- Navbar End -->
+
+
+      <!-- Form Start -->
+      <div class="bg-lightcontainer-fluid pt-4 px-4 shadow-lg mt-4 rounded-3">
+        <form class="form-edit-info-user">
+          <div class=" rounded h-100 p-4">
+            <h6 class="mb-4">Avatar</h6>
+            <div class="d-flex justify-content-center">
+              <div class="profile-pic">
+                <label for="upload" class="overlay">
+                  <i class="fa-solid fa-camera fa" style="color: #ffffff; margin: 10px;"></i>
+                </label>
+                <img src="../img/svg/head-only.png" id="chosen-image" width="90" />
+                <input id="upload" type="file" accept="image/*" name="avatar" onchange="loadFile(event)" />
+              </div>
+            </div>
+            <h6 class="mb-4">Personal info</h6>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa-regular fa-user fa"></i>
+              </span>
+              <input required name="username" type="text" class="form-control" placeholder="Username"
+                aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa-regular fa-envelope fa"></i>
+              </span>
+              <input requi name="email" type="text" class="form-control" placeholder="Email" aria-label="Email"
+                aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa-regular fa-phone fa"></i>
+              </span>
+              <input name="phone" type="text" class="form-control" placeholder="Phone" aria-label="Phone"
+                aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa-regular fa-address-card fa"></i>
+              </span>
+              <select class="form-select" id="occupation" name="occupation">
+                <option value="">Select your occupation</option>
+                <option value="student">Student</option>
+                <option value="developer">Developer</option>
+                <option value="teacher">Teacher</option>
+                <option value="engineer">Engineer</option>
+                <option value="doctor">Doctor</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="genderInput">Gender</label>
+              <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping">
+                  <img src="../imgs/icons/person-half-dress-solid.svg" style="width: 25px; height: 25px">
+                </span>
+                <select class="form-select" id="genderInput" name="gender">
+                  <option value="">You are ...</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
+              </div>
+            </div>
+            <label for="birth">Birth</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa-regular fa-calendar-alt fa"></i>
+              </span>
+              <input name="birth" type="date" id="birth" class="form-control" placeholder="Birth" aria-label="Birth"
+                aria-describedby="basic-addon1">
+            </div>
+
+            <h6 class="mb-4">Password</h6>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa-regular fa-lock fa"></i>
+              </span>
+              <input name="oldPassword" type="password" class="form-control" placeholder="Old Password"
+                aria-label="Old Password" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa-regular fa-lock fa"></i>
+              </span>
+              <input name="newPassword" type="password" class="form-control" placeholder="New Password"
+                aria-label="New Password" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                <i class="fa-regular fa-lock fa"></i>
+              </span>
+              <input name="confirmNewPassword" type="password" class="form-control" placeholder="Confirm New Password"
+                aria-label="Confirm New Password" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Form End -->
+
+
+      <!-- Footer Start -->
+      <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+          <div class="row">
+            <div class="col-12 col-sm-6 text-center text-sm-start">
+              &copy; <a href="#">ScoreUp</a>, All Right Reserved.
+            </div>
+            <div class="col-12 col-sm-6 text-center text-sm-end">
+              <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+              Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer End -->
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+  </div>
+  <!-- Template Javascript -->
+  <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../node_modules/owl.carousel/dist/owl.carousel.min.js"></script>
+  <script type="module" src="../js/account.js"></script>
+</body>
+
+</html>
