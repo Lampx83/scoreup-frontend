@@ -1,8 +1,30 @@
-# React + Vite
+# App with Vite and Material-UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a simple React application scaffolded with Vite and styled with Material-UI components.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Prerequisites
+
+Make sure you have Node.js and npm installed on your machine.
+
+- Node.js: [Download](https://nodejs.org/)
+- npm: Usually comes with Node.js installation
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <project-folder>
+   ```
+### Install dependencies
+```
+npm install
+```
+### Usage
+To start the development server, run:
+```
+npm run dev
+```
+Open your browser and navigate to http://localhost:5173/ to view the app.
