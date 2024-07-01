@@ -1,49 +1,29 @@
 {
-  "name": "my-project",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "name": "scoreup-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "parcel src/html/*.html",
-    "build": "parcel build --public-url /exam src/html/*.html",
-    "prepare": "husky"
-  },
-  "lint-staged": {
-    "**/*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "**/*.html": [
-      "htmlhint",
-      "git add"
-    ],
-    "**/*.css": [
-      "stylelint --fix",
-      "git add"
-    ]
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.0.0",
-    "buffer": "^6.0.3",
-    "eslint": "^9.0.0",
-    "globals": "^15.0.0",
-    "htmlhint": "^1.1.4",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "parcel": "^2.10.0",
-    "process": "^0.11.10",
-    "stylelint": "^16.3.1",
-    "stylelint-config-standard": "^36.0.0"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@parcel/transformer-sass": "^2.10.0",
-    "@parcel/transformer-vue": "^2.10.0",
-    "axios": "^1.5.1",
-    "bootstrap": "^5.3.2",
-    "bootstrap-icons": "^1.11.2",
-    "jquery": "^3.7.1",
-    "medium-editor": "^5.23.3",
-    "owl.carousel": "^2.3.4",
-    "rangy": "^1.3.1",
-    "viewerjs": "^1.11.6",
-    "vue": "^3.3.4"
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.21",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "vite": "^5.3.1"
   }
 }
