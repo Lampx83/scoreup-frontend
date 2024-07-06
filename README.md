@@ -10,6 +10,10 @@ Make sure you have Node.js and npm installed on your machine.
 
 - Node.js: [Download](https://nodejs.org/)
 - npm: Usually comes with Node.js installation
+- yarn: install yarn globally using npm
+  ```bash
+  npm install -g yarn
+  ```
 
 ### Installation
 
@@ -20,11 +24,11 @@ Make sure you have Node.js and npm installed on your machine.
    ```
 ### Install dependencies
 ```
-npm install
+yarn install
 ```
 ### Usage
 To start the development server, run:
 ```
-npm run dev
+yarn dev
 ```
 Open your browser and navigate to http://localhost:5173/ to view the app.
