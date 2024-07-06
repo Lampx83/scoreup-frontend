@@ -3,74 +3,113 @@ import ModeSelect from "../ModeSelect/index.jsx";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Profile from "./Menus/Profile.jsx";
-import Categories from "./Menus/Categories.jsx";
+import CategoriesDropdown from "./Menus/Categories/CategoriesDropdown.jsx";
 import Logo from "../../assets/images/full_body_logo.png";
 import LinkMui from "@mui/material/Link";
 import Notifications from "./Menus/Notifications/index.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/actions/auth.js";
 import {Link as LinkRouter} from "react-router-dom";
-import {Container} from "@mui/material";
+import {AppBar, Container, Toolbar} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from "@mui/material/IconButton";
+import DrawerList from "~/components/Header/Menus/DrawerList/index.jsx";
+import {toggleDrawer} from "~/redux/actions/drawerList.js";
 
 function Header() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
   return (
-    <Container maxWidth='lg' sx={{
-      position: 'fixed',
-      top: 10,
-      zIndex: 2,
-      left: '50%',
-      transform: 'translateX(-50%)',
-    }}>
-      <Box sx={{
-        padding: '0 20px',
-        backgroundColor: (theme) => (theme.palette.headerBackground),
-        backdropFilter: 'blur(10px)',
-        display: 'flex',
-        justifyContent: 'space-between',
-        height: (theme) => (theme.app.header.height),
-        border: (theme) => (`1px solid ${theme.palette.border}`),
-        borderRadius: '36px',
-      }}>
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-          <LinkMui sx={{
+    <AppBar
+      position={'fixed'}
+      sx={{
+        backgroundColor: 'transparent',
+        boxShadow: 'none',
+        padding: 0,
+        top: 10,
+        backgroundImage: 'none!important',
+      }}
+    >
+      <Toolbar disableGutters sx={{backgroundImage: 'none!important'}}>
+        <Container maxWidth='lg' disableGutters sx={{backgroundColor: 'transparent'}}>
+          <Box sx={{
+            padding: '0 20px',
+            backgroundColor: (theme) => (theme.palette.headerBackground),
+            backdropFilter: 'blur(10px)',
             display: 'flex',
-            alignItems: 'center',
-            backgroundColor: 'transparent',
-          }} component={LinkRouter}>
-            <img src={Logo} alt="logo" style={{ height: '40px', paddingLeft: '10px' }}/>
-          </LinkMui>
-        </Box>
+            justifyContent: 'space-between',
+            height: (theme) => (theme.app.header.height),
+            // border: (theme) => (`0.5px solid ${theme.palette.border}`),
+            borderRadius: '36px',
+            boxShadow: (theme) => (theme.palette.boxShadow),
+          }}>
+            {/*>= sm*/}
+            <Box sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+              <LinkMui sx={{
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: 'transparent',
+              }} component={LinkRouter}>
+                <img src={Logo} alt="logo" style={{ height: '40px', paddingLeft: '10px' }}/>
+              </LinkMui>
+            </Box>
 
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 1
-        }}>
-          <Button component={LinkRouter} to="/" autoCapitalize='none'>Home</Button>
-          <Categories/>
-          <ModeSelect/>
-          {auth.isAuthenticated ? (
-            <>
+            <Box sx={{
+              display: {
+                xs: 'none',
+                md: 'flex',
+              },
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 1
+            }}>
+              <Button component={LinkRouter} to="/" autoCapitalize='none'>Trang chủ</Button>
+              <CategoriesDropdown/>
+              <ModeSelect/>
+              {auth.isAuthenticated ? (
+                <>
+                  <Notifications/>
+                  <Profile/>
+                </>
+              ) : (
+                <>
+                  <Button onClick={() => dispatch(login())}>Đăng nhập</Button>
+                  <Button onClick={() => dispatch(login())}>Đăng ký</Button>
+                </>
+              )}
+            </Box>
+
+            {/* < sm*/}
+            <Box sx={{
+              display: { xs: 'flex', md: 'none' },
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 1
+            }}>
+              <ModeSelect/>
               <Notifications/>
-              <Profile/>
-            </>
-          ) : (
-            <>
-              <Button onClick={() => dispatch(login())}>Sign up</Button>
-              <Button onClick={() => dispatch(login())}>Login</Button>
-            </>
-          )}
-        </Box>
-      </Box>
-    </Container>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={() => dispatch(toggleDrawer(true))}
+                color="inherit"
+              >
+                <MenuIcon sx={{
+                  color: theme => theme.palette.text.primary,
+                }} />
+              </IconButton>
+              <DrawerList/>
+            </Box>
+          </Box>
+        </Container>
+      </Toolbar>
+    </AppBar>
   )
 }
 

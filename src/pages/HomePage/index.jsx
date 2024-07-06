@@ -19,13 +19,11 @@ function HomePage() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: theme => (`calc(20px + ${theme.app.header.height})`),
-        paddingBottom: '20px'
+        paddingTop: theme => (`calc(30px + ${theme.app.header.height})`),
+        paddingBottom: '30px'
       }}>
         <Container
           maxWidth={'lg'}
-          sx={{
-          }}
         >
           <Grid
             container
@@ -34,7 +32,7 @@ function HomePage() {
             justifyContent='space-around'
             wrap={'wrap'}
           >
-            <Grid item sm={6} xs={12}>
+            <Grid item lg={6} md={12}>
               <Typography variant="h2" color={"white"} fontWeight="500">
                 Ôn thi khó? <br/> Có Score Up lo!
               </Typography>
@@ -45,8 +43,8 @@ function HomePage() {
             </Grid>
             <Grid
               item
-              sm={6}
-              xs={12}
+              lg={6}
+              md={12}
               display='flex'
               justifyContent='center'
               alignItems='center'
@@ -56,6 +54,14 @@ function HomePage() {
           </Grid>
         </Container>
       </Box>
+
+      <Container maxWidth={'lg'}>
+        <Box sx={{
+          height: '10000px'
+        }}>
+
+        </Box>
+      </Container>
     </>
   )
 }

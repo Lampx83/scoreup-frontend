@@ -22,7 +22,8 @@ const theme = extendTheme({
           primary: '#0a3d62',
           secondary: '#3c6382',
         },
-        border: '#fff'
+        border: '#fff',
+        boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)',
       }
     },
     light: {
@@ -45,6 +46,7 @@ const theme = extendTheme({
           secondary: 'rgba(12,36,97,0.9)',
         },
         border: 'rgba(25,29,30,0.35)',
+        boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
       }
     }
   },
@@ -69,7 +71,7 @@ const theme = extendTheme({
     }
   },
   typography: {
-    fontFamily: 'Barlow, sans-serif',
+    fontFamily: 'Monserrat, sans-serif',
     button: {
       textTransform: 'none',
       fontSize: '1rem'

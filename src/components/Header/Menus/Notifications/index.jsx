@@ -20,7 +20,7 @@ function Index() {
   return (
     <>
     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-      <Tooltip title="Notification">
+      <Tooltip title="Thông báo">
         <IconButton
           onClick={handleClick}
           size="small"
@@ -37,6 +37,13 @@ function Index() {
       </Tooltip>
     </Box>
       <Menu
+        sx={{
+          '& .MuiMenuItem-root': {
+            whiteSpace: 'normal !important',
+            textWrap: 'wrap !important',
+            wordBreak: 'break-word',
+          }
+        }}
         anchorEl={anchorEl}
         id="account-menu"
         open={open}
@@ -65,7 +72,7 @@ function Index() {
               height: 10,
               bgcolor: 'background.paper',
               transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
+              zIndex: 0
             },
           },
         }}

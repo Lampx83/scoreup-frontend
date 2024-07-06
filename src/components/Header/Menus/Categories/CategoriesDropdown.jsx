@@ -10,7 +10,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Check from '@mui/icons-material/Check'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
-function Categories() {
+function CategoriesDropdown() {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -33,8 +33,9 @@ function Categories() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         endIcon={open ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
+
       >
-        Categories
+        Ngành học
       </Button>
       <Menu
         id="basic-menu-recent"
@@ -53,22 +54,22 @@ function Categories() {
           horizontal: 'right',
         }}
         sx={{
-          marginTop: 2
+          marginTop: 1.5
         }}
       >
         <MenuItem>
-          <ListItemText>Language</ListItemText>
+          <ListItemText>Công nghệ thông tin</ListItemText>
         </MenuItem>
         <MenuItem>
-          <ListItemText>Other Category</ListItemText>
+          <ListItemText>Khoa học máy tính</ListItemText>
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemText>More...</ListItemText>
+          <ListItemText>Xem thêm...</ListItemText>
         </MenuItem>
       </Menu>
     </Box>
   )
 }
 
-export default Categories;
+export default CategoriesDropdown;
