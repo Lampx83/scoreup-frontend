@@ -15,6 +15,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from "@mui/material/IconButton";
 import DrawerList from "~/components/Header/Menus/DrawerList/index.jsx";
 import {toggleDrawer} from "~/redux/actions/drawerList.js";
+import "./style.css";
+import ButtonHighlight from "~/components/CustomComponents/ButtonHighlight/index.jsx";
 
 function Header() {
   const auth = useSelector((state) => state.auth);
@@ -42,6 +44,9 @@ function Header() {
             // border: (theme) => (`0.5px solid ${theme.palette.border}`),
             borderRadius: '36px',
             boxShadow: (theme) => (theme.palette.boxShadow),
+            ".MuiButtonBase-root": {
+              fontWeight: 600
+            }
           }}>
             {/*>= sm*/}
             <Box sx={{
@@ -77,8 +82,8 @@ function Header() {
                 </>
               ) : (
                 <>
-                  <Button onClick={() => dispatch(login())}>Đăng nhập</Button>
-                  <Button onClick={() => dispatch(login())}>Đăng ký</Button>
+                  <ButtonHighlight onClick={() => dispatch(login())} >Đăng nhập</ButtonHighlight>
+                  <ButtonHighlight onClick={() => dispatch(login())} >Đăng ký</ButtonHighlight>
                 </>
               )}
             </Box>

@@ -12,7 +12,8 @@ const theme = extendTheme({
     dark: {
       palette: {
         background: {
-          default: '#000000'
+          default: 'rgb(25,25,25)',
+          paper: 'rgba(25,29,30,0.8)'
         },
         primary: {
           main: '#fff'
@@ -23,13 +24,14 @@ const theme = extendTheme({
           secondary: '#3c6382',
         },
         border: '#fff',
-        boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)',
+        boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.4)',
       }
     },
     light: {
       palette: {
         background: {
           default: '#fff',
+          paper: 'rgba(245,245,245,0.8)'
         },
         primary: {
           main: 'rgba(25,29,30,0.84)',
@@ -38,15 +40,15 @@ const theme = extendTheme({
           main: 'rgba(25,29,30,0.84)',
         },
         // headerBackground: 'rgba(12,36,97,0.7)'
-        headerBackground: 'rgba(255,255,255,0.8)',
+        headerBackground: 'rgba(255,255,255,0.7)',
         sectionBackground: {
           // primary: '#0c2461',
           // secondary: '#1e3799',
-          primary: '#294cd6',
-          secondary: 'rgba(12,36,97,0.9)',
+          primary: '#4682A9',
+          secondary: '#91C8E4',
         },
         border: 'rgba(25,29,30,0.35)',
-        boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.4)',
       }
     }
   },
@@ -68,7 +70,16 @@ const theme = extendTheme({
           }
         }
       }
-    }
+    },
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          backdropFilter: 'blur(10px)',
+          backgroundImage: 'none',
+          borderRadius: '8px',
+        },
+      }
+    },
   },
   typography: {
     fontFamily: 'Monserrat, sans-serif',
