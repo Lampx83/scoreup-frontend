@@ -36,9 +36,10 @@ function ButtonHighlight(props) {
                 webkitTransition: "all 0.2s ease-in",
                 mozTransition: "all 0.2s ease-in",
                 transition: "all 0.2s ease-in",
+                minWidth: "100px",
                 ":hover": {
-                    backgroundColor: theme => theme.palette.mode === "dark" ? "rgba(80,171,248,0.85)" : "rgb(61, 106, 255)",
-                    boxShadow: theme => theme.palette.mode === "dark" ? "0 0 30px 5px rgba(80,171,248,0.85)" : "0 0 30px 5px rgba(0, 142, 236, 0.815)",
+                    backgroundColor: theme => theme.palette.mode === "dark" ? "rgba(80,171,248,0.85)" : "#1A4E8DFF",
+                    boxShadow: theme => theme.palette.mode === "dark" ? "0 0 30px 5px rgba(80,171,248,0.85)" : "0 0 30px 5px rgba(26,78,141,0.73)",
                     webkitTransition: "all 0.2s ease-out",
                     mozTransition: "all 0.2s ease-out",
                     transition: "all 0.2s ease-out",

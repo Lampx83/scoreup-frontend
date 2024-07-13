@@ -35,7 +35,7 @@ function CategoriesDropdown() {
         endIcon={open ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
 
       >
-        Ngành học
+        Chủ đề
       </Button>
       <Menu
         id="basic-menu-recent"

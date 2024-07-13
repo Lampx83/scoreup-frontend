@@ -7,7 +7,7 @@ function HeroSection(innerRef) {
   return (
     <Box sx={{
       // background: theme => (`linear-gradient(180deg, ${theme.palette.sectionBackground.primary} 0%, ${theme.palette.sectionBackground.secondary} 100%)`),
-      backgroundImage: theme => theme.palette.mode === 'dark' ? 'url(src/assets/images/gradient-bg-dark.svg)' : 'url(src/assets/images/gradient-bg-light.svg)',
+      backgroundImage: theme => theme.palette.mode === 'dark' ? 'white' : 'black',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
 

@@ -16,7 +16,7 @@ const theme = extendTheme({
           paper: 'rgba(25,29,30,0.8)'
         },
         primary: {
-          main: '#fff'
+          main: 'rgb(255,255,255)',
         },
         headerBackground: 'rgba(25,29,30,0.7)',
         sectionBackground: {
@@ -49,6 +49,10 @@ const theme = extendTheme({
         },
         border: 'rgba(25,29,30,0.35)',
         boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.4)',
+        text: {
+          primary: 'black',
+          secondary: '#1A4E8DFF'
+        }
       }
     }
   },

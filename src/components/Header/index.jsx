@@ -10,17 +10,33 @@ import Notifications from "./Menus/Notifications/index.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/actions/auth.js";
 import {Link as LinkRouter} from "react-router-dom";
-import {AppBar, Container, Toolbar} from "@mui/material";
+import {AppBar, Container, Fab, Toolbar} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from "@mui/material/IconButton";
 import DrawerList from "~/components/Header/Menus/DrawerList/index.jsx";
 import {toggleDrawer} from "~/redux/actions/drawerList.js";
 import "./style.css";
 import ButtonHighlight from "~/components/CustomComponents/ButtonHighlight/index.jsx";
+import {Add} from "@mui/icons-material";
+import {useEffect} from "react";
 
 function Header() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const position = window.pageYOffset;
+      setIsScrolled(position > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <AppBar
       position={'fixed'}
@@ -43,10 +59,11 @@ function Header() {
             height: (theme) => (theme.app.header.height),
             // border: (theme) => (`0.5px solid ${theme.palette.border}`),
             borderRadius: '36px',
-            boxShadow: (theme) => (theme.palette.boxShadow),
+            boxShadow: (theme) => ( isScrolled ? theme.palette.boxShadow : 'none'),
             ".MuiButtonBase-root": {
               fontWeight: 600
-            }
+            },
+            transition: 'all 0.3s ease',
           }}>
             {/*>= sm*/}
             <Box sx={{
@@ -63,6 +80,22 @@ function Header() {
               </LinkMui>
             </Box>
 
+
+            <Box sx={{
+              display: {
+                xs: 'none',
+                md: 'flex',
+              },
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 1,
+              margin: 'auto'
+            }}>
+              <Button component={LinkRouter} to="/" autoCapitalize='none'>Trang chủ</Button>
+              <CategoriesDropdown/>
+              <Button component={LinkRouter} to="/" autoCapitalize='none'>Tính năng</Button>
+            </Box>
+
             <Box sx={{
               display: {
                 xs: 'none',
@@ -72,8 +105,6 @@ function Header() {
               alignItems: 'center',
               gap: 1
             }}>
-              <Button component={LinkRouter} to="/" autoCapitalize='none'>Trang chủ</Button>
-              <CategoriesDropdown/>
               <ModeSelect/>
               {auth.isAuthenticated ? (
                 <>
