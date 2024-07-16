@@ -17,7 +17,6 @@ import DrawerList from "~/components/Header/Menus/DrawerList/index.jsx";
 import {toggleDrawer} from "~/redux/actions/drawerList.js";
 import "./style.css";
 import ButtonHighlight from "~/components/CustomComponents/ButtonHighlight/index.jsx";
-import {Add} from "@mui/icons-material";
 import {useEffect} from "react";
 
 function Header() {
@@ -27,7 +26,11 @@ function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
-      setIsScrolled(position > 0);
+      if (position > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);

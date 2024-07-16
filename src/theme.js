@@ -12,25 +12,25 @@ const theme = extendTheme({
     dark: {
       palette: {
         background: {
-          default: 'rgb(25,25,25)',
+          default: '#121212FF',
           paper: 'rgba(25,29,30,0.8)'
         },
         primary: {
           main: 'rgb(255,255,255)',
         },
-        headerBackground: 'rgba(25,29,30,0.7)',
+        headerBackground: 'rgba(18,18,18,0.7)',
         sectionBackground: {
-          primary: '#0a3d62',
-          secondary: '#3c6382',
+          primary: '#121212FF',
+          secondary: '#1D2128FF',
         },
         border: '#fff',
-        boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.4)',
+        boxShadow: '0 0 10px 0 rgba(255,255,255, 0.4)',
       }
     },
     light: {
       palette: {
         background: {
-          default: '#fff',
+          default: '#FFFFFFFF',
           paper: 'rgba(245,245,245,0.8)'
         },
         primary: {
@@ -42,15 +42,13 @@ const theme = extendTheme({
         // headerBackground: 'rgba(12,36,97,0.7)'
         headerBackground: 'rgba(255,255,255,0.7)',
         sectionBackground: {
-          // primary: '#0c2461',
-          // secondary: '#1e3799',
-          primary: '#4682A9',
-          secondary: '#91C8E4',
+          primary: '#FFFFFFFF',
+          secondary: '#F3F4F6FF',
         },
         border: 'rgba(25,29,30,0.35)',
         boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.4)',
         text: {
-          primary: 'black',
+          primary: '#171A1FFF',
           secondary: '#1A4E8DFF'
         }
       }
