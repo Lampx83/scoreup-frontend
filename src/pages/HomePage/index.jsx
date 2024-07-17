@@ -3,6 +3,8 @@ import useDocumentTitle from "../../helper/useDocumentTitle.js";
 import Box from "@mui/material/Box";
 import heroImage from "~/assets/images/hero.png";
 import featuresImage from "~/assets/images/features.png";
+import ovals_1 from '~/assets/images/ovals_1.png';
+import ovals_2 from '~/assets/images/ovals_2.png';
 import ButtonStartNow from "~/components/CustomComponents/ButtonStartNow/index.jsx";
 import HeroSection from "~/components/HeroSection/index.jsx";
 import WorkIcon from '@mui/icons-material/Work';
@@ -11,6 +13,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import "./style.css"
 import {Link} from "react-router-dom";
 import Button from "@mui/material/Button";
+import ButtonHighlight2 from "~/components/CustomComponents/ButtonHighlight2/index.jsx";
 
 function HomePage() {
   useDocumentTitle("Score Up");
@@ -94,7 +97,7 @@ function HomePage() {
                 }}
               >
                 <Box sx={{
-                  backgroundColor: '#B89F52FF',
+                  backgroundColor: theme => theme.palette.mode === 'dark' ? '#B89F52FF' : '#FFDC6EFF',
                   padding: '36px',
                   marginTop: '20px',
                   marginBottom: '24px',
@@ -113,7 +116,7 @@ function HomePage() {
                   </Typography>
                 </Box>
                 <Box sx={{
-                  backgroundColor: '#72ADA2FF',
+                  backgroundColor: theme => theme.palette.mode === 'dark' ? '#72ADA2FF' : '#9BEFE0FF',
                   padding: '36px',
                   marginTop: '24px',
                   marginBottom: '20px',
@@ -151,8 +154,6 @@ function HomePage() {
                     paddingY: '36px',
                     marginTop: '20px',
                     marginBottom: '24px',
-                    borderRadius: '87px 87px 0px 87px',
-                    color: '#171A1FFF',
                     display: 'flex',
                     justifyContent: 'center',
                   }}
@@ -175,7 +176,7 @@ function HomePage() {
                 }}
               >
                 <Box sx={{
-                  backgroundColor: '#95A42AFF',
+                  backgroundColor: theme => theme.palette.mode === 'dark' ? '#95A42AFF' : '#DCF237FF',
                   padding: '36px',
                   marginTop: '20px',
                   marginBottom: '24px',
@@ -194,7 +195,7 @@ function HomePage() {
                   </Typography>
                 </Box>
                 <Box sx={{
-                  backgroundColor: '#B86850FF',
+                  backgroundColor: theme => theme.palette.mode === 'dark' ? '#B86850FF': '#FF8D6BFF',
                   padding: '36px',
                   marginTop: '24px',
                   marginBottom: '20px',
@@ -358,13 +359,69 @@ function HomePage() {
         </Container>
       </Box>
 
-      <Container maxWidth={'lg'}>
-        <Box sx={{
-          height: '10000px'
-        }}>
-
-        </Box>
-      </Container>
+      <Box sx={{
+        backgroundColor: theme => theme.palette.mode === 'dark' ? theme.palette.sectionBackground.secondary : '#1A4E8DFF',
+      }}>
+        <Container
+          maxWidth={'lg'}
+          sx={{
+            display: {
+              xs: 'block',
+              sm: 'flex',
+            },
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingY: '24px',
+          }}
+        >
+          <Box
+            sx={{
+              display: {
+                xs: 'none',
+                sm: 'flex',
+              },
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              position: 'relative',
+              top: '-50px',
+            }}
+          >
+            <img src={ovals_1} style={{ height: '200px' }} alt="logo"/>
+          </Box>
+          <Box
+            sx={{
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant="h4" color="#E2E2E2FF" fontWeight="700">
+              Rất vui được đồng hành!
+            </Typography>
+            <Typography variant="p" color="#DFDFDFFF">
+              Bạn đã sẵn sàng đạt điểm cao?
+            </Typography>
+            <br/>
+            <ButtonHighlight2 margin={"20px"} component={Link} to={'/'}>
+              <Typography variant="p" fontWeight="700" color="#DFDFDFFF">
+                Bắt đầu ngay
+              </Typography>
+            </ButtonHighlight2>
+          </Box>
+          <Box
+            sx={{
+              display: {
+                xs: 'none',
+                sm: 'flex',
+              },
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+              bottom: '-50px',
+            }}
+          >
+            <img src={ovals_2} alt="logo"/>
+          </Box>
+        </Container>
+      </Box>
     </>
   )
 }
