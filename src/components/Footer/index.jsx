@@ -56,7 +56,7 @@ function Footer() {
               display: 'flex',
               gap: 2,
               '& a': {
-                color: 'black',
+                // color: theme => theme.palette.text.primary,
                 textDecoration: 'none',
               }
             }}
