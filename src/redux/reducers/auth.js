@@ -1,6 +1,12 @@
-const authReducer = (state = {isAuthenticated: false}, action) => {
+import cookies from "~/utils/cookies.js";
+
+const initialState = {
+  isAuthenticated: !!cookies.get("token")
+};
+
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOGIN':
+    case 'IS_AUTHENTICATED':
       return {
         ...state,
         isAuthenticated: true

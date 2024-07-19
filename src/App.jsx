@@ -1,18 +1,23 @@
-import { useEffect } from 'react'
 import './App.css'
-import HomePage from "./pages/HomePage/index.jsx";
-import {Route, Routes} from "react-router-dom";
-import LayoutDefault from "./layout/LayoutDefault/index.jsx";
+import AllRoutes from "~/components/AllRoutes/index.jsx";
+import {Toaster} from "sonner";
+import {useTheme} from "@mui/material";
 
 function App() {
+  const theme = useTheme();
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<LayoutDefault />}>
-          <Route index element={<HomePage />} />
-        </Route>
-      </Routes>
-      {/*<HomePage />*/}
+      <Toaster
+        richColors={true}
+        position={"top-right"}
+        expand={true}
+        closeButton={true}
+        style={{
+          top: theme.app.header.height,
+        }}
+      />
+      <AllRoutes/>
     </>
   )
 }

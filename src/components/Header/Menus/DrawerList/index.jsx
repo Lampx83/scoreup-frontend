@@ -10,7 +10,7 @@ import Divider from "@mui/material/Divider";
 import * as React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {closeDrawer, toggleDrawer} from "~/redux/actions/drawerList.js";
-import {login, logout} from "~/redux/actions/auth.js";
+import {logoutAction} from "~/redux/actions/auth.js";
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -81,8 +81,8 @@ function DrawerList() {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                {/*<ListItemButton component={LinkRouter} to="/logout">*/}
-                <ListItemButton onClick={() => dispatch(logout())}>
+                {/*<ListItemButton component={LinkRouter} to="/logoutAction">*/}
+                <ListItemButton onClick={() => dispatch(logoutAction())}>
                   <ListItemIcon>
                     <LogoutIcon />
                   </ListItemIcon>
@@ -95,7 +95,7 @@ function DrawerList() {
               <Divider />
               <ListItem disablePadding>
                 {/*<ListItemButton component={LinkRouter} to="/login">*/}
-                <ListItemButton onClick={() => dispatch(login())}>
+                <ListItemButton>
                   <ListItemIcon>
                     <LoginIcon />
                   </ListItemIcon>
@@ -104,7 +104,7 @@ function DrawerList() {
               </ListItem>
               <ListItem disablePadding>
                 {/*<ListItemButton component={LinkRouter} to="/register">*/}
-                <ListItemButton onClick={() => dispatch(login())}>
+                <ListItemButton>
                   <ListItemIcon>
                     <HowToRegIcon />
                   </ListItemIcon>

@@ -8,7 +8,6 @@ import Logo from "../../assets/images/full_body_logo.png";
 import LinkMui from "@mui/material/Link";
 import Notifications from "./Menus/Notifications/index.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "../../redux/actions/auth.js";
 import {Link as LinkRouter} from "react-router-dom";
 import {AppBar, Container, Fab, Toolbar} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,9 +17,12 @@ import {toggleDrawer} from "~/redux/actions/drawerList.js";
 import "./style.css";
 import ButtonHighlight from "~/components/CustomComponents/ButtonHighlight/index.jsx";
 import {useEffect} from "react";
+import {modalLogin} from "~/redux/actions/modalLogin.js";
+import Login from "~/components/LoginModal/index.jsx";
+import useAuth from "~/hooks/useAuth.jsx";
 
 function Header() {
-  const auth = useSelector((state) => state.auth);
+  const auth = useAuth();
   const dispatch = useDispatch();
   const [isScrolled, setIsScrolled] = React.useState(false);
   useEffect(() => {
@@ -51,6 +53,9 @@ function Header() {
         backgroundImage: 'none!important',
       }}
     >
+      {/*login modal*/}
+      {auth.isAuthenticated() ? "" : <Login/>}
+
       <Toolbar disableGutters sx={{backgroundImage: 'none!important'}}>
         <Container maxWidth='lg' disableGutters sx={{backgroundColor: 'transparent'}}>
           <Box sx={{
@@ -109,15 +114,15 @@ function Header() {
               gap: 1
             }}>
               <ModeSelect/>
-              {auth.isAuthenticated ? (
+              {auth.isAuthenticated() ? (
                 <>
                   <Notifications/>
                   <Profile/>
                 </>
               ) : (
                 <>
-                  <ButtonHighlight onClick={() => dispatch(login())} >Đăng nhập</ButtonHighlight>
-                  <ButtonHighlight onClick={() => dispatch(login())} >Đăng ký</ButtonHighlight>
+                  <ButtonHighlight onClick={() => dispatch(modalLogin(true))} >Đăng nhập</ButtonHighlight>
+                  <ButtonHighlight onClick={() => console.log('signup')} >Đăng ký</ButtonHighlight>
                 </>
               )}
             </Box>

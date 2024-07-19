@@ -1,11 +1,11 @@
-export const login = () => {
+export const logoutAction = () => {
   return {
-    type: 'LOGIN'
+    type: 'LOGOUT'
   }
 }
 
-export const logout = () => {
+export const isAuthenticatedAction = () => {
   return {
-    type: 'LOGOUT'
+    type: 'IS_AUTHENTICATED'
   }
 }

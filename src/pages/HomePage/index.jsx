@@ -1,5 +1,5 @@
 import {Container, Grid, Icon, Typography, useMediaQuery, useTheme} from "@mui/material";
-import useDocumentTitle from "../../helper/useDocumentTitle.js";
+import useDocumentTitle from "~/helpers/useDocumentTitle.js";
 import Box from "@mui/material/Box";
 import heroImage from "~/assets/images/hero.png";
 import featuresImage from "~/assets/images/features.png";
@@ -19,7 +19,14 @@ function HomePage() {
   useDocumentTitle("Score Up");
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-  const isXs = useMediaQuery(theme.breakpoints.down('xs'));
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await post('/v1/api/databases/4949e95213e94820934b6c8b3400df97/query')
+  //     console.log(res)
+  //   }
+  //   fetchData().catch(e => console.error(e));
+  // }, []);
 
   return (
     <>

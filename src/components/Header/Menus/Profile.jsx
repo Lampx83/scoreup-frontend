@@ -11,7 +11,9 @@ import Logout from "@mui/icons-material/Logout.js";
 import Box from "@mui/material/Box";
 import * as React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../../../redux/actions/auth.js";
+import {logoutAction} from "~/redux/actions/auth.js";
+import cookies from "~/utils/cookies.js";
+import {toast} from "sonner";
 
 function Profile() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -22,9 +24,13 @@ function Profile() {
   const handleClose = () => {
     setAnchorEl(null)
   }
-
-  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutAction());
+    cookies.remove("token", { path: "/"});
+    toast.success("Đăng xuất thành công");
+  }
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -83,7 +89,7 @@ function Profile() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={() => dispatch(logout())}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
