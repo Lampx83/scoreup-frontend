@@ -1,7 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Fade, Modal } from "@mui/material";
 import Box from "@mui/material/Box";
-import { modalLogin } from "~/redux/actions/modalLogin.js";
 import "./style.css";
 import Button from "@mui/material/Button";
 import ContinueWithGoogleButton from "~/components/CustomComponents/ContinueWithGoogleButton/index.jsx";
@@ -9,16 +8,17 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import authService from "~/services/auth.service.js";
 import useAuth from "~/hooks/useAuth.jsx";
-import useLoginModal from "~/hooks/useLoginModal.jsx";
+import useRegisterModal from "~/hooks/useRegisterModal.jsx";
 
 function Login() {
-  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
   const auth = useAuth();
   const dispatch = useDispatch();
-  const handleClose = () => loginModal.handleClose();
+  const handleClose = () => registerModal.handleClose();
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     mode: "onSubmit",
@@ -28,23 +28,22 @@ function Login() {
   });
 
   const onSubmit = async (data) => {
-    const res = await authService.login(data);
-
+    const res = await authService.register(data);
     if (res.status === 'ERROR') {
       toast.error(res.message);
       return;
     }
 
-    if (res.statusCode === 200) {
-      dispatch(modalLogin(false))
+    if (res.statusCode === 201) {
+      dispatch(registerModal.handleClose());
       auth.login(res.metadata.token);
-      toast.success("Đăng nhập thành công!");
+      toast.success("Đăng ký thành công!");
     }
 
   };
 
   const onError = (errors, e) => {
-    Object.values(errors).forEach((error) => {
+    Object.values(errors).reverse().forEach((error) => {
       toast.error(error.message);
     });
   }
@@ -52,7 +51,7 @@ function Login() {
   return (
     <>
       <Modal
-        open={loginModal.open}
+        open={registerModal.open}
         onClose={handleClose}
         aria-labelledby="modal-login"
         aria-describedby="modal-login"
@@ -67,7 +66,7 @@ function Login() {
         //   },
         // }}
       >
-        <Fade in={loginModal.open}>
+        <Fade in={registerModal.open}>
           <Box
             sx={{
               position: "absolute",
@@ -96,17 +95,39 @@ function Login() {
                 color: "rgb(16, 137, 211)",
               }}
             >
-              Sign In
+              Đăng ký
             </Box>
 
             <form onSubmit={handleSubmit(onSubmit, onError)} className="login-form" noValidate={true}>
+              <input
+                className="input-login"
+                name="fullName"
+                id="fullName"
+                placeholder="Họ tên"
+                {...register("fullName", {
+                  required: "Vui lòng nhập họ tên!",
+                })}
+              />
+              <input
+                className="input-login"
+                name="email"
+                id="email"
+                placeholder="Email"
+                {...register("email", {
+                  required: "Vui lòng nhập email!",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Email không hợp lệ!",
+                  }
+                })}
+              />
               <input
                 className="input-login"
                 name="username"
                 id="username"
                 placeholder="Username"
                 {...register("username", {
-                  required: "Username is required!",
+                  required: "Vui lòng nhập username!",
                   // pattern: {
                   //   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                   //   message: "Email is invalid!"
@@ -118,9 +139,29 @@ function Login() {
                 type="password"
                 name="password"
                 id="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 {...register("password", {
-                  required: "Password is required!",
+                  required: "Vui lòng nhập mật khẩu!",
+                  minLength: {
+                    value: 6,
+                    message: "Mật khẩu phải có ít nhất 6 ký tự!"
+                  }
+                })}
+              />
+              <input
+                className="input-login"
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="Xác nhận mật khẩu"
+                {...register("confirmPassword", {
+                  required: "Vui lòng xác nhận lại mật khẩu!",
+                  validate: (value) => {
+                    if (watch("password") === value) {
+                      return true;
+                    }
+                    return "Mật khẩu không khớp!";
+                  }
                 })}
               />
               {/*<span className="forgot-password">*/}
@@ -149,17 +190,17 @@ function Login() {
                 }}
                 type="submit"
               >
-                Sign In
+                Đăng ký
               </Button>
             </form>
             <div className="social-account-container">
-              <span className="title">Or</span>
+              <span className="title">Hoặc</span>
               <div className="social-accounts">
-                <ContinueWithGoogleButton />
+                <ContinueWithGoogleButton/>
               </div>
             </div>
             <span className="agreement">
-              <a href="#">Learn user licence agreement</a>
+              <a href="#">Chính sách sử dụng</a>
             </span>
           </Box>
         </Fade>

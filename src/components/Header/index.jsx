@@ -18,8 +18,10 @@ import "./style.css";
 import ButtonHighlight from "~/components/CustomComponents/ButtonHighlight/index.jsx";
 import {useEffect} from "react";
 import {modalLogin} from "~/redux/actions/modalLogin.js";
-import Login from "~/components/LoginModal/index.jsx";
+import LoginModal from "~/components/LoginModal/index.jsx";
 import useAuth from "~/hooks/useAuth.jsx";
+import {modalRegister} from "~/redux/actions/modalRegister.js";
+import RegisterModal from "~/components/RegisterModal/index.jsx";
 
 function Header() {
   const auth = useAuth();
@@ -54,7 +56,7 @@ function Header() {
       }}
     >
       {/*login modal*/}
-      {auth.isAuthenticated() ? "" : <Login/>}
+      {auth.isAuthenticated() ? "" : <><LoginModal/><RegisterModal/></>}
 
       <Toolbar disableGutters sx={{backgroundImage: 'none!important'}}>
         <Container maxWidth='lg' disableGutters sx={{backgroundColor: 'transparent'}}>
@@ -122,7 +124,7 @@ function Header() {
               ) : (
                 <>
                   <ButtonHighlight onClick={() => dispatch(modalLogin(true))} >Đăng nhập</ButtonHighlight>
-                  <ButtonHighlight onClick={() => console.log('signup')} >Đăng ký</ButtonHighlight>
+                  <ButtonHighlight onClick={() => dispatch(modalRegister(true))} >Đăng ký</ButtonHighlight>
                 </>
               )}
             </Box>

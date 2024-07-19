@@ -56,7 +56,7 @@ function ContinueWithGoogleButton() {
           color: "rgba(0,0,0,0.7)",
         }}
       >
-        Continue with Google
+        Tiếp tục với Google
       </Typography>
     </Button>
   );

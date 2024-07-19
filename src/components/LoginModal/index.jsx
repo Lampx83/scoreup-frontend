@@ -10,7 +10,7 @@ import authService from "~/services/auth.service.js";
 import useAuth from "~/hooks/useAuth.jsx";
 import useLoginModal from "~/hooks/useLoginModal.jsx";
 
-function Login() {
+function LoginModal() {
   const loginModal = useLoginModal();
   const auth = useAuth();
   const handleClose = () => loginModal.handleClose();
@@ -94,7 +94,7 @@ function Login() {
                 color: "rgb(16, 137, 211)",
               }}
             >
-              Sign In
+              Đăng nhập
             </Box>
 
             <form onSubmit={handleSubmit(onSubmit, onError)} className="login-form" noValidate={true}>
@@ -104,7 +104,7 @@ function Login() {
                 id="username"
                 placeholder="Username"
                 {...register("username", {
-                  required: "Username is required!",
+                  required: "Vui lòng nhập username!",
                   // pattern: {
                   //   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                   //   message: "Email is invalid!"
@@ -116,9 +116,9 @@ function Login() {
                 type="password"
                 name="password"
                 id="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 {...register("password", {
-                  required: "Password is required!",
+                  required: "Vui lòng nhập mật khẩu!",
                 })}
               />
               {/*<span className="forgot-password">*/}
@@ -147,17 +147,17 @@ function Login() {
                 }}
                 type="submit"
               >
-                Sign In
+                Đăng nhập
               </Button>
             </form>
             <div className="social-account-container">
-              <span className="title">Or</span>
+              <span className="title">Hoặc</span>
               <div className="social-accounts">
                 <ContinueWithGoogleButton />
               </div>
             </div>
             <span className="agreement">
-              <a href="#">Learn user licence agreement</a>
+              <a href="#">Chính sách sử dụng</a>
             </span>
           </Box>
         </Fade>
@@ -166,4 +166,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginModal;
