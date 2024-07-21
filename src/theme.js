@@ -88,7 +88,7 @@ const theme = extendTheme({
     },
   },
   typography: {
-    fontFamily: 'Monserrat, sans-serif',
+    fontFamily: 'Be Vietnam Pro, sans-serif',
     button: {
       textTransform: 'none',
       fontSize: '1rem'

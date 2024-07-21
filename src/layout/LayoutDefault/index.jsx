@@ -1,9 +1,9 @@
-import Header from "../../components/Header/index.jsx";
 import {Outlet, useLocation} from "react-router-dom";
-import {Container} from "@mui/material";
-import Footer from "~/components/Footer/index.jsx";
-import {toast} from "sonner";
 import pushToast from "~/helpers/sonnerToast.js";
+import { createTheme } from '@mui/material/styles';
+import Box from "@mui/material/Box";
+import SideBarUser from "~/components/SideBarUser/index.jsx";
+import * as React from "react";
 
 function LayoutDefault() {
   const { state } = useLocation();
@@ -14,11 +14,12 @@ function LayoutDefault() {
   }
 
   return (
-    <Container disableGutters maxWidth={false}>
-      <Header/>
-      <Outlet/>
-      <Footer/>
-    </Container>
+    <Box sx={{ display: 'flex' }}>
+      <SideBarUser/>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Outlet/>
+      </Box>
+    </Box>
   )
 }
 

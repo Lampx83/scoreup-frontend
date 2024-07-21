@@ -1,8 +1,8 @@
 import './style.css';
 
-function ButtonStartNow() {
+function ButtonStartNow(props) {
   return (
-    <button className="buttonStartNow">
+    <button className="buttonStartNow" {...props}>
       Bắt đầu ngay
       <svg fill="currentColor" viewBox="0 0 24 24" className="icon">
         <path clipRule="evenodd"

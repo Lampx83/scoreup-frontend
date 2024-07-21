@@ -9,9 +9,11 @@ import { toast } from "sonner";
 import authService from "~/services/auth.service.js";
 import useAuth from "~/hooks/useAuth.jsx";
 import useLoginModal from "~/hooks/useLoginModal.jsx";
+import useRegisterModal from "~/hooks/useRegisterModal.jsx";
 
 function LoginModal() {
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
   const auth = useAuth();
   const handleClose = () => loginModal.handleClose();
   const {
@@ -152,6 +154,25 @@ function LoginModal() {
             </form>
             <div className="social-account-container">
               <span className="title">Hoặc</span>
+              <Button
+                sx={{
+                  display: "block",
+                  fontWeight: "bold",
+                  color: "rgba(0,0,0,0.7)",
+                  padding: "8px",
+                  borderRadius: "20px",
+                  border: "none",
+                  transition: "all 0.2s ease-in-out",
+                  margin: "auto",
+                  fontSize: "16px",
+                }}
+                onClick={() => {
+                  loginModal.handleClose();
+                  registerModal.handleOpen();
+                }}
+              >
+                Đăng ký
+              </Button>
               <div className="social-accounts">
                 <ContinueWithGoogleButton />
               </div>

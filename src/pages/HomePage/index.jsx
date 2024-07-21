@@ -11,14 +11,26 @@ import WorkIcon from '@mui/icons-material/Work';
 import SchoolIcon from '@mui/icons-material/School';
 import TranslateIcon from '@mui/icons-material/Translate';
 import "./style.css"
-import {Link} from "react-router-dom";
+import {Link, Navigate, useLocation} from "react-router-dom";
 import Button from "@mui/material/Button";
 import ButtonHighlight2 from "~/components/CustomComponents/ButtonHighlight2/index.jsx";
+import useLoginModal from "~/hooks/useLoginModal.jsx";
+import Header from "~/components/Header/index.jsx";
+import Footer from "~/components/Footer/index.jsx";
+import pushToast from "~/helpers/sonnerToast.js";
 
 function HomePage() {
+  const { state } = useLocation();
+
+  if (state?.messageToast) {
+    pushToast(state.messageToast.message, state.messageToast.type);
+    state.messageToast = null;
+  }
+
   useDocumentTitle("Score Up");
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const loginModal = useLoginModal();
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -30,6 +42,7 @@ function HomePage() {
 
   return (
     <>
+      <Header/>
       <HeroSection>
         <Grid
           container
@@ -46,7 +59,7 @@ function HomePage() {
             <Typography variant="h5" fontSize={"18px"} width={isSmall ? "100%" : "70%"} paddingBottom={"20px"} fontWeight="400">
               Đồng hành cùng bạn mọi lúc, mọi nơi với những bài tập được gợi ý và cá nhân hóa
             </Typography>
-            <ButtonStartNow/>
+            <ButtonStartNow onClick={() => loginModal.handleOpen()}/>
           </Grid>
           <Grid
             item
@@ -407,7 +420,7 @@ function HomePage() {
               Bạn đã sẵn sàng đạt điểm cao?
             </Typography>
             <br/>
-            <ButtonHighlight2 margin={"20px"} component={Link} to={'/'}>
+            <ButtonHighlight2 margin={"20px"} component={Link} to={'/'} onClick={() => loginModal.handleOpen()} >
               <Typography variant="p" fontWeight="700" color="#DFDFDFFF">
                 Bắt đầu ngay
               </Typography>
@@ -429,6 +442,7 @@ function HomePage() {
           </Box>
         </Container>
       </Box>
+      <Footer/>
     </>
   )
 }

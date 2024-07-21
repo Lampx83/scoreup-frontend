@@ -1,5 +1,4 @@
-import {styled, useColorScheme} from '@mui/material/styles';
-import Switch from '@mui/material/Switch';
+import {useColorScheme} from '@mui/material/styles';
 import './style.css';
 
 function ModeSelect() {

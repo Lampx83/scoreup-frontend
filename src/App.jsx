@@ -13,9 +13,9 @@ function App() {
         position={"top-right"}
         expand={true}
         closeButton={true}
-        style={{
-          top: theme.app.header.height,
-        }}
+        // style={{
+        //   top: theme.app.header.height,
+        // }}
       />
       <AllRoutes/>
     </>
