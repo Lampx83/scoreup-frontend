@@ -21,7 +21,7 @@ import NestedList from "~/components/NestedList/index.jsx";
 import { RiDashboard3Line } from "react-icons/ri";
 import { FiBookmark } from "react-icons/fi";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
-import {Grid, Typography} from "@mui/material";
+import {Grid, Typography, useMediaQuery} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { MdLogout } from "react-icons/md";
 import Button from "@mui/material/Button";
@@ -33,6 +33,7 @@ import Stack from '@mui/material/Stack';
 import { MdOutlineNightlight } from "react-icons/md";
 import { MdOutlineLightMode } from "react-icons/md";
 import ModeSelectV2 from "~/components/ModeSelect/ModeSelectV2/index.jsx";
+import useSideBar from "~/hooks/useSideBar.jsx";
 
 
 const drawerWidth = 240;
@@ -131,16 +132,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 export default function SideBarUser({activeTab = 'home'}) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
   const auth = useAuth();
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
 
   return (
     <>

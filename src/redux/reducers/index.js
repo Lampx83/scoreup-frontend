@@ -3,12 +3,14 @@ import {combineReducers} from "redux";
 import drawerListReducer from "~/redux/reducers/drawerList.js";
 import modalLoginReducer from "~/redux/reducers/modalLogin.js";
 import modalRegisterReducer from "~/redux/reducers/modalRegister.js";
+import userSideBarReducer from "~/redux/reducers/userSideBar.js";
 
 const allReducers = combineReducers({
   auth: authReducer,
   drawerList: drawerListReducer,
   modalLogin: modalLoginReducer,
-  modalRegister: modalRegisterReducer
+  modalRegister: modalRegisterReducer,
+  sideBar: userSideBarReducer
   // Add more reducers here
 })
 

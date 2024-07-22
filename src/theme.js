@@ -6,6 +6,10 @@ const theme = extendTheme({
   app: {
     header: {
       height: APP_BAR_HEIGHT,
+    },
+    drawer: {
+      width: 240,
+      widthCollapsed: 64,
     }
   },
   colorSchemes: {
@@ -24,7 +28,7 @@ const theme = extendTheme({
           secondary: '#1D2128FF',
         },
         border: '#fff',
-        boxShadow: '0 0 10px 0 rgba(255,255,255, 0.4)',
+        boxShadow: '0 0 10px 0 rgba(255,255,255, 0.1)',
         text: {
           primary: '#E2E2E2FF',
           secondary: '#DFDFDFFF'
