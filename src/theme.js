@@ -23,6 +23,7 @@ const theme = extendTheme({
           main: 'rgb(255,255,255)',
         },
         headerBackground: 'rgba(18,18,18,0.7)',
+        questionBackground: 'rgba(57,57,57,0.7)',
         sectionBackground: {
           primary: '#121212FF',
           secondary: '#1D2128FF',
@@ -47,8 +48,8 @@ const theme = extendTheme({
         secondary: {
           main: 'rgba(25,29,30,0.84)',
         },
-        // headerBackground: 'rgba(12,36,97,0.7)'
         headerBackground: 'rgba(255,255,255,0.7)',
+        questionBackground: '#F2F7FDFF',
         sectionBackground: {
           primary: '#FFFFFFFF',
           secondary: '#F3F4F6FF',
