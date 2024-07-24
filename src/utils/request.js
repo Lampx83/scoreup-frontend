@@ -1,17 +1,51 @@
-import config from '../config';
+import axios from "~/config/axios.js";
+import statusCodes from "~/utils/statusCodes.js";
+import cookies from "~/utils/cookies.js";
+import pushToast from "~/helpers/sonnerToast.js";
 
-export const get = async (path) => {
-  const response = await fetch(`${config.API_URL}${path}`);
-  return response.json();
+const get = async (url, config = {}) => {
+  return axios.get(url, config)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      const statusCode = error?.response?.status;
+      if (statusCode === statusCodes.UNAUTHORIZED) {
+        cookies.remove("token", { path: "/" });
+        pushToast(error?.response?.data?.message || "Bạn cần đăng nhập trước!", "error");
+      }
+
+      if (statusCode === statusCodes.NOT_FOUND) {
+        // pushToast("Lỗi không xác định, vui lòng thử lại sau!", "error");
+        pushToast(error?.response?.data?.message || "Lỗi không xác định, vui lòng thử lại sau!", "error");
+      }
+    });
 }
 
-export const post = async (path, data = {}) => {
-  const response = await fetch(`${config.API_URL}${path}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
-  return response.json();
+const post = async (url, body = {}, config = {}) => {
+  return axios.post(url, body, config)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      const statusCode = error?.response?.status;
+      if (statusCode === statusCodes.UNAUTHORIZED) {
+        cookies.remove("token", { path: "/" });
+        pushToast("Bạn cần đăng nhập trước!", "error");
+      }
+
+      if (statusCode === statusCodes.NOT_FOUND) {
+        pushToast("Lỗi không xác định, vui lòng thử lại sau!", "error");
+      }
+    });
+}
+
+const getPage = (id) => {
+  return get(`/pages/${id}`);
+}
+
+export {
+  get,
+  post,
+  getPage
 }

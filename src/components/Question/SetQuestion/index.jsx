@@ -34,7 +34,8 @@ function SetQuestion({
               sx={{
                 display: "flex",
                 gap: 2,
-                alignItems: "center"
+                alignItems: "center",
+                width: "100%"
               }}
             >
               <Box
@@ -43,6 +44,11 @@ function SetQuestion({
                   padding: 1,
                   borderRadius: 2,
                   color: theme.palette.text.secondary,
+                  width: "100%",
+                  '& img': {
+                    width: "100%",
+                    height: "auto"
+                  }
                 }}
               >
                 {parse(context)}

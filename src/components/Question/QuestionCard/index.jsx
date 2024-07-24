@@ -103,8 +103,7 @@ function QuestionCard({
                 marginBottom: 2
               }}
             >
-              <audio controls controlsList="nodownload" autoPlay={false} onSeeked={() => null}>
-                <source src={audio} type="audio/mpeg"/>
+              <audio controls controlsList="nodownload" autoPlay={false} onSeeked={() => null} src={audio}>
                 Your browser does not support the audio element.
               </audio>
             </Box>
