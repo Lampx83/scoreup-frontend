@@ -2,14 +2,14 @@ import Box from "@mui/material/Box";
 import {Icon, Typography, useTheme} from "@mui/material";
 import Button from "@mui/material/Button";
 import {FaRegLightbulb} from "react-icons/fa";
-import * as React from "react";
-import Actions from "~/components/Question/Actions/index.jsx";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {a11yLight, nightOwl} from "react-syntax-highlighter/dist/cjs/styles/hljs/index.js";
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
+import Actions from "~/components/Question/Actions/index.jsx";
+import * as React from "react";
+import parse from 'html-react-parser';
 
-function QuestionVariant1({
+function QuestionCard({
+  index = 1,
   context = "",
   question = "",
   options = [],
@@ -22,11 +22,8 @@ function QuestionVariant1({
   return (
     <Box
       sx={{
-        backgroundColor: theme.palette.questionBackground,
-        borderRadius: 2,
         padding: 3,
         color: theme.palette.text.secondary,
-        marginY: 2,
       }}
     >
       <Box
@@ -37,7 +34,7 @@ function QuestionVariant1({
         }}
       >
         <Typography variant={"body1"} fontWeight={700}>
-          {question}
+          {parse(question)}
         </Typography>
         <Button
           sx={{
@@ -149,4 +146,4 @@ function QuestionVariant1({
   )
 }
 
-export default QuestionVariant1;
+export default QuestionCard;
