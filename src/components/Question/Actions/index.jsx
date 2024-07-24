@@ -4,69 +4,80 @@ import Button from "@mui/material/Button";
 import {FaCheck, FaRegComment, FaRegLightbulb} from "react-icons/fa";
 import {FaRegFaceSadTear} from "react-icons/fa6";
 import * as React from "react";
+import Comments from "~/components/Question/Comments/index.jsx";
 
-function Actions() {
+function Actions({
+}) {
   const theme = useTheme();
+  const [openComments, setOpenComments] = React.useState(false);
+
+  const handleToggleComments = () => {
+    setOpenComments(!openComments);
+  }
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        gap: 1,
-        justifyContent: "space-between",
-      }}
-    >
-      <Button
-        variant={"contained"}
+    <>
+      <Box
         sx={{
-          backgroundColor: "#1A4E8DFF",
-          borderRadius: 5,
-          color: "white",
-          fontSize: "12px",
-          ':hover': {
-            backgroundColor: "rgba(26,78,141,0.8)",
-            boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)"
-          }
+          display: "flex",
+          gap: 1,
+          justifyContent: "space-between",
         }}
       >
-        <Icon as={FaRegComment} sx={{marginRight: 1, fontSize: '16px'}}/>
-        Bình luận (12)
-      </Button>
-      <Box sx={{display: "flex", gap: 1}}>
         <Button
           variant={"contained"}
           sx={{
-            backgroundColor: "#03DAC6FF",
+            backgroundColor: "#1A4E8DFF",
             borderRadius: 5,
             color: "white",
             fontSize: "12px",
             ':hover': {
-              backgroundColor: "rgba(3,218,198,0.7)",
-              boxShadow: "0 0 10px 0 rgba(3,218,198,0.5)"
+              backgroundColor: "rgba(26,78,141,0.8)",
+              boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)"
             }
           }}
+          onClick={handleToggleComments}
         >
-          <Icon as={FaCheck} sx={{marginRight: 1, fontSize: '16px'}}/>
-          Đã thành thạo
+          <Icon as={FaRegComment} sx={{marginRight: 1, fontSize: '16px'}}/>
+          Bình luận (12)
         </Button>
-        <Button
-          variant={"contained"}
-          sx={{
-            backgroundColor: "#FF8D6BFF",
-            borderRadius: 5,
-            color: "white",
-            fontSize: "12px",
-            ':hover': {
-              backgroundColor: "rgba(255,141,107,0.8)",
-              boxShadow: "0 0 10px 0 rgba(255,141,107,0.5)"
-            }
-          }}
-        >
-          <Icon as={FaRegFaceSadTear} sx={{marginRight: 1, fontSize: '16px'}}/>
-          Chưa chắc chắn
-        </Button>
+        <Box sx={{display: "flex", gap: 1}}>
+          <Button
+            variant={"contained"}
+            sx={{
+              backgroundColor: "#03DAC6FF",
+              borderRadius: 5,
+              color: "white",
+              fontSize: "12px",
+              ':hover': {
+                backgroundColor: "rgba(3,218,198,0.7)",
+                boxShadow: "0 0 10px 0 rgba(3,218,198,0.5)"
+              }
+            }}
+          >
+            <Icon as={FaCheck} sx={{marginRight: 1, fontSize: '16px'}}/>
+            Đã thành thạo
+          </Button>
+          <Button
+            variant={"contained"}
+            sx={{
+              backgroundColor: "#FF8D6BFF",
+              borderRadius: 5,
+              color: "white",
+              fontSize: "12px",
+              ':hover': {
+                backgroundColor: "rgba(255,141,107,0.8)",
+                boxShadow: "0 0 10px 0 rgba(255,141,107,0.5)"
+              }
+            }}
+          >
+            <Icon as={FaRegFaceSadTear} sx={{marginRight: 1, fontSize: '16px'}}/>
+            Chưa chắc chắn
+          </Button>
+        </Box>
       </Box>
-    </Box>
+      <Comments openComments={openComments}/>
+    </>
   )
 }
 
