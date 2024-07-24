@@ -6,25 +6,22 @@ import SingleQuestion from "~/components/Question/SingleQuestion/index.jsx";
 import SetQuestion from "~/components/Question/SetQuestion/index.jsx";
 import {useEffect, useState} from "react";
 import {getQuestions} from "~/services/question.service.js";
-import {parseQuestion} from "~/helpers/parseQuestion.js";
+import {parseQuestion} from "~/helpers/parseNotionResponseToObject.js";
+import useFilterQuestion from "~/hooks/useFilterQuestion.jsx";
 
 export default function UserHomePage() {
-  const notionDatabaseId = "ba1ea74a570842ab9d46c6fd62772b83";
-  const tags = [
-    {
-      tag: "part_1",
-      multiQuestions: false,
-      limit: 5
-    },
-    {
-      tag: "part_7",
-      multiQuestions: true,
-      limit: 10
-    }
-  ];
+  const theme = useTheme();
+  const { filter } = useFilterQuestion();
+  const notionDatabaseId = filter.certificateDatabaseId;
+  const tags = filter?.tags?.map(tag => ({
+    tag: tag.tag,
+    limit: tag.limit,
+    multiQuestions: tag.multiQuestions,
+    section: tag.section
+  })) || [];
 
   const [questions, setQuestions] = useState([]);
-
+  let count = 0;
 
   useEffect(() => {
 
@@ -37,13 +34,17 @@ export default function UserHomePage() {
           tag: tag.tag,
           notionDatabaseId
         })
-        questions = [...questions, ...(res.map(parseQuestion))];
+        // questions = [...questions, ...(res?.map(parseQuestion))];
+        questions.push({
+          section: tag.section,
+          multi: tag.multiQuestions,
+          questions: res?.map(parseQuestion)
+        })
       }
-      console.log(questions)
       setQuestions(questions);
     }
     getData();
-  }, []);
+  }, [filter]);
 
   return (
     <Container maxWidth={'lg'}
@@ -87,36 +88,72 @@ export default function UserHomePage() {
         }}/>
       </Box>
 
+      <Box>
+        <Typography variant="body1" sx={{marginTop: 5}}>
+          Bạn đang học:
+        </Typography>
+        <Typography variant="h5" fontWeight={700}>
+          {filter?.certificateInfo?.title}
+        </Typography>
+      </Box>
+
       {/*questions container*/}
-      <Box
+      {(filter?.certificateDatabaseId && filter?.tags) ? <Box
         sx={{
           paddingY: 5,
-          marginY: 5,
+          marginY: 1,
         }}
       >
         {questions.map((element, index) => {
-          if (!Array.isArray(element)) {
-            return (
-              <SingleQuestion
-                key={index}
-                question={`Câu ${index + 1}: ` + element?.question}
-                options={element?.options}
-                image={element?.image}
-                audio={element?.audio}
-                code={element?.code}
-              />
-            )
-          } else {
-            return (
-              <SetQuestion
-                key={index}
-                questions={element}
-                context={element[0]?.context}
-              />
-            )
-          }
+          return (
+            <Box key={index} sx={{marginTop: 5}}>
+              <Typography variant={"h5"} fontWeight={700} color={theme.palette.text.secondary}>{element.section}</Typography>
+              {element.questions.map((question, index) => {
+                if (element.multi) {
+                  return (
+                    <SetQuestion
+                      key={index}
+                      questions={question}
+                      context={question[0]?.context}
+                      count={count}
+                    />
+                  )
+                } else {
+                  return (
+                    <SingleQuestion
+                      key={index}
+                      question={question?.question}
+                      options={question?.options}
+                      image={question?.image}
+                      audio={question?.audio}
+                      code={question?.code}
+                      index={++count}
+                    />
+                  )
+                }
+              })}
+            </Box>
+          )
         })}
-      </Box>
+      </Box> : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            height: "50vh",
+            width: "100%",
+          }}
+        >
+          <Typography variant="h5" fontWeight={700} sx={{}}>
+            Trước hết, hãy cho chúng tôi biết thêm về bạn!
+          </Typography>
+          <Typography variant="p" fontWeight={500} sx={{}}>
+            Mở bộ lọc và chọn nội dung học bạn muốn!
+          </Typography>
+        </Box>
+      )}
     </Container>
   );
 }

@@ -9,7 +9,7 @@ import * as React from "react";
 import parse from 'html-react-parser';
 
 function QuestionCard({
-  index = 1,
+  index = "",
   context = "",
   question = "",
   options = [],
@@ -34,7 +34,7 @@ function QuestionCard({
         }}
       >
         <Typography variant={"body1"} fontWeight={700}>
-          {parse(question)}
+          {parse(`Câu ${index}: ${question}`)}
         </Typography>
         <Button
           sx={{
@@ -70,7 +70,7 @@ function QuestionCard({
               gap: 1
             }}
           >
-            <SyntaxHighlighter language="cpp" style={theme.palette.mode === 'dark' ? nightOwl : a11yLight}
+            <SyntaxHighlighter language="c" style={theme.palette.mode === 'dark' ? nightOwl : a11yLight}
                                wrapLongLines={true}
                                customStyle={{fontSize: '14px', borderRadius: "10px", padding: "16px"}}
             >
@@ -130,9 +130,10 @@ function QuestionCard({
                   textWrap: "wrap",
                   width: "100%",
                   justifyContent: "flex-start",
+                  textAlign: "left",
                 }}
               >
-                {option}
+                {`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option}`}
               </Button>
             ))}
           </Box>
