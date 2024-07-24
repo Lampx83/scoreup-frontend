@@ -25,6 +25,12 @@ function Comments({
         fullName: "Nguyễn Văn A"
       },
       content: "Câu trả lời sai rồi bạn ơi"
+    },
+    {
+      user: {
+        fullName: "Trần Văn B"
+      },
+      content: "Câu trả lời đúng rồi bạn ơi"
     }
   ];
 
@@ -65,7 +71,7 @@ function Comments({
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: 2
+            gap: 0
           }}
         >
           {comments.map((comment, index) => (

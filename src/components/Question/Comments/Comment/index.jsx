@@ -11,7 +11,6 @@ const commentStyle = (theme) => ({
   backgroundColor: theme.palette.questionBackground.secondary,
   borderRadius: 2,
   color: theme.palette.text.secondary,
-  paddingY: 1,
   marginY: 1
 });
 
@@ -46,11 +45,11 @@ function Comment({ comment }) {
           }}
         >
           <Typography variant="caption" color={"text.secondary"}>1 giờ trước</Typography>
-          <Button variant="text" sx={{fontSize: "12px", minWidth: 0}}>
+          <Button variant="text" sx={{fontSize: "12px", minWidth: 0, paddingX: 1, paddingY: 0.5}}>
             <Icon as={BiLike}/>
             Thích
           </Button>
-          <Button variant="text" sx={{fontSize: "12px", minWidth: 0}}>
+          <Button variant="text" sx={{fontSize: "12px", minWidth: 0, paddingX: 1, paddingY: 0.5}}>
             <Icon as={BsReply}/>
             Trả lời
           </Button>
