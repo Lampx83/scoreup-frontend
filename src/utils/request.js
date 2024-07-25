@@ -3,7 +3,11 @@ import statusCodes from "~/utils/statusCodes.js";
 import cookies from "~/utils/cookies.js";
 import pushToast from "~/helpers/sonnerToast.js";
 
-const get = async (url, config = {}) => {
+const get = async (url, config = {
+  headers: {
+    "Authorization": `Bearer ${cookies.get("token", { path: "/" })}`
+  }
+}) => {
   return axios.get(url, config)
     .then(response => {
       return response.data;
@@ -11,7 +15,7 @@ const get = async (url, config = {}) => {
     .catch(error => {
       const statusCode = error?.response?.status;
       if (statusCode === statusCodes.UNAUTHORIZED) {
-        cookies.remove("token", { path: "/" });
+        // cookies.remove("token", { path: "/" });
         pushToast(error?.response?.data?.message || "Bạn cần đăng nhập trước!", "error");
       }
 
@@ -22,7 +26,11 @@ const get = async (url, config = {}) => {
     });
 }
 
-const post = async (url, body = {}, config = {}) => {
+const post = async (url, body = {}, config = {
+  headers: {
+    "Authorization": `Bearer ${cookies.get("token", { path: "/" })}`
+  }
+}) => {
   return axios.post(url, body, config)
     .then(response => {
       return response.data;
