@@ -7,6 +7,7 @@ import parse from 'html-react-parser';
 function SetQuestion({
   context = "",
   questions = [],
+  count = 0
 }) {
   const theme = useTheme();
   return (
@@ -66,6 +67,7 @@ function SetQuestion({
           code={question?.code}
           image={question?.image}
           audio={question?.audio}
+          index={++count}
         />
       ))}
     </Box>

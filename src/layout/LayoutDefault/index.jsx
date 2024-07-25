@@ -16,7 +16,7 @@ function LayoutDefault() {
   return (
     <Box sx={{ display: 'flex' }}>
       <SideBarUser/>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, position: 'relative' }}>
         <Outlet/>
       </Box>
     </Box>

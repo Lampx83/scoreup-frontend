@@ -13,7 +13,7 @@ import {
   List,
   Radio,
   RadioGroup,
-  Slide, TextField,
+  TextField,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -149,16 +149,33 @@ function Filter({ active = {}, open = false }) {
           open={openFilter}
           anchorEl={anchorElFilter}
           transition
-          placement="right-start"
+          placement="right"
           disablePortal={true}
           ref={popperFilterRef}
+          sx={{
+            overflow: "scroll",
+            maxHeight: "calc(100vh)",
+            '::-webkit-scrollbar': {
+              display: 'none'
+            },
+            '::-webkit-scrollbar-thumb': {
+              display: 'none'
+            },
+            '::-webkit-scrollbar-track': {
+              display: 'none'
+            },
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
+            boxShadow: theme.palette.boxShadow,
+            borderRadius: 2,
+          }}
           modifiers={[
             {
               name: "flip",
               enabled: true,
               options: {
                 altBoundary: true,
-                rootBoundary: "document",
+                rootBoundary: "viewport",
                 padding: 8,
               },
             },
@@ -169,7 +186,7 @@ function Filter({ active = {}, open = false }) {
                 altAxis: false,
                 altBoundary: true,
                 tether: true,
-                rootBoundary: "document",
+                rootBoundary: "viewport",
                 padding: 8,
               },
             },
@@ -187,7 +204,6 @@ function Filter({ active = {}, open = false }) {
                   padding: "8px 16px",
                   backgroundColor: theme.palette.headerBackground,
                   backdropFilter: "blur(10px)",
-                  boxShadow: theme.palette.boxShadow,
                   borderRadius: 2,
                   minWidth: "400px",
                   marginLeft: 1,

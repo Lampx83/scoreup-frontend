@@ -25,7 +25,26 @@ function parseSingleQuestion(raw) {
 export function parseQuestion(raw) {
   if (!Array.isArray(raw)) return parseSingleQuestion(raw);
 
-  const context = raw[0]?.properties?.context?.rich_text[0]?.plain_text?.replaceAll("src='", "src='" + config.MEDIA_URL) || undefined;
+  // const context = raw[0]?.properties?.context?.rich_text[0]?.plain_text?.replaceAll("src='", "src='" + config.MEDIA_URL) || undefined;
+  let context = raw.filter(question => question.properties.context.rich_text.length > 0)[0]?.properties?.context?.rich_text[0]?.plain_text?.replaceAll("src='", "src='" + config.MEDIA_URL) || "";
+  
+  const isSameAudio = raw.every(question => question?.properties?.audio?.rich_text[0]?.plain_text && (question?.properties?.audio?.rich_text[0]?.plain_text === raw[0]?.properties?.audio?.rich_text[0]?.plain_text));
+  const isSameImage = raw.every(question => question?.properties?.img?.rich_text[0]?.plain_text && (question?.properties?.img?.rich_text[0]?.plain_text === raw[0]?.properties?.img?.rich_text[0]?.plain_text));
+  const isSameCode = raw.every(question => question?.properties?.code?.rich_text[0]?.plain_text && (question?.properties?.code?.rich_text[0]?.plain_text === raw[0]?.properties?.code?.rich_text[0]?.plain_text));
+  if (isSameAudio) {
+    context += `<audio controls controlsList="nodownload" autostart="0" autostart="false" name="media" src=${config.MEDIA_URL + raw[0]?.properties?.audio?.rich_text[0]?.plain_text}>
+      Your browser does not support the audio element.
+    </audio>`;
+    raw.forEach(question => delete question.properties.audio);
+  }
+  if (isSameImage) {
+    context += `<img style="width: 100%; border-radius: 10px" src=${config.MEDIA_URL + raw[0]?.properties?.img?.rich_text[0]?.plain_text} alt=${raw[0]?.properties?.img?.rich_text[0]?.plain_text}/>`;
+    raw.forEach(question => delete question.properties.img);
+  }
+  if (isSameCode) {
+    context += `<pre><code>${raw[0]?.properties?.code?.rich_text[0]?.plain_text}</code></pre>`;
+    raw.forEach(question => delete question.properties.code);
+  }
 
   return raw.map(parseSingleQuestion).map(question => ({...question, context}));
 }
