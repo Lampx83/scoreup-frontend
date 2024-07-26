@@ -9,6 +9,7 @@ function parseSingleQuestion(raw) {
     }
   }
   parsed.options = options;
+  parsed.id = raw._id;
   parsed.question = raw?.properties?.question?.rich_text[0]?.plain_text || undefined;
   if (raw?.properties?.audio?.rich_text[0]?.plain_text) {
     parsed.audio = config.MEDIA_URL + raw?.properties?.audio?.rich_text[0]?.plain_text;

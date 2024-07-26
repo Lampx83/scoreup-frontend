@@ -68,6 +68,7 @@ function SetQuestion({
           image={question?.image}
           audio={question?.audio}
           index={++count}
+          id={question?.id}
         />
       ))}
     </Box>

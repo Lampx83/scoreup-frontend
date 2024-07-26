@@ -15,16 +15,17 @@ function QuestionCard({
   options = [],
   code = "",
   image = "",
-  audio = ""
+  audio = "",
+  id = ""
 }) {
   const theme = useTheme();
-
   return (
     <Box
       sx={{
         padding: 3,
         color: theme.palette.text.secondary,
       }}
+      id={id}
     >
       <Box
         sx={{

@@ -21,7 +21,7 @@ class ErrorBoundary extends React.Component {
       // Error path
       console.log(this.state.error);
       return (
-        <Navigate to={"/404"} state={{
+        <Navigate to={"/"} state={{
           messageToast: {
             type: "error",
             message: "Lỗi " + this.state.error.message

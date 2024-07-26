@@ -1,0 +1,131 @@
+import Box from "@mui/material/Box";
+import { Icon, Typography, useTheme } from "@mui/material";
+import * as React from "react";
+import Button from "@mui/material/Button";
+import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
+
+function QuestionsPalette({ questions = [] }) {
+  let count = 0;
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const questionFlat = questions.map((element) => {
+    const newElement = { ...element, questions: [...element.questions] };
+
+    if (newElement.multi) {
+      newElement.questions = newElement.questions.flatMap((item) => item);
+    }
+
+    return newElement;
+  });
+
+  const handleSelectQuestion = (id) => {
+    const element = document.getElementById(id);
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center'
+    });
+    handleToggleQuestionPalette();
+  };
+
+  const handleToggleQuestionPalette = (e) => {
+    const element = document.getElementById("question-palette");
+    if (element.style.top === '0px' || !element.style.top) {
+      element.style.top = `calc(${-element.offsetHeight}px)`;
+    } else {
+      element.style.top = '0';
+    }
+    setOpen(!open);
+  }
+
+  return (
+    <Box
+      id={"question-palette"}
+      sx={{
+        marginTop: 2,
+        borderRadius: 3,
+        paddingY: 2,
+        position: "sticky",
+        top: 0,
+        zIndex: 1,
+        backgroundColor: theme.palette.questionBackground.secondary,
+        transition: "all 0.5s",
+      }}
+    >
+      {questionFlat.map((element, index) => {
+        return (
+          <Box
+            key={index}
+            sx={{
+              color: theme.palette.text.primary,
+              borderRadius: 3,
+              paddingX: 2,
+              paddingY: 1,
+            }}
+          >
+            <Typography
+              variant={"h5"}
+              fontWeight={700}
+              color={theme.palette.text.secondary}
+            >
+              {element.section}
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                flexWrap: "wrap",
+                gap: 1,
+                height: "100px",
+                overflow: "auto",
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                width: "fit-content",
+                marginTop: 1,
+                "::-webkit-scrollbar-thumb": {
+                  background: "white",
+                },
+              }}
+            >
+              {element.questions.map((_, index) => {
+                return (
+                  <Button
+                    key={index}
+                    sx={{
+                      // padding: 1,
+                      minWidth: 0,
+                      width: 35,
+                      backgroundColor: theme.palette.questionBackground.primary,
+                    }}
+                    onClick={() => handleSelectQuestion(_.id)}
+                  >
+                    <Typography variant={"body1"}>{++count}</Typography>
+                  </Button>
+                );
+              })}
+            </Box>
+          </Box>
+        );
+      })}
+      <Icon
+        as={open ? FaCaretDown : FaCaretUp}
+        sx={{
+          color: theme.palette.text.primary,
+          fontSize: 30,
+          cursor: "pointer",
+          position: "absolute",
+          bottom: -30,
+          right: 0,
+          backgroundColor: theme.palette.questionBackground.secondary,
+          borderRadius: "0 0 10px 10px",
+          boxSizing: "content-box",
+          padding: 0.5
+        }}
+        onClick={(e) => handleToggleQuestionPalette(e)}
+      />
+    </Box>
+  );
+}
+
+export default QuestionsPalette;

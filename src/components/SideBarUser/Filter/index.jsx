@@ -95,7 +95,7 @@ function Filter({ active = {}, open = false }) {
       pushToast("Vui lòng chọn ít nhất một nội dung học", "error");
       return;
     }
-    setSelectedSections(Array.from(tags));
+    setSelectedSections(Array.from(tags).sort((a, b) => a.tag.localeCompare(b.tag)));
   }
 
   const handleChangeLimit = (tag, limit) => {
