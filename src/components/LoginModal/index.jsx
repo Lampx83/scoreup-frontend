@@ -10,6 +10,7 @@ import authService from "~/services/auth.service.js";
 import useAuth from "~/hooks/useAuth.jsx";
 import useLoginModal from "~/hooks/useLoginModal.jsx";
 import useRegisterModal from "~/hooks/useRegisterModal.jsx";
+import pushToast from "~/helpers/sonnerToast.js";
 
 function LoginModal() {
   const loginModal = useLoginModal();
@@ -28,17 +29,13 @@ function LoginModal() {
   });
 
   const onSubmit = async (data) => {
-    const res = await authService.login(data);
+    const isSuccess = await authService.login(data);
 
-    if (res.status === 'ERROR') {
-      toast.error(res.message);
-      return;
-    }
-
-    if (res.statusCode === 200) {
+    if (isSuccess) {
       loginModal.handleClose();
-      auth.login(res.metadata.token);
-      toast.success("Đăng nhập thành công!");
+      auth.login();
+    } else {
+      pushToast("Đăng nhập thất bại!", "error");
     }
 
   };

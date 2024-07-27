@@ -109,7 +109,7 @@ function QuestionsPalette({ questions = [] }) {
             }}
           >
             <Typography
-              variant={"h5"}
+              variant={"h6"}
               fontWeight={700}
               color={theme.palette.text.secondary}
             >

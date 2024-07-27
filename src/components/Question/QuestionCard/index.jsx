@@ -34,7 +34,7 @@ const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />
   }),
 );
 
-function MyFormControlLabel(props) {
+function Option(props) {
   const radioGroup = useRadioGroup();
 
   let checked = false;
@@ -175,7 +175,7 @@ function QuestionCard({
               onChange={handleSelectOption}
             >
               {options.map((option, index) => (
-                <MyFormControlLabel
+                <Option
                   key={index}
                   control={<Radio/>}
                   value={option.option}

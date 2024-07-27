@@ -23,6 +23,8 @@ const get = async (url, config = {
         // pushToast("Lỗi không xác định, vui lòng thử lại sau!", "error");
         pushToast(error?.response?.data?.message || "Lỗi không xác định, vui lòng thử lại sau!", "error");
       }
+
+      return error?.response?.data;
     });
 }
 
@@ -38,13 +40,14 @@ const post = async (url, body = {}, config = {
     .catch(error => {
       const statusCode = error?.response?.status;
       if (statusCode === statusCodes.UNAUTHORIZED) {
-        cookies.remove("token", { path: "/" });
+        // cookies.remove("token", { path: "/" });
         pushToast("Bạn cần đăng nhập trước!", "error");
       }
 
       if (statusCode === statusCodes.NOT_FOUND) {
         pushToast("Lỗi không xác định, vui lòng thử lại sau!", "error");
       }
+      return error?.response?.data;
     });
 }
 

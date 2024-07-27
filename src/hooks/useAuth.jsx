@@ -10,14 +10,15 @@ function useAuth() {
     return auth.isAuthenticated;
   }
 
-  const login = (token) => {
+  const login = () => {
     dispatch(isAuthenticatedAction());
-    cookies.set("token", token, { path: "/" });
+    // cookies.set("token", token, { path: "/" });
   }
 
   const logout = () => {
     dispatch(logoutAction());
     cookies.remove("token", { path: "/"});
+    cookies.remove("user", { path: "/"});
   }
 
   return {

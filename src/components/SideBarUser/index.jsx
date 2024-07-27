@@ -21,19 +21,19 @@ import NestedList from "~/components/NestedList/index.jsx";
 import { RiDashboard3Line } from "react-icons/ri";
 import { FiBookmark } from "react-icons/fi";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
-import {Grid, Typography, useMediaQuery} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { MdLogout } from "react-icons/md";
 import Button from "@mui/material/Button";
-import { IoSettingsOutline } from "react-icons/io5";
 import useAuth from "~/hooks/useAuth.jsx";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from '@mui/material/Badge';
 import Stack from '@mui/material/Stack';
-import { MdOutlineNightlight } from "react-icons/md";
-import { MdOutlineLightMode } from "react-icons/md";
 import ModeSelectV2 from "~/components/ModeSelect/ModeSelectV2/index.jsx";
 import useSideBar from "~/hooks/useSideBar.jsx";
+import {useEffect, useState} from "react";
+import {getUser} from "~/services/user.service.js";
+import cookies from "~/utils/cookies.js";
 
 
 const drawerWidth = 240;
@@ -134,6 +134,7 @@ export default function SideBarUser({activeTab = 'home'}) {
   const theme = useTheme();
   const auth = useAuth();
   const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
+  const user = cookies.get("user", { path: "/" });
 
   return (
     <>
@@ -386,7 +387,7 @@ export default function SideBarUser({activeTab = 'home'}) {
                 component={Link}
                 to={"/profile"}
               >
-                Duy Việt
+                {user?.fullName || user?.username || user?.email || "User"}
                 <Typography variant="body2" fontSize={"12px"}>Xem trang cá nhân</Typography>
               </Typography>
             </Grid>

@@ -9,9 +9,11 @@ import { getQuestions } from "~/services/question.service.js";
 import { parseQuestion } from "~/helpers/parseNotionResponseToObject.js";
 import useFilterQuestion from "~/hooks/useFilterQuestion.jsx";
 import QuestionsPalette from "~/components/QuestionsPalette/index.jsx";
+import cookies from "~/utils/cookies.js";
 
 export default function UserHomePage() {
   const theme = useTheme();
+  const user = cookies.get("user");
   const { filter } = useFilterQuestion();
   const notionDatabaseId = filter.certificateDatabaseId;
   const tags =
@@ -132,7 +134,7 @@ export default function UserHomePage() {
               }}
             >
               <Typography variant="h4" fontWeight={700} sx={{}}>
-                Xin chào, Duy Việt!
+                Xin chào, {user?.fullName || user?.username || user?.email || "meow"}!
               </Typography>
               <Typography variant="p" fontWeight={500} sx={{}}>
                 Lướt xuống để xem các bài tập được gợi ý riêng cho bạn.

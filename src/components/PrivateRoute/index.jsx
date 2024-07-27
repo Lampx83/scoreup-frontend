@@ -1,6 +1,5 @@
 import useAuth from "~/hooks/useAuth.jsx";
 import {Navigate, Outlet} from "react-router-dom";
-import {toast} from "sonner";
 
 function PrivateRoute() {
   const auth = useAuth();

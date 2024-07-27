@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import authService from "~/services/auth.service.js";
 import useAuth from "~/hooks/useAuth.jsx";
 import useRegisterModal from "~/hooks/useRegisterModal.jsx";
+import pushToast from "~/helpers/sonnerToast.js";
 
 function Login() {
   const registerModal = useRegisterModal();
@@ -28,16 +29,13 @@ function Login() {
   });
 
   const onSubmit = async (data) => {
-    const res = await authService.register(data);
-    if (res.status === 'ERROR') {
-      toast.error(res.message);
-      return;
-    }
+    const isSuccess = await authService.register(data);
 
-    if (res.statusCode === 201) {
+    if (isSuccess) {
       dispatch(registerModal.handleClose());
-      auth.login(res.metadata.token);
-      toast.success("Đăng ký thành công!");
+      auth.login();
+    } else {
+      pushToast("Đăng ký thất bại!", "error");
     }
 
   };
