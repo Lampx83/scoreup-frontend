@@ -52,8 +52,6 @@ export default function UserHomePage() {
     });
   }, [filter]);
 
-  console.log(theme.breakpoints.values.lg)
-
   return (
     <>
       {questions.length === 0 &&
@@ -203,13 +201,8 @@ export default function UserHomePage() {
                         return (
                           <SingleQuestion
                             key={index}
-                            question={question?.question}
-                            options={question?.options}
-                            image={question?.image}
-                            audio={question?.audio}
-                            code={question?.code}
+                            {...question}
                             index={++count}
-                            id={question?.id}
                           />
                         );
                       }

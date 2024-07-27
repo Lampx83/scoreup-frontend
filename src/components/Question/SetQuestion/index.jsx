@@ -61,14 +61,8 @@ function SetQuestion({
       {questions.map((question, index) => (
         <QuestionCard
           key={index}
-          context={context}
-          question={question?.question}
-          options={question?.options}
-          code={question?.code}
-          image={question?.image}
-          audio={question?.audio}
+          {...question}
           index={++count}
-          id={question?.id}
         />
       ))}
     </Box>

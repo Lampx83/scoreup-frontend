@@ -1,5 +1,15 @@
 import Box from "@mui/material/Box";
-import {Icon, Typography, useTheme} from "@mui/material";
+import {
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Icon,
+  Radio,
+  RadioGroup,
+  Typography,
+  useRadioGroup,
+  useTheme
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import {FaRegLightbulb} from "react-icons/fa";
 import SyntaxHighlighter from "react-syntax-highlighter";
@@ -7,6 +17,43 @@ import {a11yLight, nightOwl} from "react-syntax-highlighter/dist/cjs/styles/hljs
 import Actions from "~/components/Question/Actions/index.jsx";
 import * as React from "react";
 import parse from 'html-react-parser';
+import {styled} from "@mui/material/styles";
+import {useEffect} from "react";
+
+
+const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
+  shouldForwardProp: (prop) => prop !== 'isCorrect',
+})(
+  ({ theme, isCorrect, checked }) => ({
+    backgroundColor: `${checked ? (isCorrect === 'true' ? 'rgba(57,153,24,0.78)' : '#FF7777') : theme.palette.sectionBackground.primary}`,
+    color: `${checked ? 'white' : theme.palette.text.secondary}`,
+    transition: "all 0.2s",
+    '& .MuiTypography-root': {
+      fontWeight: checked ? 700 : 400,
+    },
+  }),
+);
+
+function MyFormControlLabel(props) {
+  const radioGroup = useRadioGroup();
+
+  let checked = false;
+
+  if (radioGroup && radioGroup.value) {
+    checked = props.value === radioGroup.value || props.isCorrect === 'true';
+  }
+
+  useEffect(() => {
+    if (props.value === radioGroup.value && props.isCorrect === 'true') {
+      document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
+    } else if (checked) {
+      document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
+    }
+  }, [checked]);
+
+  return <StyledFormControlLabel disabled={!!radioGroup.value && !checked} checked={checked} {...props} />;
+}
+
 
 function QuestionCard({
   index = "",
@@ -16,9 +63,15 @@ function QuestionCard({
   code = "",
   image = "",
   audio = "",
-  id = ""
+  id = "",
+  correct = "",
 }) {
   const theme = useTheme();
+
+  const handleSelectOption = (e) => {
+    // console.log(e.target.value);
+  }
+
   return (
     <Box
       sx={{
@@ -109,7 +162,7 @@ function QuestionCard({
               </audio>
             </Box>
           )}
-          <Box
+          <FormControl
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -117,27 +170,43 @@ function QuestionCard({
               width: "100%"
             }}
           >
-            {options.map((option, index) => (
-              <Button
-                key={index}
-                variant={"outlined"}
-                sx={{
-                  color: theme.palette.text.secondary,
-                  borderColor: theme.palette.text.secondary,
-                  backgroundColor: theme.palette.sectionBackground.primary,
-                  fontWeight: 400,
-                  borderRadius: 5,
-                  whiteSpace: "wrap",
-                  textWrap: "wrap",
-                  width: "100%",
-                  justifyContent: "flex-start",
-                  textAlign: "left",
-                }}
-              >
-                {`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option}`}
-              </Button>
-            ))}
-          </Box>
+            <RadioGroup
+              name={id}
+              onChange={handleSelectOption}
+            >
+              {options.map((option, index) => (
+                <MyFormControlLabel
+                  key={index}
+                  control={<Radio/>}
+                  value={option.option}
+                  label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
+                  isCorrect={option.option === correct ? 'true' : 'false'}
+                  sx={{
+                    // color: theme.palette.text.secondary,
+                    // backgroundColor: theme.palette.sectionBackground.primary,
+                    borderColor: theme.palette.text.secondary,
+                    // fontWeight: 400,
+                    borderRadius: 5,
+                    whiteSpace: "wrap",
+                    textWrap: "wrap",
+                    width: "100%",
+                    justifyContent: "flex-start",
+                    textAlign: "left",
+                    paddingX: 2,
+                    paddingY: 1,
+                    marginX: 0,
+                    marginY: 1,
+                    '& .MuiButtonBase-root': {
+                      display: "none"
+                    },
+                    '&.Mui-checked': {
+                      backgroundColor: 'black'
+                    },
+                  }}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
         </Box>
 
       </Box>

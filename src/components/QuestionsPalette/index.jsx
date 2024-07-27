@@ -3,6 +3,7 @@ import { Icon, Typography, useTheme } from "@mui/material";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
+import {useEffect} from "react";
 
 function QuestionsPalette({ questions = [] }) {
   let count = 0;
@@ -39,6 +40,45 @@ function QuestionsPalette({ questions = [] }) {
     setOpen(!open);
   }
 
+  useEffect(() => {
+    // drag questions palette
+    const sliders = document.querySelectorAll('.question-palette__list');
+    sliders?.forEach(slider => {
+      let mouseDown = false;
+      let startX, scrollLeft;
+
+      if (slider) {
+        const startDragging = (e) => {
+          mouseDown = true;
+          startX = e.pageX - slider.offsetLeft;
+          scrollLeft = slider.scrollLeft;
+        }
+
+        const stopDragging = (e) => {
+          mouseDown = false;
+        }
+
+        const move = (e) => {
+          e.preventDefault();
+          if (!mouseDown) {
+            return;
+          }
+          const x = e.pageX - slider.offsetLeft;
+          const scroll = x - startX;
+          slider.scrollLeft = scrollLeft - scroll;
+        }
+        // drag questions palette
+
+        // Add the event listeners
+        slider.addEventListener('mousemove', move, false);
+        slider.addEventListener('mousedown', startDragging, false);
+        slider.addEventListener('mouseup', stopDragging, false);
+        slider.addEventListener('mouseleave', stopDragging, false);
+      }
+      // end drag questions palette
+    });
+  }, []);
+
   return (
     <Box
       id={"question-palette"}
@@ -51,6 +91,9 @@ function QuestionsPalette({ questions = [] }) {
         zIndex: 1,
         backgroundColor: theme.palette.questionBackground.secondary,
         transition: "all 0.5s",
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
       }}
     >
       {questionFlat.map((element, index) => {
@@ -62,6 +105,7 @@ function QuestionsPalette({ questions = [] }) {
               borderRadius: 3,
               paddingX: 2,
               paddingY: 1,
+              // flexBasis: "30%"
             }}
           >
             <Typography
@@ -87,6 +131,7 @@ function QuestionsPalette({ questions = [] }) {
                   background: "white",
                 },
               }}
+              className={"question-palette__list"}
             >
               {element.questions.map((_, index) => {
                 return (
@@ -98,6 +143,7 @@ function QuestionsPalette({ questions = [] }) {
                       width: 35,
                       backgroundColor: theme.palette.questionBackground.primary,
                     }}
+                    id={`question-palette-${_.id}`}
                     onClick={() => handleSelectQuestion(_.id)}
                   >
                     <Typography variant={"body1"}>{++count}</Typography>

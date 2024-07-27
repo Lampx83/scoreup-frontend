@@ -5,12 +5,16 @@ function parseSingleQuestion(raw) {
   const options = [];
   for (const key in raw?.properties) {
     if (/^[a-zA-Z]$/.test(key) && raw.properties[key].rich_text?.length > 0) {
-      options.push(`${raw.properties[key].rich_text[0].plain_text}`);
+      options.push({
+        option: key,
+        text: raw.properties[key].rich_text[0].plain_text,
+      });
     }
   }
-  parsed.options = options;
+  parsed.options = options.sort((a, b) => a.option.localeCompare(b.option));
   parsed.id = raw._id;
   parsed.question = raw?.properties?.question?.rich_text[0]?.plain_text || undefined;
+  parsed.correct = raw?.properties?.correct?.rich_text[0]?.plain_text?.toUpperCase() || undefined;
   if (raw?.properties?.audio?.rich_text[0]?.plain_text) {
     parsed.audio = config.MEDIA_URL + raw?.properties?.audio?.rich_text[0]?.plain_text;
   }

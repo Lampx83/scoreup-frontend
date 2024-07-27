@@ -11,7 +11,8 @@ function SingleQuestion({
   image = "",
   audio = "",
   index = "1",
-  id = ""
+  id = "",
+  correct = "",
 }) {
   const theme = useTheme();
 
@@ -31,6 +32,7 @@ function SingleQuestion({
         audio={audio}
         index={index}
         id={id}
+        correct={correct}
       />
     </Box>
   )
