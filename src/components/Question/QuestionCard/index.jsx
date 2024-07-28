@@ -1,11 +1,12 @@
 import Box from "@mui/material/Box";
 import {
+  Checkbox,
   FormControl,
   FormControlLabel,
-  FormGroup,
-  Icon,
+  FormGroup, Grow,
+  Icon, List,
   Radio,
-  RadioGroup,
+  RadioGroup, TextField,
   Typography,
   useRadioGroup,
   useTheme
@@ -18,7 +19,13 @@ import Actions from "~/components/Question/Actions/index.jsx";
 import * as React from "react";
 import parse from 'html-react-parser';
 import {styled} from "@mui/material/styles";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
+import Popper from "@mui/material/Popper";
+import {IoCloseCircleOutline} from "react-icons/io5";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import NestedList from "~/components/NestedList/index.jsx";
+import ShowHint from "~/components/Question/ShowHint/index.jsx";
 
 
 const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
@@ -65,11 +72,13 @@ function QuestionCard({
   audio = "",
   id = "",
   correct = "",
+  hint = ""
 }) {
   const theme = useTheme();
+  const [showHint, setShowHint] = React.useState(false);
 
   const handleSelectOption = (e) => {
-    // console.log(e.target.value);
+    setShowHint(true);
   }
 
   return (
@@ -90,21 +99,10 @@ function QuestionCard({
         <Typography variant={"body1"} fontWeight={700}>
           {parse(`Câu ${index}: ${question}`)}
         </Typography>
-        <Button
-          sx={{
-            minWidth: 0,
-            backgroundColor: "#FFDC6EFF",
-            borderRadius: "50%",
-            width: 35,
-            height: 35,
-            ':hover': {
-              backgroundColor: "rgba(255,220,110,0.7)",
-              boxShadow: "0 0 10px 0 rgba(255,220,110,0.7)"
-            }
-          }}
-        >
-          <Icon as={FaRegLightbulb}/>
-        </Button>
+        {hint && <ShowHint
+          hint={hint}
+          showHint={showHint}
+        />}
       </Box>
       <Box
         sx={{

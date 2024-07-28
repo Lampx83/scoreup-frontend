@@ -24,6 +24,9 @@ function parseSingleQuestion(raw) {
   if (raw?.properties?.code?.rich_text[0]?.plain_text) {
     parsed.code = raw?.properties?.code?.rich_text[0]?.plain_text;
   }
+  if (raw?.properties?.hint?.rich_text[0]?.plain_text) {
+    parsed.hint = raw?.properties?.hint?.rich_text[0]?.plain_text;
+  }
   return parsed;
 }
 

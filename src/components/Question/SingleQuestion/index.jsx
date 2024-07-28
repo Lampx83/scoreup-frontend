@@ -3,17 +3,7 @@ import { useTheme } from "@mui/material";
 import * as React from "react";
 import QuestionCard from "~/components/Question/QuestionCard/index.jsx";
 
-function SingleQuestion({
-  context = "",
-  question = "",
-  options = [],
-  code = "",
-  image = "",
-  audio = "",
-  index = "1",
-  id = "",
-  correct = "",
-}) {
+function SingleQuestion(props) {
   const theme = useTheme();
 
   return (
@@ -25,14 +15,7 @@ function SingleQuestion({
       }}
     >
       <QuestionCard
-        question={question}
-        options={options}
-        code={code}
-        image={image}
-        audio={audio}
-        index={index}
-        id={id}
-        correct={correct}
+        {...props}
       />
     </Box>
   )

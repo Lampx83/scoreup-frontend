@@ -24,6 +24,5 @@ export const postComment = async ({
     parentId,
     content
   });
-  console.log(res);
   return res;
 }
