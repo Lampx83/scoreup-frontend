@@ -5,14 +5,25 @@ import {FaCheck, FaRegComment, FaRegLightbulb} from "react-icons/fa";
 import {FaRegFaceSadTear} from "react-icons/fa6";
 import * as React from "react";
 import Comments from "~/components/Question/Comments/index.jsx";
+import pushToast from "~/helpers/sonnerToast.js";
 
 function Actions({
+  id = ""
 }) {
   const theme = useTheme();
   const [openComments, setOpenComments] = React.useState(false);
 
   const handleToggleComments = () => {
     setOpenComments(!openComments);
+  }
+
+  const handleMastered = (id) => {
+    pushToast("Chúng tôi sẽ hạn chế hiển thị câu hỏi này trong tương lai!", "success");
+  }
+
+  const handleNotSure = (id) => {
+    pushToast("Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!", "success");
+    document.getElementById(`question-palette-${id}`).classList.toggle("question-palette__item--not-sure");
   }
 
   return (
@@ -54,6 +65,7 @@ function Actions({
                 boxShadow: "0 0 10px 0 rgba(3,218,198,0.5)"
               }
             }}
+            onClick={() => handleMastered(id)}
           >
             <Icon as={FaCheck} sx={{marginRight: 1, fontSize: '16px'}}/>
             Đã thành thạo
@@ -70,6 +82,7 @@ function Actions({
                 boxShadow: "0 0 10px 0 rgba(255,141,107,0.5)"
               }
             }}
+            onClick={() => handleNotSure(id)}
           >
             <Icon as={FaRegFaceSadTear} sx={{marginRight: 1, fontSize: '16px'}}/>
             Chưa chắc chắn

@@ -94,6 +94,9 @@ function QuestionsPalette({ questions = [] }) {
         display: "flex",
         flexWrap: "wrap",
         justifyContent: "flex-start",
+        '& .question-palette__item--not-sure': {
+          backgroundColor: '#FFDE4D !important',
+        }
       }}
     >
       {questionFlat.map((element, index) => {
@@ -131,7 +134,6 @@ function QuestionsPalette({ questions = [] }) {
                   background: "white",
                 },
               }}
-              className={"question-palette__list"}
             >
               {element.questions.map((_, index) => {
                 return (

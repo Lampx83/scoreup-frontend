@@ -211,7 +211,7 @@ function QuestionCard({
 
       </Box>
 
-      <Actions/>
+      <Actions id={id}/>
     </Box>
   )
 }

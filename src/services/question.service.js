@@ -13,3 +13,17 @@ export const getQuestions = async ({
     multiQuestions
   });
 }
+
+export const postComment = async ({
+  questionId,
+  parentId = null,
+  content = "",
+}) => {
+  const res = await post('/comments', {
+    itemId: questionId,
+    parentId,
+    content
+  });
+  console.log(res);
+  return res;
+}

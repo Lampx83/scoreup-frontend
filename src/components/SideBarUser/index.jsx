@@ -227,111 +227,111 @@ export default function SideBarUser({activeTab = 'home'}) {
                 />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding sx={{ display: "block" }}>
-              <NestedList
-                title="Đã lưu"
-                Icon={FiBookmark}
-                drawerOpen={open}
-                handleDrawerOpen={handleDrawerOpen}
-                active={activeListItem(theme)}
-              >
-                <NestedList
-                  title={"Nhập môn công nghệ thông tin"}
-                  level={2}
-                >
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      // px: 2.5,
-                    }}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText
-                      primary={"Chương 1"}
-                      sx={{
-                        opacity: open ? 1 : 0,
-                        whiteSpace: "wrap",
-                        textWrap: "wrap",
-                      }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      // px: 2.5,
-                    }}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText
-                      primary={"Chương 2"}
-                      sx={{
-                        opacity: open ? 1 : 0,
-                        whiteSpace: "wrap",
-                        textWrap: "wrap",
-                      }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      // px: 2.5,
-                    }}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText
-                      primary={"Chương 3"}
-                      sx={{
-                        opacity: open ? 1 : 0,
-                        whiteSpace: "wrap",
-                        textWrap: "wrap",
-                      }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      // px: 2.5,
-                    }}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText
-                      primary={"Chương 4"}
-                      sx={{
-                        opacity: open ? 1 : 0,
-                        whiteSpace: "wrap",
-                        textWrap: "wrap",
-                      }}
-                    />
-                  </ListItemButton>
-                </NestedList>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                  component={Link}
-                  to="/"
-                >
-                  <ListItemText
-                    primary={"Xem thêm..."}
-                    sx={{
-                      opacity: open ? 1 : 0,
-                      whiteSpace: "wrap",
-                      textWrap: "wrap",
-                    }}
-                  />
-                </ListItemButton>
-              </NestedList>
-            </ListItem>
+            {/*<ListItem disablePadding sx={{ display: "block" }}>*/}
+            {/*  <NestedList*/}
+            {/*    title="Đã lưu"*/}
+            {/*    Icon={FiBookmark}*/}
+            {/*    drawerOpen={open}*/}
+            {/*    handleDrawerOpen={handleDrawerOpen}*/}
+            {/*    active={activeListItem(theme)}*/}
+            {/*  >*/}
+            {/*    <NestedList*/}
+            {/*      title={"Nhập môn công nghệ thông tin"}*/}
+            {/*      level={2}*/}
+            {/*    >*/}
+            {/*      <ListItemButton*/}
+            {/*        sx={{*/}
+            {/*          minHeight: 48,*/}
+            {/*          justifyContent: open ? "initial" : "center",*/}
+            {/*          // px: 2.5,*/}
+            {/*        }}*/}
+            {/*        component={Link}*/}
+            {/*        to="/"*/}
+            {/*      >*/}
+            {/*        <ListItemText*/}
+            {/*          primary={"Chương 1"}*/}
+            {/*          sx={{*/}
+            {/*            opacity: open ? 1 : 0,*/}
+            {/*            whiteSpace: "wrap",*/}
+            {/*            textWrap: "wrap",*/}
+            {/*          }}*/}
+            {/*        />*/}
+            {/*      </ListItemButton>*/}
+            {/*      <ListItemButton*/}
+            {/*        sx={{*/}
+            {/*          minHeight: 48,*/}
+            {/*          justifyContent: open ? "initial" : "center",*/}
+            {/*          // px: 2.5,*/}
+            {/*        }}*/}
+            {/*        component={Link}*/}
+            {/*        to="/"*/}
+            {/*      >*/}
+            {/*        <ListItemText*/}
+            {/*          primary={"Chương 2"}*/}
+            {/*          sx={{*/}
+            {/*            opacity: open ? 1 : 0,*/}
+            {/*            whiteSpace: "wrap",*/}
+            {/*            textWrap: "wrap",*/}
+            {/*          }}*/}
+            {/*        />*/}
+            {/*      </ListItemButton>*/}
+            {/*      <ListItemButton*/}
+            {/*        sx={{*/}
+            {/*          minHeight: 48,*/}
+            {/*          justifyContent: open ? "initial" : "center",*/}
+            {/*          // px: 2.5,*/}
+            {/*        }}*/}
+            {/*        component={Link}*/}
+            {/*        to="/"*/}
+            {/*      >*/}
+            {/*        <ListItemText*/}
+            {/*          primary={"Chương 3"}*/}
+            {/*          sx={{*/}
+            {/*            opacity: open ? 1 : 0,*/}
+            {/*            whiteSpace: "wrap",*/}
+            {/*            textWrap: "wrap",*/}
+            {/*          }}*/}
+            {/*        />*/}
+            {/*      </ListItemButton>*/}
+            {/*      <ListItemButton*/}
+            {/*        sx={{*/}
+            {/*          minHeight: 48,*/}
+            {/*          justifyContent: open ? "initial" : "center",*/}
+            {/*          // px: 2.5,*/}
+            {/*        }}*/}
+            {/*        component={Link}*/}
+            {/*        to="/"*/}
+            {/*      >*/}
+            {/*        <ListItemText*/}
+            {/*          primary={"Chương 4"}*/}
+            {/*          sx={{*/}
+            {/*            opacity: open ? 1 : 0,*/}
+            {/*            whiteSpace: "wrap",*/}
+            {/*            textWrap: "wrap",*/}
+            {/*          }}*/}
+            {/*        />*/}
+            {/*      </ListItemButton>*/}
+            {/*    </NestedList>*/}
+            {/*    <ListItemButton*/}
+            {/*      sx={{*/}
+            {/*        minHeight: 48,*/}
+            {/*        justifyContent: open ? "initial" : "center",*/}
+            {/*        px: 2.5,*/}
+            {/*      }}*/}
+            {/*      component={Link}*/}
+            {/*      to="/"*/}
+            {/*    >*/}
+            {/*      <ListItemText*/}
+            {/*        primary={"Xem thêm..."}*/}
+            {/*        sx={{*/}
+            {/*          opacity: open ? 1 : 0,*/}
+            {/*          whiteSpace: "wrap",*/}
+            {/*          textWrap: "wrap",*/}
+            {/*        }}*/}
+            {/*      />*/}
+            {/*    </ListItemButton>*/}
+            {/*  </NestedList>*/}
+            {/*</ListItem>*/}
           </List>
           <Divider />
           <List>
