@@ -11,6 +11,7 @@ import {getComments, postComment} from "~/services/question.service.js";
 import {useEffect, useRef, useState} from "react";
 import pushToast from "~/helpers/sonnerToast.js";
 import { IoMdRefresh } from "react-icons/io";
+import cookies from "~/utils/cookies.js";
 
 const commentFormStyle = (theme) => ({
   display: "flex",
@@ -34,6 +35,7 @@ function Comments({
   });
   const [limit, setLimit] = useState(5);
   const [offset, setOffset] = useState(0);
+  const user = cookies.get("user", { path: "/" });
 
   const {
     register,
@@ -47,7 +49,7 @@ function Comments({
     criteriaMode: "firstError",
   });
 
-  // questionId = '5d55a9e2-778b-4b93-bd3e-a9b930604610';
+  questionId = '5d55a9e2-778b-4b93-bd3e-a9b930604610';
 
   const onSubmit = async (data) => {
     data.questionId = questionId;
@@ -57,7 +59,7 @@ function Comments({
     })
     if (res.statusCode === 200) {
       reset();
-      await getCommentsData(limit, offset);
+      await getCommentsData(limit, 0);
     } else {
       pushToast("Có lỗi xảy ra, vui lòng thử lại sau!", "error");
     }
@@ -140,7 +142,7 @@ function Comments({
           </Button>
         </Box>
         <Box sx={{...commentFormStyle(theme)}}>
-          <Avatar className="comment-avatar" src={"https://avatar.iran.liara.run/public"}/>
+          <Avatar className="comment-avatar" src={user?.avatar} />
           <Box
             sx={{
               width: "100%",
@@ -180,7 +182,7 @@ function Comments({
             gap: 0
           }}
         >
-          {comments.comments.length ? comments.comments.map((comment, index) => (
+          {comments.comments.length && openComments ? comments.comments.map((comment, index) => (
             <Comment key={index} comment={comment}/>
           )) : <Typography variant={"body2"} sx={{margin: "auto"}}>Chưa có bình luận nào!</Typography>}
         </Box>

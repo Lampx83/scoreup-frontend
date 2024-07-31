@@ -31,12 +31,13 @@ export const getComments = async ({
   questionId,
   parentId = null,
   limit = 5,
-  offset = 0
+  offset = 0,
+  sort = "desc",
 }) => {
   let queryString = parentId ? `?itemId=${questionId}&parentId=${parentId}` : `?itemId=${questionId}`;
 
   if (limit > 0 && offset >= 0) {
-    queryString += `&limit=${limit}&offset=${offset}`;
+    queryString += `&limit=${limit}&offset=${offset}&sort=${sort}`;
   }
 
   const res = await get(`/comments${queryString}`);

@@ -15,13 +15,13 @@ const getTimeOfDay = () => {
 
 const getDiffTime = (time) => {
     moment.locale('vi');
-    const diff = moment().diff(moment(time), 'days');
+    const diff = moment().diff(moment(time), 'hours');
     if (diff === 0) {
         return moment(time).fromNow();
-    } else if (diff === 1) {
-        return "Hôm qua";
+    // } else if (diff === 1) {
+    //     return "Hôm qua";
     } else {
-        return moment(time).format("DD/MM/YYYY");
+        return moment(time).format("DD/MM/YYYY HH:mm");
     }
 }
 
