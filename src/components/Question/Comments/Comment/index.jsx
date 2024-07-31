@@ -4,6 +4,8 @@ import {Icon, Typography, useTheme} from "@mui/material";
 import Button from "@mui/material/Button";
 import {BiLike} from "react-icons/bi";
 import {BsReply} from "react-icons/bs";
+import {memo} from "react";
+import {getDiffTime} from "~/utils/moment.js";
 
 const commentStyle = (theme) => ({
   display: "flex",
@@ -17,11 +19,13 @@ const commentStyle = (theme) => ({
 function Comment({ comment }) {
   const theme = useTheme();
 
+  let diff = getDiffTime(comment.createdAt);
+
   return (
     <Box
       sx={{...commentStyle(theme)}}
     >
-      <Avatar className="comment-avatar" src={"https://avatar.iran.liara.run/public"}/>
+      {comment?.user?.avatar ? <Avatar src={comment?.user?.avatar} className={"comment-avatar"}/> : <Avatar className={"comment-avatar"}/>}
       <Box>
         <Box
           sx={{
@@ -44,7 +48,7 @@ function Comment({ comment }) {
             gap: 0.5,
           }}
         >
-          <Typography variant="caption" color={"text.secondary"}>1 giờ trước</Typography>
+          <Typography variant="caption" color={"text.secondary"}>{diff}</Typography>
           <Button variant="text" sx={{fontSize: "12px", minWidth: 0, paddingX: 1, paddingY: 0.5}}>
             <Icon as={BiLike}/>
             Thích
@@ -59,4 +63,4 @@ function Comment({ comment }) {
   );
 }
 
-export default Comment;
+export default memo(Comment);

@@ -26,3 +26,19 @@ export const postComment = async ({
   });
   return res;
 }
+
+export const getComments = async ({
+  questionId,
+  parentId = null,
+  limit = 5,
+  offset = 0
+}) => {
+  let queryString = parentId ? `?itemId=${questionId}&parentId=${parentId}` : `?itemId=${questionId}`;
+
+  if (limit > 0 && offset >= 0) {
+    queryString += `&limit=${limit}&offset=${offset}`;
+  }
+
+  const res = await get(`/comments${queryString}`);
+  return res;
+}

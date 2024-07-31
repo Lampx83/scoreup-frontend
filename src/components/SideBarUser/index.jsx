@@ -372,7 +372,7 @@ export default function SideBarUser({activeTab = 'home'}) {
                   anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   variant="dot"
                 >
-                  <Avatar/>
+                  {user?.avatar ? <Avatar src={user.avatar}/> : <Avatar/>}
                 </StyledBadge>
               </Stack>
               <Typography

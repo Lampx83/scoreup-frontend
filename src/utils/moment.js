@@ -1,9 +1,8 @@
-import moment from "moment-timezone";
-import 'moment/locale/vi.js';
-moment.tz.setDefault('Asia/Ho_Chi_Minh');
-moment.locale('vi');
+import moment from "moment";
+import 'moment/dist/locale/vi';
 
 const getTimeOfDay = () => {
+    moment.locale('vi'); // Ensure locale is set
     const currentHour = moment().hour();
     if (currentHour >= 0 && currentHour < 12) {
         return "buổi sáng";
@@ -14,7 +13,20 @@ const getTimeOfDay = () => {
     }
 }
 
+const getDiffTime = (time) => {
+    moment.locale('vi');
+    const diff = moment().diff(moment(time), 'days');
+    if (diff === 0) {
+        return moment(time).fromNow();
+    } else if (diff === 1) {
+        return "Hôm qua";
+    } else {
+        return moment(time).format("DD/MM/YYYY");
+    }
+}
+
 export {
-  moment,
-  getTimeOfDay
+    moment,
+    getTimeOfDay,
+    getDiffTime
 }

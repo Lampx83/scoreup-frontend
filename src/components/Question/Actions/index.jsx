@@ -12,6 +12,7 @@ function Actions({
 }) {
   const theme = useTheme();
   const [openComments, setOpenComments] = React.useState(false);
+  const [countComments, setCountComments] = React.useState(0);
 
   const handleToggleComments = () => {
     setOpenComments(!openComments);
@@ -50,7 +51,7 @@ function Actions({
           onClick={handleToggleComments}
         >
           <Icon as={FaRegComment} sx={{marginRight: 1, fontSize: '16px'}}/>
-          Bình luận (12)
+          Bình luận ({countComments})
         </Button>
         <Box sx={{display: "flex", gap: 1}}>
           <Button
@@ -89,7 +90,11 @@ function Actions({
           </Button>
         </Box>
       </Box>
-      <Comments openComments={openComments}/>
+      <Comments
+        openComments={openComments}
+        questionId={id}
+        setCountComments={setCountComments}
+      />
     </>
   )
 }
