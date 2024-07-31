@@ -59,7 +59,7 @@ function Comments({
     })
     if (res.statusCode === 200) {
       reset();
-      await getCommentsData(limit, 0);
+      handleDelayRefresh();
     } else {
       pushToast("Có lỗi xảy ra, vui lòng thử lại sau!", "error");
     }
@@ -94,7 +94,13 @@ function Comments({
       return;
     }
     timeout.current = setTimeout(async() => {
-      await getCommentsData(limit, offset);
+      setOffset(0);
+      setComments({
+        comments: [],
+        isMore: false,
+        total: 0
+      })
+      await getCommentsData(limit, 0);
       timeout.current = null;
       pushToast("Đã tải lại bình luận!", "success");
     }, 1000);
