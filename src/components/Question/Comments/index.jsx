@@ -49,7 +49,7 @@ function Comments({
     criteriaMode: "firstError",
   });
 
-  questionId = '5d55a9e2-778b-4b93-bd3e-a9b930604610';
+  // questionId = '5d55a9e2-778b-4b93-bd3e-a9b930604610';
 
   const onSubmit = async (data) => {
     data.questionId = questionId;
