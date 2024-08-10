@@ -121,13 +121,13 @@ function QuestionsPalette({ questions = [] }) {
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
+                // flexDirection: "column",
                 flexWrap: "wrap",
                 gap: 1,
-                height: "100px",
+                // height: "100px",
                 overflow: "auto",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
+                // justifyContent: "flex-start",
+                // alignItems: "flex-start",
                 width: "fit-content",
                 marginTop: 1,
                 "::-webkit-scrollbar-thumb": {

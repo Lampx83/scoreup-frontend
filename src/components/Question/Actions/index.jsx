@@ -23,7 +23,12 @@ function Actions({
   }
 
   const handleNotSure = (id) => {
-    pushToast("Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!", "success");
+    const element = document.getElementById(`question-palette-${id}`);
+    if (element.classList.contains("question-palette__item--not-sure")) {
+      element.classList.remove("question-palette__item--not-sure");
+      return;
+    }
+    pushToast("Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!", "warning");
     document.getElementById(`question-palette-${id}`).classList.toggle("question-palette__item--not-sure");
   }
 
