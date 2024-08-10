@@ -8,11 +8,11 @@ import Comments from "~/components/Question/Comments/index.jsx";
 import pushToast from "~/helpers/sonnerToast.js";
 
 function Actions({
-  id = ""
+  id = "",
+  totalComments = 0
 }) {
   const theme = useTheme();
   const [openComments, setOpenComments] = React.useState(false);
-  const [countComments, setCountComments] = React.useState(0);
 
   const handleToggleComments = () => {
     setOpenComments(!openComments);
@@ -51,7 +51,7 @@ function Actions({
           onClick={handleToggleComments}
         >
           <Icon as={FaRegComment} sx={{marginRight: 1, fontSize: '16px'}}/>
-          Bình luận ({countComments})
+          Bình luận ({totalComments})
         </Button>
         <Box sx={{display: "flex", gap: 1}}>
           <Button
@@ -93,7 +93,6 @@ function Actions({
       <Comments
         openComments={openComments}
         questionId={id}
-        setCountComments={setCountComments}
       />
     </>
   )

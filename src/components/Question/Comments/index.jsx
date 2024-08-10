@@ -24,8 +24,7 @@ const commentFormStyle = (theme) => ({
 
 function Comments({
   openComments,
-  questionId = "",
-  setCountComments = () => {}
+  questionId = ""
 }) {
   const theme = useTheme();
   const [comments, setComments] = useState({
@@ -83,8 +82,6 @@ function Comments({
       isMore: res.metadata.isMore,
       total: res.metadata.total,
     });
-
-    setCountComments(res.metadata.total);
   }
 
   let timeout = useRef(null);
@@ -107,8 +104,9 @@ function Comments({
   }
 
   useEffect(() => {
-    getCommentsData(limit, offset);
-  }, [limit, offset]);
+    if (openComments)
+      getCommentsData(limit, offset);
+  }, [limit, offset, openComments]);
 
   return (
     <Collapse in={openComments}

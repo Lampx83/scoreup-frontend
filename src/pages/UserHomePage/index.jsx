@@ -58,7 +58,7 @@ export default function UserHomePage() {
     <>
       {questions.length === 0 &&
       filter?.certificateDatabaseId &&
-      filter?.tags ? (
+      filter?.tags?.length !== 0 ? (
         <Container
           maxWidth={false}
           sx={{
@@ -157,7 +157,7 @@ export default function UserHomePage() {
           </Box>
 
           {/*questions container*/}
-          {filter?.certificateDatabaseId && filter?.tags ? (
+          {filter?.certificateDatabaseId && filter?.tags?.length ? (
             <Box
               sx={{
                 paddingY: 5,

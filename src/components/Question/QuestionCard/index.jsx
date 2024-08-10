@@ -1,30 +1,20 @@
 import Box from "@mui/material/Box";
 import {
-  Checkbox,
   FormControl,
   FormControlLabel,
-  FormGroup, Grow,
-  Icon, List,
   Radio,
-  RadioGroup, TextField,
+  RadioGroup,
   Typography,
   useRadioGroup,
   useTheme
 } from "@mui/material";
-import Button from "@mui/material/Button";
-import {FaRegLightbulb} from "react-icons/fa";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {a11yLight, nightOwl} from "react-syntax-highlighter/dist/cjs/styles/hljs/index.js";
 import Actions from "~/components/Question/Actions/index.jsx";
 import * as React from "react";
 import parse from 'html-react-parser';
 import {styled} from "@mui/material/styles";
-import {useEffect, useRef} from "react";
-import Popper from "@mui/material/Popper";
-import {IoCloseCircleOutline} from "react-icons/io5";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import NestedList from "~/components/NestedList/index.jsx";
+import {useEffect} from "react";
 import ShowHint from "~/components/Question/ShowHint/index.jsx";
 
 
@@ -72,7 +62,8 @@ function QuestionCard({
   audio = "",
   id = "",
   correct = "",
-  hint = ""
+  hint = "",
+  totalComments = 0
 }) {
   const theme = useTheme();
   const [showHint, setShowHint] = React.useState(false);
@@ -209,7 +200,7 @@ function QuestionCard({
 
       </Box>
 
-      <Actions id={id}/>
+      <Actions id={id} totalComments={totalComments}/>
     </Box>
   )
 }

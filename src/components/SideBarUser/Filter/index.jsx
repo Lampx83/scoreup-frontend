@@ -93,7 +93,6 @@ function Filter({ active = {}, open = false }) {
     }
     if (tags.size === 0) {
       pushToast("Vui lòng chọn ít nhất một nội dung học", "error");
-      return;
     }
     setSelectedSections(Array.from(tags).sort((a, b) => a.tag.localeCompare(b.tag)));
   }
@@ -114,7 +113,6 @@ function Filter({ active = {}, open = false }) {
   const handleSaveFilter = () => {
     if (selectedSections.length === 0) {
       pushToast("Vui lòng chọn ít nhất một nội dung học", "error");
-      return;
     }
     updateFilter(selectedCertificate, selectedSections, certificateInfo);
   }
@@ -237,6 +235,16 @@ function Filter({ active = {}, open = false }) {
                 </Box>
                 <Divider />
                 <List>
+                  <ListItem disablePadding sx={{ display: "block" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 3,
+                      }}
+                    >
+                      <FormControlLabel control={<Checkbox/>} label="Hiện đáp án ngay" />
+                    </Box>
+                  </ListItem>
                   <ListItem disablePadding sx={{ display: "block" }}>
                     <NestedList
                       title={"Môn học"}
