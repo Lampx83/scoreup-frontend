@@ -98,11 +98,20 @@ function Filter({ active = {}, open = false }) {
   }
 
   const handleChangeLimit = (tag, limit) => {
+    if (parseInt(limit) <= 0) {
+      pushToast("Số lượng câu hỏi cần lớn hơn 0", "error");
+      return;
+    }
+    if (parseInt(limit) > certificateInfo.sectionInfo.find(item => item.tag === tag).number_questions) {
+      pushToast("Vượt quá giới hạn số lượng câu hỏi!", "error");
+      limit = certificateInfo.sectionInfo.find(item => item.tag === tag).number_questions;
+    }
+
     const newSections = selectedSections.map((section) => {
       if (section.tag === tag) {
         return {
           ...section,
-          limit: parseInt(limit)
+          limit: parseInt(limit) || 0
         }
       }
       return section;
@@ -111,10 +120,14 @@ function Filter({ active = {}, open = false }) {
   }
 
   const handleSaveFilter = () => {
+    const isValid = selectedSections.every((section) => section.limit > 0);
+
     if (selectedSections.length === 0) {
       pushToast("Vui lòng chọn ít nhất một nội dung học", "error");
     }
-    updateFilter(selectedCertificate, selectedSections, certificateInfo);
+    if (isValid) {
+      updateFilter(selectedCertificate, selectedSections, certificateInfo);
+    }
   }
 
   return (
