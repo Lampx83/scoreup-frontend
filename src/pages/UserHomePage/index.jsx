@@ -15,6 +15,8 @@ export default function UserHomePage() {
   const theme = useTheme();
   const user = cookies.get("user");
   const { filter } = useFilterQuestion();
+  const [showAnswer, setShowAnswer] = useState(filter?.certificateInfo?.showAnswer);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const notionDatabaseId = filter.certificateDatabaseId;
   const tags =
     filter?.tags?.map((tag) => ({
@@ -29,6 +31,8 @@ export default function UserHomePage() {
 
   useEffect(() => {
     setQuestions([]);
+    setShowAnswer(filter?.certificateInfo?.showAnswer);
+    setIsSubmitted(false);
     const getData = async () => {
       let questions = [];
       for (const tag of tags) {
@@ -176,7 +180,7 @@ export default function UserHomePage() {
                 </Typography>
               </Box>
 
-              <QuestionsPalette questions={questions} />
+              <QuestionsPalette questions={questions} showAnswer={showAnswer} setShowAnswer={setShowAnswer} setIsSubmitted={setIsSubmitted} />
 
               {questions.map((element, index) => {
                 return (
@@ -197,6 +201,8 @@ export default function UserHomePage() {
                             questions={question}
                             context={question[0]?.context}
                             count={count - question.length}
+                            showAnswer={showAnswer}
+                            isSubmitted={isSubmitted}
                           />
                         );
                       } else {
@@ -205,6 +211,8 @@ export default function UserHomePage() {
                             key={index}
                             {...question}
                             index={++count}
+                            showAnswer={showAnswer}
+                            isSubmitted={isSubmitted}
                           />
                         );
                       }

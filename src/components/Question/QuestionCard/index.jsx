@@ -19,36 +19,74 @@ import ShowHint from "~/components/Question/ShowHint/index.jsx";
 
 
 const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
-  shouldForwardProp: (prop) => prop !== 'isCorrect',
+  shouldForwardProp: (prop) => prop !== 'isCorrect' && prop !== 'showAnswer' && prop !== 'isSubmitted',
 })(
-  ({ theme, isCorrect, checked }) => ({
-    backgroundColor: `${checked ? (isCorrect === 'true' ? 'rgba(57,153,24,0.78)' : '#FF7777') : theme.palette.sectionBackground.primary}`,
-    color: `${checked ? 'white' : theme.palette.text.secondary}`,
-    transition: "all 0.2s",
-    '& .MuiTypography-root': {
-      fontWeight: checked ? 700 : 400,
-    },
-  }),
+  ({ theme, isCorrect, checked, showAnswer, isSubmitted }) => {
+    if (showAnswer)
+      return {
+        backgroundColor: `${
+          checked
+            ? (isCorrect === 'true' ? 'rgba(57,153,24,0.78)' : '#FF7777')
+            : theme.palette.sectionBackground.primary
+        }`,
+        color: `${checked ? 'white' : theme.palette.text.secondary}`,
+        transition: "all 0.2s",
+        '& .MuiTypography-root': {
+          fontWeight: checked ? 700 : 400,
+        },
+      }
+    else if (!isSubmitted)
+      return {
+        backgroundColor: `${
+          checked
+            ? '#3DC2EC'
+            : theme.palette.sectionBackground.primary
+        }`,
+        color: `${checked ? 'white' : theme.palette.text.secondary}`,
+        transition: "all 0.2s",
+      }
+    else if (isSubmitted)
+      return {
+        backgroundColor: `${
+          isCorrect === 'true'
+            ? '#3DC2EC'
+            : '#FF7777'
+        }`,
+        color: 'white',
+        transition: "all 0.2s",
+      }
+  },
 );
 
 function Option(props) {
   const radioGroup = useRadioGroup();
 
   let checked = false;
+  const { showAnswer, isSubmitted } = props;
 
-  if (radioGroup && radioGroup.value) {
-    checked = props.value === radioGroup.value || props.isCorrect === 'true';
+  if (showAnswer) {
+    if (radioGroup && radioGroup.value) {
+      checked = props.value === radioGroup.value || props.isCorrect === 'true';
+    } else if (isSubmitted) {
+      checked = props.isCorrect === 'true';
+    }
+  } else {
+    if (radioGroup && radioGroup.value) {
+      checked = props.value === radioGroup.value;
+    }
   }
 
   useEffect(() => {
-    if (props.value === radioGroup.value && props.isCorrect === 'true') {
-      document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
-    } else if (checked) {
-      document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
+    if (showAnswer) {
+      if (props.value === radioGroup.value && props.isCorrect === 'true') {
+        document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
+      } else if (checked) {
+        document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
+      }
     }
-  }, [checked]);
+  }, [checked, isSubmitted, showAnswer]);
 
-  return <StyledFormControlLabel disabled={!!radioGroup.value && !checked} checked={checked} {...props} />;
+  return <StyledFormControlLabel disabled={((!!radioGroup.value && !checked) || (isSubmitted && !checked)) && showAnswer} checked={checked} {...props} />;
 }
 
 
@@ -63,7 +101,9 @@ function QuestionCard({
   id = "",
   correct = "",
   hint = "",
-  totalComments = 0
+  totalComments = 0,
+  showAnswer = false,
+  isSubmitted = false
 }) {
   const theme = useTheme();
   const [showHint, setShowHint] = React.useState(false);
@@ -170,6 +210,8 @@ function QuestionCard({
                   value={option.option}
                   label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
                   isCorrect={option.option === correct ? 'true' : 'false'}
+                  showAnswer={showAnswer}
+                  isSubmitted={isSubmitted}
                   sx={{
                     // color: theme.palette.text.secondary,
                     // backgroundColor: theme.palette.sectionBackground.primary,

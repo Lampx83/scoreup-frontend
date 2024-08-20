@@ -3,6 +3,7 @@ import {Icon, Typography, useTheme} from "@mui/material";
 import Button from "@mui/material/Button";
 import {FaCheck, FaRegComment, FaRegLightbulb} from "react-icons/fa";
 import {FaRegFaceSadTear} from "react-icons/fa6";
+import { FaFlag } from "react-icons/fa6";
 import * as React from "react";
 import Comments from "~/components/Question/Comments/index.jsx";
 import pushToast from "~/helpers/sonnerToast.js";
@@ -90,8 +91,8 @@ function Actions({
             }}
             onClick={() => handleNotSure(id)}
           >
-            <Icon as={FaRegFaceSadTear} sx={{marginRight: 1, fontSize: '16px'}}/>
-            Chưa chắc chắn
+            <Icon as={FaFlag} sx={{marginRight: 1, fontSize: '16px'}}/>
+            Bookmark
           </Button>
         </Box>
       </Box>

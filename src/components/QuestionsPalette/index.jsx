@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import {useEffect} from "react";
 
-function QuestionsPalette({ questions = [] }) {
+function QuestionsPalette({ questions = [], setShowAnswer, setIsSubmitted, showAnswer = false }) {
   let count = 0;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -29,6 +29,11 @@ function QuestionsPalette({ questions = [] }) {
     });
     handleToggleQuestionPalette();
   };
+
+  const handleSubmit = () => {
+    setShowAnswer(true);
+    setIsSubmitted(true);
+  }
 
   const handleToggleQuestionPalette = (e) => {
     const element = document.getElementById("question-palette");
@@ -156,6 +161,34 @@ function QuestionsPalette({ questions = [] }) {
           </Box>
         );
       })}
+
+      {!showAnswer && <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          width: "100%",
+          marginTop: 2,
+          flexBasis: "100%",
+          paddingX: 2,
+        }}
+      >
+        <Button
+          variant={'contained'}
+          sx={{
+            backgroundColor: '#1A4E8DFF',
+            borderRadius: 5,
+            color: 'white',
+            ':hover': {
+              backgroundColor: 'rgba(26,78,141,0.8)',
+              boxShadow: '0 0 10px 0 rgba(26,78,141,0.5)'
+            }
+          }}
+          onClick={handleSubmit}
+        >
+          Kiểm tra đáp án
+        </Button>
+      </Box>}
+
       <Icon
         as={open ? FaCaretDown : FaCaretUp}
         sx={{

@@ -7,7 +7,9 @@ import parse from 'html-react-parser';
 function SetQuestion({
   context = "",
   questions = [],
-  count = 0
+  count = 0,
+  showAnswer = false,
+  isSubmitted = false
 }) {
   const theme = useTheme();
   return (
@@ -63,6 +65,8 @@ function SetQuestion({
           key={index}
           {...question}
           index={++count}
+          showAnswer={showAnswer}
+          isSubmitted={isSubmitted}
         />
       ))}
     </Box>

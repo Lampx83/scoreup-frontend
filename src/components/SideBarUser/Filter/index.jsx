@@ -119,6 +119,13 @@ function Filter({ active = {}, open = false }) {
     setSelectedSections(newSections);
   }
 
+  const handleChangeShowAnswer = (event) => {
+    setCertificateInfo({
+      ...certificateInfo,
+      showAnswer: event.target.checked
+    });
+  }
+
   const handleSaveFilter = () => {
     const isValid = selectedSections.every((section) => section.limit > 0);
 
@@ -255,7 +262,12 @@ function Filter({ active = {}, open = false }) {
                         gap: 3,
                       }}
                     >
-                      <FormControlLabel control={<Checkbox/>} label="Hiện đáp án ngay" />
+                      <FormControlLabel
+                        control={<Checkbox/>}
+                        label="Hiện đáp án ngay"
+                        onChange={handleChangeShowAnswer}
+                        checked={certificateInfo?.showAnswer}
+                      />
                     </Box>
                   </ListItem>
                   <ListItem disablePadding sx={{ display: "block" }}>
