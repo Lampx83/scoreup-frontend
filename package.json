@@ -20,7 +20,7 @@
     "html-react-parser": "^5.1.12",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
-    "prettier": "^3.3.2",
+    "prettier": "^3.3.3",
     "rc-image": "^7.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

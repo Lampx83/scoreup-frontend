@@ -10,9 +10,11 @@ import { parseQuestion } from "~/helpers/parseNotionResponseToObject.js";
 import useFilterQuestion from "~/hooks/useFilterQuestion.jsx";
 import QuestionsPalette from "~/components/QuestionsPalette/index.jsx";
 import cookies from "~/utils/cookies.js";
+import useActiveTab from "~/hooks/useActiveTab.jsx";
 
-export default function UserHomePage() {
+export default function PracticePage() {
   const theme = useTheme();
+  const {updateActiveTab} = useActiveTab();
   const user = cookies.get("user");
   const { filter } = useFilterQuestion();
   const [showAnswer, setShowAnswer] = useState(filter?.certificateInfo?.showAnswer);
@@ -56,6 +58,7 @@ export default function UserHomePage() {
       top: 0,
       behavior: "smooth",
     });
+    updateActiveTab("practice")
   }, [filter]);
 
   return (
@@ -141,7 +144,7 @@ export default function UserHomePage() {
                 Xin chào, {user?.fullName || user?.username || user?.email || "meow"}!
               </Typography>
               <Typography variant="p" fontWeight={500} sx={{}}>
-                Lướt xuống để xem các bài tập được gợi ý riêng cho bạn.
+                Lướt xuống để bắt đầu luyện tập!
               </Typography>
             </Box>
             <img

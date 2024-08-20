@@ -2,7 +2,6 @@ import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar from "@mui/material/AppBar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -15,11 +14,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Logo from "~/assets/images/full_body_logo.png";
 import { Link, Link as LinkRouter } from "react-router-dom";
 import LinkMui from "@mui/material/Link";
-import ModeSelect from "~/components/ModeSelect/index.jsx";
-import { FaHome, FaRegHeart } from "react-icons/fa";
-import NestedList from "~/components/NestedList/index.jsx";
+import { FaHome } from "react-icons/fa";
 import { RiDashboard3Line } from "react-icons/ri";
-import { FiBookmark } from "react-icons/fi";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
 import {Grid, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -31,10 +27,9 @@ import Badge from '@mui/material/Badge';
 import Stack from '@mui/material/Stack';
 import ModeSelectV2 from "~/components/ModeSelect/ModeSelectV2/index.jsx";
 import useSideBar from "~/hooks/useSideBar.jsx";
-import {useEffect, useState} from "react";
-import {getUser} from "~/services/user.service.js";
 import cookies from "~/utils/cookies.js";
-
+import useActiveTab from "~/hooks/useActiveTab.jsx";
+import { FaBookOpen } from "react-icons/fa";
 
 const drawerWidth = 240;
 
@@ -130,9 +125,10 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export default function SideBarUser({activeTab = 'home'}) {
+export default function SideBarUser() {
   const theme = useTheme();
   const auth = useAuth();
+  const {activeTab, updateActiveTab} = useActiveTab();
   const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
   const user = cookies.get("user", { path: "/" });
 
@@ -185,6 +181,7 @@ export default function SideBarUser({activeTab = 'home'}) {
                 }}
                 component={Link}
                 to="/"
+                onClick={() => updateActiveTab('home')}
               >
                 <ListItemIcon
                   sx={{
@@ -211,6 +208,7 @@ export default function SideBarUser({activeTab = 'home'}) {
                 }}
                 component={Link}
                 to="/"
+                onClick={() => updateActiveTab('dashboard')}
               >
                 <ListItemIcon
                   sx={{
@@ -223,6 +221,33 @@ export default function SideBarUser({activeTab = 'home'}) {
                 </ListItemIcon>
                 <ListItemText
                   primary={"Dashboard"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  ...((activeTab === 'practice') && activeListItem(theme)),
+                }}
+                component={Link}
+                to="/practice"
+                onClick={() => updateActiveTab('practice')}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <FaBookOpen style={{ width: "24px", height: "24px" }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Luyện tập"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItemButton>
@@ -335,7 +360,7 @@ export default function SideBarUser({activeTab = 'home'}) {
           </List>
           <Divider />
           <List>
-            {activeTab === 'home' && <Filter active={activeListItem(theme)} open={open}/>}
+            {activeTab === 'practice' && <Filter active={activeListItem(theme)} open={open}/>}
           </List>
         </Box>
         <Box

@@ -1,6 +1,5 @@
 import {Outlet, useLocation} from "react-router-dom";
 import pushToast from "~/helpers/sonnerToast.js";
-import { createTheme } from '@mui/material/styles';
 import Box from "@mui/material/Box";
 import SideBarUser from "~/components/SideBarUser/index.jsx";
 import * as React from "react";

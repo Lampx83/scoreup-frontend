@@ -83,6 +83,10 @@ function Option(props) {
       } else if (checked) {
         document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
       }
+    } else {
+      if (checked) {
+        document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#3DC2EC';
+      }
     }
   }, [checked, isSubmitted, showAnswer]);
 

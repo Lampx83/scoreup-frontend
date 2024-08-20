@@ -1,12 +1,9 @@
-import LayoutDefault from "~/layout/LayoutDefault/index.jsx";
 import PrivateRoute from "~/components/PrivateRoute/index.jsx";
-import ProfilePage from "~/pages/ProfilePage/index.jsx";
 import {Navigate} from "react-router-dom";
 import Page404 from "~/pages/404/index.jsx";
 import ErrorBoundary from "~/components/ErrorBoundary/index.jsx";
-import HomePage from "~/pages/HomePage/index.jsx";
 import IndexPage from "~/pages/index.jsx";
-import UserHomePage from "~/pages/UserHomePage/index.jsx";
+import PracticePage from "~/pages/PracticePage/index.jsx";
 
 export const routes = [
   {
@@ -19,7 +16,11 @@ export const routes = [
         children: [
           {
             path: "/",
-            element: <UserHomePage/>
+            element: <Navigate to="/practice"/>
+          },
+          {
+            path: "/practice",
+            element: <PracticePage/>
           }
         ]
       }

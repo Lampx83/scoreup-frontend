@@ -5,6 +5,7 @@ import modalLoginReducer from "~/redux/reducers/modalLogin.js";
 import modalRegisterReducer from "~/redux/reducers/modalRegister.js";
 import userSideBarReducer from "~/redux/reducers/userSideBar.js";
 import {filterQuestionReducer} from "~/redux/reducers/filterQuestion.js";
+import {activeTabReducer} from "~/redux/reducers/activeTab.js";
 
 const allReducers = combineReducers({
   auth: authReducer,
@@ -12,7 +13,8 @@ const allReducers = combineReducers({
   modalLogin: modalLoginReducer,
   modalRegister: modalRegisterReducer,
   sideBar: userSideBarReducer,
-  filterQuestion: filterQuestionReducer
+  filterQuestion: filterQuestionReducer,
+  activeTab: activeTabReducer
   // Add more reducers here
 })
 
