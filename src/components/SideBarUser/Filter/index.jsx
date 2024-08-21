@@ -256,7 +256,7 @@ function Filter({ active = {}, open = false }) {
                 <Divider />
                 <List>
                   <ListItem disablePadding sx={{ display: "block" }}>
-                    <Box
+                    <FormControl
                       sx={{
                         display: "flex",
                         gap: 3,
@@ -268,7 +268,7 @@ function Filter({ active = {}, open = false }) {
                         onChange={handleChangeShowAnswer}
                         checked={certificateInfo?.showAnswer}
                       />
-                    </Box>
+                    </FormControl>
                   </ListItem>
                   <ListItem disablePadding sx={{ display: "block" }}>
                     <NestedList

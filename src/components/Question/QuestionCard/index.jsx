@@ -116,7 +116,7 @@ function QuestionCard({
   let startTime = null;
 
   const handleSelectOption = (e) => {
-    setShowHint(true);
+    setShowHint(showAnswer);
   }
 
   const userInfo = cookies.get("user", { path: "/" });
