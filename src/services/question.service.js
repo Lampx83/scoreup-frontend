@@ -1,4 +1,4 @@
-import {get, getPage, post} from "~/utils/request.js";
+import {get, post} from "~/utils/request.js";
 
 export const getQuestions = async ({
   limit = 5,
@@ -42,4 +42,22 @@ export const getComments = async ({
 
   const res = await get(`/comments${queryString}`);
   return res;
+}
+
+export const postLogQuestion = async ({
+  user_id,
+  exercise_id,
+  score,
+  time_cost,
+  user_ans,
+  correct_ans,
+}) => {
+  return await post('/questions/log-questions', {
+    user_id,
+    exercise_id,
+    score,
+    time_cost,
+    user_ans,
+    correct_ans,
+  });
 }

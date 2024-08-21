@@ -16,6 +16,8 @@ import parse from 'html-react-parser';
 import {styled} from "@mui/material/styles";
 import {useEffect} from "react";
 import ShowHint from "~/components/Question/ShowHint/index.jsx";
+import cookies from "~/utils/cookies.js";
+import {postLogQuestion} from "~/services/question.service.js";
 
 
 const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
@@ -111,9 +113,40 @@ function QuestionCard({
 }) {
   const theme = useTheme();
   const [showHint, setShowHint] = React.useState(false);
+  let startTime = null;
 
   const handleSelectOption = (e) => {
     setShowHint(true);
+  }
+
+  const userInfo = cookies.get("user", { path: "/" });
+
+  const handleSendLog = ({
+    exercise_id,
+    score,
+    user_ans,
+    correct_ans,
+  }) => {
+    const time_cost = new Date().getTime() - startTime;
+    startTime = null;
+
+    postLogQuestion({
+      user_id: userInfo._id,
+      score: score,
+      time_cost: time_cost,
+      user_ans: user_ans,
+      correct_ans: correct_ans,
+      exercise_id: exercise_id
+    })
+  }
+
+  const handleHoverQuestionCard = (e) => {
+    if (startTime) return;
+    startTime = new Date().getTime();
+  }
+
+  const handleLeaveQuestionCard = (e) => {
+    startTime = null;
   }
 
   return (
@@ -123,6 +156,8 @@ function QuestionCard({
         color: theme.palette.text.secondary,
       }}
       id={id}
+      onMouseOver={handleHoverQuestionCard}
+      onMouseLeave={handleLeaveQuestionCard}
     >
       <Box
         sx={{
@@ -210,7 +245,13 @@ function QuestionCard({
               {options.map((option, index) => (
                 <Option
                   key={index}
-                  control={<Radio/>}
+                  control={<Radio onClick={() => handleSendLog({
+                    exercise_id: id,
+                    score: option.option === correct ? 1 : 0,
+                    time_cost: 0,
+                    correct_ans: [correct],
+                    user_ans: [option.option]
+                  })}/>}
                   value={option.option}
                   label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
                   isCorrect={option.option === correct ? 'true' : 'false'}
