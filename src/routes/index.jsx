@@ -4,8 +4,13 @@ import Page404 from "~/pages/404/index.jsx";
 import ErrorBoundary from "~/components/ErrorBoundary/index.jsx";
 import IndexPage from "~/pages/index.jsx";
 import PracticePage from "~/pages/PracticePage/index.jsx";
+import HomePage from "~/pages/HomePage/index.jsx";
 
 export const routes = [
+  {
+    path: "/homepage",
+    element: <HomePage/>
+  },
   {
     path: "/",
     element: <ErrorBoundary><IndexPage/></ErrorBoundary>,

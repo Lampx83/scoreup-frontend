@@ -18,9 +18,11 @@ import useLoginModal from "~/hooks/useLoginModal.jsx";
 import Header from "~/components/Header/index.jsx";
 import Footer from "~/components/Footer/index.jsx";
 import pushToast from "~/helpers/sonnerToast.js";
+import useAuth from "~/hooks/useAuth.jsx";
 
 function HomePage() {
   const { state } = useLocation();
+  const auth = useAuth();
 
   if (state?.messageToast) {
     pushToast(state.messageToast.message, state.messageToast.type);
@@ -42,6 +44,7 @@ function HomePage() {
 
   return (
     <>
+      {auth.isAuthenticated() && <Navigate to={'/practice'}/>}
       <Header/>
       <HeroSection>
         <Grid

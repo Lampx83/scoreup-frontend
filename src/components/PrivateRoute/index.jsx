@@ -4,7 +4,7 @@ import {Navigate, Outlet} from "react-router-dom";
 function PrivateRoute() {
   const auth = useAuth();
   if (!auth.isAuthenticated()) {
-    return <Navigate to="/" state={{
+    return <Navigate to="/homepage" state={{
       messageToast: {
         type: "error",
         message: "Vui lòng đăng nhập để truy cập trang này!"
