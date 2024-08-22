@@ -96,6 +96,12 @@ function ProfilePage() {
     });
   }
 
+  const onSubmitChangePass = async (data) => {
+    const res = await updateUser(data);
+    console.log(res)
+    pushToast("Cập nhật thông tin thành công!", "success");
+  }
+
   useEffect(() => {
     updateActiveTab("profile");
   }, []);
@@ -395,7 +401,7 @@ function ProfilePage() {
             </Typography>
           </Button>
 
-          <Button
+          {/*<Button
             type={"reset"}
             sx={{
               border: "1px solid #007bff",
@@ -418,8 +424,157 @@ function ProfilePage() {
             >
               Hủy
             </Typography>
+          </Button>*/}
+
+        </Box>
+
+        <Box
+          sx={{
+            border: "1px solid #e0e0e0",
+            padding: "36px",
+            borderRadius: "10px",
+            marginTop: "20px"
+          }}
+          component={"form"}
+          onSubmit={handleSubmit(onSubmitChangePass, onError)}
+        >
+          <Typography variant="h4" fontWeight={700} sx={{}}>
+            Đổi mật khẩu
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "20px",
+              "& > *": {
+                marginBottom: "10px"
+              }
+            }}
+          >
+            <Typography variant={"h6"} fontSize={18} fontWeight={600} sx={{marginTop: 4}}>
+              Mật khẩu cũ
+            </Typography>
+
+            <TextField
+              fullWidth
+              size="small"
+              variant={"outlined"}
+              type={"password"}
+              {...register("oldPassword", {
+                required: "Vui lòng nhập mật khẩu cũ"
+              })}
+              error={!!errors.oldPassword}
+              helperText={errors.oldPassword && errors.oldPassword.message}
+              placeholder={"Nhập mật khẩu cũ"}
+              InputProps={{
+                sx: {
+                  borderRadius: 2,
+                  backgroundColor: "#f2f2f2",
+                  border: "none"
+                }
+              }}
+            />
+
+            <Typography variant={"h6"} fontSize={18} fontWeight={600} sx={{marginTop: 4}}>
+              Mật khẩu mới
+            </Typography>
+
+            <TextField
+              fullWidth
+              size="small"
+              variant={"outlined"}
+              type={"password"}
+              {...register("newPassword", {
+                required: "Vui lòng nhập mật khẩu mới"
+              })}
+              error={!!errors.newPassword}
+              helperText={errors.newPassword && errors.newPassword.message}
+              placeholder={"Nhập mật khẩu mới"}
+              InputProps={{
+                sx: {
+                  borderRadius: 2,
+                  backgroundColor: "#f2f2f2",
+                  border: "none"
+                }
+              }}
+            />
+
+            <Typography variant={"h6"} fontSize={18} fontWeight={600} sx={{marginTop: 4}}>
+              Xác nhận mật khẩu mới
+            </Typography>
+
+            <TextField
+              fullWidth
+              size="small"
+              variant={"outlined"}
+              type={"password"}
+              {...register("confirmPassword", {
+                required: "Vui lòng xác nhận mật khẩu mới"
+              })}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword && errors.confirmPassword.message}
+              placeholder={"Xác nhận mật khẩu mới"}
+              InputProps={{
+                sx: {
+                  borderRadius: 2,
+                  backgroundColor: "#f2f2f2",
+                  border: "none"
+                }
+              }}
+            />
+
+          </Box>
+
+          <Button
+            type={"submit"}
+            sx={{
+              border: "1px solid #007bff",
+              borderRadius: 5,
+              width: "fit-content",
+              padding: "5px 10px",
+              marginRight: 2,
+              color: "#fff",
+              backgroundColor: "#1A4E8DFF",
+              marginTop: 2,
+              "&:hover": {
+                backgroundColor: "rgba(26,78,141,0.7)",
+                color: "#fff"
+              }
+            }}
+          >
+            <Typography
+              variant="p"
+              fontWeight={500}
+              fontSize={14}
+            >
+              Lưu thay đổi
+            </Typography>
           </Button>
 
+          {/*<Button
+            type={"reset"}
+            sx={{
+              border: "1px solid #007bff",
+              borderRadius: 5,
+              width: "fit-content",
+              padding: "5px 10px",
+              color: "#fff",
+              backgroundColor: "#3C3D37",
+              marginTop: 2,
+              "&:hover": {
+                backgroundColor: "#3C3D37",
+                color: "#fff"
+              }
+            }}
+          >
+            <Typography
+              variant="p"
+              fontWeight={500}
+              fontSize={14}
+            >
+              Hủy
+            </Typography>
+          </Button>*/}
         </Box>
       </Container>
     </>

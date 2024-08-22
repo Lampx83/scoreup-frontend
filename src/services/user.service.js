@@ -8,14 +8,16 @@ export const getUser = async () => {
 }
 
 export const updateUser = async ({
-  avatar,
-  birth,
-  className,
-  email,
-  fullName,
-  gender,
-  major,
-  school
+  avatar = undefined,
+  birth = undefined,
+  className = undefined,
+  email = undefined,
+  fullName = undefined,
+  gender = undefined,
+  major = undefined,
+  school = undefined,
+  oldPassword = undefined,
+  newPassword = undefined
                                  }) => {
   const res = await request.patch(`/user/edit`, {
     avatar,
@@ -25,7 +27,9 @@ export const updateUser = async ({
     fullName,
     gender,
     major,
-    school
+    school,
+    oldPassword,
+    newPassword
   }, {
     headers: {
       "Content-Type": "multipart/form-data"
