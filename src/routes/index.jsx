@@ -5,6 +5,7 @@ import ErrorBoundary from "~/components/ErrorBoundary/index.jsx";
 import IndexPage from "~/pages/index.jsx";
 import PracticePage from "~/pages/PracticePage/index.jsx";
 import HomePage from "~/pages/HomePage/index.jsx";
+import ProfilePage from "~/pages/ProfilePage/index.jsx";
 
 export const routes = [
   {
@@ -26,6 +27,10 @@ export const routes = [
           {
             path: "/practice",
             element: <PracticePage/>
+          },
+          {
+            path: "/profile",
+            element: <ProfilePage/>
           }
         ]
       }

@@ -55,8 +55,33 @@ const getPage = (id) => {
   return get(`/pages/${id}`);
 }
 
+const patch = async (url, body = {}, config = {}) => {
+  if (!config?.headers) {
+    config.headers = {};
+  }
+  config.headers["Authorization"] = `Bearer ${cookies.get("token", { path: "/" })}`;
+
+  return axios.patch(url, body, config)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      const statusCode = error?.response?.status;
+      if (statusCode === statusCodes.UNAUTHORIZED) {
+        // cookies.remove("token", { path: "/" });
+        pushToast("Bạn cần đăng nhập trước!", "error");
+      }
+
+      if (statusCode === statusCodes.NOT_FOUND) {
+        pushToast("Lỗi không xác định, vui lòng thử lại sau!", "error");
+      }
+      return error?.response?.data;
+    });
+}
+
 export {
   get,
   post,
-  getPage
+  getPage,
+  patch
 }
