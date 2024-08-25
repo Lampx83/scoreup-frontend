@@ -85,9 +85,27 @@ function ProfilePage() {
     resolver: undefined,
     criteriaMode: "firstError",
   });
+
+  const {
+    register: registerChangePass,
+    handleSubmit: handleSubmitChangePass,
+    formState: { errors: errorsChangePass },
+    control: controlChangePass
+  } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    resolver: undefined,
+    criteriaMode: "firstError",
+  })
+
   const onSubmit = async (data) => {
-    const res = await updateUser(data);
-    pushToast("Cập nhật thông tin thành công!", "success");
+    try {
+      const res = await updateUser(data);
+      pushToast("Cập nhật thông tin thành công!", "success");
+    } catch (e) {
+      const msg = e.response.data.message;
+      pushToast(msg || "Cập nhật thông tin thất bại!", "error");
+    }
   };
 
   const onError = (errors, e) => {
@@ -97,9 +115,13 @@ function ProfilePage() {
   }
 
   const onSubmitChangePass = async (data) => {
-    const res = await updateUser(data);
-    console.log(res)
-    pushToast("Cập nhật thông tin thành công!", "success");
+    try {
+      const res = await updateUser(data);
+      pushToast("Cập nhật thông tin thành công!", "success");
+    } catch (e) {
+      const msg = e.response.data.message;
+      pushToast(msg || "Cập nhật thông tin thất bại!", "error");
+    }
   }
 
   useEffect(() => {
@@ -436,7 +458,7 @@ function ProfilePage() {
             marginTop: "20px"
           }}
           component={"form"}
-          onSubmit={handleSubmit(onSubmitChangePass, onError)}
+          onSubmit={handleSubmitChangePass(onSubmitChangePass, onError)}
         >
           <Typography variant="h4" fontWeight={700} sx={{}}>
             Đổi mật khẩu
@@ -460,7 +482,7 @@ function ProfilePage() {
               size="small"
               variant={"outlined"}
               type={"password"}
-              {...register("oldPassword", {
+              {...registerChangePass("oldPassword", {
                 required: "Vui lòng nhập mật khẩu cũ"
               })}
               error={!!errors.oldPassword}
@@ -484,7 +506,7 @@ function ProfilePage() {
               size="small"
               variant={"outlined"}
               type={"password"}
-              {...register("newPassword", {
+              {...registerChangePass("newPassword", {
                 required: "Vui lòng nhập mật khẩu mới"
               })}
               error={!!errors.newPassword}
@@ -508,7 +530,7 @@ function ProfilePage() {
               size="small"
               variant={"outlined"}
               type={"password"}
-              {...register("confirmPassword", {
+              {...registerChangePass("confirmPassword", {
                 required: "Vui lòng xác nhận mật khẩu mới"
               })}
               error={!!errors.confirmPassword}

@@ -14,12 +14,12 @@ import ListItemText from "@mui/material/ListItemText";
 import Logo from "~/assets/images/full_body_logo.png";
 import { Link, Link as LinkRouter } from "react-router-dom";
 import LinkMui from "@mui/material/Link";
-import { FaHome } from "react-icons/fa";
+import {FaHammer, FaHome} from "react-icons/fa";
 import { RiDashboard3Line } from "react-icons/ri";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
 import {Grid, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { MdLogout } from "react-icons/md";
+import {MdLogout, MdOutlineLightMode, MdOutlineNightlight} from "react-icons/md";
 import Button from "@mui/material/Button";
 import useAuth from "~/hooks/useAuth.jsx";
 import Tooltip from "@mui/material/Tooltip";
@@ -131,6 +131,11 @@ export default function SideBarUser() {
   const {activeTab, updateActiveTab} = useActiveTab();
   const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
   const user = cookies.get("user", { path: "/" });
+
+  const handleFixError = () => {
+    localStorage.clear();
+    window.location.reload();
+  }
 
   return (
     <>
@@ -372,6 +377,23 @@ export default function SideBarUser() {
             padding: 1
           }}
         >
+          <Tooltip
+            title="Sửa lỗi"
+            sx={{ width: "100%", height: "100%" }}
+          >
+            <Button
+              sx={{
+                minWidth: 0,
+                padding: 1,
+                '& svg': {
+                  fontSize: 24,
+                },
+              }}
+              onClick={handleFixError}
+            >
+              <FaHammer/>
+            </Button>
+          </Tooltip>
           {!open && <Box
             sx={{
               height: "48px",
