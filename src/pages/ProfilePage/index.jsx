@@ -116,6 +116,11 @@ function ProfilePage() {
 
   const onSubmitChangePass = async (data) => {
     try {
+      if (data.newPassword !== data.confirmPassword) {
+        pushToast("Mật khẩu xác nhận không khớp!", "error");
+        return;
+      }
+
       const res = await updateUser(data);
       pushToast("Cập nhật thông tin thành công!", "success");
     } catch (e) {
@@ -485,8 +490,8 @@ function ProfilePage() {
               {...registerChangePass("oldPassword", {
                 required: "Vui lòng nhập mật khẩu cũ"
               })}
-              error={!!errors.oldPassword}
-              helperText={errors.oldPassword && errors.oldPassword.message}
+              error={!!errorsChangePass.oldPassword}
+              helperText={errorsChangePass.oldPassword && errorsChangePass.oldPassword.message}
               placeholder={"Nhập mật khẩu cũ"}
               InputProps={{
                 sx: {
@@ -509,8 +514,8 @@ function ProfilePage() {
               {...registerChangePass("newPassword", {
                 required: "Vui lòng nhập mật khẩu mới"
               })}
-              error={!!errors.newPassword}
-              helperText={errors.newPassword && errors.newPassword.message}
+              error={!!errorsChangePass.newPassword}
+              helperText={errorsChangePass.newPassword && errorsChangePass.newPassword.message}
               placeholder={"Nhập mật khẩu mới"}
               InputProps={{
                 sx: {
@@ -533,8 +538,8 @@ function ProfilePage() {
               {...registerChangePass("confirmPassword", {
                 required: "Vui lòng xác nhận mật khẩu mới"
               })}
-              error={!!errors.confirmPassword}
-              helperText={errors.confirmPassword && errors.confirmPassword.message}
+              error={!!errorsChangePass.confirmPassword}
+              helperText={errorsChangePass.confirmPassword && errorsChangePass.confirmPassword.message}
               placeholder={"Xác nhận mật khẩu mới"}
               InputProps={{
                 sx: {
