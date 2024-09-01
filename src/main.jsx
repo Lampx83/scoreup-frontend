@@ -9,6 +9,16 @@ import allReducers from "./redux/reducers/index.js";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 
+// Auto-detect basename
+const getBasename = () => {
+  // Nếu đang ở hostname của NEU và có sub-path, thì set basename là '/scoreup'
+  if (window.location.hostname === 'fit.neu.edu.vn') {
+    return '/scoreup';
+  }
+  // Ngược lại, không cần sub-path (root)
+  return '/';
+};
+
 const store = configureStore({
   reducer: allReducers,
 });
@@ -16,7 +26,7 @@ const store = configureStore({
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.Fragment>
     <Provider store={store}>
-      <BrowserRouter basename="/scoreup">
+      <BrowserRouter basename={getBasename()}>
         <CssVarsProvider theme={theme}>
           <CssBaseline />
           <App />
