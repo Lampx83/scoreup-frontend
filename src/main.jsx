@@ -16,7 +16,7 @@ const store = configureStore({
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.Fragment>
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename="/scoreup">
         <CssVarsProvider theme={theme}>
           <CssBaseline />
           <App />
