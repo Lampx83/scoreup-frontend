@@ -19,7 +19,7 @@ import { RiDashboard3Line } from "react-icons/ri";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
 import {Grid, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {MdLogout, MdOutlineLightMode, MdOutlineNightlight} from "react-icons/md";
+import {MdLogout, MdOutlineLightMode, MdOutlineNightlight, MdRecommend} from "react-icons/md";
 import Button from "@mui/material/Button";
 import useAuth from "~/hooks/useAuth.jsx";
 import Tooltip from "@mui/material/Tooltip";
@@ -225,11 +225,65 @@ export default function SideBarUser() {
                   <RiDashboard3Line style={{ width: "24px", height: "24px" }} />
                 </ListItemIcon>
                 <ListItemText
-                  primary={"Dashboard"}
+                  primary={"DashboardPage"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItemButton>
             </ListItem>*/}
+            {/*<ListItem disablePadding sx={{ display: "block" }}>*/}
+            {/*  <ListItemButton*/}
+            {/*    sx={{*/}
+            {/*      minHeight: 48,*/}
+            {/*      justifyContent: open ? "initial" : "center",*/}
+            {/*      px: 2.5,*/}
+            {/*      ...((activeTab === 'recommend') && activeListItem(theme)),*/}
+            {/*    }}*/}
+            {/*    component={Link}*/}
+            {/*    to="/recommend"*/}
+            {/*    onClick={() => updateActiveTab('recommend')}*/}
+            {/*  >*/}
+            {/*    <ListItemIcon*/}
+            {/*      sx={{*/}
+            {/*        minWidth: 0,*/}
+            {/*        mr: open ? 3 : "auto",*/}
+            {/*        justifyContent: "center",*/}
+            {/*      }}*/}
+            {/*    >*/}
+            {/*      <MdRecommend style={{ width: "24px", height: "24px" }} />*/}
+            {/*    </ListItemIcon>*/}
+            {/*    <ListItemText*/}
+            {/*      primary={"Gợi ý"}*/}
+            {/*      sx={{ opacity: open ? 1 : 0 }}*/}
+            {/*    />*/}
+            {/*  </ListItemButton>*/}
+            {/*</ListItem>*/}
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  ...((activeTab === 'dashboard') && activeListItem(theme)),
+                }}
+                component={Link}
+                to="/dashboard"
+                onClick={() => updateActiveTab('practice')}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <RiDashboard3Line style={{ width: "24px", height: "24px" }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Dashboard"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
             <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{

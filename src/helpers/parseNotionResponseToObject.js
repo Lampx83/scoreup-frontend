@@ -16,6 +16,7 @@ function parseSingleQuestion(raw) {
   parsed.question = raw?.properties?.question?.rich_text[0]?.plain_text || undefined;
   parsed.correct = raw?.properties?.correct?.rich_text[0]?.plain_text?.toUpperCase() || undefined;
   parsed.totalComments = raw?.totalComments || 0;
+  parsed.knowledge_concept = raw?.properties?.tags?.multi_select[0]?.name || undefined;
   if (raw?.properties?.audio?.rich_text[0]?.plain_text) {
     parsed.audio = config.MEDIA_URL + raw?.properties?.audio?.rich_text[0]?.plain_text;
   }

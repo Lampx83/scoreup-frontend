@@ -79,15 +79,18 @@ function Option(props) {
   }
 
   useEffect(() => {
-    if (showAnswer) {
-      if (props.value === radioGroup.value && props.isCorrect === 'true') {
-        document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
-      } else if (checked) {
-        document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
-      }
-    } else {
-      if (checked) {
-        document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#3DC2EC';
+    let questionPaletteItem = document.getElementById(`question-palette-${radioGroup.name}`);
+    if (questionPaletteItem) {
+      if (showAnswer) {
+        if (props.value === radioGroup.value && props.isCorrect === 'true') {
+          document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
+        } else if (checked) {
+          document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
+        }
+      } else {
+        if (checked) {
+          document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#3DC2EC';
+        }
       }
     }
   }, [checked, isSubmitted, showAnswer]);
@@ -109,7 +112,8 @@ function QuestionCard({
   hint = "",
   totalComments = 0,
   showAnswer = false,
-  isSubmitted = false
+  isSubmitted = false,
+  addResult = () => null,
 }) {
   const theme = useTheme();
   const [showHint, setShowHint] = React.useState(false);
@@ -129,6 +133,14 @@ function QuestionCard({
   }) => {
     const time_cost = new Date().getTime() - startTime;
     startTime = null;
+
+    addResult({
+      question: exercise_id,
+      user_ans: user_ans,
+      correct_ans: correct_ans,
+      score: score,
+      index: parseInt(index)
+    });
 
     postLogQuestion({
       user_id: userInfo._id,
@@ -245,23 +257,22 @@ function QuestionCard({
               {options.map((option, index) => (
                 <Option
                   key={index}
-                  control={<Radio onClick={() => handleSendLog({
-                    exercise_id: id,
-                    score: option.option === correct ? 1 : 0,
-                    time_cost: 0,
-                    correct_ans: [correct],
-                    user_ans: [option.option]
-                  })}/>}
+                  control={<Radio onChange={() => {
+                    handleSendLog({
+                      exercise_id: id,
+                      score: option.option === correct ? 1 : 0,
+                      time_cost: 0,
+                      correct_ans: [correct],
+                      user_ans: [option.option]
+                    })
+                  }}/>}
                   value={option.option}
                   label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
                   isCorrect={option.option === correct ? 'true' : 'false'}
                   showAnswer={showAnswer}
                   isSubmitted={isSubmitted}
                   sx={{
-                    // color: theme.palette.text.secondary,
-                    // backgroundColor: theme.palette.sectionBackground.primary,
                     borderColor: theme.palette.text.secondary,
-                    // fontWeight: 400,
                     borderRadius: 5,
                     whiteSpace: "wrap",
                     textWrap: "wrap",

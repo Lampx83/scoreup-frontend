@@ -1,14 +1,34 @@
 import Box from "@mui/material/Box";
-import { Icon, Typography, useTheme } from "@mui/material";
+import {Alert, Icon, Typography, useTheme} from "@mui/material";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import {useEffect} from "react";
+import {Checklist} from "@mui/icons-material";
 
-function QuestionsPalette({ questions = [], setShowAnswer, setIsSubmitted, showAnswer = false }) {
+function QuestionsPalette({
+  questions = [],
+  setShowAnswer,
+  setIsSubmitted,
+  showAnswer = false,
+  isSubmitted = false,
+  result = null
+}) {
   let count = 0;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  const calculateCorrect = () => {
+    let correct = 0;
+    for (const item of result.current.questions) {
+      for (const q of item.questions) {
+        if (q.score === 1) {
+          correct++;
+        }
+      }
+    }
+    return correct;
+  }
 
   const questionFlat = questions.map((element) => {
     const newElement = { ...element, questions: [...element.questions] };
@@ -162,7 +182,7 @@ function QuestionsPalette({ questions = [], setShowAnswer, setIsSubmitted, showA
         );
       })}
 
-      {!showAnswer && <Box
+      <Box
         sx={{
           display: "flex",
           justifyContent: "flex-start",
@@ -170,6 +190,7 @@ function QuestionsPalette({ questions = [], setShowAnswer, setIsSubmitted, showA
           marginTop: 2,
           flexBasis: "100%",
           paddingX: 2,
+          gap: 2
         }}
       >
         <Button
@@ -185,9 +206,41 @@ function QuestionsPalette({ questions = [], setShowAnswer, setIsSubmitted, showA
           }}
           onClick={handleSubmit}
         >
-          Kiểm tra đáp án
+          Xem kết quả
         </Button>
-      </Box>}
+        <Button
+          variant={'contained'}
+          sx={{
+            backgroundColor: '#1A4E8DFF',
+            borderRadius: 5,
+            color: 'white',
+            ':hover': {
+              backgroundColor: 'rgba(26,78,141,0.8)',
+              boxShadow: '0 0 10px 0 rgba(26,78,141,0.5)'
+            }
+          }}
+          onClick={() => {
+            location.reload();
+          }}
+        >
+          Làm bài mới
+        </Button>
+      </Box>
+
+      {isSubmitted && (
+        <Alert
+          icon={<Checklist />}
+          severity={"success"}
+          sx={{
+            marginTop: 4,
+            width: "100%",
+            padding: 2,
+            marginX: 2,
+          }}
+        >
+          Kết quả: {calculateCorrect()}/{result.current.total}
+        </Alert>
+      )}
 
       <Icon
         as={open ? FaCaretDown : FaCaretUp}

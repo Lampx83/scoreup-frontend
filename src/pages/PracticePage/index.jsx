@@ -1,16 +1,18 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import headerImg from "~/assets/images/header_userhomepage.png";
-import { Container, Icon, Typography, useTheme } from "@mui/material";
+import {Container, Typography, useTheme} from "@mui/material";
 import SingleQuestion from "~/components/Question/SingleQuestion/index.jsx";
 import SetQuestion from "~/components/Question/SetQuestion/index.jsx";
-import { useEffect, useState } from "react";
-import { getQuestions } from "~/services/question.service.js";
+import {useEffect, useRef, useState} from "react";
+import {getQuestions, submitResult} from "~/services/question.service.js";
 import { parseQuestion } from "~/helpers/parseNotionResponseToObject.js";
 import useFilterQuestion from "~/hooks/useFilterQuestion.jsx";
 import QuestionsPalette from "~/components/QuestionsPalette/index.jsx";
 import cookies from "~/utils/cookies.js";
 import useActiveTab from "~/hooks/useActiveTab.jsx";
+import Loading from "~/components/Loading/index.jsx";
+
 
 export default function PracticePage() {
   const theme = useTheme();
@@ -19,6 +21,33 @@ export default function PracticePage() {
   const { filter } = useFilterQuestion();
   const [showAnswer, setShowAnswer] = useState(filter?.certificateInfo?.showAnswer);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const result = useRef({
+    questions: [],
+    total: 0,
+    correct: 0
+  });
+
+  const addResult = ({
+    question,
+    user_ans,
+    correct_ans,
+    score
+  }) => {
+    if (score) {
+      result.current.correct++;
+    }
+    for (const item of result.current.questions) {
+      for (const q of item.questions) {
+        if (q.question === question) {
+          q.user_ans = user_ans;
+          q.correct_ans = correct_ans;
+          q.score = score;
+          break;
+        }
+      }
+    }
+  }
+
   const notionDatabaseId = filter.certificateDatabaseId;
   const tags =
     filter?.tags?.map((tag) => ({
@@ -35,6 +64,11 @@ export default function PracticePage() {
     setQuestions([]);
     setShowAnswer(filter?.certificateInfo?.showAnswer);
     setIsSubmitted(false);
+    result.current = {
+      questions: [],
+      total: 0,
+      correct: 0
+    }
     const getData = async () => {
       let questions = [];
       for (const tag of tags) {
@@ -50,8 +84,24 @@ export default function PracticePage() {
           multi: tag.multiQuestions,
           questions: res?.map(parseQuestion),
         });
+
+        result.current.questions.push({
+          section: tag.section,
+          multi: tag.multiQuestions,
+          questions: res?.map(parseQuestion)?.map((question) => ({
+            question: question.id,
+            user_ans: [],
+            correct_ans: [question.correct],
+            score: 0,
+            index: count++,
+          })),
+        })
       }
       setQuestions(questions);
+
+      result.current.total = questions.reduce((acc, cur) => {
+        return acc + cur.questions.length;
+      }, 0);
     };
     getData();
     window.scrollTo({
@@ -61,58 +111,43 @@ export default function PracticePage() {
     updateActiveTab("practice")
   }, [filter]);
 
+  useEffect(() => {
+    const sendResult = async () => {
+      if (isSubmitted) {
+        const calculateCorrect = () => {
+          let correct = 0;
+          for (const item of result.current.questions) {
+            for (const q of item.questions) {
+              if (q.score === 1) {
+                correct++;
+              }
+            }
+          }
+          return correct;
+        }
+
+        const res = await submitResult({
+          user_id: user?.id,
+          certificateId: filter?.certificateInfo?.id,
+          questions: result.current.questions,
+          total: result.current.total,
+          correct: calculateCorrect()
+        });
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+    sendResult();
+  }, [isSubmitted]);
+
   return (
     <>
       {questions.length === 0 &&
       filter?.certificateDatabaseId &&
       filter?.tags?.length !== 0 ? (
-        <Container
-          maxWidth={false}
-          sx={{
-            // width: "100%",
-            height: "100vh",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: theme.palette.background.paper,
-            transition: "all 0.5s",
-          }}
-        >
-          <Box
-            sx={{
-              width: "65px",
-              aspectRatio: "1",
-              position: "relative",
-              "&:before, &:after": {
-                content: '""',
-                position: "absolute",
-                borderRadius: "50px",
-                boxShadow: `0 0 0 3px inset ${theme.palette.primary.main}`,
-                animation: "l5 2.5s infinite",
-              },
-              "&:after": {
-                animationDelay: "-1.25s",
-                borderRadius: "0",
-              },
-              "@keyframes l5": {
-                "0%": { inset: "0 35px 35px 0" },
-                "12.5%": { inset: "0 35px 0 0" },
-                "25%": { inset: "35px 35px 0 0" },
-                "37.5%": { inset: "35px 0 0 0" },
-                "50%": { inset: "35px 0 0 35px" },
-                "62.5%": { inset: "0 0 0 35px" },
-                "75%": { inset: "0 0 35px 35px" },
-                "87.5%": { inset: "0 0 35px 0" },
-                "100%": { inset: "0 35px 35px 0" },
-              },
-            }}
-          ></Box>
-        </Container>
+        <Loading />
       ) : (
         <Container
           maxWidth={false}
@@ -183,7 +218,14 @@ export default function PracticePage() {
                 </Typography>
               </Box>
 
-              <QuestionsPalette questions={questions} showAnswer={showAnswer} setShowAnswer={setShowAnswer} setIsSubmitted={setIsSubmitted} />
+              <QuestionsPalette
+                questions={questions}
+                showAnswer={showAnswer}
+                setShowAnswer={setShowAnswer}
+                setIsSubmitted={setIsSubmitted}
+                result={result}
+                isSubmitted={isSubmitted}
+              />
 
               {questions.map((element, index) => {
                 return (
@@ -206,6 +248,7 @@ export default function PracticePage() {
                             count={count - question.length}
                             showAnswer={showAnswer}
                             isSubmitted={isSubmitted}
+                            addResult={addResult}
                           />
                         );
                       } else {
@@ -216,6 +259,7 @@ export default function PracticePage() {
                             index={++count}
                             showAnswer={showAnswer}
                             isSubmitted={isSubmitted}
+                            addResult={addResult}
                           />
                         );
                       }

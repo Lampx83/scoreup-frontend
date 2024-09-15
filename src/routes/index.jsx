@@ -6,6 +6,10 @@ import IndexPage from "~/pages/index.jsx";
 import PracticePage from "~/pages/PracticePage/index.jsx";
 import HomePage from "~/pages/HomePage/index.jsx";
 import ProfilePage from "~/pages/ProfilePage/index.jsx";
+import RecommendPage from "~/pages/RecommendPage/index.jsx";
+import DashboardPage from "~/pages/DashboardPage/index.jsx";
+import HistoryPage from "~/pages/HistoryPage/index.jsx";
+import ResultPage from "~/pages/ResultPage/index.jsx";
 
 export const routes = [
   {
@@ -14,7 +18,8 @@ export const routes = [
   },
   {
     path: "/",
-    element: <ErrorBoundary><IndexPage/></ErrorBoundary>,
+    // element: <ErrorBoundary><IndexPage/></ErrorBoundary>,
+    element: <IndexPage/>,
     children: [
       {
         path: "/",
@@ -31,6 +36,22 @@ export const routes = [
           {
             path: "/profile",
             element: <ProfilePage/>
+          },
+          {
+            path: "/recommend",
+            element: <RecommendPage/>
+          },
+          {
+            path: "/dashboard",
+            element: <DashboardPage/>
+          },
+          {
+            path: "/history/:id",
+            element: <HistoryPage/>
+          },
+          {
+            path: "/history/:certId/:resultId",
+            element: <ResultPage/>
           }
         ]
       }

@@ -9,7 +9,8 @@ function SetQuestion({
   questions = [],
   count = 0,
   showAnswer = false,
-  isSubmitted = false
+  isSubmitted = false,
+  addResult = () => {}
 }) {
   const theme = useTheme();
   return (
@@ -67,6 +68,7 @@ function SetQuestion({
           index={++count}
           showAnswer={showAnswer}
           isSubmitted={isSubmitted}
+          addResult={addResult}
         />
       ))}
     </Box>
