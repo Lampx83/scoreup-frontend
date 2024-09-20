@@ -114,8 +114,8 @@ function Login() {
                 {...register("email", {
                   required: "Vui lòng nhập email!",
                   pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Email không hợp lệ!",
+                    value: /^[0-9]{8}@st\.neu\.edu\.vn$/,
+                    message: "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!",
                   }
                 })}
               />

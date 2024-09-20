@@ -79,34 +79,34 @@ function SelectClass({register, errors}) {
         </Select>
       </FormControl>
 
-      <Typography variant={"h6"} fontSize={18} fontWeight={600} sx={{marginTop: 4}}>
-        Lớp chuyên ngành (64A, 64B, 64C,...)
-      </Typography>
+      {/*<Typography variant={"h6"} fontSize={18} fontWeight={600} sx={{marginTop: 4}}>*/}
+      {/*  Lớp chuyên ngành (64A, 64B, 64C,...)*/}
+      {/*</Typography>*/}
 
-      <TextField
-        fullWidth
-        size="small"
-        variant={"outlined"}
-        defaultValue={userInfo.className}
-        {...register("className", {
-          required: "Vui lòng nhập lớp"
-        })}
-        error={!!errors.className}
-        helperText={errors.className && errors.className.message}
-        placeholder={"Nhập lớp"}
-        InputProps={{
-          sx: {
-            borderRadius: 2,
-            backgroundColor: "#f2f2f2",
-            border: "none"
-          },
-          startAdornment: (
-            <InputAdornment position={"start"}>
-              <MdClass/>
-            </InputAdornment>
-          )
-        }}
-      />
+      {/*<TextField*/}
+      {/*  fullWidth*/}
+      {/*  size="small"*/}
+      {/*  variant={"outlined"}*/}
+      {/*  defaultValue={userInfo.className}*/}
+      {/*  {...register("className", {*/}
+      {/*    required: "Vui lòng nhập lớp"*/}
+      {/*  })}*/}
+      {/*  error={!!errors.className}*/}
+      {/*  helperText={errors.className && errors.className.message}*/}
+      {/*  placeholder={"Nhập lớp"}*/}
+      {/*  InputProps={{*/}
+      {/*    sx: {*/}
+      {/*      borderRadius: 2,*/}
+      {/*      backgroundColor: "#f2f2f2",*/}
+      {/*      border: "none"*/}
+      {/*    },*/}
+      {/*    startAdornment: (*/}
+      {/*      <InputAdornment position={"start"}>*/}
+      {/*        <MdClass/>*/}
+      {/*      </InputAdornment>*/}
+      {/*    )*/}
+      {/*  }}*/}
+      {/*/>*/}
     </>
   )
 }

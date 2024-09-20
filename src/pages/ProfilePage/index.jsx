@@ -348,7 +348,11 @@ function ProfilePage() {
               variant={"outlined"}
               defaultValue={userInfo.email}
               {...register("email", {
-                required: "Vui lòng nhập email"
+                required: "Vui lòng nhập email",
+                pattern: {
+                  value: /^[0-9]{8}@st\.neu\.edu\.vn$/,
+                  message: "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!"
+                }
               })}
               error={!!errors.email}
               helperText={errors.email && errors.email.message}
@@ -382,8 +386,8 @@ function ProfilePage() {
               variant={"outlined"}
               defaultValue={moment(userInfo.birth).format("YYYY-MM-DD")}
               {...register("birth")}
-              error={!!errors.email}
-              helperText={errors.email && errors.email.message}
+              error={!!errors.birth}
+              helperText={errors.birth && errors.birth.message}
               placeholder={"Nhập ngày sinh"}
               InputProps={{
                 sx: {

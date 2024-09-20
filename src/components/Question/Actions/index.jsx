@@ -60,23 +60,23 @@ function Actions({
           Bình luận ({totalComments})
         </Button>
         <Box sx={{display: "flex", gap: 1}}>
-          <Button
-            variant={"contained"}
-            sx={{
-              backgroundColor: "#03DAC6FF",
-              borderRadius: 5,
-              color: "white",
-              fontSize: "12px",
-              ':hover': {
-                backgroundColor: "rgba(3,218,198,0.7)",
-                boxShadow: "0 0 10px 0 rgba(3,218,198,0.5)"
-              }
-            }}
-            onClick={() => handleMastered(id)}
-          >
-            <Icon as={FaCheck} sx={{marginRight: 1, fontSize: '16px'}}/>
-            Đã thành thạo
-          </Button>
+          {/*<Button*/}
+          {/*  variant={"contained"}*/}
+          {/*  sx={{*/}
+          {/*    backgroundColor: "#03DAC6FF",*/}
+          {/*    borderRadius: 5,*/}
+          {/*    color: "white",*/}
+          {/*    fontSize: "12px",*/}
+          {/*    ':hover': {*/}
+          {/*      backgroundColor: "rgba(3,218,198,0.7)",*/}
+          {/*      boxShadow: "0 0 10px 0 rgba(3,218,198,0.5)"*/}
+          {/*    }*/}
+          {/*  }}*/}
+          {/*  onClick={() => handleMastered(id)}*/}
+          {/*>*/}
+          {/*  <Icon as={FaCheck} sx={{marginRight: 1, fontSize: '16px'}}/>*/}
+          {/*  Đã thành thạo*/}
+          {/*</Button>*/}
           <Button
             variant={"contained"}
             sx={{

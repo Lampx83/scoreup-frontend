@@ -102,9 +102,11 @@ function Filter({ active = {}, open = false }) {
       pushToast("Số lượng câu hỏi cần lớn hơn 0", "error");
       return;
     }
-    if (parseInt(limit) > certificateInfo.sectionInfo.find(item => item.tag === tag).number_questions) {
-      pushToast("Vượt quá giới hạn số lượng câu hỏi!", "error");
-      limit = certificateInfo.sectionInfo.find(item => item.tag === tag).number_questions;
+    const maxLimit = certificateInfo.sectionInfo.find(item => item.tag === tag).number_questions;
+    if (parseInt(limit) > maxLimit) {
+      pushToast(`Vượt quá giới hạn số lượng câu hỏi, tối đa ${maxLimit}!`, "error");
+      // limit = certificateInfo.sectionInfo.find(item => item.tag === tag).number_questions;
+      limit = 10;
     }
 
     const newSections = selectedSections.map((section) => {
@@ -363,7 +365,7 @@ function Filter({ active = {}, open = false }) {
                                 control={<Checkbox/>}
                                 label={section.section}
                                 value={section.tag}
-                                onChange={(e) => handleSelectSection(e, section.tag, section.number_questions, section.multi, section.section)}
+                                onChange={(e) => handleSelectSection(e, section.tag, 10, section.multi, section.section)}
                                 checked={selectedSections.some(item => item.tag === section.tag)}
                               />
                               <TextField
@@ -380,7 +382,8 @@ function Filter({ active = {}, open = false }) {
                                 label={"Số lượng câu hỏi"}
                                 type={"number"}
                                 variant={"outlined"}
-                                defaultValue={selectedSections.find(item => item.tag === section.tag)?.limit || section.number_questions}
+                                defaultValue={selectedSections.find(item => item.tag === section.tag)?.limit || 10}
+                                // defaultValue={10}
                                 onChange={(e) => handleChangeLimit(section.tag, e.target.value)}
                               />
                             </Box>

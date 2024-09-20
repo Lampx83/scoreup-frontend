@@ -68,10 +68,11 @@ function Option(props) {
 
   if (showAnswer) {
     if (radioGroup && radioGroup.value) {
-      checked = props.value === radioGroup.value || props.isCorrect === 'true';
-    } else if (isSubmitted) {
-      checked = props.isCorrect === 'true';
+      checked = props.value === radioGroup.value;
     }
+    // } else if (isSubmitted) {
+    //   checked = props.isCorrect === 'true';
+    // }
   } else {
     if (radioGroup && radioGroup.value) {
       checked = props.value === radioGroup.value;
@@ -85,6 +86,8 @@ function Option(props) {
         if (props.value === radioGroup.value && props.isCorrect === 'true') {
           document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
         } else if (checked) {
+          document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
+        } else if (!checked && isSubmitted) {
           document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
         }
       } else {

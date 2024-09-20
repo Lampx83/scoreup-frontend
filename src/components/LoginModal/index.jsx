@@ -99,15 +99,15 @@ function LoginModal() {
             <form onSubmit={handleSubmit(onSubmit, onError)} className="login-form" noValidate={true}>
               <input
                 className="input-login"
-                name="username"
-                id="username"
-                placeholder="Username"
-                {...register("username", {
-                  required: "Vui lòng nhập username!",
-                  // pattern: {
-                  //   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  //   message: "Email is invalid!"
-                  // }
+                name="email"
+                id="email"
+                placeholder="Email"
+                {...register("email", {
+                  required: "Vui lòng nhập email!",
+                  pattern: {
+                    value: /^[0-9]{8}@st\.neu\.edu\.vn$/,
+                    message: "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!"
+                  }
                 })}
               />
               <input
