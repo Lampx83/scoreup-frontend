@@ -329,9 +329,9 @@ export default function ResultPage() {
                                       paddingY: 1,
                                       marginX: 0,
                                       marginY: 1,
-                                      backgroundColor: isTrue ? 'rgba(57,153,24,0.78)' : (isChoose ? '#FF7777' : 'white'),
-                                      fontWeight: (isTrue || isChoose) ? 700 : 400,
-                                      color: (isTrue || isChoose) ? 'white' : theme.palette.text.secondary
+                                      backgroundColor: (isTrue && isChoose) ? 'rgba(57,153,24,0.78)' : (isChoose ? '#FF7777' : 'white'),
+                                      fontWeight: (isChoose) ? 700 : 400,
+                                      color: (isChoose) ? 'white' : theme.palette.text.secondary
                                     }}
                                   >
                                     {`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}

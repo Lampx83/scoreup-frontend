@@ -84,10 +84,11 @@ function Option(props) {
     if (questionPaletteItem) {
       if (showAnswer) {
         if (props.value === radioGroup.value && props.isCorrect === 'true') {
+          console.log(props.value, radioGroup.value, props.isCorrect, checked);
           document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
         } else if (checked) {
           document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
-        } else if (!checked && isSubmitted) {
+        } else if (radioGroup.value === undefined && isSubmitted) {
           document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
         }
       } else {
