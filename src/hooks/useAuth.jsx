@@ -19,6 +19,7 @@ function useAuth() {
     dispatch(logoutAction());
     cookies.remove("token", { path: "/"});
     cookies.remove("user");
+    localStorage.clear();
   }
 
   return {
