@@ -7,7 +7,7 @@ function IndexPage() {
   const auth = useAuth();
 
   return (
-    auth.isAuthenticated() ? (<LayoutDefault/>) : (window.location.href = "/homepage")
+    auth.isAuthenticated() ? (<LayoutDefault/>) : (<Navigate to={'/homepage'}/>)
   )
 }
 
