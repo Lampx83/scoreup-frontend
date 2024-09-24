@@ -1,9 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Fade, Modal } from "@mui/material";
 import Box from "@mui/material/Box";
 import "./style.css";
 import Button from "@mui/material/Button";
-import ContinueWithGoogleButton from "~/components/CustomComponents/ContinueWithGoogleButton/index.jsx";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import authService from "~/services/auth.service.js";
@@ -35,7 +33,7 @@ function LoginModal() {
       loginModal.handleClose();
       auth.login();
     } else {
-      pushToast("Đăng nhập thất bại!", "error");
+      pushToast("Đăng nhập thất bại, hãy thử lại!", "error");
     }
 
   };
@@ -170,13 +168,13 @@ function LoginModal() {
               >
                 Đăng ký
               </Button>
-              <div className="social-accounts">
-                <ContinueWithGoogleButton />
-              </div>
+              {/*<div className="social-accounts">*/}
+              {/*  <ContinueWithGoogleButton />*/}
+              {/*</div>*/}
             </div>
-            <span className="agreement">
-              <a href="#">Chính sách sử dụng</a>
-            </span>
+            {/*<span className="agreement">*/}
+            {/*  <a href="#">Chính sách sử dụng</a>*/}
+            {/*</span>*/}
           </Box>
         </Fade>
       </Modal>

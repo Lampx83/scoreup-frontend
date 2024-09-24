@@ -176,7 +176,7 @@ export default function PracticePage() {
               }}
             >
               <Typography variant="h4" fontWeight={700} sx={{}}>
-                Xin chào, {user?.fullName || user?.username || user?.email || "meow"}!
+                Xin chào, {user?.fullName || user?.email || "meow"}!
               </Typography>
               <Typography variant="p" fontWeight={500} sx={{}}>
                 Lướt xuống để bắt đầu luyện tập!

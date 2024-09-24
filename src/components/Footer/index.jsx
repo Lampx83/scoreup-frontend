@@ -40,7 +40,7 @@ function Footer() {
           }}
         >
           <Typography variant={'p'}>207 Giải Phóng, Đồng Tâm, Hai Bà Trưng, Hà Nội</Typography>
-          <Typography variant={'p'}>scoreup@gmail.com</Typography>
+          <Typography variant={'p'}>scoreup.fit@gmail.com</Typography>
           <Typography variant={'p'}>© 2024</Typography>
         </Box>
         <Box

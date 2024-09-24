@@ -91,20 +91,20 @@ function Header() {
             </Box>
 
 
-            <Box sx={{
-              display: {
-                xs: 'none',
-                md: 'flex',
-              },
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: 1,
-              margin: 'auto'
-            }}>
-              <Button component={LinkRouter} to="/" autoCapitalize='none'>Trang chủ</Button>
-              <CategoriesDropdown/>
-              <Button component={LinkRouter} to="/" autoCapitalize='none'>Tính năng</Button>
-            </Box>
+            {/*<Box sx={{*/}
+            {/*  display: {*/}
+            {/*    xs: 'none',*/}
+            {/*    md: 'flex',*/}
+            {/*  },*/}
+            {/*  justifyContent: 'space-between',*/}
+            {/*  alignItems: 'center',*/}
+            {/*  gap: 1,*/}
+            {/*  margin: 'auto'*/}
+            {/*}}>*/}
+            {/*  <Button component={LinkRouter} to="/" autoCapitalize='none'>Trang chủ</Button>*/}
+            {/*  <CategoriesDropdown/>*/}
+            {/*  <Button component={LinkRouter} to="/" autoCapitalize='none'>Tính năng</Button>*/}
+            {/*</Box>*/}
 
             <Box sx={{
               display: {

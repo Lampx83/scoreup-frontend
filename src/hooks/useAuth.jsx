@@ -18,7 +18,7 @@ function useAuth() {
   const logout = () => {
     dispatch(logoutAction());
     cookies.remove("token", { path: "/"});
-    cookies.remove("user", { path: "/"});
+    cookies.remove("user");
   }
 
   return {

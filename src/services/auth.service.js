@@ -7,6 +7,8 @@ const login = async (data) => {
   const res = await post('/auth/login', data);
 
   if (res.status === 'ERROR') {
+    cookies.remove("token", { path: "/" });
+    cookies.remove("user");
     toast.error(res.message);
     return false;
   }
@@ -14,7 +16,7 @@ const login = async (data) => {
   if (res.statusCode === 200) {
     toast.success("Đăng nhập thành công!");
     cookies.set("token", res.metadata.token, {path: "/"});
-    cookies.set("user", JSON.stringify(await getUser()));
+    cookies.set("user", JSON.stringify(await getUser()), {path: "/"});
     return true;
   }
   return false;

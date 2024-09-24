@@ -19,7 +19,7 @@ import { RiDashboard3Line } from "react-icons/ri";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
 import {Grid, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {MdLogout, MdOutlineLightMode, MdOutlineNightlight, MdRecommend} from "react-icons/md";
+import {MdLogout} from "react-icons/md";
 import Button from "@mui/material/Button";
 import useAuth from "~/hooks/useAuth.jsx";
 import Tooltip from "@mui/material/Tooltip";
@@ -442,6 +442,7 @@ export default function SideBarUser() {
                 '& svg': {
                   fontSize: 24,
                 },
+                marginBottom: 1
               }}
               onClick={handleFixError}
             >
@@ -476,21 +477,26 @@ export default function SideBarUser() {
                   {user?.avatar ? <Avatar src={user.avatar}/> : <Avatar/>}
                 </StyledBadge>
               </Stack>
-              <Typography
-                variant="body1"
-                fontWeight={700}
-                sx={{
-                  marginLeft: 1,
-                  textDecoration: 'none',
-                  color: theme.palette.text.primary,
-                  display: open ? "block" : "none",
-                }}
-                component={Link}
-                to={"/profile"}
+              <Tooltip
+                title={user?.fullName || user?.email || "User"}
+                sx={{ width: "100%", height: "100%" }}
               >
-                {user?.fullName || user?.username || user?.email || "User"}
-                <Typography variant="body2" fontSize={"12px"}>Xem trang cá nhân</Typography>
-              </Typography>
+                <Typography
+                  variant="body1"
+                  fontWeight={700}
+                  sx={{
+                    marginLeft: 1,
+                    textDecoration: 'none',
+                    color: theme.palette.text.primary,
+                    display: open ? "block" : "none",
+                  }}
+                  component={Link}
+                  to={"/profile"}
+                >
+                  {truncateText(user?.fullName) || truncateText(user?.email) || "User"}
+                  <Typography variant="body2" fontSize={"12px"}>Xem trang cá nhân</Typography>
+                </Typography>
+              </Tooltip>
             </Grid>
             <Grid
               item
@@ -516,4 +522,8 @@ export default function SideBarUser() {
       </Drawer>
     </>
   );
+}
+
+function truncateText(str) {
+  return str.length > 15 ? str.split(" ").splice(-1).join(" ") : str;
 }

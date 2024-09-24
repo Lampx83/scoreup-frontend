@@ -66,14 +66,18 @@ export default function DashboardPage() {
               flexWrap: "wrap"
             }}
           >
-            {certificates.length > 0 && certificates.map((cert, index) => {
+            {certificates.length > 0 ? certificates.map((cert, index) => {
               return (
                 <CertificateCard
                   key={index}
                   cert={cert}
                 />
               )
-            })}
+            }) : (
+              <Typography variant="body1" sx={{color: "#9e9e9e"}}>
+                Bạn chưa có lịch sử làm bài nào
+              </Typography>
+            )}
           </Box>
         </Box>
       </Container>

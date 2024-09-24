@@ -76,7 +76,7 @@ export default function RecommendPage() {
           }}
         >
           <Typography variant="h4" fontWeight={700}>
-            Xin chào, {user?.fullName || user?.username || user?.email || "meow"}!
+            Xin chào, {user?.fullName || user?.email || "meow"}!
           </Typography>
           <Typography variant="p" fontWeight={500}>
             Lướt xuống để xem các bài tập được gợi ý riêng cho bạn.

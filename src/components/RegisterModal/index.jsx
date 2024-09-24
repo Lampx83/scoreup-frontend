@@ -119,19 +119,19 @@ function Login() {
                   }
                 })}
               />
-              <input
-                className="input-login"
-                name="username"
-                id="username"
-                placeholder="Username"
-                {...register("username", {
-                  required: "Vui lòng nhập username!",
-                  // pattern: {
-                  //   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  //   message: "Email is invalid!"
-                  // }
-                })}
-              />
+              {/*<input*/}
+              {/*  className="input-login"*/}
+              {/*  name="username"*/}
+              {/*  id="username"*/}
+              {/*  placeholder="Username"*/}
+              {/*  {...register("username", {*/}
+              {/*    required: "Vui lòng nhập username!",*/}
+              {/*    // pattern: {*/}
+              {/*    //   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,*/}
+              {/*    //   message: "Email is invalid!"*/}
+              {/*    // }*/}
+              {/*  })}*/}
+              {/*/>*/}
               <input
                 className="input-login"
                 type="password"
@@ -191,15 +191,15 @@ function Login() {
                 Đăng ký
               </Button>
             </form>
-            <div className="social-account-container">
-              <span className="title">Hoặc</span>
-              <div className="social-accounts">
-                <ContinueWithGoogleButton/>
-              </div>
-            </div>
-            <span className="agreement">
-              <a href="#">Chính sách sử dụng</a>
-            </span>
+            {/*<div className="social-account-container">*/}
+            {/*  <span className="title">Hoặc</span>*/}
+            {/*  <div className="social-accounts">*/}
+            {/*    <ContinueWithGoogleButton/>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
+            {/*<span className="agreement">*/}
+            {/*  <a href="#">Chính sách sử dụng</a>*/}
+            {/*</span>*/}
           </Box>
         </Fade>
       </Modal>

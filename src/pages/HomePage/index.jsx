@@ -44,7 +44,7 @@ function HomePage() {
 
   return (
     <>
-      {auth.isAuthenticated() && <Navigate to={'/practice'}/>}
+      {auth.isAuthenticated() && <Navigate to={'/'}/>}
       <Header/>
       <HeroSection>
         <Grid
