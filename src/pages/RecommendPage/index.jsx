@@ -33,8 +33,6 @@ export default function RecommendPage() {
       session_id,
     });
 
-    console.log(res);
-
     const question = res?.recommend_exercise ? parseQuestion(res.recommend_exercise) : null;
 
     setQuestions((prevQuestions) => [...prevQuestions, question]);
@@ -45,8 +43,6 @@ export default function RecommendPage() {
       knowledge_concept: "so-thuc",
     });
   }, []);
-
-  console.log("questions", questions);
 
   return (
     <Container
@@ -131,7 +127,6 @@ export default function RecommendPage() {
             variant="contained"
             color="primary"
             onClick={() => {
-              console.log(questions?.at(-1));
               getData({
                 knowledge_concept: questions?.at(-1)?.knowledge_concept,
                 score: score,
@@ -147,7 +142,6 @@ export default function RecommendPage() {
             variant="contained"
             color="primary"
             onClick={() => {
-              console.log(questions?.at(-1));
               getData({
                 knowledge_concept: questions?.at(-1)?.knowledge_concept,
                 score: score,

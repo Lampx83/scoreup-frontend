@@ -54,7 +54,6 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchRankingList = async () => {
       const res = await getRank();
-      console.log(res?.metadata);
       setRankingList(res?.metadata || []);
     }
     fetchRankingList();
