@@ -93,7 +93,7 @@ export default function DashboardPage() {
               Xin chào, {user?.fullName || user?.email || "meow"}!
             </Typography>
             <Typography variant="p" fontWeight={500} sx={{}}>
-              Lướt xuống để bắt đầu luyện tập!
+              Chúc bạn một ngày tốt lành!
             </Typography>
           </Box>
           <img
