@@ -256,7 +256,7 @@ export default function DashboardPage() {
                           fontWeight={600}
                           sx={{
                             textAlign: "left",
-                            color: getRankItemTextColor(item.index, user, item)
+                            color: user && item?.user?._id === user?._id ? "#FFFFFFFF" : "#323842FF"
                           }}
                         >
                           {item?.user?._id === user?._id ? "Bạn" : item.user.fullName}
@@ -346,94 +346,3 @@ const getRankItemTextColor = (index, user, item) => {
       return "#323842FF";
   }
 }
-
-// const rankingList = [
-//   {
-//     user: {
-//       fullName: "Nguyễn Van A",
-//       avatar: "https://www.w3schools.com/howto/img_avatar.png"
-//     },
-//     total: 100,
-//     correct: 90,
-//     createdAt: "2021-10-10T00:00:00Z",
-//     index: 1,
-//     accuracy: 90
-//   },
-//   {
-//     user: {
-//       fullName: "Nguyễn Van B",
-//       avatar: "https://www.w3schools.com/howto/img_avatar.png",
-//     },
-//     total: 100,
-//     correct: 80,
-//     createdAt: "2021-10-10T00:00:00Z",
-//     index: 2,
-//     accuracy: 80
-//   },
-//   {
-//     user: {
-//       fullName: "Nguyễn Van C",
-//       avatar: "https://www.w3schools.com/howto/img_avatar.png",
-//     },
-//     total: 100,
-//     correct: 70,
-//     createdAt: "2021-10-10T00:00:00Z",
-//     index: 3,
-//     accuracy: 70
-//   },
-//   {
-//     user: {
-//       fullName: "Nguyễn Van D",
-//       avatar: "https://www.w3schools.com/howto/img_avatar.png",
-//     },
-//     total: 100,
-//     correct: 60,
-//     createdAt: "2021-10-10T00:00:00Z",
-//     index: 4,
-//     accuracy: 60
-//   },
-//   {
-//     user: {
-//       fullName: "Nguyễn Van E",
-//       avatar: "https://www.w3schools.com/howto/img_avatar.png",
-//       _id: "66f22bf5c5434edfec4e3acf"
-//     },
-//     total: 100,
-//     correct: 50,
-//     createdAt: "2021-10-10T00:00:00Z",
-//     index: 5
-//   },
-//   {
-//     user: {
-//       fullName: "Nguyễn Van F",
-//       avatar: "https://www.w3schools.com/howto/img_avatar.png",
-//     },
-//     total: 100,
-//     correct: 40,
-//     createdAt: "2021-10-10T00:00:00Z",
-//     index: 6,
-//     accuracy: 40
-//   },
-//   {
-//     user: {
-//       fullName: "Nguyễn Van G",
-//       avatar: "https://www.w3schools.com/howto/img_avatar.png",
-//     },
-//     total: 100,
-//     correct: 30,
-//     createdAt: "2021-10-10T00:00:00Z",
-//     index: 7,
-//     accuracy: 30
-//   },
-//   {
-//     user: {
-//       fullName: "Nguyễn Van H",
-//       avatar: "https://www.w3schools.com/howto/img_avatar.png",
-//     },
-//     total: 100,
-//     correct: 20,
-//     createdAt: "2021-10-10T00:00:00Z",
-//     index: 8,
-//     accuracy: 20
-//   },
-// ]
