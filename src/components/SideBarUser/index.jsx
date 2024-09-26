@@ -176,60 +176,6 @@ export default function SideBarUser() {
             </IconButton>
           </DrawerHeader>
           <List>
-            {/*<ListItem disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                  ...((activeTab === 'home') && activeListItem(theme)),
-                }}
-                component={Link}
-                to="/"
-                onClick={() => updateActiveTab('home')}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <FaHome style={{ width: "24px", height: "24px" }} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={"Trang chủ"}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                  ...((activeTab === 'dashboard') && activeListItem(theme)),
-                }}
-                component={Link}
-                to="/"
-                onClick={() => updateActiveTab('dashboard')}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <RiDashboard3Line style={{ width: "24px", height: "24px" }} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={"DashboardPage"}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
-            </ListItem>*/}
             {/*<ListItem disablePadding sx={{ display: "block" }}>*/}
             {/*  <ListItemButton*/}
             {/*    sx={{*/}
@@ -267,7 +213,7 @@ export default function SideBarUser() {
                 }}
                 component={Link}
                 to="/dashboard"
-                onClick={() => updateActiveTab('practice')}
+                onClick={() => updateActiveTab('dashboard')}
               >
                 <ListItemIcon
                   sx={{

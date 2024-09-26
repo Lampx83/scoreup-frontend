@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import headerImg from "~/assets/images/header_userhomepage.png";
+import headerImg from "~/assets/images/Container 136.png";
 import {Container, Typography, useTheme} from "@mui/material";
 import SingleQuestion from "~/components/Question/SingleQuestion/index.jsx";
 import SetQuestion from "~/components/Question/SetQuestion/index.jsx";

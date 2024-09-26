@@ -109,3 +109,7 @@ export const getResultById = async ({
 }) => {
   return await get(`/questions/result/${id}`);
 }
+
+export const getRank = async () => {
+  return await get('/app/rank');
+}
