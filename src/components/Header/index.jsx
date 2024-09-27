@@ -1,9 +1,7 @@
-import Button from "@mui/material/Button";
 import ModeSelect from "../ModeSelect/index.jsx";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Profile from "./Menus/Profile.jsx";
-import CategoriesDropdown from "./Menus/Categories/CategoriesDropdown.jsx";
 import Logo from "../../assets/images/full_body_logo.png";
 import LinkMui from "@mui/material/Link";
 import Notifications from "./Menus/Notifications/index.jsx";

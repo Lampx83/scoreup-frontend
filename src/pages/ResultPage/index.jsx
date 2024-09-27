@@ -97,7 +97,8 @@ export default function ResultPage() {
               gap: 1,
               justifyContent: "flex-start",
               alignItems: "center",
-              marginBottom: 2
+              marginBottom: 2,
+              flexBasis: "100%",
             }}
           >
             <Button

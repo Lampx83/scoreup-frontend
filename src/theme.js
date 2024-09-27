@@ -17,7 +17,7 @@ const theme = extendTheme({
       palette: {
         background: {
           default: '#121212FF',
-          paper: 'rgba(25,29,30,0.8)'
+          // paper: 'rgba(25,29,30,0.8)'
         },
         primary: {
           main: 'rgb(255,255,255)',
@@ -44,7 +44,7 @@ const theme = extendTheme({
       palette: {
         background: {
           default: '#FFFFFFFF',
-          paper: 'rgba(245,245,245,0.8)'
+          // paper: 'rgba(245,245,245,0.8)'
         },
         primary: {
           main: 'rgba(25,29,30,0.84)',

@@ -21,6 +21,7 @@ import Loading from "~/components/Loading/index.jsx";
 import headerImg from "~/assets/images/header_userhomepage.png";
 import cookies from "~/utils/cookies.js";
 import Avatar from "@mui/material/Avatar";
+import RankingList from "~/components/RankingList/index.jsx";
 
 export default function DashboardPage() {
   const theme = useTheme();
@@ -125,163 +126,7 @@ export default function DashboardPage() {
           <Typography variant="body1" sx={{color: "#9e9e9e"}}>
             Hoàn thành ít nhất 30 câu hỏi để được hiển thị trên bảng xếp hạng.
           </Typography>
-          {/*<Box>
-            {rankingList.map((item) => {
-              return (
-                <Box
-                  key={item.index}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                    marginTop: 1,
-                    backgroundColor: getRankItemColor(item.index),
-                    padding: 2,
-                    borderRadius: 5,
-                    border: "1px solid #e0e0e0",
-                    "&:hover": {
-                      cursor: "pointer",
-                      backgroundColor: "#f5f5f5",
-                    }
-                  }}
-                >
-                  <Typography color={getRankItemTextColor(item.index)} variant="h5" minWidth={"20px"} textAlign={"center"} fontWeight={700}>
-                    {item.index}
-                  </Typography>
-                  <Avatar
-                    src={item.user.avatar}
-                    alt="avatar"
-                  />
-                  <Box>
-                    <Typography variant="body1" fontSize={18} fontWeight={600}>
-                      {item.user.fullName}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      marginLeft: "auto",
-                    }}
-                  >
-                    <Typography variant="h6" fontWeight={700}>
-                      {item.correct}
-                    </Typography>
-                    <Typography variant="body1" sx={{color: "#9e9e9e"}}>
-                      câu đúng
-                    </Typography>
-                  </Box>
-                </Box>
-              )
-            })}
-          </Box>*/}
-          <TableContainer>
-            <Table
-              sx={{
-                minWidth: 650,
-                borderCollapse: "separate",
-                borderSpacing: "0 10px",
-                "& .MuiTableRow-root": {
-                  border: "1px solid #e0e0e0",
-                  "& .MuiTableCell-root": {
-                    borderTop: "1px solid #e0e0e0",
-                    borderBottom: "1px solid #e0e0e0",
-                  },
-                  "& .MuiTableCell-root:first-of-type": {
-                    borderBottomLeftRadius: 10,
-                    borderTopLeftRadius: 10,
-                    borderLeft: "1px solid #e0e0e0",
-                  },
-                  "& .MuiTableCell-root:last-of-type": {
-                    borderTopRightRadius: 10,
-                    borderBottomRightRadius: 10,
-                    borderRight: "1px solid #e0e0e0",
-                  }
-                }
-              }}
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center"></TableCell>
-                  <TableCell align="center"></TableCell>
-                  <TableCell align="center"></TableCell>
-                  <TableCell align="center">
-                    Số câu đã làm
-                  </TableCell>
-                  <TableCell align="center">
-                    Số câu đúng
-                  </TableCell>
-                  <TableCell align="center">
-                    Điểm số
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rankingList.map((item) => {
-                  return (
-                    <TableRow
-                      key={item.index}
-                      sx={{
-                        backgroundColor: getRankItemColor(item.index, user, item),
-                        border: "1px solid #e0e0e0",
-                      }}
-                    >
-                      <TableCell align="center">
-                        <Typography color={getRankItemTextColor(item.index, user, item)} variant="h5" fontWeight={700}>
-                          {item.index}
-                        </Typography>
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        sx={{
-                          width: 35,
-                        }}
-                      >
-                        <Avatar
-                          src={item.user.avatar}
-                          sx={{
-                            width: 35,
-                            height: 35,
-                          }}
-                          alt="avatar"
-                        >
-                          {item?.user?.fullName?.split(' ').slice(-1)[0][0] || "N/A"}
-                        </Avatar>
-                      </TableCell>
-                      <TableCell align={"center"}>
-                        <Typography
-                          variant="body1"
-                          fontWeight={600}
-                          sx={{
-                            textAlign: "left",
-                            color: user && item?.user?._id === user?._id ? "#FFFFFFFF" : "#323842FF"
-                          }}
-                        >
-                          {item?.user?._id === user?._id ? "Bạn" : item.user.fullName}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body1" color={getRankItemTextColor(item.index, user, item)} fontWeight={700}>
-                          {item.total}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body1" color={getRankItemTextColor(item.index, user, item)} fontWeight={700}>
-                          {item.correct}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center">
-                        <Typography variant="body1" color={getRankItemTextColor(item.index, user, item)} fontWeight={700}>
-                          {item.accuracy}%
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <RankingList rankingList={rankingList} user={user}/>
         </Box>
         <Box>
           <Typography variant="h5" fontWeight={700} sx={{}}>
@@ -312,36 +157,4 @@ export default function DashboardPage() {
       </Container>
     </>
   );
-}
-
-const getRankItemColor = (index, user, item) => {
-  if (user && item?.user?._id === user?._id) {
-    return "#1A4E8DFF";
-  }
-  switch (index) {
-    case 1:
-      return "#FFDC6EFF";
-    case 2:
-      return "#DEE1E6FF";
-    case 3:
-      return "#E6C2B8FF";
-    default:
-      return "#FFFFFFFF";
-  }
-}
-
-const getRankItemTextColor = (index, user, item) => {
-  if (user && item?.user?._id === user?._id) {
-    return "#FFFFFFFF";
-  }
-  switch (index) {
-    case 1:
-      return "#9E7900FF";
-    case 2:
-      return "#9095A0FF";
-    case 3:
-      return "#B86850FF";
-    default:
-      return "#323842FF";
-  }
 }
