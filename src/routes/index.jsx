@@ -13,6 +13,7 @@ import LayoutLecturer from "~/layout/LayoutLecturer/index.jsx";
 import LecturerLoginPage from "~/pages/LecturerPages/LoginPage/index.jsx";
 import LecturerHomePage from "~/pages/LecturerPages/HomePage/index.jsx";
 import LecturerDetailTestPage from "~/pages/LecturerPages/DetailTestPage/index.jsx";
+import StatisticPage from "~/pages/StatisticPage/index.jsx";
 
 export const routes = [
   {
@@ -75,7 +76,11 @@ export const routes = [
       {
         path: "/lecturer/test/:id",
         element: <LecturerDetailTestPage/>
-      }
+      },
+      {
+        path: "/lecturer/statistic",
+        element: <StatisticPage/>
+      },
     ]
   },
   {

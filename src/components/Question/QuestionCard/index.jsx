@@ -36,6 +36,7 @@ const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />
         '& .MuiTypography-root': {
           fontWeight: checked ? 700 : 400,
         },
+        border: "1px solid #1A4E8DFF"
       }
     else if (!isSubmitted)
       return {
@@ -46,6 +47,7 @@ const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />
         }`,
         color: `${checked ? 'white' : theme.palette.text.secondary}`,
         transition: "all 0.2s",
+        border: "1px solid #1A4E8DFF"
       }
     else if (isSubmitted)
       return {
@@ -56,6 +58,7 @@ const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />
         }`,
         color: 'white',
         transition: "all 0.2s",
+        border: "1px solid #1A4E8DFF"
       }
   },
 );
@@ -117,6 +120,7 @@ function QuestionCard({
   showAnswer = false,
   isSubmitted = false,
   addResult = () => null,
+  setIsTrue = () => null,
 }) {
   const theme = useTheme();
   const [showHint, setShowHint] = React.useState(false);
@@ -182,7 +186,7 @@ function QuestionCard({
         }}
       >
         <Typography variant={"body1"} fontWeight={700}>
-          {parse(`Câu ${index}: ${question}`)}
+          {parse(`${!!index ? `Câu ${index}` : `Câu hỏi`}: ${question}`)}
         </Typography>
         {hint && <ShowHint
           hint={hint}
@@ -268,6 +272,7 @@ function QuestionCard({
                       correct_ans: [correct],
                       user_ans: [option.option]
                     })
+                    setIsTrue(option.option === correct)
                   }}/>}
                   value={option.option}
                   label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}

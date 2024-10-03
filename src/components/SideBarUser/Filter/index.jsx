@@ -257,21 +257,21 @@ function Filter({ active = {}, open = false }) {
                 </Box>
                 <Divider />
                 <List>
-                  <ListItem disablePadding sx={{ display: "block" }}>
-                    <FormControl
-                      sx={{
-                        display: "flex",
-                        gap: 3,
-                      }}
-                    >
-                      <FormControlLabel
-                        control={<Checkbox/>}
-                        label="Hiện đáp án ngay"
-                        onChange={handleChangeShowAnswer}
-                        checked={certificateInfo?.showAnswer}
-                      />
-                    </FormControl>
-                  </ListItem>
+                  {/*<ListItem disablePadding sx={{ display: "block" }}>*/}
+                  {/*  <FormControl*/}
+                  {/*    sx={{*/}
+                  {/*      display: "flex",*/}
+                  {/*      gap: 3,*/}
+                  {/*    }}*/}
+                  {/*  >*/}
+                  {/*    <FormControlLabel*/}
+                  {/*      control={<Checkbox/>}*/}
+                  {/*      label="Hiện đáp án ngay"*/}
+                  {/*      onChange={handleChangeShowAnswer}*/}
+                  {/*      checked={certificateInfo?.showAnswer}*/}
+                  {/*    />*/}
+                  {/*  </FormControl>*/}
+                  {/*</ListItem>*/}
                   <ListItem disablePadding sx={{ display: "block" }}>
                     <NestedList
                       title={"Môn học"}
