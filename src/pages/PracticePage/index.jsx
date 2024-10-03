@@ -19,7 +19,7 @@ export default function PracticePage() {
   const {updateActiveTab} = useActiveTab();
   const user = cookies.get("user");
   const { filter } = useFilterQuestion();
-  const [showAnswer, setShowAnswer] = useState(filter?.certificateInfo?.showAnswer);
+  const [showAnswer, setShowAnswer] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const result = useRef({
     questions: [],

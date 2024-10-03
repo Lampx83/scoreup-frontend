@@ -18,7 +18,7 @@ export const updateUser = async ({
   school = undefined,
   oldPassword = undefined,
   newPassword = undefined
-                                 }) => {
+}) => {
   const res = await request.patch(`/user/edit`, {
     avatar,
     birth,

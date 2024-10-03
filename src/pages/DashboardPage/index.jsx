@@ -22,6 +22,7 @@ import headerImg from "~/assets/images/header_userhomepage.png";
 import cookies from "~/utils/cookies.js";
 import Avatar from "@mui/material/Avatar";
 import RankingList from "~/components/RankingList/index.jsx";
+import RecommendModal from "~/components/RecommendModal/index.jsx";
 
 export default function DashboardPage() {
   const theme = useTheme();
@@ -72,6 +73,7 @@ export default function DashboardPage() {
           maxWidth: theme.breakpoints.values.lg
         }}
       >
+        <RecommendModal/>
         <Box
           sx={{
             width: "100%",

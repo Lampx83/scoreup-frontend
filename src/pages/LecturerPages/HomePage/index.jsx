@@ -1,12 +1,6 @@
 import Box from "@mui/material/Box";
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Pagination,
-  TextField,
   Typography
 } from "@mui/material";
 import headerImg from "~/assets/images/header_userhomepage.png";
