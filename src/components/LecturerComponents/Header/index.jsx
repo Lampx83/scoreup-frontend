@@ -49,7 +49,7 @@ export default function LecturerHeader() {
                 backgroundColor: 'transparent',
                 }}
                 component={LinkRouter}
-                to="/lecturer"
+                to="/"
               >
                 <img src={Logo} alt="logo" style={{ height: '40px', paddingLeft: '10px' }}/>
               </LinkMui>
