@@ -20,6 +20,19 @@ export const getReport = async ({
   if (submitCountBy) {
     queries.push(`submitCountBy=${submitCountBy}`);
   }
-  const res = await axios.get(`/app/report?${queries.join("&")}`);
-  return res?.data;
+  try {
+    const res = await axios.get(`/app/report?${queries.join("&")}`);
+    return res?.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const getReportByCourseClass = async (id) => {
+  try {
+    const res = await axios.get(`/app/report/${id}`);
+    return res?.data;
+  } catch (error) {
+    console.error(error);
+  }
 }

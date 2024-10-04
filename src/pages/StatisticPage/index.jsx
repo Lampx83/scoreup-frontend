@@ -31,7 +31,6 @@ export default function StatisticPage() {
       to: toDate,
       submitCountBy: submitCountBy,
     });
-    console.log(res.metadata);
     setReport(res.metadata);
   }
 
@@ -390,7 +389,7 @@ export default function StatisticPage() {
             flexWrap: "wrap",
             gap: 2,
             marginTop: 2,
-            justifyContent: "flex-start"
+            justifyContent: "space-around"
           }}
         >
           {report?.reports?.map((item, index) => (

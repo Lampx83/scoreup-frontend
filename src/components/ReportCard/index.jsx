@@ -88,7 +88,7 @@ export default function ReportCard({
             Làm đúng: {report?.totalQuestionsCorrect} câu
           </Typography>
         </Tooltip>
-        <Tooltip title={"Tỉ lệ đúng"}>
+        <Tooltip title={"Điểm trung bình"}>
           <Typography
             variant={"body2"}
             gutterBottom
@@ -100,7 +100,7 @@ export default function ReportCard({
             }}
           >
             <GoCheckCircleFill/>
-            Tỉ lệ đúng: {report?.avgAccuracy}%
+            Điểm trung bình: {parseFloat(report?.avgAccuracy)/10}
           </Typography>
         </Tooltip>
         <Tooltip title={"Lượt làm tuần này"}>
@@ -120,7 +120,22 @@ export default function ReportCard({
         </Tooltip>
       </CardContent>
       <CardActions>
-
+        <Button
+          size={"small"}
+          sx={{
+            backgroundColor: '#1A4E8DFF',
+            borderRadius: 5,
+            color: 'white',
+            ':hover': {
+              backgroundColor: 'rgba(26,78,141,0.8)',
+              boxShadow: '0 0 10px 0 rgba(26,78,141,0.5)'
+            }
+          }}
+          component={Link}
+          to={`/lecturer/statistic/${report.courseClass}`}
+        >
+          Chi tiết
+        </Button>
       </CardActions>
     </Card>
   );

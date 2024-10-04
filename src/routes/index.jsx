@@ -14,6 +14,7 @@ import LecturerLoginPage from "~/pages/LecturerPages/LoginPage/index.jsx";
 import LecturerHomePage from "~/pages/LecturerPages/HomePage/index.jsx";
 import LecturerDetailTestPage from "~/pages/LecturerPages/DetailTestPage/index.jsx";
 import StatisticPage from "~/pages/StatisticPage/index.jsx";
+import StatisticDetailPage from "~/pages/StatisticDetailPage/index.jsx";
 
 export const routes = [
   {
@@ -80,6 +81,10 @@ export const routes = [
       {
         path: "/lecturer/statistic",
         element: <StatisticPage/>
+      },
+      {
+        path: "/lecturer/statistic/:id",
+        element: <StatisticDetailPage/>
       },
     ]
   },

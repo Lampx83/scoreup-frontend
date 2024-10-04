@@ -45,7 +45,7 @@ export default function RankingList({
               Số câu đúng
             </TableCell>
             <TableCell align="center">
-              Điểm số
+              Độ chính xác
             </TableCell>
           </TableRow>
         </TableHead>
@@ -125,7 +125,7 @@ export default function RankingList({
   )
 }
 
-const getRankItemColor = (index, user, item) => {
+export const getRankItemColor = (index, user, item) => {
   if (user && item?.user?._id === user?._id) {
     return "#1A4E8DFF";
   }
@@ -141,7 +141,7 @@ const getRankItemColor = (index, user, item) => {
   }
 }
 
-const getRankItemTextColor = (index, user, item) => {
+export const getRankItemTextColor = (index, user, item) => {
   if (user && item?.user?._id === user?._id) {
     return "#FFFFFFFF";
   }

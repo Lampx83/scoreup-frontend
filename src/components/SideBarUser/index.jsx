@@ -30,6 +30,8 @@ import useSideBar from "~/hooks/useSideBar.jsx";
 import cookies from "~/utils/cookies.js";
 import useActiveTab from "~/hooks/useActiveTab.jsx";
 import { FaBookOpen } from "react-icons/fa";
+import {FcStatistics} from "react-icons/fc";
+import {IoIosStats} from "react-icons/io";
 
 const drawerWidth = 240;
 
@@ -393,6 +395,25 @@ export default function SideBarUser() {
               onClick={handleFixError}
             >
               <FaHammer/>
+            </Button>
+          </Tooltip>
+          <Tooltip
+            title="Thống kê"
+            sx={{ width: "100%", height: "100%" }}
+          >
+            <Button
+              sx={{
+                minWidth: 0,
+                padding: 1,
+                '& svg': {
+                  fontSize: 24,
+                },
+                marginBottom: 1
+              }}
+              component={Link}
+              to="/lecturer/statistic"
+            >
+              <IoIosStats/>
             </Button>
           </Tooltip>
           {!open && <Box

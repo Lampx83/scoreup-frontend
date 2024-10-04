@@ -19,7 +19,7 @@ const columns = [
     headerName: 'Thời gian',
     width: 500,
     renderCell: (params) => {
-      return moment(params.row.createdAt).format("hh:mm, DD/MM/YYYY")
+      return moment(params.row.createdAt).format("HH:mm, DD/MM/YYYY")
     }
   },
   {
