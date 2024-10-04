@@ -36,7 +36,6 @@ export default function StatisticDetailPage() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await getReportByCourseClass(id);
-      console.log(res.metadata);
       setReport(res?.metadata);
       setRankingList(res?.metadata?.rankList || []);
     }
