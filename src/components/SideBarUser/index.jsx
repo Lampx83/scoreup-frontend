@@ -32,6 +32,7 @@ import useActiveTab from "~/hooks/useActiveTab.jsx";
 import { FaBookOpen } from "react-icons/fa";
 import {FcStatistics} from "react-icons/fc";
 import {IoIosStats} from "react-icons/io";
+import ReportError from "~/components/ReportError/index.jsx";
 
 const drawerWidth = 240;
 
@@ -416,6 +417,7 @@ export default function SideBarUser() {
               <IoIosStats/>
             </Button>
           </Tooltip>
+          <ReportError/>
           {!open && <Box
             sx={{
               height: "48px",

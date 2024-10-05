@@ -42,7 +42,7 @@ export default function CertificateCard({
           }}
         >
           <FaRegClock/>
-          Làm vào: {moment(cert?.results[0]?.createdAt).format("hh:mm, DD/MM/YYYY")}
+          Làm vào: {moment(cert?.results[0]?.createdAt).format("HH:mm, DD/MM/YYYY")}
         </Typography>
         <Typography
           variant={"body2"}

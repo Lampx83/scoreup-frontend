@@ -6,15 +6,21 @@ import Box from "@mui/material/Box";
 import {Icon, Typography} from "@mui/material";
 import fullCat from "~/assets/images/fullbody.svg";
 import sadCat from "~/assets/images/sad.svg";
+import happyCat from "~/assets/images/excellent.svg";
 import {parseQuestion} from "~/helpers/parseNotionResponseToObject.js";
 import QuestionCard from "~/components/Question/QuestionCard/index.jsx";
 import {IoCloseCircleOutline} from "react-icons/io5";
 import {useEffect, useState} from "react";
+import {getRecommendQuestions} from "~/services/question.service.js";
+import cookies from "~/utils/cookies.js";
+import config from "~/config.js";
+import pushToast from "~/helpers/sonnerToast.js";
 
 
 export default function RecommendModal() {
   const {open, handleClose, handleOpen} = useRecommendModal();
   const [isTrue, setIsTrue] = useState("not-selected");
+  const [question, setQuestion] = useState(null);
 
   const handleContinue = () => {
     setIsTrue("not-selected");
@@ -24,6 +30,19 @@ export default function RecommendModal() {
     setIsTrue("not-selected");
     handleClose();
   }
+
+  const fetchQuestion = async () => {
+    try {
+      const res = await getRecommendQuestions({});
+    } catch (error) {
+      pushToast(error?.response?.data?.message || error.message, 'error');
+    }
+  }
+  useEffect(() => {
+    if (open) {
+      fetchQuestion();
+    }
+  }, []);
 
   return (
     <>
@@ -54,7 +73,7 @@ export default function RecommendModal() {
           >
             <Box>
               <img
-                src={isTrue ? fullCat : sadCat}
+                src={isTrue === 'not-selected' ? fullCat : isTrue === false ? sadCat : happyCat}
                 style={{
                   height: 400
                 }}
@@ -167,219 +186,3 @@ export default function RecommendModal() {
     </>
   );
 }
-
-const question = parseQuestion({
-  "_id": "ec39f0c1-43e9-4594-af9c-f6bd1001513b",
-  "__v": 0,
-  "createdAt": "2024-09-11T15:41:22.888Z",
-  "difficulty": 0.5,
-  "notionDatabaseId": "c3a788eb31f1471f9734157e9516f9b6",
-  "properties": {
-    "D": {
-      "id": "%3DUID",
-      "type": "rich_text",
-      "rich_text": [
-        {
-          "type": "text",
-          "text": {
-            "content": "Máy tính dùng bộ xử lí bằng đèn bán dẫn, mạch in",
-            "link": null
-          },
-          "annotations": {
-            "bold": false,
-            "italic": false,
-            "strikethrough": false,
-            "underline": false,
-            "code": false,
-            "color": "default"
-          },
-          "plain_text": "Máy tính dùng bộ xử lí bằng đèn bán dẫn, mạch in",
-          "href": null
-        }
-      ]
-    },
-    "set_question_id": {
-      "id": "%3F%5Eh%40",
-      "type": "rich_text",
-      "rich_text": []
-    },
-    "A": {
-      "id": "NrRV",
-      "type": "rich_text",
-      "rich_text": [
-        {
-          "type": "text",
-          "text": {
-            "content": "Máy tính sử dụng các bóng đèn điện tử chân không",
-            "link": null
-          },
-          "annotations": {
-            "bold": false,
-            "italic": false,
-            "strikethrough": false,
-            "underline": false,
-            "code": false,
-            "color": "default"
-          },
-          "plain_text": "Máy tính sử dụng các bóng đèn điện tử chân không",
-          "href": null
-        }
-      ]
-    },
-    "img": {
-      "id": "QNs%3D",
-      "type": "rich_text",
-      "rich_text": []
-    },
-    "correct": {
-      "id": "%5DCtA",
-      "type": "rich_text",
-      "rich_text": [
-        {
-          "type": "text",
-          "text": {
-            "content": "c",
-            "link": null
-          },
-          "annotations": {
-            "bold": false,
-            "italic": false,
-            "strikethrough": false,
-            "underline": false,
-            "code": false,
-            "color": "default"
-          },
-          "plain_text": "c",
-          "href": null
-        }
-      ]
-    },
-    "question": {
-      "id": "aZ%3Eh",
-      "type": "rich_text",
-      "rich_text": [
-        {
-          "type": "text",
-          "text": {
-            "content": "Thế hệ 3 có sự ra đời của",
-            "link": null
-          },
-          "annotations": {
-            "bold": false,
-            "italic": false,
-            "strikethrough": false,
-            "underline": false,
-            "code": false,
-            "color": "default"
-          },
-          "plain_text": "Thế hệ 3 có sự ra đời của",
-          "href": null
-        }
-      ]
-    },
-    "audio": {
-      "id": "fp%3EK",
-      "type": "rich_text",
-      "rich_text": []
-    },
-    "context": {
-      "id": "ghZt",
-      "type": "rich_text",
-      "rich_text": []
-    },
-    "tags": {
-      "id": "iHQZ",
-      "type": "multi_select",
-      "multi_select": [
-        {
-          "id": "A@Qv",
-          "name": "may-tinh-dien-tu",
-          "color": "red"
-        }
-      ]
-    },
-    "code": {
-      "id": "iVXi",
-      "type": "rich_text",
-      "rich_text": []
-    },
-    "B": {
-      "id": "jOan",
-      "type": "rich_text",
-      "rich_text": [
-        {
-          "type": "text",
-          "text": {
-            "content": "Máy tính bắt đầu có các vi mạch đa xử lí với tốc độ tính từ hàng chục triệu đến hàng tỉ phép tính/giây",
-            "link": null
-          },
-          "annotations": {
-            "bold": false,
-            "italic": false,
-            "strikethrough": false,
-            "underline": false,
-            "code": false,
-            "color": "default"
-          },
-          "plain_text": "Máy tính bắt đầu có các vi mạch đa xử lí với tốc độ tính từ hàng chục triệu đến hàng tỉ phép tính/giây",
-          "href": null
-        }
-      ]
-    },
-    "C": {
-      "id": "oR%3A%7B",
-      "type": "rich_text",
-      "rich_text": [
-        {
-          "type": "text",
-          "text": {
-            "content": "Máy tính được gắn các bộ vi xử lí bằng vi mạch điện tử cỡ nhỏ",
-            "link": null
-          },
-          "annotations": {
-            "bold": false,
-            "italic": false,
-            "strikethrough": false,
-            "underline": false,
-            "code": false,
-            "color": "default"
-          },
-          "plain_text": "Máy tính được gắn các bộ vi xử lí bằng vi mạch điện tử cỡ nhỏ",
-          "href": null
-        }
-      ]
-    },
-    "hint": {
-      "id": "%7Dwgm",
-      "type": "rich_text",
-      "rich_text": []
-    },
-    "index": {
-      "id": "title",
-      "type": "title",
-      "title": [
-        {
-          "type": "text",
-          "text": {
-            "content": "19",
-            "link": null
-          },
-          "annotations": {
-            "bold": false,
-            "italic": false,
-            "strikethrough": false,
-            "underline": false,
-            "code": false,
-            "color": "default"
-          },
-          "plain_text": "19",
-          "href": null
-        }
-      ]
-    }
-  },
-  "totalComments": 0,
-  "updatedAt": "2024-09-11T15:41:22.888Z",
-  "encoded_exercise_id": 35,
-  "chapter": "chuong-1"
-});

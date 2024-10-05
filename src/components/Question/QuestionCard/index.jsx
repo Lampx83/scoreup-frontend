@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import {
   FormControl,
-  FormControlLabel,
+  FormControlLabel, Icon,
   Radio,
   RadioGroup,
   Typography,
@@ -18,6 +18,11 @@ import {useEffect} from "react";
 import ShowHint from "~/components/Question/ShowHint/index.jsx";
 import cookies from "~/utils/cookies.js";
 import {postLogQuestion} from "~/services/question.service.js";
+import {FaRegLightbulb} from "react-icons/fa";
+import Button from "@mui/material/Button";
+import {TbMessageReport} from "react-icons/tb";
+import ReportError from "~/components/ReportError/index.jsx";
+import CodeDisplay from "~/components/CodeDisplay/index.jsx";
 
 
 const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
@@ -188,10 +193,21 @@ function QuestionCard({
         <Typography variant={"body1"} fontWeight={700}>
           {parse(`${!!index ? `Câu ${index}` : `Câu hỏi`}: ${question}`)}
         </Typography>
-        {hint && <ShowHint
-          hint={hint}
-          showHint={showHint}
-        />}
+        {/*{hint && <ShowHint*/}
+        {/*  hint={hint}*/}
+        {/*  showHint={showHint}*/}
+        {/*/>}*/}
+        <ReportError
+          question={{
+            question: question,
+            options: options,
+            correct: correct,
+            hint: hint,
+            code: code,
+            image: image,
+            audio: audio,
+          }}
+        />
       </Box>
       <Box
         sx={{
@@ -211,12 +227,13 @@ function QuestionCard({
               gap: 1
             }}
           >
-            <SyntaxHighlighter language="c" style={theme.palette.mode === 'dark' ? nightOwl : a11yLight}
-                               wrapLongLines={true}
-                               customStyle={{fontSize: '14px', borderRadius: "10px", padding: "16px"}}
-            >
-              {code}
-            </SyntaxHighlighter>
+            {/*<SyntaxHighlighter language="python" style={theme.palette.mode === 'dark' ? nightOwl : a11yLight}*/}
+            {/*                   wrapLongLines={true}*/}
+            {/*                   customStyle={{fontSize: '14px', borderRadius: "10px", padding: "16px"}}*/}
+            {/*>*/}
+            {/*  {code}*/}
+            {/*</SyntaxHighlighter>*/}
+            <CodeDisplay code={code}/>
           </Box>
         )}
         {image && (

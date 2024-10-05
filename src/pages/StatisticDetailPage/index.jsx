@@ -3,11 +3,9 @@ import {useEffect, useState} from "react";
 import {getReportByCourseClass} from "~/services/app.service.js";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import {IoIosArrowBack} from "react-icons/io";
+import {IoIosArrowBack, IoIosCheckmarkCircle} from "react-icons/io";
 import {
-  Chip,
   Icon,
-  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -16,16 +14,13 @@ import {
   TableRow,
   Typography
 } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
-import {CalendarMonth, Checklist, Class, HourglassBottom} from "@mui/icons-material";
 import {moment} from "~/utils/moment.js";
 import {TbTargetArrow} from "react-icons/tb";
 import {FaRegCircleCheck, FaRegCircleQuestion} from "react-icons/fa6";
 import {GoPeople} from "react-icons/go";
-import RankingList, {getRankItemColor, getRankItemTextColor} from "~/components/RankingList/index.jsx";
+import {getRankItemColor, getRankItemTextColor} from "~/components/RankingList/index.jsx";
 import * as React from "react";
-import {getRank} from "~/services/question.service.js";
-import Avatar from "@mui/material/Avatar";
+import {IoCloseCircleOutline} from "react-icons/io5";
 
 export default function StatisticDetailPage() {
   const { id } = useParams();
@@ -347,6 +342,9 @@ export default function StatisticDetailPage() {
                   <TableCell align="center">
                     Lần cuối làm
                   </TableCell>
+                  <TableCell align="center">
+                    Đã có tài khoản
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -406,6 +404,15 @@ export default function StatisticDetailPage() {
                       <TableCell align="center">
                         <Typography variant="body1" color={getRankItemTextColor(item.index, null, item)} fontWeight={700}>
                           {item.lastPractice ? moment(item.lastPractice).format("HH:mm, DD/MM/YYYY") : "N/A"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Typography variant="body1" color={getRankItemTextColor(item.index, null, item)} fontWeight={700}>
+                          {item.isRegistered ? (
+                            <Icon as={IoIosCheckmarkCircle} sx={{color: "#1A4E8DFF"}}/>
+                          ) : (
+                            <Icon as={IoCloseCircleOutline} sx={{color: "red"}}/>
+                          )}
                         </Typography>
                       </TableCell>
                     </TableRow>

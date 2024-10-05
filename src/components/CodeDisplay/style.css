@@ -1,0 +1,31 @@
+.code-container pre {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.code-tool {
+    display: flex;
+    background: #444;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    justify-content: space-between;
+    font-size: 14px;
+    color: lightgray;
+    padding: 5px;
+}
+
+.code-tool span {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.code-tool .copy-button:hover,
+.code-tool .switch-button:hover,
+.code-tool .wrapline-button:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.code-tool .right-elements {
+    display: flex;
+}

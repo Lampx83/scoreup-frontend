@@ -1,5 +1,7 @@
 import {get, post} from "~/utils/request.js";
 import axios from "axios";
+import config from "~/config.js";
+import cookies from "~/utils/cookies.js";
 
 export const getQuestions = async ({
   limit = 5,
@@ -68,13 +70,13 @@ export const getRecommendQuestions = async ({
   knowledge_concept = "",
   score = 0,
   bookmarked = 0,
-  session_id = "",
 }) => {
-
-  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/get_new_exercise";
+  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/recommend_action";
+  const user = cookies.get("user", { path: "/" });
   const body = {
-    current_state: [difficulty, knowledge_concept, score, bookmarked],
-    session_id: session_id,
+    // state: [difficulty, score, bookmarked, knowledge_concept],
+    user_id: user._id,
+    cur_chapter: config.CURRENT_CHAPTER
   }
 
   const res = await axios.post(URL, body);
