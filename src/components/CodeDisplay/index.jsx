@@ -55,7 +55,8 @@ const CodeDisplay = ({ code }) => {
   //   codeStyle = blackAndWhite;
   // }
   // Determine language based on codeString content
-  const language = codeString.startsWith("<") ? "htmlbars" : "auto";
+  // const language = codeString.startsWith("<") ? "htmlbars" : "auto";
+  const language = "python";
 
   return (
     <div className="code-container">
