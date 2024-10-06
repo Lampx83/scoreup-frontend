@@ -18,7 +18,7 @@
     "@mui/x-data-grid": "^7.17.0",
     "@mui/x-date-pickers": "^7.18.0",
     "@reduxjs/toolkit": "^2.2.6",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "dotenv": "^16.4.5",
     "html-react-parser": "^5.1.12",
     "lodash": "^4.17.21",
