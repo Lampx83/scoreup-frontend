@@ -61,6 +61,7 @@ function ReportError({
         `,
         code: question?.code || null
       })
+      pushToast("Báo lỗi thành công! Chúng tôi sẽ kiểm tra sớm nhất có thể!", "success");
       handleClose();
     } catch (error) {
       pushToast("Có lỗi xảy ra, vui lòng thử lại sau", "error");
