@@ -5,12 +5,6 @@ import {parseCertificate} from "~/helpers/parseNotionResponseToObject.js";
 import Box from "@mui/material/Box";
 import {
   Container,
-  Paper,
-  Table, TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Typography,
   useTheme
 } from "@mui/material";
@@ -20,7 +14,6 @@ import * as React from "react";
 import Loading from "~/components/Loading/index.jsx";
 import headerImg from "~/assets/images/header_userhomepage.png";
 import cookies from "~/utils/cookies.js";
-import Avatar from "@mui/material/Avatar";
 import RankingList from "~/components/RankingList/index.jsx";
 import RecommendModal from "~/components/RecommendModal/index.jsx";
 

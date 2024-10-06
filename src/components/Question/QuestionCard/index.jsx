@@ -1,29 +1,21 @@
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import {
   FormControl,
-  FormControlLabel, Icon,
+  FormControlLabel,
   Radio,
   RadioGroup,
   Typography,
   useRadioGroup,
-  useTheme
+  useTheme,
 } from "@mui/material";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import {a11yLight, nightOwl} from "react-syntax-highlighter/dist/cjs/styles/hljs/index.js";
-import Actions from "~/components/Question/Actions/index.jsx";
-import * as React from "react";
-import parse from 'html-react-parser';
-import {styled} from "@mui/material/styles";
-import {useEffect} from "react";
-import ShowHint from "~/components/Question/ShowHint/index.jsx";
+import { styled } from "@mui/material/styles";
 import cookies from "~/utils/cookies.js";
-import {postLogQuestion} from "~/services/question.service.js";
-import {FaRegLightbulb} from "react-icons/fa";
-import Button from "@mui/material/Button";
-import {TbMessageReport} from "react-icons/tb";
+import { postLogQuestion } from "~/services/question.service.js";
 import ReportError from "~/components/ReportError/index.jsx";
 import CodeDisplay from "~/components/CodeDisplay/index.jsx";
-
+import Actions from "~/components/Question/Actions/index.jsx";
+import parse from "html-react-parser";
 
 const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
   shouldForwardProp: (prop) => prop !== 'isCorrect' && prop !== 'showAnswer' && prop !== 'isSubmitted',
@@ -95,7 +87,7 @@ function Option(props) {
           document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
         } else if (checked) {
           document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
-        } else if (radioGroup.value === undefined && isSubmitted) {
+        } else if (!radioGroup.value && isSubmitted) {
           document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
         }
       } else {
@@ -108,7 +100,6 @@ function Option(props) {
 
   return <StyledFormControlLabel disabled={((!!radioGroup.value && !checked) || (isSubmitted && !checked)) && showAnswer} checked={checked} {...props} />;
 }
-
 
 function QuestionCard({
   index = "",
@@ -126,13 +117,16 @@ function QuestionCard({
   isSubmitted = false,
   addResult = () => null,
   setIsTrue = () => null,
+  isRecommended = false,
+  difficulty = 0,
+  knowledge_concept = "",
 }) {
   const theme = useTheme();
-  const [showHint, setShowHint] = React.useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
   let startTime = null;
 
   const handleSelectOption = (e) => {
-    setShowHint(showAnswer);
+    setSelectedOption(e.target.value);
   }
 
   const userInfo = cookies.get("user", { path: "/" });
@@ -173,6 +167,19 @@ function QuestionCard({
     startTime = null;
   }
 
+  useEffect(() => {
+    if (isRecommended && knowledge_concept) {
+      cookies.set("state", {
+        difficulty: difficulty,
+        score: 0,
+        bookmarked: 0,
+        knowledge_concept: knowledge_concept,
+        id: id
+      }, {});
+    }
+    setSelectedOption("");
+  }, [question, options]);
+
   return (
     <Box
       sx={{
@@ -193,10 +200,6 @@ function QuestionCard({
         <Typography variant={"body1"} fontWeight={700}>
           {parse(`${!!index ? `Câu ${index}` : `Câu hỏi`}: ${question}`)}
         </Typography>
-        {/*{hint && <ShowHint*/}
-        {/*  hint={hint}*/}
-        {/*  showHint={showHint}*/}
-        {/*/>}*/}
         <ReportError
           question={{
             question: question,
@@ -227,12 +230,6 @@ function QuestionCard({
               gap: 1
             }}
           >
-            {/*<SyntaxHighlighter language="python" style={theme.palette.mode === 'dark' ? nightOwl : a11yLight}*/}
-            {/*                   wrapLongLines={true}*/}
-            {/*                   customStyle={{fontSize: '14px', borderRadius: "10px", padding: "16px"}}*/}
-            {/*>*/}
-            {/*  {code}*/}
-            {/*</SyntaxHighlighter>*/}
             <CodeDisplay code={code}/>
           </Box>
         )}
@@ -273,9 +270,11 @@ function QuestionCard({
               gap: 1,
               width: "100%"
             }}
+            id={`question-${id}`}
           >
             <RadioGroup
               name={id}
+              value={selectedOption}
               onChange={handleSelectOption}
             >
               {options.map((option, index) => (
@@ -320,9 +319,7 @@ function QuestionCard({
             </RadioGroup>
           </FormControl>
         </Box>
-
       </Box>
-
       <Actions id={id} totalComments={totalComments}/>
     </Box>
   )

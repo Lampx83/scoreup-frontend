@@ -10,42 +10,162 @@ import happyCat from "~/assets/images/excellent.svg";
 import {parseQuestion} from "~/helpers/parseNotionResponseToObject.js";
 import QuestionCard from "~/components/Question/QuestionCard/index.jsx";
 import {IoCloseCircleOutline} from "react-icons/io5";
-import {useEffect, useState} from "react";
-import {getRecommendQuestions} from "~/services/question.service.js";
+import {useEffect, useRef, useState} from "react";
+import {getRecommendQuestions, trainModel} from "~/services/question.service.js";
+import {useCookies} from "react-cookie";
 import cookies from "~/utils/cookies.js";
 import config from "~/config.js";
-import pushToast from "~/helpers/sonnerToast.js";
+import {isEmpty} from "lodash";
+
+const LIMIT = 10;
 
 
 export default function RecommendModal() {
   const {open, handleClose, handleOpen} = useRecommendModal();
   const [isTrue, setIsTrue] = useState("not-selected");
   const [question, setQuestion] = useState(null);
+  const [cookie, setCookie, removeCookie] = useCookies(['recommended', 'state']);
+  const count = useRef(0);
 
   const handleContinue = () => {
     setIsTrue("not-selected");
+    fetchQuestion();
   }
 
   const handleStop = () => {
     setIsTrue("not-selected");
     handleClose();
+    removeCookie('state', {});
+
+    const trainInput = JSON.parse(localStorage.getItem("trainInput"));
+    if (trainInput) {
+      let lastIndex = trainInput.transitions.length - 1;
+      if (lastIndex >= 1 && !trainInput?.transitions[lastIndex]?.next_state) {
+        trainInput.transitions.pop();
+        lastIndex = trainInput.transitions.length - 1;
+      }
+
+      if (lastIndex >= 1) {
+        trainInput.transitions[lastIndex].done = 1;
+        trainModel(trainInput);
+      }
+    }
   }
 
   const fetchQuestion = async () => {
     try {
-      const res = await getRecommendQuestions({});
+      count.current++;
+      const body = {};
+      if (cookie['state']) {
+        body.difficulty = cookie['state'].difficulty;
+        body.score = cookie['state'].score;
+        body.bookmarked = cookie['state'].bookmarked;
+        body.knowledge_concept = cookie['state'].knowledge_concept;
+      }
+
+      const res = await getRecommendQuestions(body);
+      const parsed = parseQuestion(res?.exercise);
+      setQuestion({
+        ...parsed,
+        index: `${count.current}/${LIMIT}`
+      });
+
+      const trainInput = JSON.parse(localStorage.getItem("trainInput"));
+      if (trainInput && cookie?.state) {
+        const state = cookie.state;
+        trainInput.transitions.push({
+          state: [
+            state.id,
+            state.difficulty,
+            state.score,
+            state.bookmarked,
+            state.knowledge_concept
+          ],
+          action: parsed.id,
+          done: 0
+        });
+        localStorage.setItem("trainInput", JSON.stringify(trainInput));
+      }
+
+
+      setCookie('recommended', true, {
+        path: '/',
+        maxAge: 60 * 60 // 1 hour
+      });
     } catch (error) {
-      pushToast(error?.response?.data?.message || error.message, 'error');
+      handleClose();
     }
   }
+
   useEffect(() => {
     if (open) {
+      const trainInput = {
+        chapter: config.CURRENT_CHAPTER,
+        user_id: cookies.get("user", { path: "/" })._id,
+        transitions: []
+      }
+      localStorage.setItem("trainInput", JSON.stringify(trainInput));
+
       fetchQuestion();
+    } else {
+      localStorage.removeItem("trainInput");
+      setQuestion(null);
+      count.current = 0;
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (!cookie.recommended) {
+      handleOpen();
     }
   }, []);
 
+  const handleRemoveCookie = () => {
+    removeCookie('recommended', {});
+  }
+
+  const handleAnswer = (isCorrect) => {
+    const state = cookies.get("state", { path: "/" });
+    if (state && !isEmpty(state)) {
+      state.score = Number(isCorrect);
+      cookies.set("state", state, { path: "/" });
+    }
+
+    const trainInput = JSON.parse(localStorage.getItem("trainInput"));
+    if (state && !isEmpty(state) && trainInput) {
+      const lastIndex = trainInput.transitions.length - 1;
+
+      if (lastIndex >= 0) {
+        trainInput.transitions[lastIndex].next_state = [
+          state.id,
+          state.difficulty,
+          state.score,
+          state.bookmarked,
+          state.knowledge_concept
+        ];
+        localStorage.setItem("trainInput", JSON.stringify(trainInput));
+      }
+    }
+
+    if (isCorrect) {
+      setIsTrue(true);
+    } else {
+      setIsTrue(false);
+    }
+  }
+
   return (
     <>
+      {/*<Button*/}
+      {/*  variant={"contained"}*/}
+      {/*  color={"error"}*/}
+      {/*  onClick={handleRemoveCookie}*/}
+      {/*>clear cookie</Button>*/}
+      {/*<Button*/}
+      {/*  variant={"contained"}*/}
+      {/*  color={"info"}*/}
+      {/*  onClick={handleOpen}*/}
+      {/*>Open</Button>*/}
       <Dialog
         open={open}
         onClose={handleStop}
@@ -55,7 +175,9 @@ export default function RecommendModal() {
             padding: 2,
             backgroundColor: "transparent",
             boxShadow: "none",
-            minWidth: 1000
+            minWidth: "100vw",
+            display: "flex",
+            justifyContent: "center",
           },
         }}
         // aria-labelledby="alert-dialog-title"
@@ -63,7 +185,9 @@ export default function RecommendModal() {
       >
         <DialogContent
           sx={{
-            minWidth: 800
+            minWidth: 800,
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <Box
@@ -113,7 +237,7 @@ export default function RecommendModal() {
                     {"Bạn hãy thử sức với câu hỏi gợi ý dưới đây!"}
                   </Typography>
                 </Box>}
-                {isTrue !== "not-selected" &&
+                {isTrue !== "not-selected" && count.current < LIMIT &&
                   <Box
                     sx={{
                       display: "flex",
@@ -168,6 +292,44 @@ export default function RecommendModal() {
                     </Box>
                   </Box>
                 }
+                {isTrue !== "not-selected" && count.current >= LIMIT &&
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 1
+                    }}
+                  >
+                    <Typography variant="h6" textAlign={"center"}>
+                      {"Bạn đã hoàn thành hết các bài tập gợi ý lần này!"}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Button
+                        size={"small"}
+                        sx={{
+                          backgroundColor: '#FF8D6BFF',
+                          borderRadius: 1,
+                          color: 'white',
+                          fontWeight: 700,
+                          paddingX: 1,
+                          ':hover': {
+                            backgroundColor: 'rgba(255,141,107,0.8)',
+                            boxShadow: '0 0 10px 0 rgba(255,141,107,0.5)'
+                          }
+                        }}
+                        onClick={handleStop}
+                      >
+                        Đóng
+                      </Button>
+                    </Box>
+                  </Box>
+                }
               </Box>
               <Box
                 sx={{
@@ -177,7 +339,7 @@ export default function RecommendModal() {
                   marginTop: 2
                 }}
               >
-                <QuestionCard {...question} showAnswer={true} setIsTrue={setIsTrue} />
+                <QuestionCard {...question} showAnswer={true} setIsTrue={handleAnswer} isRecommended={true}/>
               </Box>
             </Box>
           </Box>

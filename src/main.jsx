@@ -8,6 +8,7 @@ import theme from "./theme.js";
 import allReducers from "./redux/reducers/index.js";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
+import {CookiesProvider} from "react-cookie";
 
 // Auto-detect basename
 const getBasename = () => {
@@ -25,13 +26,15 @@ const store = configureStore({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.Fragment>
-    <Provider store={store}>
-      <BrowserRouter basename={getBasename()}>
-        <CssVarsProvider theme={theme}>
-          <CssBaseline />
-          <App />
-        </CssVarsProvider>
-      </BrowserRouter>
-    </Provider>
+    <CookiesProvider>
+      <Provider store={store}>
+        <BrowserRouter basename={getBasename()}>
+          <CssVarsProvider theme={theme}>
+            <CssBaseline />
+            <App />
+          </CssVarsProvider>
+        </BrowserRouter>
+      </Provider>
+    </CookiesProvider>
   </React.Fragment>,
 );

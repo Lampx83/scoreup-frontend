@@ -7,6 +7,8 @@ import { FaFlag } from "react-icons/fa6";
 import * as React from "react";
 import Comments from "~/components/Question/Comments/index.jsx";
 import pushToast from "~/helpers/sonnerToast.js";
+import cookies from "~/utils/cookies.js";
+import {isEmpty} from "lodash";
 
 function Actions({
   id = "",
@@ -31,6 +33,12 @@ function Actions({
     }
     pushToast("Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!", "warning");
     document?.getElementById(`question-palette-${id}`)?.classList?.toggle("question-palette__item--not-sure");
+
+    const state = cookies.get("state", {});
+    if (state && !isEmpty(state)) {
+      state.bookmarked = Number(!state.bookmarked);
+      cookies.set("state", state, {});
+    }
   }
 
   return (

@@ -19,7 +19,7 @@ import { RiDashboard3Line } from "react-icons/ri";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
 import {Grid, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {MdLogout} from "react-icons/md";
+import {MdLogout, MdRecommend} from "react-icons/md";
 import Button from "@mui/material/Button";
 import useAuth from "~/hooks/useAuth.jsx";
 import Tooltip from "@mui/material/Tooltip";
@@ -33,6 +33,7 @@ import { FaBookOpen } from "react-icons/fa";
 import {FcStatistics} from "react-icons/fc";
 import {IoIosStats} from "react-icons/io";
 import ReportError from "~/components/ReportError/index.jsx";
+import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 
 const drawerWidth = 240;
 
@@ -133,6 +134,7 @@ export default function SideBarUser() {
   const auth = useAuth();
   const {activeTab, updateActiveTab} = useActiveTab();
   const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
+  const {handleOpen: handleOpenRecommend} = useRecommendModal();
   const user = cookies.get("user", { path: "/" });
 
   const handleFixError = () => {
@@ -179,33 +181,6 @@ export default function SideBarUser() {
             </IconButton>
           </DrawerHeader>
           <List>
-            {/*<ListItem disablePadding sx={{ display: "block" }}>*/}
-            {/*  <ListItemButton*/}
-            {/*    sx={{*/}
-            {/*      minHeight: 48,*/}
-            {/*      justifyContent: open ? "initial" : "center",*/}
-            {/*      px: 2.5,*/}
-            {/*      ...((activeTab === 'recommend') && activeListItem(theme)),*/}
-            {/*    }}*/}
-            {/*    component={Link}*/}
-            {/*    to="/recommend"*/}
-            {/*    onClick={() => updateActiveTab('recommend')}*/}
-            {/*  >*/}
-            {/*    <ListItemIcon*/}
-            {/*      sx={{*/}
-            {/*        minWidth: 0,*/}
-            {/*        mr: open ? 3 : "auto",*/}
-            {/*        justifyContent: "center",*/}
-            {/*      }}*/}
-            {/*    >*/}
-            {/*      <MdRecommend style={{ width: "24px", height: "24px" }} />*/}
-            {/*    </ListItemIcon>*/}
-            {/*    <ListItemText*/}
-            {/*      primary={"Gợi ý"}*/}
-            {/*      sx={{ opacity: open ? 1 : 0 }}*/}
-            {/*    />*/}
-            {/*  </ListItemButton>*/}
-            {/*</ListItem>*/}
             <ListItem disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
@@ -369,6 +344,30 @@ export default function SideBarUser() {
           <Divider />
           <List>
             {activeTab === 'practice' && <Filter active={activeListItem(theme)} open={open}/>}
+            {activeTab === 'dashboard' && <ListItem disablePadding sx={{display: "block"}}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+                onClick={handleOpenRecommend}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MdRecommend style={{width: "24px", height: "24px"}}/>
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Gợi ý"}
+                  sx={{opacity: open ? 1 : 0}}
+                />
+              </ListItemButton>
+            </ListItem>}
           </List>
         </Box>
         <Box

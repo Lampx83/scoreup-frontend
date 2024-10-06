@@ -2,6 +2,7 @@ import {get, post} from "~/utils/request.js";
 import axios from "axios";
 import config from "~/config.js";
 import cookies from "~/utils/cookies.js";
+import {isEmpty} from "lodash";
 
 export const getQuestions = async ({
   limit = 5,
@@ -65,18 +66,22 @@ export const postLogQuestion = async ({
   });
 }
 
-export const getRecommendQuestions = async ({
-  difficulty = 0,
-  knowledge_concept = "",
-  score = 0,
-  bookmarked = 0,
-}) => {
+export const getRecommendQuestions = async (state) => {
+
   const URL = "https://scoreup-rcm.whoisduyviet.id.vn/recommend_action";
   const user = cookies.get("user", { path: "/" });
   const body = {
-    // state: [difficulty, score, bookmarked, knowledge_concept],
     user_id: user._id,
     cur_chapter: config.CURRENT_CHAPTER
+  }
+  if (state && !isEmpty(state)) {
+    const {
+      difficulty,
+      score,
+      bookmarked,
+      knowledge_concept
+    } = state;
+    body.state = [difficulty, score, bookmarked, knowledge_concept];
   }
 
   const res = await axios.post(URL, body);
@@ -114,4 +119,22 @@ export const getResultById = async ({
 
 export const getRank = async () => {
   return await get('/app/rank');
+}
+
+export const trainModel = async (body) => {
+  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/train";
+  try {
+    const res = await axios.post(URL, body);
+    await post("/app/error", {
+      message: `
+        Train model trành công: ${JSON.stringify(res.data)}  
+        `,
+    })
+  } catch (error) {
+    await post("/app/error", {
+      message: `
+        Train model lỗi: ${error.message}  
+        `,
+    })
+  }
 }
