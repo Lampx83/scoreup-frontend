@@ -16,6 +16,7 @@ import {useCookies} from "react-cookie";
 import cookies from "~/utils/cookies.js";
 import config from "~/config.js";
 import {isEmpty} from "lodash";
+import pushToast from "~/helpers/sonnerToast.js";
 
 const LIMIT = 10;
 
@@ -62,7 +63,6 @@ export default function RecommendModal() {
         body.bookmarked = cookie['state'].bookmarked;
         body.knowledge_concept = cookie['state'].knowledge_concept;
       }
-
       const res = await getRecommendQuestions(body);
       const parsed = parseQuestion(res?.exercise);
       setQuestion({
@@ -93,6 +93,7 @@ export default function RecommendModal() {
         maxAge: 60 * 60 // 1 hour
       });
     } catch (error) {
+      pushToast("Có lỗi xảy ra, hãy chắc rằng bạn đã luyện tập trước khi yêu cầu gợi ý!", 'error');
       handleClose();
     }
   }
