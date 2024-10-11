@@ -49,20 +49,25 @@ export const getComments = async ({
 }
 
 export const postLogQuestion = async ({
-  user_id,
   exercise_id,
   score,
   time_cost,
   user_ans,
   correct_ans,
+  isRecommended = false,
+  answered = true
 }) => {
+  const userInfo = cookies.get("user", { path: "/" });
+
   return await post('/questions/log-questions', {
-    user_id,
+    user_id: userInfo._id,
     exercise_id,
     score,
     time_cost,
     user_ans,
     correct_ans,
+    isRecommended,
+    answered
   });
 }
 

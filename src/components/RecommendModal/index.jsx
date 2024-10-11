@@ -11,7 +11,7 @@ import {parseQuestion} from "~/helpers/parseNotionResponseToObject.js";
 import QuestionCard from "~/components/Question/QuestionCard/index.jsx";
 import {IoCloseCircleOutline} from "react-icons/io5";
 import {useEffect, useRef, useState} from "react";
-import {getRecommendQuestions, trainModel} from "~/services/question.service.js";
+import {getRecommendQuestions, postLogQuestion, trainModel} from "~/services/question.service.js";
 import {useCookies} from "react-cookie";
 import cookies from "~/utils/cookies.js";
 import config from "~/config.js";
@@ -36,6 +36,19 @@ export default function RecommendModal() {
   const handleStop = () => {
     setIsTrue("not-selected");
     handleClose();
+
+    const state = cookies.get("state", { path: "/" });
+    if (state && !isEmpty(state) && !state.answered) {
+      postLogQuestion({
+        exercise_id: state.id,
+        score: 0,
+        time_cost: new Date().getTime() - state.startTime,
+        user_ans: [],
+        correct_ans: state.correct_ans,
+        isRecommended: true,
+        answered: false
+      })
+    }
     removeCookie('state', {});
 
     const trainInput = JSON.parse(localStorage.getItem("trainInput"));
@@ -118,17 +131,15 @@ export default function RecommendModal() {
   useEffect(() => {
     if (!cookie.recommended) {
       handleOpen();
+      removeCookie("state", {});
     }
   }, []);
-
-  const handleRemoveCookie = () => {
-    removeCookie('recommended', {});
-  }
 
   const handleAnswer = (isCorrect) => {
     const state = cookies.get("state", { path: "/" });
     if (state && !isEmpty(state)) {
       state.score = Number(isCorrect);
+      state.answered = true;
       cookies.set("state", state, { path: "/" });
     }
 

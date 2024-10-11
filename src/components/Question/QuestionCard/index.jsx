@@ -149,12 +149,12 @@ function QuestionCard({
     });
 
     postLogQuestion({
-      user_id: userInfo._id,
       score: score,
       time_cost: time_cost,
       user_ans: user_ans,
       correct_ans: correct_ans,
-      exercise_id: exercise_id
+      exercise_id: exercise_id,
+      isRecommended: isRecommended,
     })
   }
 
@@ -174,7 +174,9 @@ function QuestionCard({
         score: 0,
         bookmarked: 0,
         knowledge_concept: knowledge_concept,
-        id: id
+        id: id,
+        startTime: new Date().getTime(),
+        correct_ans: [correct],
       }, {});
     }
     setSelectedOption("");
@@ -281,6 +283,7 @@ function QuestionCard({
                 <Option
                   key={index}
                   control={<Radio onChange={() => {
+                    setIsTrue(option.option === correct);
                     handleSendLog({
                       exercise_id: id,
                       score: option.option === correct ? 1 : 0,
@@ -288,7 +291,6 @@ function QuestionCard({
                       correct_ans: [correct],
                       user_ans: [option.option]
                     })
-                    setIsTrue(option.option === correct)
                   }}/>}
                   value={option.option}
                   label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
