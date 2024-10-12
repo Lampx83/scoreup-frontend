@@ -3,8 +3,17 @@ import cookies from "~/utils/cookies.js";
 
 export const getUser = async () => {
   const res = await request.get(`/user/info`);
-  cookies.set("user", JSON.stringify(res.metadata), { path: "/" });
-  return res.metadata;
+  const data = res.metadata;
+
+  if (data) {
+    const code = data?.email?.split("@")[0];
+    if (Number.isNaN(parseInt(code))) {
+      data.recommend = true;
+    } else data.recommend = parseInt(code) % 2 === 0;
+  }
+
+  cookies.set("user", JSON.stringify(data), { path: "/" });
+  return data;
 }
 
 export const updateUser = async ({

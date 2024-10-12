@@ -34,6 +34,8 @@ import {FcStatistics} from "react-icons/fc";
 import {IoIosStats} from "react-icons/io";
 import ReportError from "~/components/ReportError/index.jsx";
 import useRecommendModal from "~/hooks/useModalRecommend.jsx";
+import {useEffect} from "react";
+import {getUser} from "~/services/user.service.js";
 
 const drawerWidth = 240;
 
@@ -135,12 +137,18 @@ export default function SideBarUser() {
   const {activeTab, updateActiveTab} = useActiveTab();
   const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
   const {handleOpen: handleOpenRecommend} = useRecommendModal();
-  const user = cookies.get("user", { path: "/" });
+  const [user, setUser] = React.useState({});
 
   const handleFixError = () => {
     localStorage.clear();
     window.location.reload();
   }
+
+  useEffect(() => {
+    getUser().then(res => {
+      setUser(res);
+    });
+  }, []);
 
   return (
     <>
@@ -344,7 +352,7 @@ export default function SideBarUser() {
           <Divider />
           <List>
             {activeTab === 'practice' && <Filter active={activeListItem(theme)} open={open}/>}
-            {activeTab === 'dashboard' && <ListItem disablePadding sx={{display: "block"}}>
+            {(activeTab === 'dashboard' && user?.recommend) && <ListItem disablePadding sx={{display: "block"}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -442,7 +450,7 @@ export default function SideBarUser() {
                   anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                   variant="dot"
                 >
-                  {user?.avatar ? <Avatar src={user.avatar}/> : <Avatar/>}
+                  {user?.avatar ? <Avatar src={user?.avatar}/> : <Avatar/>}
                 </StyledBadge>
               </Stack>
               <Tooltip
@@ -493,5 +501,5 @@ export default function SideBarUser() {
 }
 
 function truncateText(str) {
-  return str.length > 15 ? str.split(" ").splice(-1).join(" ") : str;
+  return str?.length > 15 ? str?.split(" ")?.splice(-1)?.join(" ") : str;
 }
