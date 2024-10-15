@@ -120,9 +120,11 @@ function QuestionCard({
   isRecommended = false,
   difficulty = 0,
   knowledge_concept = "",
+  indexRcm = 0
 }) {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState("");
+  const [bookmarked, setBookmarked] = useState(0);
   let startTime = null;
 
   const handleSelectOption = (e) => {
@@ -155,6 +157,8 @@ function QuestionCard({
       correct_ans: correct_ans,
       exercise_id: exercise_id,
       isRecommended: isRecommended,
+      bookmarked: bookmarked,
+      indexRcm: indexRcm
     })
   }
 
@@ -322,7 +326,7 @@ function QuestionCard({
           </FormControl>
         </Box>
       </Box>
-      <Actions id={id} totalComments={totalComments}/>
+      <Actions id={id} totalComments={totalComments} setBookmarked={setBookmarked}/>
     </Box>
   )
 }

@@ -12,7 +12,8 @@ import {isEmpty} from "lodash";
 
 function Actions({
   id = "",
-  totalComments = 0
+  totalComments = 0,
+  setBookmarked = () => {}
 }) {
   const theme = useTheme();
   const [openComments, setOpenComments] = React.useState(false);
@@ -33,6 +34,11 @@ function Actions({
     }
     pushToast("Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!", "warning");
     document?.getElementById(`question-palette-${id}`)?.classList?.toggle("question-palette__item--not-sure");
+    if (document?.getElementById(`question-palette-${id}`)?.classList?.contains("question-palette__item--not-sure")) {
+      setBookmarked(1);
+    } else {
+      setBookmarked(0);
+    }
 
     const state = cookies.get("state", {});
     if (state && !isEmpty(state)) {

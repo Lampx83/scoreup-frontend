@@ -351,7 +351,7 @@ export default function RecommendModal() {
                   marginTop: 2
                 }}
               >
-                <QuestionCard {...question} showAnswer={true} setIsTrue={handleAnswer} isRecommended={true}/>
+                <QuestionCard {...question} indexRcm={count.current} showAnswer={true} setIsTrue={handleAnswer} isRecommended={true}/>
               </Box>
             </Box>
           </Box>

@@ -55,7 +55,9 @@ export const postLogQuestion = async ({
   user_ans,
   correct_ans,
   isRecommended = false,
-  answered = true
+  answered = true,
+  bookmarked = 0,
+  indexRcm = 0
 }) => {
   const userInfo = cookies.get("user", { path: "/" });
 
@@ -67,7 +69,9 @@ export const postLogQuestion = async ({
     user_ans,
     correct_ans,
     isRecommended,
-    answered
+    answered,
+    bookmarked,
+    index: indexRcm
   });
 }
 
