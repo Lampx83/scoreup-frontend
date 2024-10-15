@@ -17,6 +17,7 @@ import cookies from "~/utils/cookies.js";
 import config from "~/config.js";
 import {isEmpty} from "lodash";
 import pushToast from "~/helpers/sonnerToast.js";
+import {moment} from "~/utils/moment.js";
 
 const LIMIT = 10;
 
@@ -27,6 +28,7 @@ export default function RecommendModal() {
   const [question, setQuestion] = useState(null);
   const [cookie, setCookie, removeCookie] = useCookies(['recommended', 'state']);
   const count = useRef(0);
+  const [message, setMessage] = useState(null);
 
   const handleContinue = () => {
     setIsTrue("not-selected");
@@ -78,6 +80,7 @@ export default function RecommendModal() {
       }
       const res = await getRecommendQuestions(body);
       const parsed = parseQuestion(res?.exercise);
+      setMessage(getMessageRecommend(res?.rec_message));
       setQuestion({
         ...parsed,
         index: `${count.current}/${LIMIT}`
@@ -246,7 +249,8 @@ export default function RecommendModal() {
                 </Button>
                 {isTrue === "not-selected" && <Box>
                   <Typography variant="h6">
-                    {"Bạn hãy thử sức với câu hỏi gợi ý dưới đây!"}
+                    {/*{"Bạn hãy thử sức với câu hỏi gợi ý dưới đây!"}*/}
+                    {message}
                   </Typography>
                 </Box>}
                 {isTrue !== "not-selected" && count.current < LIMIT &&
@@ -359,4 +363,30 @@ export default function RecommendModal() {
       </Dialog>
     </>
   );
+}
+
+const getMessageRecommend = (message) => {
+  if (!(message?.message)) {
+    return "Hãy thử sức với câu hỏi gợi ý dưới đây!"
+  }
+  switch (message?.message) {
+    case "bookmarked": {
+      return "Bạn đã từng đánh dấu câu hỏi này, hãy thử làm lại nhé!"
+    }
+    case "incorrect": {
+      return `Bạn đã từng làm sai câu hỏi này vào ${moment(message?.created_at).format('DD/MM/YYYY')}, hãy thử làm lại nhé!`
+    }
+    case "correct": {
+      return `Bạn đã từng làm đúng câu hỏi này vào ${moment(message?.created_at).format('DD/MM/YYYY')}, hãy thử làm lại nhé!`
+    }
+    case "difficult": {
+      return `Câu hỏi này khá khó (độ khó ${Math.round(message?.value * 10)} 🐟), hãy thử làm nhé!`
+    }
+    case "easy": {
+      return `Câu hỏi này khá dễ (độ khó ${Math.round(message?.value * 10)} 🐟), hãy thử làm nhé!`
+    }
+    default: {
+      return "Hãy thử sức với câu hỏi gợi ý dưới đây!"
+    }
+  }
 }
