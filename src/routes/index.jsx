@@ -15,11 +15,33 @@ import LecturerHomePage from "~/pages/LecturerPages/HomePage/index.jsx";
 import LecturerDetailTestPage from "~/pages/LecturerPages/DetailTestPage/index.jsx";
 import StatisticPage from "~/pages/StatisticPage/index.jsx";
 import StatisticDetailPage from "~/pages/StatisticDetailPage/index.jsx";
+import ForgotPassPage from "~/pages/ForgotPassPage/index.jsx";
+import LayoutAuth from "~/layout/LayoutAuth/index.jsx";
+import VerifyCodeForgotPage from "~/pages/VerifyCodeForgotPage/index.jsx";
+import ResetPasswordPage from "~/pages/ResetPasswordPage/index.jsx";
 
 export const routes = [
   {
     path: "/homepage",
     element: <HomePage/>
+  },
+  {
+    path: "/auth",
+    element: <LayoutAuth/>,
+    children: [
+      {
+        path: "/auth/forgot-password",
+        element: <ForgotPassPage/>
+      },
+      {
+        path: "/auth/forgot-password/verify-code",
+        element: <VerifyCodeForgotPage/>
+      },
+      {
+        path: "/auth/forgot-password/reset-password",
+        element: <ResetPasswordPage/>
+      }
+    ]
   },
   {
     path: "/",

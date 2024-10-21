@@ -79,11 +79,15 @@ function Header() {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-              <LinkMui sx={{
-                display: 'flex',
-                alignItems: 'center',
-                backgroundColor: 'transparent',
-              }} component={LinkRouter}>
+              <LinkMui
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  backgroundColor: 'transparent',
+                }}
+                component={LinkRouter}
+                to={'/'}
+              >
                 <img src={Logo} alt="logo" style={{ height: '40px', paddingLeft: '10px' }}/>
               </LinkMui>
             </Box>

@@ -109,3 +109,12 @@
     color: #0099ff;
     font-size: 9px;
 }
+
+.forgot-password {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #0099ff;
+    font-size: 16px;
+}

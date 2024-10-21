@@ -2,6 +2,7 @@ import {post} from "~/utils/request.js";
 import {toast} from "sonner";
 import cookies from "~/utils/cookies.js";
 import {getUser} from "~/services/user.service.js";
+import pushToast from "~/helpers/sonnerToast.js";
 
 const login = async (data) => {
   const res = await post('/auth/login', data);
@@ -39,7 +40,74 @@ const register = async (data) => {
   return false;
 }
 
+const forgotPassword = async ({
+  email
+}) => {
+  const res = await post('/auth/forgot-password', {email});
+
+  if (res.status === 'ERROR') {
+    toast.error(res.message);
+    return false;
+  }
+
+  if (res.statusCode === 200) {
+    toast.success("Gửi mã OTP thành công, Vui lòng kiểm tra email của bạn!");
+    return res;
+  }
+
+  return false;
+}
+
+const verifyOtpForgotPassword = async ({
+  email,
+  otp
+}) => {
+  const res = await post('/auth/forgot-password/verify', {
+    email,
+    otp
+  });
+
+  if (res.status === 'ERROR') {
+    toast.error(res.message);
+    return false;
+  }
+
+  if (res.statusCode === 200) {
+    toast.success("Xác thực OTP thành công!");
+    return res;
+  }
+
+  return false;
+}
+
+const resetPassword = async ({
+  email,
+  password,
+  token
+}) => {
+  const res = await post('/auth/forgot-password/reset', {
+    email,
+    password,
+    token
+  });
+
+  if (res.status === 'ERROR') {
+    toast.error(res.message);
+    return false;
+  }
+
+  if (res.statusCode === 200) {
+    toast.success("Đổi mật khẩu thành công!");
+    return res;
+  }
+
+  return false;
+}
+
 export default {
   login,
-  register
+  register,
+  forgotPassword,
+  verifyOtpForgotPassword,
+  resetPassword
 }

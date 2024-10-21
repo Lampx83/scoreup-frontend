@@ -501,5 +501,6 @@ export default function SideBarUser() {
 }
 
 function truncateText(str) {
+  str = str?.trim() || "";
   return str?.length > 15 ? str?.split(" ")?.splice(-1)?.join(" ") : str;
 }

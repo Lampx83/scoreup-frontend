@@ -9,6 +9,7 @@ import useAuth from "~/hooks/useAuth.jsx";
 import useLoginModal from "~/hooks/useLoginModal.jsx";
 import useRegisterModal from "~/hooks/useRegisterModal.jsx";
 import pushToast from "~/helpers/sonnerToast.js";
+import {Link} from "react-router-dom";
 
 function LoginModal() {
   const loginModal = useLoginModal();
@@ -146,6 +147,9 @@ function LoginModal() {
               >
                 Đăng nhập
               </Button>
+              <Link to={"/auth/forgot-password"} className="forgot-password">
+                Quên mật khẩu?
+              </Link>
             </form>
             <div className="social-account-container">
               <span className="title">Hoặc</span>
