@@ -12,12 +12,12 @@ import QuestionsPalette from "~/components/QuestionsPalette/index.jsx";
 import cookies from "~/utils/cookies.js";
 import useActiveTab from "~/hooks/useActiveTab.jsx";
 import Loading from "~/components/Loading/index.jsx";
-import useRecommendModal from "~/hooks/useModalRecommend.jsx";
+// import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 import RecommendModal from "~/components/RecommendModal/index.jsx";
 
 
 export default function PracticePage() {
-  const {open, handleClose, handleOpen} = useRecommendModal();
+  // const {open, handleClose, handleOpen} = useRecommendModal();
   const theme = useTheme();
   const {updateActiveTab} = useActiveTab();
   const user = cookies.get("user");
@@ -140,7 +140,7 @@ export default function PracticePage() {
           top: 0,
           behavior: "smooth",
         });
-        handleOpen();
+        // handleOpen();
       }
     }
     sendResult();
@@ -148,7 +148,7 @@ export default function PracticePage() {
 
   return (
     <>
-      <RecommendModal/>
+      {/*<RecommendModal/>*/}
       {questions.length === 0 &&
       filter?.certificateDatabaseId &&
       filter?.tags?.length !== 0 ? (

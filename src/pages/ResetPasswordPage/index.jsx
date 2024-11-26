@@ -26,7 +26,6 @@ export default function ResetPasswordPage() {
   });
 
   const onSubmit = async (data) => {
-    console.log({ ...data, token: location.state?.token, email: location.state?.email });
     const res = await AuthService.resetPassword({
       email: location.state?.email,
       password: data.password,
