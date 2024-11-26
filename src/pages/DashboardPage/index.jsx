@@ -66,7 +66,7 @@ export default function DashboardPage() {
           maxWidth: theme.breakpoints.values.lg
         }}
       >
-        <RecommendModal/>
+        {/*<RecommendModal/>*/}
         <Box
           sx={{
             width: "100%",

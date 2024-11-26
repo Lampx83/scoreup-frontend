@@ -148,7 +148,7 @@ export default function RecommendModal() {
                       <Typography variant="h6" width={"100%"} color="success">
                         Gợi ý vừa rồi phù hợp với bạn như thế nào?
                       </Typography>
-                      <RatingComponent clusters={clusters}/>
+                      <RatingComponent clusters={clusters} handleStop={handleStop}/>
                     </>
                   ): (
                     <Typography variant="h6" width={"100%"}>
@@ -188,7 +188,8 @@ const ratingLabels = {
 }
 
 function RatingComponent({
-  clusters = []
+  clusters = [],
+  handleStop = () => {}
 }) {
   const [ratingValue, setRatingValue] = useState(5);
   const onChange = async (event, newValue) => {
@@ -200,6 +201,8 @@ function RatingComponent({
         clusters,
         rating: ratingValue
       });
+      pushToast("Cảm ơn bạn đã đánh giá!", 'success');
+      handleStop();
     } catch (error) {
       console.log(error);
     }
