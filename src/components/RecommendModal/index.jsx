@@ -190,7 +190,7 @@ const ratingLabels = {
 function RatingComponent({
   clusters = []
 }) {
-  const [ratingValue, setRatingValue] = useState(0);
+  const [ratingValue, setRatingValue] = useState(5);
   const onChange = async (event, newValue) => {
     setRatingValue(newValue);
   }
