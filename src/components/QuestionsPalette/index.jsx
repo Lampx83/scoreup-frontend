@@ -121,6 +121,9 @@ function QuestionsPalette({
         justifyContent: "flex-start",
         '& .question-palette__item--not-sure': {
           backgroundColor: '#FFDE4D !important',
+        },
+        '& .question-palette__item--mastered': {
+          backgroundColor: '#03DAC6FF !important',
         }
       }}
     >

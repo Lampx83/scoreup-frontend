@@ -33,7 +33,7 @@ import { FaBookOpen } from "react-icons/fa";
 import {FcStatistics} from "react-icons/fc";
 import {IoIosStats} from "react-icons/io";
 import ReportError from "~/components/ReportError/index.jsx";
-// import useRecommendModal from "~/hooks/useModalRecommend.jsx";
+import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 import {useEffect} from "react";
 import {getUser} from "~/services/user.service.js";
 
@@ -136,7 +136,7 @@ export default function SideBarUser() {
   const auth = useAuth();
   const {activeTab, updateActiveTab} = useActiveTab();
   const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
-  // const {handleOpen: handleOpenRecommend} = useRecommendModal();
+  const {handleOpen: handleOpenRecommend} = useRecommendModal();
   const [user, setUser] = React.useState({});
 
   const handleFixError = () => {
@@ -243,139 +243,34 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
-            {/*<ListItem disablePadding sx={{ display: "block" }}>
-              <NestedList
-                title="Đã lưu"
-                Icon={FiBookmark}
-                drawerOpen={open}
-                handleDrawerOpen={handleDrawerOpen}
-                active={activeListItem(theme)}
-              >
-                <NestedList
-                  title={"Nhập môn công nghệ thông tin"}
-                  level={2}
-                >
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      // px: 2.5,
-                    }}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText
-                      primary={"Chương 1"}
-                      sx={{
-                        opacity: open ? 1 : 0,
-                        whiteSpace: "wrap",
-                        textWrap: "wrap",
-                      }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      // px: 2.5,
-                    }}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText
-                      primary={"Chương 2"}
-                      sx={{
-                        opacity: open ? 1 : 0,
-                        whiteSpace: "wrap",
-                        textWrap: "wrap",
-                      }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      // px: 2.5,
-                    }}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText
-                      primary={"Chương 3"}
-                      sx={{
-                        opacity: open ? 1 : 0,
-                        whiteSpace: "wrap",
-                        textWrap: "wrap",
-                      }}
-                    />
-                  </ListItemButton>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      // px: 2.5,
-                    }}
-                    component={Link}
-                    to="/"
-                  >
-                    <ListItemText
-                      primary={"Chương 4"}
-                      sx={{
-                        opacity: open ? 1 : 0,
-                        whiteSpace: "wrap",
-                        textWrap: "wrap",
-                      }}
-                    />
-                  </ListItemButton>
-                </NestedList>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                  component={Link}
-                  to="/"
-                >
-                  <ListItemText
-                    primary={"Xem thêm..."}
-                    sx={{
-                      opacity: open ? 1 : 0,
-                      whiteSpace: "wrap",
-                      textWrap: "wrap",
-                    }}
-                  />
-                </ListItemButton>
-              </NestedList>
-            </ListItem>*/}
           </List>
           <Divider />
           <List>
             {activeTab === 'practice' && <Filter active={activeListItem(theme)} open={open}/>}
-            {/*{(activeTab === 'dashboard' && user?.recommend) && <ListItem disablePadding sx={{display: "block"}}>*/}
-            {/*  <ListItemButton*/}
-            {/*    sx={{*/}
-            {/*      minHeight: 48,*/}
-            {/*      justifyContent: open ? "initial" : "center",*/}
-            {/*      px: 2.5,*/}
-            {/*    }}*/}
-            {/*    onClick={handleOpenRecommend}*/}
-            {/*  >*/}
-            {/*    <ListItemIcon*/}
-            {/*      sx={{*/}
-            {/*        minWidth: 0,*/}
-            {/*        mr: open ? 3 : "auto",*/}
-            {/*        justifyContent: "center",*/}
-            {/*      }}*/}
-            {/*    >*/}
-            {/*      <MdRecommend style={{width: "24px", height: "24px"}}/>*/}
-            {/*    </ListItemIcon>*/}
-            {/*    <ListItemText*/}
-            {/*      primary={"Gợi ý"}*/}
-            {/*      sx={{opacity: open ? 1 : 0}}*/}
-            {/*    />*/}
-            {/*  </ListItemButton>*/}
-            {/*</ListItem>}*/}
+            {(activeTab === 'dashboard' && user?.recommend) && <ListItem disablePadding sx={{display: "block"}}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+                onClick={handleOpenRecommend}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MdRecommend style={{width: "24px", height: "24px"}}/>
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Gợi ý"}
+                  sx={{opacity: open ? 1 : 0}}
+                />
+              </ListItemButton>
+            </ListItem>}
           </List>
         </Box>
         <Box

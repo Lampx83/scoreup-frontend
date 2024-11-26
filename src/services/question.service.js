@@ -1,4 +1,4 @@
-import {get, post} from "~/utils/request.js";
+import {get, patch, post} from "~/utils/request.js";
 import axios from "axios";
 import config from "~/config.js";
 import cookies from "~/utils/cookies.js";
@@ -57,6 +57,7 @@ export const postLogQuestion = async ({
   isRecommended = false,
   answered = true,
   bookmarked = 0,
+  mastered = 0,
   indexRcm = 0
 }) => {
   const userInfo = cookies.get("user", { path: "/" });
@@ -71,27 +72,33 @@ export const postLogQuestion = async ({
     isRecommended,
     answered,
     bookmarked,
+    mastered,
     index: indexRcm
   });
 }
 
-export const getRecommendQuestions = async (state) => {
+export const updateLogQuestion = async ({
+  exercise_id,
+  bookmarked = undefined,
+  mastered = undefined,
+}) => {
+  const userInfo = cookies.get("user", { path: "/" });
 
-  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/recommend_action";
+  return await patch(`/questions/log-questions`, {
+    user_id: userInfo._id,
+    exercise_id,
+    bookmarked,
+    mastered
+  });
+}
+
+export const getRecommendQuestions = async () => {
+
+  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/recommend";
   const user = cookies.get("user", { path: "/" });
   const body = {
-    user_id: user._id,
-    cur_chapter: config.CURRENT_CHAPTER
-  }
-  if (state && !isEmpty(state)) {
-    const {
-      difficulty,
-      score,
-      bookmarked,
-      knowledge_concept
-    } = state;
-    body.state = [difficulty, score, bookmarked, knowledge_concept];
-  }
+    user_id: user._id
+  };
 
   const res = await axios.post(URL, body);
 
@@ -130,20 +137,17 @@ export const getRank = async () => {
   return await get('/app/rank');
 }
 
-export const trainModel = async (body) => {
-  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/train";
-  try {
-    const res = await axios.post(URL, body);
-    await post("/app/error", {
-      message: `
-        Train model trành công: ${JSON.stringify(res.data)}  
-        `,
-    })
-  } catch (error) {
-    await post("/app/error", {
-      message: `
-        Train model lỗi: ${error.message}  
-        `,
-    })
-  }
+export const saveRatingRecommend  = async ({
+  clusters = [],
+  rating = 0
+}) => {
+  const user = cookies.get("user", { path: "/" });
+
+  return await post('https://scoreup-rcm.whoisduyviet.id.vn/upsert', {
+    user_id: user._id,
+    data: {
+      rating,
+      clusters
+    }
+  });
 }

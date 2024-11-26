@@ -11,11 +11,12 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import cookies from "~/utils/cookies.js";
-import { postLogQuestion } from "~/services/question.service.js";
+import {postLogQuestion, updateLogQuestion} from "~/services/question.service.js";
 import ReportError from "~/components/ReportError/index.jsx";
 import CodeDisplay from "~/components/CodeDisplay/index.jsx";
 import Actions from "~/components/Question/Actions/index.jsx";
 import parse from "html-react-parser";
+import pushToast from "~/helpers/sonnerToast.js";
 
 const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
   shouldForwardProp: (prop) => prop !== 'isCorrect' && prop !== 'showAnswer' && prop !== 'isSubmitted',
@@ -116,22 +117,21 @@ function QuestionCard({
   showAnswer = false,
   isSubmitted = false,
   addResult = () => null,
-  setIsTrue = () => null,
   isRecommended = false,
   difficulty = 0,
   knowledge_concept = "",
-  indexRcm = 0
+  indexRcm = 0,
+  handleIncreaseDoneCount = () => null
 }) {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState("");
   const [bookmarked, setBookmarked] = useState(0);
+  const [mastered, setMastered] = useState(0);
   let startTime = null;
 
   const handleSelectOption = (e) => {
     setSelectedOption(e.target.value);
   }
-
-  const userInfo = cookies.get("user", { path: "/" });
 
   const handleSendLog = ({
     exercise_id,
@@ -158,6 +158,7 @@ function QuestionCard({
       exercise_id: exercise_id,
       isRecommended: isRecommended,
       bookmarked: bookmarked,
+      mastered: mastered,
       indexRcm: indexRcm
     })
   }
@@ -172,19 +173,42 @@ function QuestionCard({
   }
 
   useEffect(() => {
-    if (isRecommended && knowledge_concept) {
-      cookies.set("state", {
-        difficulty: difficulty,
-        score: 0,
-        bookmarked: 0,
-        knowledge_concept: knowledge_concept,
-        id: id,
-        startTime: new Date().getTime(),
-        correct_ans: [correct],
-      }, {});
-    }
     setSelectedOption("");
   }, [question, options]);
+
+  const onToggleMastered = async () => {
+    setMastered(mastered === 0 ? 1 : 0);
+    try {
+      const res = await updateLogQuestion({
+        exercise_id: id,
+        mastered: mastered === 0 ? 1 : 0
+      });
+      if (mastered === 1) {
+        pushToast("Câu hỏi này sẽ hiển thị lại trong tương lai.", "info");
+      } else {
+        pushToast("Chúng tôi sẽ hạn chế hiển thị câu hỏi này trong tương lai!", "success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const onToggleBookmarked = async () => {
+    setBookmarked(bookmarked === 0 ? 1 : 0);
+    try {
+      const res = await updateLogQuestion({
+        exercise_id: id,
+        bookmarked: bookmarked === 0 ? 1 : 0
+      });
+      if (bookmarked === 1) {
+        pushToast("Câu hỏi này sẽ không được ưu tiên trong đề xuất nữa.", "info");
+      } else {
+        pushToast("Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!", "warning");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Box
@@ -204,7 +228,7 @@ function QuestionCard({
         }}
       >
         <Typography variant={"body1"} fontWeight={700}>
-          {parse(`${!!index ? `Câu ${index}` : `Câu hỏi`}: ${question}`)}
+          {parse(`${(!!index || !!indexRcm) ? `Câu ${index || indexRcm}` : `Câu hỏi`}: ${question}`)}
         </Typography>
         <ReportError
           question={{
@@ -287,7 +311,6 @@ function QuestionCard({
                 <Option
                   key={index}
                   control={<Radio onChange={() => {
-                    setIsTrue(option.option === correct);
                     handleSendLog({
                       exercise_id: id,
                       score: option.option === correct ? 1 : 0,
@@ -295,6 +318,7 @@ function QuestionCard({
                       correct_ans: [correct],
                       user_ans: [option.option]
                     })
+                    if (showAnswer && isRecommended) handleIncreaseDoneCount();
                   }}/>}
                   value={option.option}
                   label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
@@ -326,7 +350,7 @@ function QuestionCard({
           </FormControl>
         </Box>
       </Box>
-      <Actions id={id} totalComments={totalComments} setBookmarked={setBookmarked}/>
+      <Actions id={id} totalComments={totalComments} setBookmarked={onToggleBookmarked} setMastered={onToggleMastered} bookmarked={bookmarked} mastered={mastered}/>
     </Box>
   )
 }

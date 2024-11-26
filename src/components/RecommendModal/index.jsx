@@ -3,110 +3,50 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 import Box from "@mui/material/Box";
-import {Icon, Typography} from "@mui/material";
-import fullCat from "~/assets/images/fullbody.svg";
-import sadCat from "~/assets/images/sad.svg";
-import happyCat from "~/assets/images/excellent.svg";
+import {Icon, Rating, Typography} from "@mui/material";
+import detectiveCat from "~/assets/images/detectiveCat.png";
 import {parseQuestion} from "~/helpers/parseNotionResponseToObject.js";
 import QuestionCard from "~/components/Question/QuestionCard/index.jsx";
 import {IoCloseCircleOutline} from "react-icons/io5";
 import {useEffect, useRef, useState} from "react";
-import {getRecommendQuestions, postLogQuestion, trainModel} from "~/services/question.service.js";
+import {getRecommendQuestions, saveRatingRecommend} from "~/services/question.service.js";
 import {useCookies} from "react-cookie";
-import cookies from "~/utils/cookies.js";
-import config from "~/config.js";
-import {isEmpty} from "lodash";
 import pushToast from "~/helpers/sonnerToast.js";
-import {moment} from "~/utils/moment.js";
-
-const LIMIT = 10;
+import {Star} from "@mui/icons-material";
 
 
 export default function RecommendModal() {
   const {open, handleClose, handleOpen} = useRecommendModal();
-  const [isTrue, setIsTrue] = useState("not-selected");
-  const [question, setQuestion] = useState(null);
+  const [questions, setQuestions] = useState([]);
   const [cookie, setCookie, removeCookie] = useCookies(['recommended', 'state']);
   const count = useRef(0);
   const [message, setMessage] = useState(null);
-
-  const handleContinue = () => {
-    setIsTrue("not-selected");
-    fetchQuestion();
-  }
+  const [clusters, setClusters] = useState([]);
+  const [doneCount, setDoneCount] = useState(0);
 
   const handleStop = () => {
-    setIsTrue("not-selected");
     handleClose();
-
-    const state = cookies.get("state", { path: "/" });
-    if (state && !isEmpty(state) && !state.answered) {
-      postLogQuestion({
-        exercise_id: state.id,
-        score: 0,
-        time_cost: new Date().getTime() - state.startTime,
-        user_ans: [],
-        correct_ans: state.correct_ans,
-        isRecommended: true,
-        answered: false
-      })
-    }
-    removeCookie('state', {});
-
-    const trainInput = JSON.parse(localStorage.getItem("trainInput"));
-    if (trainInput) {
-      let lastIndex = trainInput.transitions.length - 1;
-      if (lastIndex >= 1 && !trainInput?.transitions[lastIndex]?.next_state) {
-        trainInput.transitions.pop();
-        lastIndex = trainInput.transitions.length - 1;
-      }
-
-      if (lastIndex >= 1) {
-        trainInput.transitions[lastIndex].done = 1;
-        trainModel(trainInput);
-      }
-    }
+    setDoneCount(0);
+    setMessage(null);
+    setClusters([]);
   }
 
-  const fetchQuestion = async () => {
+  const handleIncreaseDoneCount = () => {
+    setDoneCount(prev => prev + 1);
+  }
+
+  const fetchQuestions = async () => {
     try {
       count.current++;
-      const body = {};
-      if (cookie['state']) {
-        body.difficulty = cookie['state'].difficulty;
-        body.score = cookie['state'].score;
-        body.bookmarked = cookie['state'].bookmarked;
-        body.knowledge_concept = cookie['state'].knowledge_concept;
-      }
-      const res = await getRecommendQuestions(body);
-      const parsed = parseQuestion(res?.exercise);
-      setMessage(getMessageRecommend(res?.rec_message));
-      setQuestion({
-        ...parsed,
-        index: `${count.current}/${LIMIT}`
-      });
-
-      const trainInput = JSON.parse(localStorage.getItem("trainInput"));
-      if (trainInput && cookie?.state) {
-        const state = cookie.state;
-        trainInput.transitions.push({
-          state: [
-            state.id,
-            state.difficulty,
-            state.score,
-            state.bookmarked,
-            state.knowledge_concept
-          ],
-          action: parsed.id,
-          done: 0
-        });
-        localStorage.setItem("trainInput", JSON.stringify(trainInput));
-      }
-
+      const res = await getRecommendQuestions();
+      const questions = res?.recommendations?.exercise_ids?.map(item => parseQuestion(item)) || [];
+      setQuestions(questions);
+      setMessage(res?.recommendations?.message || "Bạn hãy thử sức với câu hỏi gợi ý dưới đây!");
+      setClusters(res?.recommendations?.clusters || []);
 
       setCookie('recommended', true, {
         path: '/',
-        maxAge: 60 * 60 // 1 hour
+        maxAge: 60 * 60 * 24 // 1 day
       });
     } catch (error) {
       pushToast("Có lỗi xảy ra, hãy chắc rằng bạn đã luyện tập trước khi yêu cầu gợi ý!", 'error');
@@ -116,71 +56,18 @@ export default function RecommendModal() {
 
   useEffect(() => {
     if (open) {
-      const trainInput = {
-        chapter: config.CURRENT_CHAPTER,
-        user_id: cookies.get("user", { path: "/" })._id,
-        transitions: []
-      }
-      localStorage.setItem("trainInput", JSON.stringify(trainInput));
-
-      fetchQuestion();
-    } else {
-      localStorage.removeItem("trainInput");
-      setQuestion(null);
-      count.current = 0;
+      fetchQuestions();
     }
   }, [open]);
 
   useEffect(() => {
     if (!cookie.recommended) {
       handleOpen();
-      removeCookie("state", {});
     }
   }, []);
 
-  const handleAnswer = (isCorrect) => {
-    const state = cookies.get("state", { path: "/" });
-    if (state && !isEmpty(state)) {
-      state.score = Number(isCorrect);
-      state.answered = true;
-      cookies.set("state", state, { path: "/" });
-    }
-
-    const trainInput = JSON.parse(localStorage.getItem("trainInput"));
-    if (state && !isEmpty(state) && trainInput) {
-      const lastIndex = trainInput.transitions.length - 1;
-
-      if (lastIndex >= 0) {
-        trainInput.transitions[lastIndex].next_state = [
-          state.id,
-          state.difficulty,
-          state.score,
-          state.bookmarked,
-          state.knowledge_concept
-        ];
-        localStorage.setItem("trainInput", JSON.stringify(trainInput));
-      }
-    }
-
-    if (isCorrect) {
-      setIsTrue(true);
-    } else {
-      setIsTrue(false);
-    }
-  }
-
   return (
     <>
-      {/*<Button*/}
-      {/*  variant={"contained"}*/}
-      {/*  color={"error"}*/}
-      {/*  onClick={handleRemoveCookie}*/}
-      {/*>clear cookie</Button>*/}
-      {/*<Button*/}
-      {/*  variant={"contained"}*/}
-      {/*  color={"info"}*/}
-      {/*  onClick={handleOpen}*/}
-      {/*>Open</Button>*/}
       <Dialog
         open={open}
         onClose={handleStop}
@@ -195,8 +82,6 @@ export default function RecommendModal() {
             justifyContent: "center",
           },
         }}
-        // aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
       >
         <DialogContent
           sx={{
@@ -210,9 +95,15 @@ export default function RecommendModal() {
               display: "flex"
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                position: "relative",
+                right: "-50px",
+                zIndex: 1,
+              }}
+            >
               <img
-                src={isTrue === 'not-selected' ? fullCat : isTrue === false ? sadCat : happyCat}
+                src={detectiveCat}
                 style={{
                   height: 400
                 }}
@@ -222,6 +113,8 @@ export default function RecommendModal() {
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                maxWidth: 800,
+                position: "relative",
               }}
             >
               <Box
@@ -247,115 +140,36 @@ export default function RecommendModal() {
                 >
                   <Icon as={IoCloseCircleOutline} onClick={handleStop}/>
                 </Button>
-                {isTrue === "not-selected" && <Box>
-                  <Typography variant="h6">
-                    {/*{"Bạn hãy thử sức với câu hỏi gợi ý dưới đây!"}*/}
-                    {message}
-                  </Typography>
-                </Box>}
-                {isTrue !== "not-selected" && count.current < LIMIT &&
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 1
-                    }}
-                  >
-                    <Typography variant="h6" textAlign={"center"}>
-                      {isTrue === false ? "Sai mất rồi! Bạn có muốn thử lại không?" : "Giỏi quá! Bạn có có muốn tiếp tục không?"}
+                <Box sx={{
+                  width: "100%",
+                }}>
+                  {doneCount === questions.length ? (
+                    <>
+                      <Typography variant="h6" width={"100%"} color="success">
+                        Gợi ý vừa rồi phù hợp với bạn như thế nào?
+                      </Typography>
+                      <RatingComponent clusters={clusters}/>
+                    </>
+                  ): (
+                    <Typography variant="h6" width={"100%"}>
+                      {message}
                     </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: 1,
-                        justifyContent: "center"
-                      }}
-                    >
-                      <Button
-                        size={"small"}
-                        sx={{
-                          backgroundColor: '#1A4E8DFF',
-                          borderRadius: 1,
-                          color: 'white',
-                          fontWeight: 700,
-                          paddingX: 1,
-                          ':hover': {
-                            backgroundColor: 'rgba(26,78,141,0.8)',
-                            boxShadow: '0 0 10px 0 rgba(26,78,141,0.5)'
-                          }
-                        }}
-                        onClick={handleContinue}
-                      >
-                        Làm tiếp
-                      </Button>
-                      <Button
-                        size={"small"}
-                        sx={{
-                          backgroundColor: '#FF8D6BFF',
-                          borderRadius: 1,
-                          color: 'white',
-                          fontWeight: 700,
-                          paddingX: 1,
-                          ':hover': {
-                            backgroundColor: 'rgba(255,141,107,0.8)',
-                            boxShadow: '0 0 10px 0 rgba(255,141,107,0.5)'
-                          }
-                        }}
-                        onClick={handleStop}
-                      >
-                        Dừng lại
-                      </Button>
-                    </Box>
-                  </Box>
-                }
-                {isTrue !== "not-selected" && count.current >= LIMIT &&
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 1
-                    }}
-                  >
-                    <Typography variant="h6" textAlign={"center"}>
-                      {"Bạn đã hoàn thành hết các bài tập gợi ý lần này!"}
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: 1,
-                        justifyContent: "center"
-                      }}
-                    >
-                      <Button
-                        size={"small"}
-                        sx={{
-                          backgroundColor: '#FF8D6BFF',
-                          borderRadius: 1,
-                          color: 'white',
-                          fontWeight: 700,
-                          paddingX: 1,
-                          ':hover': {
-                            backgroundColor: 'rgba(255,141,107,0.8)',
-                            boxShadow: '0 0 10px 0 rgba(255,141,107,0.5)'
-                          }
-                        }}
-                        onClick={handleStop}
-                      >
-                        Đóng
-                      </Button>
-                    </Box>
-                  </Box>
-                }
+                  )}
+                </Box>
               </Box>
               <Box
                 sx={{
                   backgroundColor: "#F2F7FDFF",
                   padding: 2,
                   borderRadius: "0px 59px 59px 59px",
-                  marginTop: 2
+                  marginTop: 2,
+                  width: "100%",
+                  overflow: "auto",
                 }}
               >
-                <QuestionCard {...question} indexRcm={count.current} showAnswer={true} setIsTrue={handleAnswer} isRecommended={true}/>
+                {questions.length > 0 && questions.map((question, index) => (
+                  <QuestionCard {...question} indexRcm={index + 1} showAnswer={true} isRecommended={true} key={question.id} handleIncreaseDoneCount={handleIncreaseDoneCount}/>
+                ))}
               </Box>
             </Box>
           </Box>
@@ -365,28 +179,58 @@ export default function RecommendModal() {
   );
 }
 
-const getMessageRecommend = (message) => {
-  if (!(message?.message)) {
-    return "Hãy thử sức với câu hỏi gợi ý dưới đây!"
+const ratingLabels = {
+  1: "Hoàn toàn không phù hợp",
+  2: "Phù hợp một chút",
+  3: "Khá phù hợp",
+  4: "Rất phù hợp",
+  5: "Hoàn toàn phù hợp"
+}
+
+function RatingComponent({
+  clusters = []
+}) {
+  const [ratingValue, setRatingValue] = useState(0);
+  const onChange = async (event, newValue) => {
+    setRatingValue(newValue);
   }
-  switch (message?.message) {
-    case "bookmarked": {
-      return "Bạn đã từng đánh dấu câu hỏi này, hãy thử làm lại nhé!"
-    }
-    case "incorrect": {
-      return `Bạn đã từng làm sai câu hỏi này vào ${moment(message?.created_at).format('DD/MM/YYYY')}, hãy thử làm lại nhé!`
-    }
-    case "correct": {
-      return `Bạn đã từng làm đúng câu hỏi này vào ${moment(message?.created_at).format('DD/MM/YYYY')}, hãy thử làm lại nhé!`
-    }
-    case "difficult": {
-      return `Câu hỏi này khá khó (độ khó ${Math.round(message?.value * 10)} 🐟), hãy thử làm nhé!`
-    }
-    case "easy": {
-      return `Câu hỏi này khá dễ (độ khó ${Math.round(message?.value * 10)} 🐟), hãy thử làm nhé!`
-    }
-    default: {
-      return "Hãy thử sức với câu hỏi gợi ý dưới đây!"
+  const onSubmit = async () => {
+    try {
+      const res = await saveRatingRecommend({
+        clusters,
+        rating: ratingValue
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
+
+  return (
+    <Box sx={{display: "flex", justifyContent: "center", alignItems: "center", marginTop: 1}}>
+      <Box sx={{display: "flex", gap: 1, flexDirection: "column", alignItems: "center"}}>
+        <Typography variant="body2" color="textSecondary">{ratingLabels[ratingValue]}</Typography>
+        <Rating
+          size={"large"}
+          name={"rating"}
+          value={ratingValue}
+          precision={1}
+          onChange={onChange}
+          emptyIcon={<Star style={{ opacity: 0.55 }} fontSize="inherit" />}
+        />
+        <Button variant="contained" color="info"
+                sx={{
+                  backgroundColor: "#2774D3FF",
+                  borderRadius: 5,
+                  color: "white",
+                  fontSize: "12px",
+                  ':hover': {
+                    backgroundColor: "rgba(26,78,141,0.8)",
+                    boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)"
+                  }
+                }}
+                onClick={onSubmit}
+                size={"small"}>Gửi đánh giá</Button>
+      </Box>
+    </Box>
+  )
 }
