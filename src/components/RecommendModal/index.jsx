@@ -143,7 +143,7 @@ export default function RecommendModal() {
                 <Box sx={{
                   width: "100%",
                 }}>
-                  {doneCount === questions.length ? (
+                  {(doneCount === questions.length && doneCount !== 0) ? (
                     <>
                       <Typography variant="h6" width={"100%"} color="success">
                         Gợi ý vừa rồi phù hợp với bạn như thế nào?
@@ -157,7 +157,7 @@ export default function RecommendModal() {
                   )}
                 </Box>
               </Box>
-              <Box
+              {questions.length > 0 && <Box
                 sx={{
                   backgroundColor: "#F2F7FDFF",
                   padding: 2,
@@ -167,10 +167,11 @@ export default function RecommendModal() {
                   overflow: "auto",
                 }}
               >
-                {questions.length > 0 && questions.map((question, index) => (
-                  <QuestionCard {...question} indexRcm={index + 1} showAnswer={true} isRecommended={true} key={question.id} handleIncreaseDoneCount={handleIncreaseDoneCount}/>
+                {questions.map((question, index) => (
+                  <QuestionCard {...question} indexRcm={index + 1} showAnswer={true} isRecommended={true}
+                                key={question.id} handleIncreaseDoneCount={handleIncreaseDoneCount}/>
                 ))}
-              </Box>
+              </Box>}
             </Box>
           </Box>
         </DialogContent>
