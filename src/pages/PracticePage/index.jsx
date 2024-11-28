@@ -13,7 +13,7 @@ import cookies from "~/utils/cookies.js";
 import useActiveTab from "~/hooks/useActiveTab.jsx";
 import Loading from "~/components/Loading/index.jsx";
 // import useRecommendModal from "~/hooks/useModalRecommend.jsx";
-import RecommendModal from "~/components/RecommendModal/index.jsx";
+// import RecommendModal from "~/components/RecommendModal/index.jsx";
 
 
 export default function PracticePage() {

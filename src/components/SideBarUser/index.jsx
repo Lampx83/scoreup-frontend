@@ -247,30 +247,30 @@ export default function SideBarUser() {
           <Divider />
           <List>
             {activeTab === 'practice' && <Filter active={activeListItem(theme)} open={open}/>}
-            {/*{(activeTab === 'dashboard' && user?.recommend) && <ListItem disablePadding sx={{display: "block"}}>*/}
-            {/*  <ListItemButton*/}
-            {/*    sx={{*/}
-            {/*      minHeight: 48,*/}
-            {/*      justifyContent: open ? "initial" : "center",*/}
-            {/*      px: 2.5,*/}
-            {/*    }}*/}
-            {/*    onClick={handleOpenRecommend}*/}
-            {/*  >*/}
-            {/*    <ListItemIcon*/}
-            {/*      sx={{*/}
-            {/*        minWidth: 0,*/}
-            {/*        mr: open ? 3 : "auto",*/}
-            {/*        justifyContent: "center",*/}
-            {/*      }}*/}
-            {/*    >*/}
-            {/*      <MdRecommend style={{width: "24px", height: "24px"}}/>*/}
-            {/*    </ListItemIcon>*/}
-            {/*    <ListItemText*/}
-            {/*      primary={"Gợi ý"}*/}
-            {/*      sx={{opacity: open ? 1 : 0}}*/}
-            {/*    />*/}
-            {/*  </ListItemButton>*/}
-            {/*</ListItem>}*/}
+            {(activeTab === 'dashboard' && user?.recommend) && <ListItem disablePadding sx={{display: "block"}}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+                onClick={handleOpenRecommend}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MdRecommend style={{width: "24px", height: "24px"}}/>
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Gợi ý"}
+                  sx={{opacity: open ? 1 : 0}}
+                />
+              </ListItemButton>
+            </ListItem>}
           </List>
         </Box>
         <Box
