@@ -121,13 +121,14 @@ function QuestionCard({
   difficulty = 0,
   knowledge_concept = "",
   indexRcm = 0,
-  handleIncreaseDoneCount = () => null
+  handleIncreaseDoneCount = () => null,
+  startTime = null,
+  setAnswered = () => null,
 }) {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState("");
   const [bookmarked, setBookmarked] = useState(0);
   const [mastered, setMastered] = useState(0);
-  let startTime = null;
 
   const handleSelectOption = (e) => {
     setSelectedOption(e.target.value);
@@ -141,6 +142,7 @@ function QuestionCard({
   }) => {
     const time_cost = new Date().getTime() - startTime;
     startTime = null;
+    setAnswered(true);
 
     addResult({
       question: exercise_id,
@@ -318,7 +320,7 @@ function QuestionCard({
                       correct_ans: [correct],
                       user_ans: [option.option]
                     })
-                    if (showAnswer && isRecommended) handleIncreaseDoneCount();
+                    if (showAnswer && isRecommended) handleIncreaseDoneCount(id);
                   }}/>}
                   value={option.option}
                   label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}

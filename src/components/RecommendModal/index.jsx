@@ -3,16 +3,18 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 import Box from "@mui/material/Box";
-import {Icon, Rating, Typography} from "@mui/material";
+import {Chip, Icon, Rating, Typography} from "@mui/material";
 import detectiveCat from "~/assets/images/detectiveCat.png";
 import {parseQuestion} from "~/helpers/parseNotionResponseToObject.js";
 import QuestionCard from "~/components/Question/QuestionCard/index.jsx";
 import {IoCloseCircleOutline} from "react-icons/io5";
 import {useEffect, useRef, useState} from "react";
-import {getRecommendQuestions, saveRatingRecommend} from "~/services/question.service.js";
+import {getRecommendQuestions, postLogQuestion, saveRatingRecommend} from "~/services/question.service.js";
 import {useCookies} from "react-cookie";
 import pushToast from "~/helpers/sonnerToast.js";
 import {Star} from "@mui/icons-material";
+import {Link} from "react-router-dom";
+import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 
 
 export default function RecommendModal() {
@@ -23,6 +25,9 @@ export default function RecommendModal() {
   const [message, setMessage] = useState(null);
   const [clusters, setClusters] = useState([]);
   const [doneCount, setDoneCount] = useState(0);
+  const [showingQuestion, setShowingQuestion] = useState(0);
+  const [answeredList, setAnsweredList] = useState([]);
+  let startTime = new Date();
 
   const handleStop = () => {
     handleClose();
@@ -31,8 +36,9 @@ export default function RecommendModal() {
     setClusters([]);
   }
 
-  const handleIncreaseDoneCount = () => {
+  const handleIncreaseDoneCount = (id) => {
     setDoneCount(prev => prev + 1);
+    setAnsweredList(prev => [...prev, id]);
   }
 
   const fetchQuestions = async () => {
@@ -44,6 +50,8 @@ export default function RecommendModal() {
       setMessage(res?.recommendations?.message || "Bạn hãy thử sức với câu hỏi gợi ý dưới đây!");
       setClusters(res?.recommendations?.clusters || []);
 
+      setShowingQuestion(0);
+
       setCookie('recommended', true, {
         path: '/',
         maxAge: 60 * 60 * 24 // 1 day
@@ -51,6 +59,25 @@ export default function RecommendModal() {
     } catch (error) {
       pushToast("Có lỗi xảy ra, hãy chắc rằng bạn đã luyện tập trước khi yêu cầu gợi ý!", 'error');
       handleClose();
+    }
+  }
+
+  const navigateQuestion = async (index) => {
+    if (index >= 0 && index < questions.length) {
+      if (!answeredList.includes(questions[showingQuestion].id)) {
+        await postLogQuestion({
+          exercise_id: questions[showingQuestion].id,
+          score: 0,
+          time_cost: new Date().getTime() - startTime.getTime(),
+          user_ans: "",
+          correct_ans: [questions[showingQuestion].correct],
+          isRecommended: true,
+          answered: false,
+          indexRcm: showingQuestion + 1
+        });
+      }
+
+      setShowingQuestion(index);
     }
   }
 
@@ -151,9 +178,60 @@ export default function RecommendModal() {
                       <RatingComponent clusters={clusters} handleStop={handleStop}/>
                     </>
                   ): (
-                    <Typography variant="h6" width={"100%"}>
-                      {message}
-                    </Typography>
+                    <>
+                      <Typography variant="h6" width={"100%"}>
+                        {message}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 1,
+                          justifyContent: "center",
+                          marginTop: 2,
+                          alignItems: "center"
+                        }}
+                      >
+                        <Button
+                          size={"small"}
+                          sx={{
+                            backgroundColor: '#1A4E8DFF',
+                            borderRadius: 5,
+                            color: 'white',
+                            paddingX: 1,
+                            ':hover': {
+                              backgroundColor: 'rgba(26,78,141,0.8)',
+                              boxShadow: '0 0 10px 0 rgba(26,78,141,0.5)'
+                            }
+                          }}
+                          startIcon={<Icon as={IoIosArrowBack}/>}
+                          onClick={() => navigateQuestion(showingQuestion - 1)}
+                        >
+                          Quay lại
+                        </Button>
+                        <Chip
+                          label={`${showingQuestion + 1}/${questions.length}`}
+                          color="info"
+                          size={"small"}
+                        />
+                        <Button
+                          size={"small"}
+                          sx={{
+                            backgroundColor: '#1A4E8DFF',
+                            borderRadius: 5,
+                            color: 'white',
+                            paddingX: 1,
+                            ':hover': {
+                              backgroundColor: 'rgba(26,78,141,0.8)',
+                              boxShadow: '0 0 10px 0 rgba(26,78,141,0.5)'
+                            }
+                          }}
+                          endIcon={<Icon as={IoIosArrowForward}/>}
+                          onClick={() => navigateQuestion(showingQuestion + 1)}
+                        >
+                          Tiếp theo
+                        </Button>
+                      </Box>
+                    </>
                   )}
                 </Box>
               </Box>
@@ -168,8 +246,16 @@ export default function RecommendModal() {
                 }}
               >
                 {questions.map((question, index) => (
-                  <QuestionCard {...question} indexRcm={index + 1} showAnswer={true} isRecommended={true}
-                                key={question.id} handleIncreaseDoneCount={handleIncreaseDoneCount}/>
+                  <Box key={question.id}
+                       sx={{
+                         display: index === showingQuestion ? "block" : "none",
+                       }}
+                  >
+                    <QuestionCard {...question} indexRcm={index + 1} showAnswer={true} isRecommended={true}
+                                  handleIncreaseDoneCount={handleIncreaseDoneCount}
+                                  startTime={startTime}
+                    />
+                  </Box>
                 ))}
               </Box>}
             </Box>
