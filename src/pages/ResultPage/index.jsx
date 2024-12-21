@@ -105,7 +105,7 @@ export default function ResultPage() {
               sx={{
                 padding: 1
               }}
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/dashboard")}
             >
               <IoIosArrowBack/>
             </Button>
@@ -117,6 +117,10 @@ export default function ResultPage() {
             </Typography>
             <Chip variant={"filled"} label={result?.correct + "/" + result?.total} color={"info"}/>
             <Chip variant={"filled"} label={moment(result?.createdAt).format("hh:mm, DD/MM/YYYY")} color={"secondary"}/>
+            {/*calculate time from start to end*/}
+            {(result?.start && result?.end) && <Chip variant={"filled"} label={
+              moment(result?.end).diff(moment(result?.start), 'minutes') + " phút"
+            } color={"success"}/>}
           </Box>
           {result?.questions?.map((element, index) => {
             return (

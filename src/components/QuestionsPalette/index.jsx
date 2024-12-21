@@ -1,10 +1,12 @@
 import Box from "@mui/material/Box";
-import {Alert, Icon, Typography, useTheme} from "@mui/material";
+import {Alert, Chip, Icon, Typography, useTheme} from "@mui/material";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Checklist} from "@mui/icons-material";
+
+let interval = null;
 
 function QuestionsPalette({
   questions = [],
@@ -12,7 +14,9 @@ function QuestionsPalette({
   setIsSubmitted,
   showAnswer = false,
   isSubmitted = false,
-  result = null
+  result = null,
+  countFrom = null,
+  isTest = false
 }) {
   let count = 0;
   const theme = useTheme();
@@ -53,6 +57,9 @@ function QuestionsPalette({
   const handleSubmit = () => {
     setShowAnswer(true);
     setIsSubmitted(true);
+    if (isTest) {
+      clearInterval(interval);
+    }
   }
 
   const handleToggleQuestionPalette = (e) => {
@@ -139,13 +146,24 @@ function QuestionsPalette({
               // flexBasis: "30%"
             }}
           >
-            <Typography
-              variant={"h6"}
-              fontWeight={700}
-              color={theme.palette.text.secondary}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+              }}
             >
-              {element.section}
-            </Typography>
+              <Typography
+                variant={"h6"}
+                fontWeight={700}
+                color={theme.palette.text.secondary}
+              >
+                {element.section}
+              </Typography>
+              {countFrom && (
+                <CountDown countFrom={countFrom} isSubmitted={isSubmitted} handleSubmit={handleSubmit}/>
+              )}
+            </Box>
             <Box
               sx={{
                 display: "flex",
@@ -209,9 +227,9 @@ function QuestionsPalette({
           }}
           onClick={handleSubmit}
         >
-          Xem kết quả
+          {isTest ? 'Nộp bài' : 'Xem kết quả'}
         </Button>
-        <Button
+        {!isTest && <Button
           variant={'contained'}
           sx={{
             backgroundColor: '#1A4E8DFF',
@@ -227,7 +245,7 @@ function QuestionsPalette({
           }}
         >
           Làm bài mới
-        </Button>
+        </Button>}
       </Box>
 
       {isSubmitted && (
@@ -263,6 +281,45 @@ function QuestionsPalette({
       />
     </Box>
   );
+}
+
+function CountDown({countFrom, isSubmitted = false, handleSubmit = () => {}}) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (isSubmitted) {
+      return;
+    }
+    interval = setInterval(() => {
+      if ((countFrom - new Date().getTime()) / 1000 <= 0) {
+        clearInterval(interval);
+        handleSubmit();
+      }
+
+      setCount((countFrom - new Date().getTime()) / 1000);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [countFrom]);
+
+  function toHHMMSS(sec) {
+    if (sec <= 0) {
+      return "00:00";
+    }
+
+    let sec_num = parseInt(sec, 10);
+    let hours = Math.floor(sec_num / 3600);
+    let minutes = Math.floor(sec_num / 60) % 60;
+    let seconds = sec_num % 60;
+
+    return [hours,minutes,seconds]
+      .map(v => v < 10 ? "0" + v : v)
+      .filter((v,i) => v !== "00" || i > 0)
+      .join(":");
+  }
+
+  return (
+    <Chip label={toHHMMSS(count)} color={count > 10 ? "info" : count > 5 ? "warning" : "error"}/>
+  )
 }
 
 export default QuestionsPalette;

@@ -110,14 +110,18 @@ export const submitResult = async ({
   certificateId,
   questions,
   total,
-  correct
+  correct,
+  start = null,
+  end = null
 }) => {
   return await post('/questions/result', {
     user,
     certificateId,
     questions,
     total,
-    correct
+    correct,
+    start,
+    end
   });
 }
 

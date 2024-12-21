@@ -93,6 +93,7 @@ function ShowHint({
                 backdropFilter: "blur(10px)",
                 borderRadius: 2,
                 minWidth: "400px",
+                maxWidth: "400px",
                 marginBottom: "8px",
                 boxSizing: "border-box",
               }}

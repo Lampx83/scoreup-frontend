@@ -124,6 +124,7 @@ function QuestionCard({
   handleIncreaseDoneCount = () => null,
   startTime = null,
   setAnswered = () => null,
+  showActions = true,
 }) {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState("");
@@ -352,7 +353,8 @@ function QuestionCard({
           </FormControl>
         </Box>
       </Box>
-      <Actions id={id} totalComments={totalComments} setBookmarked={onToggleBookmarked} setMastered={onToggleMastered} bookmarked={bookmarked} mastered={mastered}/>
+      {showActions && <Actions id={id} totalComments={totalComments} setBookmarked={onToggleBookmarked} setMastered={onToggleMastered}
+                bookmarked={bookmarked} mastered={mastered}/>}
     </Box>
   )
 }

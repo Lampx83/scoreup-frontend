@@ -36,6 +36,7 @@ import ReportError from "~/components/ReportError/index.jsx";
 import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 import {useEffect} from "react";
 import {getUser} from "~/services/user.service.js";
+import {PiExamFill} from "react-icons/pi";
 
 const drawerWidth = 240;
 
@@ -239,6 +240,33 @@ export default function SideBarUser() {
                 </ListItemIcon>
                 <ListItemText
                   primary={"Luyện tập"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  ...((activeTab === 'post-test') && activeListItem(theme)),
+                }}
+                component={Link}
+                to="/post-test"
+                onClick={() => updateActiveTab('post-test')}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <PiExamFill style={{ width: "24px", height: "24px" }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Thi thử"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItemButton>

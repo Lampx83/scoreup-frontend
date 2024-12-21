@@ -10,7 +10,8 @@ function SetQuestion({
   count = 0,
   showAnswer = false,
   isSubmitted = false,
-  addResult = () => {}
+  addResult = () => {},
+  showActions = true
 }) {
   const theme = useTheme();
   return (
@@ -69,6 +70,7 @@ function SetQuestion({
           showAnswer={showAnswer}
           isSubmitted={isSubmitted}
           addResult={addResult}
+          showActions={showActions}
         />
       ))}
     </Box>
