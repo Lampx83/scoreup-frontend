@@ -24,6 +24,7 @@ export default function ResultPage() {
   const [certInfo, setCertInfo] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
+  const isPostTest = certId === "42754b670222437cb376031d6d9b8a5d" || certId === "c1248b6350dc43f586be180bbd11ef69";
 
   const handleToggleQuestionPalette = (e) => {
     const element = document.getElementById("question-palette");
@@ -116,7 +117,7 @@ export default function ResultPage() {
               {certInfo?.title}
             </Typography>
             <Chip variant={"filled"} label={result?.correct + "/" + result?.total} color={"info"}/>
-            <Chip variant={"filled"} label={moment(result?.createdAt).format("hh:mm, DD/MM/YYYY")} color={"secondary"}/>
+            <Chip variant={"filled"} label={moment(result?.createdAt).format("HH:mm, DD/MM/YYYY")} color={"secondary"}/>
             {/*calculate time from start to end*/}
             {(result?.start && result?.end) && <Chip variant={"filled"} label={
               moment(result?.end).diff(moment(result?.start), 'minutes') + " phút"
@@ -334,9 +335,9 @@ export default function ResultPage() {
                                       paddingY: 1,
                                       marginX: 0,
                                       marginY: 1,
-                                      backgroundColor: (isTrue && isChoose) ? 'rgba(57,153,24,0.78)' : (isChoose ? '#FF7777' : 'white'),
-                                      fontWeight: (isChoose) ? 700 : 400,
-                                      color: (isChoose) ? 'white' : theme.palette.text.secondary
+                                      backgroundColor: (isTrue && isChoose) ? 'rgba(57,153,24,0.78)' : (isChoose ? '#FF7777' : ((isPostTest && isTrue) ? 'rgba(57,153,24,0.78)' : 'white')),
+                                      fontWeight: (isChoose || (isTrue && isPostTest)) ? 700 : 400,
+                                      color: (isChoose || (isTrue && isPostTest)) ? 'white' : theme.palette.text.secondary
                                     }}
                                   >
                                     {`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
