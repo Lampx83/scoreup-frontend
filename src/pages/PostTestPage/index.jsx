@@ -349,7 +349,7 @@ export default function PostTestPage() {
                     },
                   }}
                   component={Link}
-                  to={`https://forms.gle/vgvqyPRERYVVyM6t6`}
+                  to={user?.recommend ? `https://forms.gle/dduvusjrcy96YLQPA` : 'https://forms.gle/UCpNnsgnjZHRjxgBA'}
                   target={"_blank"}
                   onClick={() => {
                     setTimeout(() => {
