@@ -94,7 +94,7 @@ export const updateLogQuestion = async ({
 
 export const getRecommendQuestions = async () => {
 
-  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/recommend";
+  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/api/v1/recommend";
   const user = cookies.get("user", { path: "/" });
   const body = {
     user_id: user._id
@@ -147,7 +147,7 @@ export const saveRatingRecommend  = async ({
 }) => {
   const user = cookies.get("user", { path: "/" });
 
-  return await post('https://scoreup-rcm.whoisduyviet.id.vn/upsert', {
+  return await post('https://scoreup-rcm.whoisduyviet.id.vn/api/v1/ratings/upsert', {
     user_id: user._id,
     data: {
       rating,
