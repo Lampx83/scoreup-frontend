@@ -230,7 +230,7 @@ function QuestionCard({
           alignItems: 'center'
         }}
       >
-        <Typography variant={"body1"} fontWeight={700}>
+        <Typography variant={"body1"} fontWeight={700} sx={{whiteSpace: 'pre-wrap'}}>
           {parse(`${(!!index || !!indexRcm) ? `Câu ${index || indexRcm}` : `Câu hỏi`}: ${question}`)}
         </Typography>
         <ReportError
@@ -298,7 +298,7 @@ function QuestionCard({
           )}
           <FormControl
             sx={{
-              display: "flex",
+              display: "flex", 
               flexDirection: "column",
               gap: 1,
               width: "100%"

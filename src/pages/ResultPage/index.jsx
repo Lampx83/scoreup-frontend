@@ -244,7 +244,7 @@ export default function ResultPage() {
                             alignItems: 'center'
                           }}
                         >
-                          <Typography variant={"body1"} fontWeight={700}>
+                          <Typography variant={"body1"} fontWeight={700} sx={{whiteSpace: 'pre-wrap'}}>
                             {parse(`Câu ${index + 1}: ${title}`)}
                           </Typography>
                           {hint && <ShowHint
