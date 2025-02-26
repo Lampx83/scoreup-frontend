@@ -71,7 +71,6 @@ export default function ListPostTestPage() {
             Xin chào, {user?.fullName || user?.email || "meow"}!
           </Typography>
           <Typography variant="p" fontWeight={500} sx={{}}>
-            Mỗi đề gồm 30 câu, làm trong thời gian 30 phút.
             Bạn chỉ có thể làm một lượt duy nhất mỗi đề.
           </Typography>
         </Box>
@@ -136,7 +135,7 @@ export default function ListPostTestPage() {
                 }}
               >
                 <FaRegClock/>
-                Thời gian: 30 phút
+                Thời gian: 60 phút
               </Typography>
               <Typography
                 variant={"body2"}
@@ -149,7 +148,7 @@ export default function ListPostTestPage() {
                 }}
               >
                 <FaListCheck/>
-                Số câu hỏi: 30
+                Số câu hỏi: 50
               </Typography>
               {test.results.length > 0 && <Typography
                 variant={"body2"}

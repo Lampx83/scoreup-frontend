@@ -36,16 +36,16 @@ export default function PostTestPage() {
   });
   const { notionDatabaseId } = useParams();
   // new Date() + 30 mins
-  let countFrom = new Date().getTime() + 30 * 60 * 1000;
+  let countFrom = new Date().getTime() + 60 * 60 * 1000;
   const [open, setOpen] = useState(false);
   const [resultId, setResultId] = useState(null);
 
   const addResult = ({
-                       question,
-                       user_ans,
-                       correct_ans,
-                       score
-                     }) => {
+    question,
+    user_ans,
+    correct_ans,
+    score
+  }) => {
     if (score) {
       result.current.correct++;
     }
@@ -79,20 +79,20 @@ export default function PostTestPage() {
       let questions = [];
 
       const res = await getQuestions({
-        limit: 30,
+        limit: 50,
         multiQuestions: false,
-        tag: "post_test",
+        tag: "pre_test",
         notionDatabaseId,
       });
       // questions = [...questions, ...(res?.map(parseQuestion))];
       questions.push({
-        section: "Bài thi thử cuối kì",
+        section: "Bài thi thử",
         multi: false,
         questions: res?.map(parseQuestion),
       });
 
       result.current.questions.push({
-        section: "Bài thi thử cuối kì",
+        section: "Bài thi thử",
         multi: false,
         questions: res?.map(parseQuestion)?.map((question) => ({
           question: question.id,
