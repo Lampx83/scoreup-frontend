@@ -83,11 +83,11 @@ export const routes = [
             element: <ResultPage/>
           },
           {
-            path: "/post-test",
+            path: "/pre-test",
             element: <ListPostTestPage/>
           },
           {
-            path: "/post-test/:notionDatabaseId",
+            path: "/pre-test/:notionDatabaseId",
             element: <PostTestPage/>
           }
         ]

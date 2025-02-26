@@ -253,7 +253,7 @@ export default function SideBarUser() {
                   ...((activeTab === 'post-test') && activeListItem(theme)),
                 }}
                 component={Link}
-                to="/post-test"
+                to="/pre-test"
                 onClick={() => updateActiveTab('post-test')}
               >
                 <ListItemIcon

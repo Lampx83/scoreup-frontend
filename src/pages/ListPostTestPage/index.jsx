@@ -178,7 +178,7 @@ export default function ListPostTestPage() {
                   }
                 }}
                 component={Link}
-                to={`/post-test/${test.database_id}`}
+                to={`/pre-test/${test.database_id}`}
               >
                 Làm bài
               </Button> :

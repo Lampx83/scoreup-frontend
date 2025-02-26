@@ -333,13 +333,38 @@ export default function PostTestPage() {
                 >
                   Điểm: {calculateCorrect()}/{result.current.total}
                 </Typography>
-                <Typography
-                  variant="h6"
-                  fontWeight={700}
-                  color={theme.palette.text.primary}
-                >
-                  {getImageAndMessage(calculateCorrect()).message}
-                </Typography>
+                {/*<Typography*/}
+                {/*  variant="h6"*/}
+                {/*  fontWeight={700}*/}
+                {/*  color={theme.palette.text.primary}*/}
+                {/*>*/}
+                {/*  {getImageAndMessage(calculateCorrect()).message}*/}
+                {/*</Typography>*/}
+
+                {/*<Button*/}
+                {/*  sx={{*/}
+                {/*    backgroundColor: "#FF8D6BFF",*/}
+                {/*    "&:hover": {*/}
+                {/*      backgroundColor: "rgba(255,141,107,0.8)",*/}
+                {/*    },*/}
+                {/*  }}*/}
+                {/*  component={Link}*/}
+                {/*  to={user?.recommend ? `https://forms.gle/dduvusjrcy96YLQPA` : 'https://forms.gle/UCpNnsgnjZHRjxgBA'}*/}
+                {/*  target={"_blank"}*/}
+                {/*  onClick={() => {*/}
+                {/*    setTimeout(() => {*/}
+                {/*      navigate(`/history/${notionDatabaseId}/${resultId}`);*/}
+                {/*    }, 10000);*/}
+                {/*  }}*/}
+                {/*>*/}
+                {/*  <Typography*/}
+                {/*    variant="p"*/}
+                {/*    fontWeight={700}*/}
+                {/*    color={"#FFFFFF"}*/}
+                {/*  >*/}
+                {/*    Làm khảo sát và xem đáp án, giải thích chi tiết*/}
+                {/*  </Typography>*/}
+                {/*</Button>*/}
 
                 <Button
                   sx={{
@@ -348,13 +373,8 @@ export default function PostTestPage() {
                       backgroundColor: "rgba(255,141,107,0.8)",
                     },
                   }}
-                  component={Link}
-                  to={user?.recommend ? `https://forms.gle/dduvusjrcy96YLQPA` : 'https://forms.gle/UCpNnsgnjZHRjxgBA'}
-                  target={"_blank"}
                   onClick={() => {
-                    setTimeout(() => {
-                      navigate(`/history/${notionDatabaseId}/${resultId}`);
-                    }, 10000);
+                    navigate(`/history/${notionDatabaseId}/${resultId}`);
                   }}
                 >
                   <Typography
@@ -362,9 +382,10 @@ export default function PostTestPage() {
                     fontWeight={700}
                     color={"#FFFFFF"}
                   >
-                    Làm khảo sát và xem đáp án, giải thích chi tiết
+                    Giải thích chi tiết
                   </Typography>
                 </Button>
+                
               </Box>
             </Box>
           </Box>
