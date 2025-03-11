@@ -24,7 +24,7 @@ export default function ResultPage() {
   const [certInfo, setCertInfo] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
-  const isPostTest = certId === "42754b670222437cb376031d6d9b8a5d" || certId === "c1248b6350dc43f586be180bbd11ef69";
+  const isPostTest = certId === "1a64b65d1cba804d8107c9642a70154c";
 
   const handleToggleQuestionPalette = (e) => {
     const element = document.getElementById("question-palette");
@@ -53,8 +53,14 @@ export default function ResultPage() {
       })
       setResult(res.metadata);
 
-      const certInfo = await getPage(certId);
-      setCertInfo(parseCertificate(certInfo));
+      if (!isPostTest) {
+        const certInfo = await getPage(certId);
+        setCertInfo(parseCertificate(certInfo));
+      } else {
+        setCertInfo({
+          title: "Đề thi thử"
+        });
+      }
 
       setIsLoading(false);
     };
