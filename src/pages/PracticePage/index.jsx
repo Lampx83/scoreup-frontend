@@ -148,7 +148,7 @@ export default function PracticePage() {
 
   return (
     <>
-      <RecommendModal/>
+      {/*<RecommendModal/>*/}
       {questions.length === 0 &&
       filter?.certificateDatabaseId &&
       filter?.tags?.length !== 0 ? (

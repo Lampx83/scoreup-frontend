@@ -78,6 +78,9 @@ function ShowHint({
             },
           },
         ]}
+        sx={{
+          zIndex: 90999
+        }}
       >
         {({ TransitionProps }) => (
           <Grow
@@ -89,9 +92,10 @@ function ShowHint({
             <Box
               sx={{
                 padding: "8px 16px",
-                backgroundColor: theme.palette.questionBackground.secondary,
+                backgroundColor: "white",
                 backdropFilter: "blur(10px)",
                 borderRadius: 2,
+                border: `1px solid ${theme.palette.divider}`,
                 minWidth: "400px",
                 maxWidth: "400px",
                 marginBottom: "8px",

@@ -325,6 +325,7 @@ export default function ResultPage() {
                               {options.map((option, index) => {
                                 const isTrue = correct_ans.includes(option.option);
                                 const isChoose = user_ans.includes(option.option);
+                                const isAnswered = user_ans.length > 0;
 
                                 return (
                                   <Box
@@ -341,9 +342,9 @@ export default function ResultPage() {
                                       paddingY: 1,
                                       marginX: 0,
                                       marginY: 1,
-                                      backgroundColor: (isTrue && isChoose) ? 'rgba(57,153,24,0.78)' : (isChoose ? '#FF7777' : ((isPostTest && isTrue) ? 'rgba(57,153,24,0.78)' : 'white')),
-                                      fontWeight: (isChoose || (isTrue && isPostTest)) ? 700 : 400,
-                                      color: (isChoose || (isTrue && isPostTest)) ? 'white' : theme.palette.text.secondary
+                                      backgroundColor: isAnswered ? (isTrue ? 'rgba(57,153,24,0.78)' : (isChoose ? '#FF7777' : 'white')) : 'white',
+                                      fontWeight: isAnswered ? (isTrue ? 700 : (isChoose ? 700 : 400)) : 400,
+                                      color: isAnswered ? (isTrue ? 'white' : (isChoose ? 'white' : theme.palette.text.secondary)) : theme.palette.text.secondary,
                                     }}
                                   >
                                     {`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}

@@ -17,6 +17,7 @@ import CodeDisplay from "~/components/CodeDisplay/index.jsx";
 import Actions from "~/components/Question/Actions/index.jsx";
 import parse from "html-react-parser";
 import pushToast from "~/helpers/sonnerToast.js";
+import ShowHint from "~/components/Question/ShowHint/index.jsx";
 
 const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
   shouldForwardProp: (prop) => prop !== 'isCorrect' && prop !== 'showAnswer' && prop !== 'isSubmitted',
@@ -68,12 +69,14 @@ function Option(props) {
   const { showAnswer, isSubmitted } = props;
 
   if (showAnswer) {
-    if (radioGroup && radioGroup.value) {
-      checked = props.value === radioGroup.value;
-    }
-    // } else if (isSubmitted) {
-    //   checked = props.isCorrect === 'true';
+    // if (radioGroup && radioGroup.value) {
+    //   checked = props.value === radioGroup.value;
     // }
+    if (radioGroup && radioGroup.value && isSubmitted) {
+      checked = (props.isCorrect === 'true') || radioGroup.value === props.value;
+    } else {
+      checked = radioGroup && (radioGroup.value === props.value);
+    }
   } else {
     if (radioGroup && radioGroup.value) {
       checked = props.value === radioGroup.value;
@@ -233,17 +236,29 @@ function QuestionCard({
         <Typography variant={"body1"} fontWeight={700} sx={{whiteSpace: 'pre-wrap'}}>
           {parse(`${(!!index || !!indexRcm) ? `Câu ${index || indexRcm}` : `Câu hỏi`}: ${question}`)}
         </Typography>
-        <ReportError
-          question={{
-            question: question,
-            options: options,
-            correct: correct,
-            hint: hint,
-            code: code,
-            image: image,
-            audio: audio,
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            alignItems: "center",
           }}
-        />
+        >
+          <ReportError
+            question={{
+              question: question,
+              options: options,
+              correct: correct,
+              hint: hint,
+              code: code,
+              image: image,
+              audio: audio,
+            }}
+          />
+          {hint && <ShowHint
+            hint={hint}
+            showHint={isSubmitted && showAnswer}
+          />}
+        </Box>
       </Box>
       <Box
         sx={{
