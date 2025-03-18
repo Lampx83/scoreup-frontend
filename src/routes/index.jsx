@@ -21,6 +21,7 @@ import VerifyCodeForgotPage from "~/pages/VerifyCodeForgotPage/index.jsx";
 import ResetPasswordPage from "~/pages/ResetPasswordPage/index.jsx";
 import PostTestPage from "~/pages/PostTestPage/index.jsx";
 import ListPostTestPage from "~/pages/ListPostTestPage/index.jsx";
+import RankingPage from "~/pages/RankingPage/index.jsx";
 
 export const routes = [
   {
@@ -89,6 +90,10 @@ export const routes = [
           {
             path: "/pre-test/:notionDatabaseId",
             element: <PostTestPage/>
+          },
+          {
+            path: "/ranking",
+            element: <RankingPage/>
           }
         ]
       }

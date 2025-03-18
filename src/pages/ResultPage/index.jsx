@@ -347,7 +347,7 @@ export default function ResultPage() {
                                       color: isAnswered ? (isTrue ? 'white' : (isChoose ? 'white' : theme.palette.text.secondary)) : theme.palette.text.secondary,
                                     }}
                                   >
-                                    {`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
+                                    {`(${String.fromCharCode(index + 'A'.charCodeAt(0))}) ${option.text}`}
                                   </Box>
                                 );
                               })}

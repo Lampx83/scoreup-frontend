@@ -14,10 +14,14 @@ import useActiveTab from "~/hooks/useActiveTab.jsx";
 import Loading from "~/components/Loading/index.jsx";
 import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 import RecommendModal from "~/components/RecommendModal/index.jsx";
+import Filter from "~/components/SideBarUser/Filter/index.jsx";
+import {activeListItem} from "~/components/SideBarUser/index.jsx";
+import useSideBar from "~/hooks/useSideBar.jsx";
 
 
 export default function PracticePage() {
-  const {open, handleClose, handleOpen} = useRecommendModal();
+  // const {open, handleClose, handleOpen} = useRecommendModal();
+  const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
   const theme = useTheme();
   const {updateActiveTab} = useActiveTab();
   const user = cookies.get("user");
@@ -140,7 +144,7 @@ export default function PracticePage() {
           top: 0,
           behavior: "smooth",
         });
-        handleOpen();
+        // handleOpen();
       }
     }
     sendResult();
@@ -214,13 +218,25 @@ export default function PracticePage() {
                 position: "relative",
               }}
             >
-              <Box>
-                <Typography variant="body1" sx={{ marginTop: 5 }}>
-                  Bạn đang học:
-                </Typography>
-                <Typography variant="h5" fontWeight={700}>
-                  {filter?.certificateInfo?.title}
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  marginTop: 5,
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Box>
+                  <Typography variant="body1">
+                    Bạn đang học:
+                  </Typography>
+                  <Typography variant="h5" fontWeight={700}>
+                    {filter?.certificateInfo?.title}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Filter active={activeListItem(theme)}/>
+                </Box>
               </Box>
 
               <QuestionsPalette
@@ -290,6 +306,9 @@ export default function PracticePage() {
               <Typography variant="p" fontWeight={500} sx={{}}>
                 Mở bộ lọc và chọn nội dung học bạn muốn!
               </Typography>
+              <Box>
+                <Filter active={activeListItem(theme)}/>
+              </Box>
             </Box>
           )}
         </Container>

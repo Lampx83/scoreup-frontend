@@ -37,6 +37,7 @@ import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 import {useEffect} from "react";
 import {getUser} from "~/services/user.service.js";
 import {PiExamFill} from "react-icons/pi";
+import {FaRankingStar} from "react-icons/fa6";
 
 const drawerWidth = 240;
 
@@ -61,7 +62,7 @@ const closedMixin = (theme) => ({
   },
 });
 
-const activeListItem = (theme) => ({
+export const activeListItem = (theme) => ({
   backgroundColor: theme.palette.action.selected,
   borderLeft: `4px solid #1A4E8DFF`,
   "&:hover, &:focus": {
@@ -223,6 +224,33 @@ export default function SideBarUser() {
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
+                  ...((activeTab === 'ranking') && activeListItem(theme)),
+                }}
+                component={Link}
+                to="/ranking"
+                onClick={() => updateActiveTab('ranking')}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <FaRankingStar style={{ width: "24px", height: "24px" }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Bảng xếp hạng"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
                   ...((activeTab === 'practice') && activeListItem(theme)),
                 }}
                 component={Link}
@@ -266,7 +294,7 @@ export default function SideBarUser() {
                   <PiExamFill style={{ width: "24px", height: "24px" }} />
                 </ListItemIcon>
                 <ListItemText
-                  primary={"Thi thử"}
+                  primary={"Luyện đề"}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItemButton>
@@ -274,7 +302,6 @@ export default function SideBarUser() {
           </List>
           <Divider />
           <List>
-            {activeTab === 'practice' && <Filter active={activeListItem(theme)} open={open}/>}
             {/*{(activeTab === 'dashboard' && user?.recommend) && <ListItem disablePadding sx={{display: "block"}}>*/}
             {/*  <ListItemButton*/}
             {/*    sx={{*/}

@@ -339,7 +339,7 @@ function QuestionCard({
                     if (showAnswer && isRecommended) handleIncreaseDoneCount(id);
                   }}/>}
                   value={option.option}
-                  label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}). ${option.text}`}
+                  label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}) ${option.text}`}
                   isCorrect={option.option === correct ? 'true' : 'false'}
                   showAnswer={showAnswer}
                   isSubmitted={isSubmitted}

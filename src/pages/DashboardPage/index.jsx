@@ -4,7 +4,7 @@ import {getCertificates} from "~/services/app.service.js";
 import {parseCertificate, parseQuestion} from "~/helpers/parseNotionResponseToObject.js";
 import Box from "@mui/material/Box";
 import {
-  Container, Grid,
+  Container,
   Typography,
   useTheme
 } from "@mui/material";
@@ -14,7 +14,6 @@ import * as React from "react";
 import Loading from "~/components/Loading/index.jsx";
 import headerImg from "~/assets/images/header_userhomepage.png";
 import cookies from "~/utils/cookies.js";
-import RankingList from "~/components/RankingList/index.jsx";
 import {questionsMock} from "~/assets/mock/questions.js";
 
 export default function DashboardPage() {
@@ -23,7 +22,6 @@ export default function DashboardPage() {
   const [certificates, setCertificates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const user = cookies.get("user");
-  const [rankingList, setRankingList] = useState([]);
   
   const questionsParsed = questionsMock.map(parseQuestion)
 
@@ -46,14 +44,6 @@ export default function DashboardPage() {
     }
     fetchCertificates().then(() => setIsLoading(false));
     updateActiveTab('dashboard');
-  }, []);
-
-  useEffect(() => {
-    const fetchRankingList = async () => {
-      const res = await getRank();
-      setRankingList(res?.metadata || []);
-    }
-    fetchRankingList();
   }, []);
 
   return (
@@ -140,25 +130,6 @@ export default function DashboardPage() {
         {/*    </Grid>*/}
         {/*  </Box>*/}
         {/*</Box>*/}
-        <Box
-          sx={{
-            marginY: 4,
-            border: "1px solid #e0e0e0",
-            padding: 2,
-            borderRadius: 2,
-          }}
-        >
-          <Typography variant="h5" fontWeight={700} sx={{}}>
-            Bảng xếp hạng
-          </Typography>
-          <Typography variant="body1" sx={{color: "#9e9e9e"}}>
-            Bảng xếp hạng được làm mới mỗi tuần.
-          </Typography>
-          <Typography variant="body1" sx={{color: "#9e9e9e"}}>
-            Hoàn thành ít nhất 30 câu hỏi để được hiển thị trên bảng xếp hạng.
-          </Typography>
-          <RankingList rankingList={rankingList} user={user}/>
-        </Box>
         <Box>
           <Typography variant="h5" fontWeight={700} sx={{}}>
             Lịch sử làm bài

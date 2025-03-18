@@ -155,13 +155,13 @@ function Filter({ active = {}, open = false }) {
           <ListItemIcon
             sx={{
               minWidth: 0,
-              mr: open ? 3 : "auto",
+              mr: 1,
               justifyContent: "center",
             }}
           >
             <TbFilter style={{ width: "24px", height: "24px" }} />
           </ListItemIcon>
-          <ListItemText primary={"Bộ lọc"} sx={{ opacity: open ? 1 : 0 }} />
+          <ListItemText primary={"Bộ lọc"}/>
         </ListItemButton>
 
         <Popper
@@ -188,6 +188,7 @@ function Filter({ active = {}, open = false }) {
             scrollbarWidth: 'none',
             boxShadow: theme.palette.boxShadow,
             borderRadius: 2,
+            zIndex: 2
           }}
           modifiers={[
             {
@@ -226,7 +227,6 @@ function Filter({ active = {}, open = false }) {
                   backdropFilter: "blur(10px)",
                   borderRadius: 2,
                   minWidth: "400px",
-                  marginLeft: 1,
                   boxSizing: "border-box",
                 }}
               >
