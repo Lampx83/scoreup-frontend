@@ -8,16 +8,16 @@ import theme from "./theme.js";
 import allReducers from "./redux/reducers/index.js";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import {CookiesProvider} from "react-cookie";
+import { CookiesProvider } from "react-cookie";
 
 // Auto-detect basename
 const getBasename = () => {
   // Nếu đang ở hostname của NEU và có sub-path, thì set basename là '/scoreup'
-  if (window.location.hostname === 'fit.neu.edu.vn') {
-    return '/scoreup';
+  if (window.location.hostname === "fit.neu.edu.vn") {
+    return "/scoreup";
   }
   // Ngược lại, không cần sub-path (root)
-  return '/';
+  return "/";
 };
 
 const store = configureStore({
@@ -28,7 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.Fragment>
     <CookiesProvider>
       <Provider store={store}>
-        <BrowserRouter basename={getBasename()}>
+        <BrowserRouter>
           <CssVarsProvider theme={theme}>
             <CssBaseline />
             <App />
@@ -36,5 +36,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </BrowserRouter>
       </Provider>
     </CookiesProvider>
-  </React.Fragment>,
+  </React.Fragment>
 );

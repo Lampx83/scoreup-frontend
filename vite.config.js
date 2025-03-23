@@ -17,7 +17,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     plugins: [react(), svgr()],
-    // base: env.VITE_BASE_URL || '/scoreup/',
+    base: env.VITE_BASE_URL || "/scoreup/",
     resolve: {
       alias: [{ find: "~", replacement: "/src" }],
     },
