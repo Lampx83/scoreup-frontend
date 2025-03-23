@@ -1,10 +1,11 @@
-import {Outlet, useLocation} from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import pushToast from "~/helpers/sonnerToast.js";
 import Box from "@mui/material/Box";
 import * as React from "react";
 import LecturerHeader from "~/components/LecturerComponents/Header/index.jsx";
-import {Container} from "@mui/material";
+import { Container } from "@mui/material";
 import Footer from "~/components/Footer/index.jsx";
+import Histats from "~/components/Histats";
 
 function LayoutLecturer() {
   const { state } = useLocation();
@@ -16,18 +17,19 @@ function LayoutLecturer() {
 
   return (
     <Box>
-      <LecturerHeader/>
+      <Histats />
+      <LecturerHeader />
       <Container
-        maxWidth={'lg'}
+        maxWidth={"lg"}
         sx={{
-          paddingTop: theme => (`calc(30px + ${theme.app.header.height})`),
+          paddingTop: (theme) => `calc(30px + ${theme.app.header.height})`,
         }}
       >
-        <Outlet/>
+        <Outlet />
       </Container>
-      <Footer/>
+      <Footer />
     </Box>
-  )
+  );
 }
 
 export default LayoutLecturer;

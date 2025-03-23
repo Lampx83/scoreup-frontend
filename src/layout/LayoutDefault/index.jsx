@@ -1,8 +1,9 @@
-import {Outlet, useLocation} from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import pushToast from "~/helpers/sonnerToast.js";
 import Box from "@mui/material/Box";
 import SideBarUser from "~/components/SideBarUser/index.jsx";
 import * as React from "react";
+import Histats from "~/components/Histats";
 
 function LayoutDefault() {
   const { state } = useLocation();
@@ -13,13 +14,14 @@ function LayoutDefault() {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <SideBarUser/>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, position: 'relative' }}>
-        <Outlet/>
+    <Box sx={{ display: "flex" }}>
+      <Histats />
+      <SideBarUser />
+      <Box component="main" sx={{ flexGrow: 1, p: 3, position: "relative" }}>
+        <Outlet />
       </Box>
     </Box>
-  )
+  );
 }
 
 export default LayoutDefault;
