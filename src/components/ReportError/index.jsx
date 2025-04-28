@@ -19,6 +19,7 @@ import {useForm} from "react-hook-form";
 import pushToast from "~/helpers/sonnerToast.js";
 import axios from "~/config/axios.js";
 import {post} from "~/utils/request.js";
+import IconButton from "@mui/material/IconButton";
 
 function ReportError({
   question = null,
@@ -77,14 +78,12 @@ function ReportError({
   return (
     <>
       <Tooltip title={"Báo lỗi"}>
-        <Button
+        <IconButton
           onClick={handleClickOpen}
           sx={{
             minWidth: 0,
             backgroundColor: "#FFDC6EFF",
             borderRadius: "50%",
-            width: 35,
-            height: 35,
             ':hover': {
               backgroundColor: "rgba(255,220,110,0.7)",
               boxShadow: "0 0 10px 0 rgba(255,220,110,0.7)"
@@ -92,7 +91,7 @@ function ReportError({
           }}
         >
           <Icon as={TbMessageReport}/>
-        </Button>
+        </IconButton>
       </Tooltip>
 
       <Dialog

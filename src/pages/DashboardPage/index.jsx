@@ -13,15 +13,7 @@ import * as React from "react";
 import Loading from "~/components/Loading/index.jsx";
 import headerImg from "~/assets/images/header_userhomepage.png";
 import cookies from "~/utils/cookies.js";
-import { questionsMock } from "~/assets/mock/questions.js";
-import BoxItem from "~/components/BoxItem";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Pagination, Navigation } from "swiper/modules";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import RecommendBox from "~/components/RecommendBox/index.jsx";
 
 export default function DashboardPage() {
   const theme = useTheme();
@@ -29,8 +21,6 @@ export default function DashboardPage() {
   const [certificates, setCertificates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const user = cookies.get("user");
-
-  const questionsParsed = questionsMock.map(parseQuestion);
 
   useEffect(() => {
     const fetchCertificates = async () => {
@@ -107,73 +97,7 @@ export default function DashboardPage() {
             }}
           />
         </Box>
-        <Box
-          sx={{
-            marginY: 4,
-            border: "1px solid #e0e0e0",
-            padding: 2,
-            borderRadius: 2,
-            backgroundColor: "#FFFAE7FF",
-          }}
-        >
-          <Typography variant="h5" fontWeight={700} sx={{ marginBottom: 2 }}>
-            Bookmark
-          </Typography>
-          <Box
-            sx={{
-              paddingBottom: 2,
-              display: "flex",
-              gap: 1,
-              alignItems: "center",
-            }}
-          >
-            {/* <Grid container spacing={2}>
-              {questionsParsed.map((question, index) => (
-                <Grid item xs={12} sm={6} md={3} key={index}>
-                  <BoxItem question={question} />
-                </Grid>
-              ))}
-            </Grid> */}
-            <Button
-              className="prev-button-swiper"
-              variant="text"
-              sx={{ padding: 1, minWidth: 0 }}
-            >
-              <NavigateBeforeIcon />
-            </Button>
-            <Swiper
-              slidesPerView={4}
-              spaceBetween={30}
-              pagination={{
-                clickable: true,
-                el: ".pagination-swiper",
-              }}
-              navigation={{
-                nextEl: ".next-button-swiper",
-                prevEl: ".prev-button-swiper",
-              }}
-              modules={[Pagination, Navigation]}
-              className="mySwiper"
-            >
-              {questionsParsed.map((question, index) => (
-                <SwiperSlide key={index}>
-                  <BoxItem question={question} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <Button
-              className="next-button-swiper"
-              variant="text"
-              sx={{ padding: 1, minWidth: 0 }}
-            >
-              <NavigateNextIcon />
-            </Button>
-          </Box>
-          <Box
-            className="pagination-swiper"
-            sx={{ display: "flex", gap: 1, justifyContent: "center" }}
-          ></Box>
-        </Box>
+        <RecommendBox/>
         <Box>
           <Typography variant="h5" fontWeight={700} sx={{}}>
             Lịch sử làm bài

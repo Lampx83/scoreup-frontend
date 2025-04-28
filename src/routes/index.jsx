@@ -22,6 +22,7 @@ import ResetPasswordPage from "~/pages/ResetPasswordPage/index.jsx";
 import PostTestPage from "~/pages/PostTestPage/index.jsx";
 import ListPostTestPage from "~/pages/ListPostTestPage/index.jsx";
 import RankingPage from "~/pages/RankingPage/index.jsx";
+import RecommendDetailList from "~/pages/RecommendDetailList/index.jsx";
 
 export const routes = [
   {
@@ -94,6 +95,10 @@ export const routes = [
           {
             path: "/ranking",
             element: <RankingPage/>
+          },
+          {
+            path: "/detail-recommend",
+            element: <RecommendDetailList/>
           }
         ]
       }

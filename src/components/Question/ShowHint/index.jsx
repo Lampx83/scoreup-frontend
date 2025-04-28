@@ -8,6 +8,7 @@ import Divider from "@mui/material/Divider";
 import * as React from "react";
 import {useRef} from "react";
 import parse from 'html-react-parser';
+import IconButton from "@mui/material/IconButton";
 
 function ShowHint({
   hint,
@@ -29,15 +30,13 @@ function ShowHint({
 
   return ( showHint &&
     <Box>
-      <Button
+      <IconButton
         aria-describedby={idPopper}
         onClick={handleClick}
         sx={{
           minWidth: 0,
           backgroundColor: "#FFDC6EFF",
           borderRadius: "50%",
-          width: 35,
-          height: 35,
           ':hover': {
             backgroundColor: "rgba(255,220,110,0.7)",
             boxShadow: "0 0 10px 0 rgba(255,220,110,0.7)"
@@ -45,7 +44,7 @@ function ShowHint({
         }}
       >
         <Icon as={FaRegLightbulb}/>
-      </Button>
+      </IconButton>
 
 
       <Popper
