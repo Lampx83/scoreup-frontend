@@ -2,6 +2,9 @@ import './App.css'
 import AllRoutes from "~/components/AllRoutes/index.jsx";
 import {Toaster} from "sonner";
 import {useTheme} from "@mui/material";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 function App() {
   const theme = useTheme();

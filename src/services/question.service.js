@@ -1,8 +1,8 @@
-import {get, patch, post} from "~/utils/request.js";
+import { get, patch, post } from "~/utils/request.js";
 import axios from "axios";
 import config from "~/config.js";
 import cookies from "~/utils/cookies.js";
-import {isEmpty} from "lodash";
+import { isEmpty } from "lodash";
 
 export const getQuestions = async ({
   limit = 5,
@@ -10,26 +10,26 @@ export const getQuestions = async ({
   tag = "",
   notionDatabaseId = "",
 }) => {
-  return await post('/questions', {
+  return await post("/questions", {
     notionDatabaseId,
     tag,
     limit,
-    multiQuestions
+    multiQuestions,
   });
-}
+};
 
 export const postComment = async ({
   questionId,
   parentId = null,
   content = "",
 }) => {
-  const res = await post('/comments', {
+  const res = await post("/comments", {
     itemId: questionId,
     parentId,
-    content
+    content,
   });
   return res;
-}
+};
 
 export const getComments = async ({
   questionId,
@@ -38,7 +38,9 @@ export const getComments = async ({
   offset = 0,
   sort = "desc",
 }) => {
-  let queryString = parentId ? `?itemId=${questionId}&parentId=${parentId}` : `?itemId=${questionId}`;
+  let queryString = parentId
+    ? `?itemId=${questionId}&parentId=${parentId}`
+    : `?itemId=${questionId}`;
 
   if (limit > 0 && offset >= 0) {
     queryString += `&limit=${limit}&offset=${offset}&sort=${sort}`;
@@ -46,7 +48,7 @@ export const getComments = async ({
 
   const res = await get(`/comments${queryString}`);
   return res;
-}
+};
 
 export const postLogQuestion = async ({
   exercise_id,
@@ -58,11 +60,11 @@ export const postLogQuestion = async ({
   answered = true,
   bookmarked = 0,
   mastered = 0,
-  indexRcm = 0
+  indexRcm = 0,
 }) => {
   const userInfo = cookies.get("user", { path: "/" });
 
-  return await post('/questions/log-questions', {
+  return await post("/questions/log-questions", {
     user_id: userInfo._id,
     exercise_id,
     score,
@@ -73,9 +75,9 @@ export const postLogQuestion = async ({
     answered,
     bookmarked,
     mastered,
-    index: indexRcm
+    index: indexRcm,
   });
-}
+};
 
 export const updateLogQuestion = async ({
   exercise_id,
@@ -88,22 +90,22 @@ export const updateLogQuestion = async ({
     user_id: userInfo._id,
     exercise_id,
     bookmarked,
-    mastered
+    mastered,
   });
-}
+};
 
 export const getRecommendQuestions = async () => {
-
-  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/api/v1/recommend";
+  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/api/v1/rcm/box";
   const user = cookies.get("user", { path: "/" });
   const body = {
-    user_id: user._id
+    user_id: user._id,
+    course_name: "CSLT",
   };
 
   const res = await axios.post(URL, body);
 
   return res.data;
-}
+};
 
 export const submitResult = async ({
   user,
@@ -112,46 +114,42 @@ export const submitResult = async ({
   total,
   correct,
   start = null,
-  end = null
+  end = null,
 }) => {
-  return await post('/questions/result', {
+  return await post("/questions/result", {
     user,
     certificateId,
     questions,
     total,
     correct,
     start,
-    end
+    end,
   });
-}
+};
 
-export const getResult = async ({
-  certificateId
-}) => {
+export const getResult = async ({ certificateId }) => {
   return await get(`/questions/result?certificateId=${certificateId}`);
-}
+};
 
-export const getResultById = async ({
-  id
-}) => {
+export const getResultById = async ({ id }) => {
   return await get(`/questions/result/${id}`);
-}
+};
 
 export const getRank = async () => {
-  return await get('/app/rank');
-}
+  return await get("/app/rank");
+};
 
-export const saveRatingRecommend  = async ({
-  clusters = [],
-  rating = 0
-}) => {
+export const saveRatingRecommend = async ({ clusters = [], rating = 0 }) => {
   const user = cookies.get("user", { path: "/" });
 
-  return await post('https://scoreup-rcm.whoisduyviet.id.vn/api/v1/ratings/upsert', {
-    user_id: user._id,
-    data: {
-      rating,
-      clusters
+  return await post(
+    "https://scoreup-rcm.whoisduyviet.id.vn/api/v1/ratings/upsert",
+    {
+      user_id: user._id,
+      data: {
+        rating,
+        clusters,
+      },
     }
-  });
-}
+  );
+};
