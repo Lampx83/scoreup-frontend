@@ -153,3 +153,34 @@ export const saveRatingRecommend = async ({ clusters = [], rating = 0 }) => {
     }
   );
 };
+
+export const updateBox = async ({ setData = [] }) => {
+  const user = cookies.get("user", { path: "/" });
+  const body = {
+    data: setData.map((item) => ({
+      user_id: user._id,
+      category: item.type,
+      question_id: item.id,
+    })),
+  };
+
+  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/api/v1/rcm/box";
+
+  return await axios.put(URL, body);
+};
+
+export const sendPerformance = async ({ total, click, completed }) => {
+  const user = cookies.get("user", { path: "/" });
+  const body = {
+    user_id: user._id,
+    course_name: "CSLT",
+    date: new Date().toISOString().split("T")[0],
+    total,
+    click,
+    completed,
+  };
+
+  const URL = "https://scoreup-rcm.whoisduyviet.id.vn/api/v1/performance/save";
+
+  return await axios.post(URL, body);
+};

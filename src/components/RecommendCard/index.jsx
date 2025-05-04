@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import parse from "html-react-parser";
-import { Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import ReportError from "~/components/ReportError/index.jsx";
 import ShowHint from "~/components/Question/ShowHint/index.jsx";
@@ -50,6 +50,7 @@ export default function RecommendCard({
   setAnswered = () => null,
   type,
   desc = "",
+  onAnswered = () => null,
 }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [openComment, setOpenComment] = useState(false);
@@ -147,6 +148,8 @@ export default function RecommendCard({
     if (showAnswer && isRecommended) {
       handleIncreaseDoneCount && handleIncreaseDoneCount(id);
     }
+
+    onAnswered && onAnswered(id, type);
   };
 
   const getOptionStyle = (option) => {
@@ -338,52 +341,59 @@ export default function RecommendCard({
           gap: 1,
         }}
       >
-        <IconButton
-          sx={{
-            backgroundColor: openComment ? "gray" : "#F3F4F6FF",
-          }}
-          onClick={() => {
-            setOpenComment(!openComment);
-          }}
-        >
-          <LiaComments />
-        </IconButton>
+        <Tooltip title="Bình luận">
+          <IconButton
+            sx={{
+              backgroundColor: openComment ? "gray" : "#F3F4F6FF",
+            }}
+            onClick={() => {
+              setOpenComment(!openComment);
+            }}
+          >
+            <LiaComments />
+          </IconButton>
+        </Tooltip>
 
-        <IconButton
-          sx={{
-            backgroundColor: bookmarked ? "#FFDC6EFF" : "#F3F4F6FF",
-            ":hover": {
+        <Tooltip title="Bookmark">
+          <IconButton
+            sx={{
               backgroundColor: bookmarked ? "#FFDC6EFF" : "#F3F4F6FF",
-            },
-          }}
-          onClick={onToggleBookmarked}
-        >
-          <FaRegBookmark />
-        </IconButton>
+              ":hover": {
+                backgroundColor: bookmarked ? "#FFDC6EFF" : "#F3F4F6FF",
+              },
+            }}
+            onClick={onToggleBookmarked}
+          >
+            <FaRegBookmark />
+          </IconButton>
+        </Tooltip>
 
-        <IconButton
-          sx={{
-            backgroundColor: mastered ? "#3DC2EC" : "#F3F4F6FF",
-            ":hover": {
+        <Tooltip title="Đã thành thạo">
+          <IconButton
+            sx={{
               backgroundColor: mastered ? "#3DC2EC" : "#F3F4F6FF",
-            },
-          }}
-          onClick={onToggleMastered}
-        >
-          <FaCheck />
-        </IconButton>
-
-        <ReportError
-          question={{
-            question: question,
-            options: options,
-            correct: correct,
-            hint: hint,
-            code: code,
-            image: image,
-            audio: audio,
-          }}
-        />
+              ":hover": {
+                backgroundColor: mastered ? "#3DC2EC" : "#F3F4F6FF",
+              },
+            }}
+            onClick={onToggleMastered}
+          >
+            <FaCheck />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Báo lỗi">
+          <ReportError
+            question={{
+              question: question,
+              options: options,
+              correct: correct,
+              hint: hint,
+              code: code,
+              image: image,
+              audio: audio,
+            }}
+          />
+        </Tooltip>
 
         {hint && selectedOption && <ShowHint hint={hint} showHint={true} />}
       </Box>

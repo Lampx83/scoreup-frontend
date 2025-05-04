@@ -40,7 +40,9 @@ export default function DashboardPage() {
 
       setCertificates(certs);
     };
-    fetchCertificates().then(() => setIsLoading(false));
+    // fetchCertificates().then(() => setIsLoading(false));
+    fetchCertificates();
+    setIsLoading(false);
     updateActiveTab("dashboard");
   }, []);
 
@@ -97,7 +99,7 @@ export default function DashboardPage() {
             }}
           />
         </Box>
-        <RecommendBox/>
+        {user?.recommend && <RecommendBox />}
         <Box>
           <Typography variant="h5" fontWeight={700} sx={{}}>
             Lịch sử làm bài

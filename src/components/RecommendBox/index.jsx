@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Tooltip, Typography } from "@mui/material";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import Box from "@mui/material/Box";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore.js";
@@ -10,20 +10,21 @@ import * as React from "react";
 import { parseQuestion } from "~/helpers/parseNotionResponseToObject.js";
 import { useEffect, useState } from "react";
 import { getRecommendQuestions } from "~/services/question.service.js";
-import { useNavigate } from "react-router-dom";
 
 export default function RecommendBox() {
   const [questions, setQuestions] = useState([]);
-  const navigate = useNavigate();
+  const [hasMore, setHasMore] = useState(false);
+  const [totalQuestions, setTotalQuestions] = useState(0);
 
   useEffect(() => {
     const fetchQuestions = async () => {
       const res = await getRecommendQuestions();
-
-      // if (res?.data?.length > 20) {
-      //   res.data = res.data.slice(0, 20);
-      // }
-      setQuestions(res.data);
+      setTotalQuestions(res?.data?.length || 0);
+      if (res?.data?.length > 5) {
+        res.data = res.data.slice(0, 5);
+        setHasMore(true);
+      }
+      setQuestions(res?.data || []);
     };
     fetchQuestions();
   }, []);
@@ -42,72 +43,110 @@ export default function RecommendBox() {
       }}
     >
       <Typography variant="h5" fontWeight={700} sx={{ marginBottom: 2 }}>
-        <HiOutlineLightBulb /> Bài tập đề xuất {`(${questionsParsed.length})`}:
+        <HiOutlineLightBulb /> Bài tập đề xuất {`(${totalQuestions})`}:
       </Typography>
-      <Box
-        sx={{
-          paddingBottom: 2,
-          display: "flex",
-          gap: 1,
-          alignItems: "center",
-        }}
-      >
-        <Button
-          className="prev-button-swiper"
-          variant="text"
-          sx={{ padding: 1, minWidth: 0 }}
-        >
-          <NavigateBeforeIcon />
-        </Button>
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          pagination={{
-            dynamicBullets: true,
-            el: ".pagination-swiperrrr",
-          }}
-          navigation={{
-            nextEl: ".next-button-swiper",
-            prevEl: ".prev-button-swiper",
-          }}
-          modules={[Pagination, Navigation, Virtual]}
-          className="mySwiper"
-          virtual
-        >
-          {questionsParsed.map((question, index) => (
-            <SwiperSlide key={index} virtualIndex={index}>
-              <BoxItem
-                question={question}
-                type={questions[index].category}
-                desc={questions[index].desc}
-                index={index}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-        <Button
-          className="next-button-swiper"
-          variant="text"
-          sx={{ padding: 1, minWidth: 0 }}
-        >
-          <NavigateNextIcon />
-        </Button>
-      </Box>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          className="pagination-swiperrrr"
-          sx={{
-            marginX: "auto",
-            transform: "translateX(0) !important",
-          }}
-        ></Box>
-      </Box>
+      {questions.length === 0 ? (
+        <Box sx={{ padding: 2, textAlign: "center" }}>
+          <Typography variant="body1">
+            Chưa có câu hỏi gợi ý, hãy làm thêm bài tập!
+          </Typography>
+        </Box>
+      ) : (
+        <>
+          <Box
+            sx={{
+              paddingBottom: 2,
+              display: "flex",
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
+            <Button
+              className="prev-button-swiper"
+              variant="text"
+              sx={{ padding: 1, minWidth: 0 }}
+            >
+              <NavigateBeforeIcon />
+            </Button>
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={30}
+              pagination={{
+                dynamicBullets: true,
+                el: ".pagination-swiperrrr",
+              }}
+              navigation={{
+                nextEl: ".next-button-swiper",
+                prevEl: ".prev-button-swiper",
+              }}
+              modules={[Pagination, Navigation, Virtual]}
+              className="mySwiper"
+              virtual
+            >
+              {questionsParsed.map((question, index) => (
+                <SwiperSlide key={index} virtualIndex={index}>
+                  <BoxItem
+                    question={question}
+                    type={questions[index].category}
+                    desc={questions[index].desc}
+                    index={index}
+                  />
+                </SwiperSlide>
+              ))}
+              {hasMore && (
+                <SwiperSlide virtualIndex={questionsParsed.length}>
+                  <Box
+                    sx={{
+                      padding: 2,
+                      border: "1px solid #E0E0E0",
+                      borderRadius: 2,
+                      boxShadow: 1,
+                      backgroundColor: "white",
+                      cursor: "pointer",
+                      height: "250px",
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      fontWeight={600}
+                      sx={{
+                        overflow: "hidden",
+                        whiteSpace: "wrap",
+                        maxWidth: "100%",
+                      }}
+                    >
+                      Hãy hoàn thành những câu hỏi trước đó để xem thêm...
+                    </Typography>
+                  </Box>
+                </SwiperSlide>
+              )}
+            </Swiper>
+            <Button
+              className="next-button-swiper"
+              variant="text"
+              sx={{ padding: 1, minWidth: 0 }}
+            >
+              <NavigateNextIcon />
+            </Button>
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              className="pagination-swiperrrr"
+              sx={{
+                marginX: "auto",
+                transform: "translateX(0) !important",
+              }}
+            ></Box>
+          </Box>
+        </>
+      )}
     </Box>
   );
 }
