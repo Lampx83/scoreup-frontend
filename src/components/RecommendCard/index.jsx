@@ -381,19 +381,17 @@ export default function RecommendCard({
             <FaCheck />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Báo lỗi">
-          <ReportError
-            question={{
-              question: question,
-              options: options,
-              correct: correct,
-              hint: hint,
-              code: code,
-              image: image,
-              audio: audio,
-            }}
-          />
-        </Tooltip>
+        <ReportError
+          question={{
+            question: question,
+            options: options,
+            correct: correct,
+            hint: hint,
+            code: code,
+            image: image,
+            audio: audio,
+          }}
+        />
 
         {hint && selectedOption && <ShowHint hint={hint} showHint={true} />}
       </Box>

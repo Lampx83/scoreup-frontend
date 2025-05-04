@@ -39,7 +39,7 @@ export default function RecommendDetailList() {
   const user = cookies.get("user");
 
   const questionsParsed = useMemo(
-    () => questions?.map((item) => parseQuestion(item.data)) || [],
+    () => questions?.map((item) => parseQuestion(item?.data)) || [],
     [questions]
   );
 
@@ -322,7 +322,7 @@ export default function RecommendDetailList() {
   useEffect(() => {
     const fetchQuestions = async () => {
       const res = await getRecommendQuestions();
-      setQuestions(res.data);
+      setQuestions(res?.data?.filter((item) => !!item));
     };
     fetchQuestions();
   }, []);
