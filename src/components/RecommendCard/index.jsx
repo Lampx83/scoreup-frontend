@@ -54,7 +54,7 @@ export default function RecommendCard({
 }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [openComment, setOpenComment] = useState(false);
-  const [bookmarked, setBookmarked] = useState(0);
+  const [bookmarked, setBookmarked] = useState(type === "bookmarked" ? 1 : 0);
   const [mastered, setMastered] = useState(0);
   const [questionStartTime, setQuestionStartTime] = useState(null);
 
