@@ -10,7 +10,7 @@ import useLoginModal from "~/hooks/useLoginModal.jsx";
 import useRegisterModal from "~/hooks/useRegisterModal.jsx";
 import pushToast from "~/helpers/sonnerToast.js";
 import { Link } from "react-router-dom";
-import MicrosoftLoginButton from "~/components/CustomComponents/MicrosoftLoginButton/index.jsx";
+import MicrosoftButton from "~/components/CustomComponents/MicrosoftLoginButton/index.jsx";
 
 function LoginModal() {
   const loginModal = useLoginModal();
@@ -169,7 +169,7 @@ function LoginModal() {
             <div className="social-account-container">
               <span className="title">Hoặc</span>
               <div className="social-accounts" style={{ marginBottom: "15px" }}>
-                <MicrosoftLoginButton
+                <MicrosoftButton
                   onSuccess={handleMicrosoftLoginSuccess}
                   onError={handleMicrosoftLoginError}
                 />

@@ -2,11 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import microsoftService from "~/services/microsoft.service.js";
 
-const MicrosoftButton = ({
-  onSuccess,
-  onError,
-  disabled = false,
-}) => {
+const MicrosoftButton = ({ onSuccess, onError, disabled = false }) => {
   const handleMicrosoftLogin = async () => {
     try {
       const success = await microsoftService.initiateLogin();
@@ -63,7 +59,7 @@ const MicrosoftButton = ({
         <rect x="1" y="12" width="9" height="9" fill="#ffb900" />
         <rect x="12" y="12" width="9" height="9" fill="#7fba00" />
       </svg>
-      Đăng nhập với Microsoft
+      Đăng nhập với Microsoft (NEU)
     </Button>
   );
 };
