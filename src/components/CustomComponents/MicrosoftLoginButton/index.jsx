@@ -14,7 +14,7 @@ const MicrosoftButton = ({ onSuccess, onError, disabled = false }) => {
       if (onError) {
         onError(error);
       }
-    }
+    } 
   };
 
   return (
