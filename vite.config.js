@@ -22,6 +22,11 @@ export default ({ mode }) => {
       alias: [
         { find: '~', replacement: '/src' }
       ]
+    },
+    define: {
+      'process.env': {
+        ...env
+      }
     }
   })
 }
