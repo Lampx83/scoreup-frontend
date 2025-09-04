@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import "./style.css";
 import Button from "@mui/material/Button";
 import ContinueWithGoogleButton from "~/components/CustomComponents/ContinueWithGoogleButton/index.jsx";
+import MicrosoftButton from "~/components/CustomComponents/MicrosoftLoginButton/index.jsx";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import authService from "~/services/auth.service.js";
@@ -37,14 +38,25 @@ function Login() {
     } else {
       pushToast("Đăng ký thất bại!", "error");
     }
-
   };
 
   const onError = (errors, e) => {
-    Object.values(errors).reverse().forEach((error) => {
-      toast.error(error.message);
-    });
-  }
+    Object.values(errors)
+      .reverse()
+      .forEach((error) => {
+        toast.error(error.message);
+      });
+  };
+
+  const handleMicrosoftRegisterSuccess = () => {
+    registerModal.handleClose();
+    auth.login();
+  };
+
+  const handleMicrosoftRegisterError = (error) => {
+    console.error("Microsoft register error:", error);
+    pushToast("Đăng ký Microsoft thất bại, hãy thử lại!", "error");
+  };
 
   return (
     <>
@@ -96,7 +108,11 @@ function Login() {
               Đăng ký
             </Box>
 
-            <form onSubmit={handleSubmit(onSubmit, onError)} className="login-form" noValidate={true}>
+            <form
+              onSubmit={handleSubmit(onSubmit, onError)}
+              className="login-form"
+              noValidate={true}
+            >
               <input
                 className="input-login"
                 name="fullName"
@@ -115,8 +131,9 @@ function Login() {
                   required: "Vui lòng nhập email!",
                   pattern: {
                     value: /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)?neu\.edu\.vn$/,
-                    message: "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!",
-                  }
+                    message:
+                      "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!",
+                  },
                 })}
               />
               {/*<input*/}
@@ -142,8 +159,8 @@ function Login() {
                   required: "Vui lòng nhập mật khẩu!",
                   minLength: {
                     value: 6,
-                    message: "Mật khẩu phải có ít nhất 6 ký tự!"
-                  }
+                    message: "Mật khẩu phải có ít nhất 6 ký tự!",
+                  },
                 })}
               />
               <input
@@ -159,7 +176,7 @@ function Login() {
                       return true;
                     }
                     return "Mật khẩu không khớp!";
-                  }
+                  },
                 })}
               />
               {/*<span className="forgot-password">*/}
@@ -191,12 +208,15 @@ function Login() {
                 Đăng ký
               </Button>
             </form>
-            {/*<div className="social-account-container">*/}
-            {/*  <span className="title">Hoặc</span>*/}
-            {/*  <div className="social-accounts">*/}
-            {/*    <ContinueWithGoogleButton/>*/}
-            {/*  </div>*/}
-            {/*</div>*/}
+            <div className="social-account-container">
+              <span className="title">Hoặc</span>
+              <div className="social-accounts" style={{ marginBottom: "15px" }}>
+                <MicrosoftButton
+                  onSuccess={handleMicrosoftRegisterSuccess}
+                  onError={handleMicrosoftRegisterError}
+                />
+              </div>
+            </div>
             {/*<span className="agreement">*/}
             {/*  <a href="#">Chính sách sử dụng</a>*/}
             {/*</span>*/}

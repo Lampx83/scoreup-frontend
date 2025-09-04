@@ -9,7 +9,8 @@ import useAuth from "~/hooks/useAuth.jsx";
 import useLoginModal from "~/hooks/useLoginModal.jsx";
 import useRegisterModal from "~/hooks/useRegisterModal.jsx";
 import pushToast from "~/helpers/sonnerToast.js";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import MicrosoftButton from "~/components/CustomComponents/MicrosoftLoginButton/index.jsx";
 
 function LoginModal() {
   const loginModal = useLoginModal();
@@ -36,14 +37,23 @@ function LoginModal() {
     } else {
       pushToast("Đăng nhập thất bại, hãy thử lại!", "error");
     }
-
   };
 
   const onError = (errors, e) => {
     Object.values(errors).forEach((error) => {
       toast.error(error.message);
     });
-  }
+  };
+
+  const handleMicrosoftLoginSuccess = () => {
+    loginModal.handleClose();
+    auth.login();
+  };
+
+  const handleMicrosoftLoginError = (error) => {
+    console.error("Microsoft login error:", error);
+    pushToast("Đăng nhập Microsoft thất bại, hãy thử lại!", "error");
+  };
 
   return (
     <>
@@ -95,7 +105,11 @@ function LoginModal() {
               Đăng nhập
             </Box>
 
-            <form onSubmit={handleSubmit(onSubmit, onError)} className="login-form" noValidate={true}>
+            <form
+              onSubmit={handleSubmit(onSubmit, onError)}
+              className="login-form"
+              noValidate={true}
+            >
               <input
                 className="input-login"
                 name="email"
@@ -105,8 +119,9 @@ function LoginModal() {
                   required: "Vui lòng nhập email!",
                   pattern: {
                     value: /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)?neu\.edu\.vn$/,
-                    message: "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!"
-                  }
+                    message:
+                      "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!",
+                  },
                 })}
               />
               <input
@@ -153,6 +168,12 @@ function LoginModal() {
             </form>
             <div className="social-account-container">
               <span className="title">Hoặc</span>
+              <div className="social-accounts" style={{ marginBottom: "15px" }}>
+                <MicrosoftButton
+                  onSuccess={handleMicrosoftLoginSuccess}
+                  onError={handleMicrosoftLoginError}
+                />
+              </div>
               <Button
                 sx={{
                   display: "block",
@@ -172,9 +193,6 @@ function LoginModal() {
               >
                 Đăng ký
               </Button>
-              {/*<div className="social-accounts">*/}
-              {/*  <ContinueWithGoogleButton />*/}
-              {/*</div>*/}
             </div>
             {/*<span className="agreement">*/}
             {/*  <a href="#">Chính sách sử dụng</a>*/}

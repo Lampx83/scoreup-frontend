@@ -1,5 +1,5 @@
 import PrivateRoute from "~/components/PrivateRoute/index.jsx";
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Page404 from "~/pages/404/index.jsx";
 import IndexPage from "~/pages/index.jsx";
 import PracticePage from "~/pages/PracticePage/index.jsx";
@@ -23,124 +23,134 @@ import PostTestPage from "~/pages/PostTestPage/index.jsx";
 import ListPostTestPage from "~/pages/ListPostTestPage/index.jsx";
 import RankingPage from "~/pages/RankingPage/index.jsx";
 import RecommendDetailList from "~/pages/RecommendDetailList/index.jsx";
+import MicrosoftCallbackPage from "~/pages/MicrosoftCallbackPage/index.jsx";
 
 export const routes = [
   {
     path: "/homepage",
-    element: <HomePage/>
+    element: <HomePage />,
   },
   {
     path: "/auth",
-    element: <LayoutAuth/>,
+    element: <LayoutAuth />,
     children: [
       {
         path: "/auth/forgot-password",
-        element: <ForgotPassPage/>
+        element: <ForgotPassPage />,
       },
       {
         path: "/auth/forgot-password/verify-code",
-        element: <VerifyCodeForgotPage/>
+        element: <VerifyCodeForgotPage />,
       },
       {
         path: "/auth/forgot-password/reset-password",
-        element: <ResetPasswordPage/>
-      }
-    ]
+        element: <ResetPasswordPage />,
+      },
+    ],
+  },
+  {
+    path: "/api/auth/callback/azure-ad",
+    element: <MicrosoftCallbackPage />,
   },
   {
     path: "/",
     // element: <ErrorBoundary><IndexPage/></ErrorBoundary>,
-    element: <IndexPage/>,
+    element: <IndexPage />,
     children: [
       {
         path: "/",
-        element: <PrivateRoute/>,
+        element: <PrivateRoute />,
         children: [
           {
             path: "/",
-            element: <Navigate to="/dashboard"/>
+            element: <Navigate to="/dashboard" />,
           },
           {
             path: "/practice",
-            element: <PracticePage/>
+            element: <PracticePage />,
           },
           {
             path: "/profile",
-            element: <ProfilePage/>
+            element: <ProfilePage />,
           },
           {
             path: "/recommend",
-            element: <RecommendPage/>
+            element: <RecommendPage />,
           },
           {
             path: "/dashboard",
-            element: <DashboardPage/>
+            element: <DashboardPage />,
           },
           {
             path: "/history/:id",
-            element: <HistoryPage/>
+            element: <HistoryPage />,
           },
           {
             path: "/history/:certId/:resultId",
-            element: <ResultPage/>
+            element: <ResultPage />,
           },
           {
             path: "/pre-test",
-            element: <ListPostTestPage/>
+            element: <ListPostTestPage />,
           },
           {
             path: "/pre-test/:notionDatabaseId",
-            element: <PostTestPage/>
+            element: <PostTestPage />,
           },
           {
             path: "/ranking",
-            element: <RankingPage/>
+            element: <RankingPage />,
           },
           {
             path: "/detail-recommend",
-            element: <RecommendDetailList/>
-          }
-        ]
-      }
-    ]
+            element: <RecommendDetailList />,
+          },
+        ],
+      },
+    ],
   },
   {
     path: "/lecturer/login",
-    element: <LecturerLoginPage/>
+    element: <LecturerLoginPage />,
   },
   {
     path: "/lecturer",
-    element: <LayoutLecturer/>,
+    element: <LayoutLecturer />,
     children: [
       {
         path: "/lecturer",
-        element: <LecturerHomePage/>
+        element: <LecturerHomePage />,
       },
       {
         path: "/lecturer/test/:id",
-        element: <LecturerDetailTestPage/>
+        element: <LecturerDetailTestPage />,
       },
       {
         path: "/lecturer/statistic",
-        element: <StatisticPage/>
+        element: <StatisticPage />,
       },
       {
         path: "/lecturer/statistic/:id",
-        element: <StatisticDetailPage/>
+        element: <StatisticDetailPage />,
       },
-    ]
+    ],
   },
   {
     path: "/404",
-    element: <Page404/>
+    element: <Page404 />,
   },
   {
     path: "*",
-    element: <Navigate to="/404" state={{
-      messageToast: {
-        type: "error",
-        message: "Trang không tồn tại"
-      },
-    }}/>
-  }
-]
+    element: (
+      <Navigate
+        to="/404"
+        state={{
+          messageToast: {
+            type: "error",
+            message: "Trang không tồn tại",
+          },
+        }}
+      />
+    ),
+  },
+];
