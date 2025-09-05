@@ -24,6 +24,8 @@ import ListPostTestPage from "~/pages/ListPostTestPage/index.jsx";
 import RankingPage from "~/pages/RankingPage/index.jsx";
 import RecommendDetailList from "~/pages/RecommendDetailList/index.jsx";
 import MicrosoftCallbackPage from "~/pages/MicrosoftCallbackPage/index.jsx";
+import ListPostExamPage from "~/pages/ListPostExamPage";
+import PostExamPage from "~/pages/PostExamPage";
 
 export const routes = [
   {
@@ -96,6 +98,14 @@ export const routes = [
           {
             path: "/pre-test/:notionDatabaseId",
             element: <PostTestPage />,
+          },
+          {
+            path: "/exam",
+            element: <ListPostExamPage />,
+          },
+          {
+            path: "/exam/:notionDatabaseId",
+            element: <PostExamPage />,
           },
           {
             path: "/ranking",
