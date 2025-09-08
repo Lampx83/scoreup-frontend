@@ -18,6 +18,7 @@ import Button from "@mui/material/Button";
 import { getResult } from "~/services/question.service.js";
 import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
+import plusExamImg from "~/assets/images/PlusExam.png";
 
 export default function ListPostExamPage() {
   const theme = useTheme();
@@ -114,8 +115,40 @@ export default function ListPostExamPage() {
           position: "relative",
           display: "flex",
           gap: 2,
+          flexDirection: "column",
         }}
       >
+        {role ? (
+          <Button
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "150px",
+              height: "50px",
+              fontSize: "12px",
+              borderRadius: "5px",
+              backgroundColor: "#EFB034FF",
+              color: "#323842FF",
+              textDecoration: "none",
+              padding: "10px 10px",
+              gap: "10px",
+            }}
+            component={Link}
+            to="/create-exam"
+          >
+            <img
+              src={plusExamImg}
+              alt="PlusExam"
+              style={{
+                width: "25px",
+                height: "25px",
+              }}
+            />
+            <h2>Tạo ca thi</h2>
+          </Button>
+        ) : (
+          <h2>Danh sách ca thi</h2>
+        )}
         {tests.map((test, index) => (
           <Card
             key={index}
@@ -182,45 +215,116 @@ export default function ListPostExamPage() {
                 </Typography>
               )}
             </CardContent>
-            <CardActions>
-              {test.results.length === 0 ? (
-                <Button
-                  size={"small"}
-                  sx={{
-                    backgroundColor: "#1A4E8DFF",
-                    borderRadius: 5,
-                    color: "white",
-                    paddingX: 1,
-                    ":hover": {
-                      backgroundColor: "rgba(26,78,141,0.8)",
-                      boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
-                    },
-                  }}
-                  component={Link}
-                  to={`/pre-test/${test.database_id}`}
-                >
-                  Làm bài
-                </Button>
-              ) : (
-                <Button
-                  size={"small"}
-                  sx={{
-                    backgroundColor: "#9095A0FF",
-                    borderRadius: 5,
-                    color: "white",
-                    paddingX: 1,
-                    ":hover": {
-                      backgroundColor: "rgba(144,149,160,0.8)",
-                      boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
-                    },
-                  }}
-                  component={Link}
-                  to={`/history/${test.database_id}/${test.results[0]._id}`}
-                >
-                  Xem đáp án chi tiết
-                </Button>
-              )}
-            </CardActions>
+            {role ? (
+              <CardActions
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {test.results.length === 0 ? (
+                  <>
+                    <Button
+                      size={"small"}
+                      sx={{
+                        backgroundColor: "#DE3B40FF",
+                        borderRadius: 25,
+                        color: "white",
+                        height: 35,
+                        fontWeight: 600,
+                        ":hover": {
+                          backgroundColor: "#C12126FF",
+                        },
+                      }}
+                    >
+                      Xóa
+                    </Button>
+                    <Button
+                      size={"small"}
+                      sx={{
+                        backgroundColor: "#1A4E8DFF",
+                        borderRadius: 25,
+                        color: "white",
+                        height: 35,
+                        paddingX: 2,
+                        fontWeight: 600,
+                        ":hover": {
+                          backgroundColor: "#123663FF",
+                        },
+                      }}
+                      component={Link}
+                      to="/edit-exam"
+                    >
+                      Chỉnh sửa
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    size={"small"}
+                    sx={{
+                      backgroundColor: "#9095A0FF",
+                      borderRadius: 5,
+                      color: "white",
+                      paddingX: 1,
+                      ":hover": {
+                        backgroundColor: "rgba(144,149,160,0.8)",
+                        boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
+                      },
+                    }}
+                    component={Link}
+                    to={`/history/${test.database_id}/${test.results[0]._id}`}
+                  >
+                    Xem chi tiết
+                  </Button>
+                )}
+              </CardActions>
+            ) : (
+              <CardActions
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {test.results.length === 0 ? (
+                  <Button
+                    size={"small"}
+                    sx={{
+                      backgroundColor: "#1A4E8DFF",
+                      borderRadius: 25,
+                      color: "white",
+                      paddingX: 2,
+                      height: 35,
+                      ":hover": {
+                        backgroundColor: "white",
+                        boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
+                      },
+                    }}
+                    component={Link}
+                    to={`/exam/${test.database_id}`}
+                  >
+                    Làm bài
+                  </Button>
+                ) : (
+                  <Button
+                    size={"small"}
+                    sx={{
+                      backgroundColor: "#9095A0FF",
+                      borderRadius: 5,
+                      color: "white",
+                      paddingX: 1,
+                      ":hover": {
+                        backgroundColor: "rgba(144,149,160,0.8)",
+                        boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
+                      },
+                    }}
+                    component={Link}
+                    to={`/exam-history/${test.database_id}/${test.results[0]._id}`}
+                  >
+                    Xem chi tiết
+                  </Button>
+                )}
+              </CardActions>
+            )}
           </Card>
         ))}
       </Box>

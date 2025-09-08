@@ -26,6 +26,10 @@ import RecommendDetailList from "~/pages/RecommendDetailList/index.jsx";
 import MicrosoftCallbackPage from "~/pages/MicrosoftCallbackPage/index.jsx";
 import ListPostExamPage from "~/pages/ListPostExamPage";
 import PostExamPage from "~/pages/PostExamPage";
+import DetailExam from "~/pages/DetailExam";
+import CreateExam from "~/pages/CreateExam";
+import EditExam from "~/pages/EditExam";
+import ResultExamPage from "~/pages/ResultExamPage";
 
 export const routes = [
   {
@@ -92,6 +96,10 @@ export const routes = [
             element: <ResultPage />,
           },
           {
+            path: "/exam-history/:certId/:resultId",
+            element: <ResultExamPage />,
+          },
+          {
             path: "/pre-test",
             element: <ListPostTestPage />,
           },
@@ -106,6 +114,18 @@ export const routes = [
           {
             path: "/exam/:notionDatabaseId",
             element: <PostExamPage />,
+          },
+          {
+            path: "/create-exam",
+            element: <CreateExam />,
+          },
+          {
+            path: "/edit-exam",
+            element: <EditExam />,
+          },
+          {
+            path: "/detail-exam",
+            element: <DetailExam />,
           },
           {
             path: "/ranking",
