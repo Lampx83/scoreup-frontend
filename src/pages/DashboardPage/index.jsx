@@ -14,6 +14,7 @@ import Loading from "~/components/Loading/index.jsx";
 import headerImg from "~/assets/images/header_userhomepage.png";
 import cookies from "~/utils/cookies.js";
 import RecommendBox from "~/components/RecommendBox/index.jsx";
+import { checkRole } from "~/helpers/checkRole";
 
 export default function DashboardPage() {
   const theme = useTheme();
@@ -21,6 +22,8 @@ export default function DashboardPage() {
   const [certificates, setCertificates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const user = cookies.get("user");
+  const role = checkRole()?.role;
+  console.log("role:", role);
 
   useEffect(() => {
     const fetchCertificates = async () => {

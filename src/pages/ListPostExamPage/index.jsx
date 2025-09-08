@@ -16,13 +16,16 @@ import { FaHistory, FaRegClock } from "react-icons/fa";
 import { FaListCheck } from "react-icons/fa6";
 import Button from "@mui/material/Button";
 import { getResult } from "~/services/question.service.js";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
 
 export default function ListPostExamPage() {
   const theme = useTheme();
   const user = cookies.get("user");
   const [tests, setTests] = useState([]);
+  const location = useLocation();
+  const { role } = location.state || {};
+  console.log("Role từ router state:", role);
 
   useEffect(() => {
     // fetch tests
@@ -78,10 +81,12 @@ export default function ListPostExamPage() {
           }}
         >
           <Typography variant="h4" fontWeight={700} sx={{}}>
-            Xin chào, {user?.fullName || user?.email || "meow"}!
+            Kì thi
           </Typography>
           <Typography variant="p" fontWeight={500} sx={{}}>
-            Bạn chỉ có thể làm một lượt duy nhất mỗi đề thi.
+            {role
+              ? `Tạo ca thi, theo dõi kết quả.`
+              : `Tham gia thi, xem kết quả tức thì.`}
           </Typography>
         </Box>
         <img

@@ -17,7 +17,12 @@ const login = async (data) => {
   if (res.statusCode === 200) {
     toast.success("Đăng nhập thành công!");
     cookies.set("token", res.metadata.token, { path: "/" });
-    cookies.set("user", JSON.stringify(await getUser()), { path: "/" });
+    const data = JSON.stringify(await getUser());
+    const parse = JSON.parse(data);
+    console.log("info user after login:");
+    console.log(parse);
+
+    cookies.set("user", data, { path: "/" });
     return true;
   }
   return false;
@@ -34,7 +39,13 @@ const register = async (data) => {
   if (res.statusCode === 201) {
     toast.success("Đăng ký thành công!");
     cookies.set("token", res.metadata.token, { path: "/" });
-    cookies.set("user", JSON.stringify(await getUser()));
+    const data = JSON.stringify(await getUser());
+    const parse = JSON.parse(data);
+    console.log(parse.email);
+    console.log("info user after register:");
+    console.log(parse);
+
+    cookies.set("user", data, { path: "/" });
     return true;
   }
   return false;
