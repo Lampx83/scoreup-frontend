@@ -14,30 +14,30 @@ import ListItemText from "@mui/material/ListItemText";
 import Logo from "~/assets/images/full_body_logo.png";
 import { Link, Link as LinkRouter } from "react-router-dom";
 import LinkMui from "@mui/material/Link";
-import {FaHammer, FaHome} from "react-icons/fa";
+import { FaHammer, FaHome } from "react-icons/fa";
 import { RiDashboard3Line } from "react-icons/ri";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
-import {Grid, Typography} from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {MdLogout, MdRecommend} from "react-icons/md";
+import { MdLogout, MdRecommend } from "react-icons/md";
 import Button from "@mui/material/Button";
 import useAuth from "~/hooks/useAuth.jsx";
 import Tooltip from "@mui/material/Tooltip";
-import Badge from '@mui/material/Badge';
-import Stack from '@mui/material/Stack';
+import Badge from "@mui/material/Badge";
+import Stack from "@mui/material/Stack";
 import ModeSelectV2 from "~/components/ModeSelect/ModeSelectV2/index.jsx";
 import useSideBar from "~/hooks/useSideBar.jsx";
 import cookies from "~/utils/cookies.js";
 import useActiveTab from "~/hooks/useActiveTab.jsx";
 import { FaBookOpen } from "react-icons/fa";
-import {FcStatistics} from "react-icons/fc";
-import {IoIosStats} from "react-icons/io";
+import { FcStatistics } from "react-icons/fc";
+import { IoIosStats } from "react-icons/io";
 import ReportError from "~/components/ReportError/index.jsx";
 import useRecommendModal from "~/hooks/useModalRecommend.jsx";
-import {useEffect} from "react";
-import {getUser} from "~/services/user.service.js";
-import {PiExamFill} from "react-icons/pi";
-import {FaRankingStar} from "react-icons/fa6";
+import { useEffect } from "react";
+import { getUser } from "~/services/user.service.js";
+import { PiAcorn, PiExamBold, PiExamDuotone, PiExamFill } from "react-icons/pi";
+import { FaRankingStar } from "react-icons/fa6";
 
 const drawerWidth = 240;
 
@@ -105,29 +105,29 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    backgroundColor: '#44b700',
-    color: '#44b700',
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
+    "&::after": {
+      position: "absolute",
       top: 0,
       left: 0,
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      animation: 'ripple 1.2s infinite ease-in-out',
-      border: '1px solid currentColor',
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
       content: '""',
     },
   },
-  '@keyframes ripple': {
-    '0%': {
-      transform: 'scale(.8)',
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
       opacity: 1,
     },
-    '100%': {
-      transform: 'scale(2.4)',
+    "100%": {
+      transform: "scale(2.4)",
       opacity: 0,
     },
   },
@@ -136,20 +136,31 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export default function SideBarUser() {
   const theme = useTheme();
   const auth = useAuth();
-  const {activeTab, updateActiveTab} = useActiveTab();
-  const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
-  const {handleOpen: handleOpenRecommend} = useRecommendModal();
+  const { activeTab, updateActiveTab } = useActiveTab();
+  const { open, handleDrawerOpen, handleDrawerClose } = useSideBar();
+  const { handleOpen: handleOpenRecommend } = useRecommendModal();
   const [user, setUser] = React.useState({});
 
   const handleFixError = () => {
     localStorage.clear();
     window.location.reload();
-  }
+  };
 
   useEffect(() => {
-    getUser().then(res => {
+    getUser().then((res) => {
       setUser(res);
     });
+  }, []);
+
+  const [checkLocal, setCheckLocal] = React.useState(false);
+
+  useEffect(() => {
+    if (window.location.hostname === "localhost") {
+      console.log("Đang chạy ở localhost 🚀");
+      setCheckLocal(true);
+    } else {
+      console.log("Không phải localhost ❌");
+    }
   }, []);
 
   return (
@@ -160,7 +171,7 @@ export default function SideBarUser() {
         sx={{
           "& .MuiPaper-root": {
             overflow: "visible",
-            justifyContent: 'space-between',
+            justifyContent: "space-between",
           },
         }}
       >
@@ -197,11 +208,11 @@ export default function SideBarUser() {
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                  ...((activeTab === 'dashboard') && activeListItem(theme)),
+                  ...(activeTab === "dashboard" && activeListItem(theme)),
                 }}
                 component={Link}
                 to="/dashboard"
-                onClick={() => updateActiveTab('dashboard')}
+                onClick={() => updateActiveTab("dashboard")}
               >
                 <ListItemIcon
                   sx={{
@@ -224,11 +235,11 @@ export default function SideBarUser() {
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                  ...((activeTab === 'ranking') && activeListItem(theme)),
+                  ...(activeTab === "ranking" && activeListItem(theme)),
                 }}
                 component={Link}
                 to="/ranking"
-                onClick={() => updateActiveTab('ranking')}
+                onClick={() => updateActiveTab("ranking")}
               >
                 <ListItemIcon
                   sx={{
@@ -251,11 +262,11 @@ export default function SideBarUser() {
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                  ...((activeTab === 'practice') && activeListItem(theme)),
+                  ...(activeTab === "practice" && activeListItem(theme)),
                 }}
                 component={Link}
                 to="/practice"
-                onClick={() => updateActiveTab('practice')}
+                onClick={() => updateActiveTab("practice")}
               >
                 <ListItemIcon
                   sx={{
@@ -278,11 +289,11 @@ export default function SideBarUser() {
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                  ...((activeTab === 'post-test') && activeListItem(theme)),
+                  ...(activeTab === "post-test" && activeListItem(theme)),
                 }}
                 component={Link}
                 to="/pre-test"
-                onClick={() => updateActiveTab('post-test')}
+                onClick={() => updateActiveTab("post-test")}
               >
                 <ListItemIcon
                   sx={{
@@ -299,6 +310,35 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
+            {checkLocal && (
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                    ...(activeTab === "exam" && activeListItem(theme)),
+                  }}
+                  component={Link}
+                  to="/exam"
+                  onClick={() => updateActiveTab("exam")}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <PiExamDuotone style={{ width: "24px", height: "24px" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Thi"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            )}
           </List>
           <Divider />
           <List>
@@ -333,57 +373,53 @@ export default function SideBarUser() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            flexWrap: 'wrap',
-            padding: 1
+            flexWrap: "wrap",
+            padding: 1,
           }}
         >
-          <Tooltip
-            title="Sửa lỗi"
-            sx={{ width: "100%", height: "100%" }}
-          >
+          <Tooltip title="Sửa lỗi" sx={{ width: "100%", height: "100%" }}>
             <Button
               sx={{
                 minWidth: 0,
                 padding: 1,
-                '& svg': {
+                "& svg": {
                   fontSize: 24,
                 },
-                marginBottom: 1
+                marginBottom: 1,
               }}
               onClick={handleFixError}
             >
-              <FaHammer/>
+              <FaHammer />
             </Button>
           </Tooltip>
-          <Tooltip
-            title="Thống kê"
-            sx={{ width: "100%", height: "100%" }}
-          >
+          <Tooltip title="Thống kê" sx={{ width: "100%", height: "100%" }}>
             <Button
               sx={{
                 minWidth: 0,
                 padding: 1,
-                '& svg': {
+                "& svg": {
                   fontSize: 24,
                 },
-                marginBottom: 1
+                marginBottom: 1,
               }}
               component={Link}
               to="/lecturer/statistic"
             >
-              <IoIosStats/>
+              <IoIosStats />
             </Button>
           </Tooltip>
-          <ReportError/>
-          {!open && <Box
-            sx={{
-              height: "48px",
-              width: "48px",
-              marginBottom: '10px'
-            }}
-          >
-            <ModeSelectV2/>
-          </Box>}
+          <ReportError />
+          {!open && (
+            <Box
+              sx={{
+                height: "48px",
+                width: "48px",
+                marginBottom: "10px",
+              }}
+            >
+              <ModeSelectV2 />
+            </Box>
+          )}
           <Grid container>
             <Grid
               item
@@ -394,13 +430,18 @@ export default function SideBarUser() {
                 justifyContent: "center",
               }}
             >
-              <Stack direction="row" spacing={2} onClick={handleDrawerOpen} sx={{cursor: "pointer"}}>
+              <Stack
+                direction="row"
+                spacing={2}
+                onClick={handleDrawerOpen}
+                sx={{ cursor: "pointer" }}
+              >
                 <StyledBadge
                   overlap="circular"
-                  anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   variant="dot"
                 >
-                  {user?.avatar ? <Avatar src={user?.avatar}/> : <Avatar/>}
+                  {user?.avatar ? <Avatar src={user?.avatar} /> : <Avatar />}
                 </StyledBadge>
               </Stack>
               <Tooltip
@@ -412,15 +453,19 @@ export default function SideBarUser() {
                   fontWeight={700}
                   sx={{
                     marginLeft: 1,
-                    textDecoration: 'none',
+                    textDecoration: "none",
                     color: theme.palette.text.primary,
                     display: open ? "block" : "none",
                   }}
                   component={Link}
                   to={"/profile"}
                 >
-                  {truncateText(user?.fullName) || truncateText(user?.email) || "User"}
-                  <Typography variant="body2" fontSize={"12px"}>Xem trang cá nhân</Typography>
+                  {truncateText(user?.fullName) ||
+                    truncateText(user?.email) ||
+                    "User"}
+                  <Typography variant="body2" fontSize={"12px"}>
+                    Xem trang cá nhân
+                  </Typography>
                 </Typography>
               </Tooltip>
             </Grid>
@@ -433,13 +478,19 @@ export default function SideBarUser() {
                 justifyContent: "center",
               }}
             >
-              <ModeSelectV2/>
+              <ModeSelectV2 />
               <Tooltip title="Đăng xuất">
                 <Button
-                  sx={{minWidth: 0, padding: 0, width: "100%", height: "100%", borderRadius: 2}}
+                  sx={{
+                    minWidth: 0,
+                    padding: 0,
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: 2,
+                  }}
                   onClick={() => auth.logout()}
                 >
-                  <MdLogout/>
+                  <MdLogout />
                 </Button>
               </Tooltip>
             </Grid>
