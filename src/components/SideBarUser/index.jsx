@@ -152,6 +152,17 @@ export default function SideBarUser() {
     });
   }, []);
 
+  const [checkLocal, setCheckLocal] = React.useState(false);
+
+  useEffect(() => {
+    if (window.location.hostname === "localhost") {
+      console.log("Đang chạy ở localhost 🚀");
+      setCheckLocal(true);
+    } else {
+      console.log("Không phải localhost ❌");
+    }
+  }, []);
+
   return (
     <>
       <Drawer
@@ -299,30 +310,35 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                  ...(activeTab === "exam" && activeListItem(theme)),
-                }}
-                component={Link}
-                to="/exam"
-                onClick={() => updateActiveTab("exam")}
-              >
-                <ListItemIcon
+            {checkLocal && (
+              <ListItem disablePadding sx={{ display: "block" }}>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                    ...(activeTab === "exam" && activeListItem(theme)),
                   }}
+                  component={Link}
+                  to="/exam"
+                  onClick={() => updateActiveTab("exam")}
                 >
-                  <PiExamDuotone style={{ width: "24px", height: "24px" }} />
-                </ListItemIcon>
-                <ListItemText primary={"Thi"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <PiExamDuotone style={{ width: "24px", height: "24px" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Thi"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            )}
           </List>
           <Divider />
           <List>

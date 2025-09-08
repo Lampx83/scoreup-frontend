@@ -1,9 +1,10 @@
 import Box from "@mui/material/Box";
 import "./style.css";
 import Button from "@mui/material/Button";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import pushToast from "~/helpers/sonnerToast.js";
-import {toast} from "sonner";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function LecturerLoginPage() {
   const {
@@ -18,14 +19,14 @@ export default function LecturerLoginPage() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data)
+    console.log(data);
   };
 
   const onError = (errors, e) => {
     Object.values(errors).forEach((error) => {
       toast.error(error.message);
     });
-  }
+  };
 
   return (
     <>
@@ -42,8 +43,7 @@ export default function LecturerLoginPage() {
           borderRadius: "40px",
           padding: "25px 35px",
           border: "5px solid rgba(255, 255, 255, 1)",
-          boxShadow:
-            "rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px",
+          boxShadow: "rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px",
           ":focus-visible": {
             outline: "none",
           },
@@ -60,7 +60,11 @@ export default function LecturerLoginPage() {
           Đăng nhập
         </Box>
 
-        <form onSubmit={handleSubmit(onSubmit, onError)} className="login-form" noValidate={true}>
+        <form
+          onSubmit={handleSubmit(onSubmit, onError)}
+          className="login-form"
+          noValidate={true}
+        >
           <input
             className="input-login"
             name="email"
@@ -70,8 +74,9 @@ export default function LecturerLoginPage() {
               required: "Vui lòng nhập email!",
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)?neu\.edu\.vn$/,
-                message: "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!"
-              }
+                message:
+                  "Email không hợp lệ, vui lòng sử dụng email sinh viên NEU!",
+              },
             })}
           />
           <input
