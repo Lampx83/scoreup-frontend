@@ -14,7 +14,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Logo from "~/assets/images/full_body_logo.png";
 import { Link, Link as LinkRouter } from "react-router-dom";
 import LinkMui from "@mui/material/Link";
-import { FaHammer, FaHome } from "react-icons/fa";
+import { FaHammer, FaHome, FaToggleOn } from "react-icons/fa";
 import { RiDashboard3Line } from "react-icons/ri";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
 import { Grid, Typography } from "@mui/material";
@@ -38,6 +38,7 @@ import { useEffect } from "react";
 import { getUser } from "~/services/user.service.js";
 import { PiAcorn, PiExamBold, PiExamDuotone, PiExamFill } from "react-icons/pi";
 import { FaRankingStar } from "react-icons/fa6";
+import { checkRole } from "~/helpers/checkRole";
 
 const drawerWidth = 240;
 
@@ -153,6 +154,7 @@ export default function SideBarUser() {
   }, []);
 
   const [checkLocal, setCheckLocal] = React.useState(false);
+  const [role, setRole] = React.useState(checkRole()?.checkAdmin);
 
   useEffect(() => {
     if (window.location.hostname === "localhost") {
@@ -162,6 +164,22 @@ export default function SideBarUser() {
       console.log("Không phải localhost ❌");
     }
   }, []);
+
+  const handleSwitchRole = () => {
+    setRole((prevRole) => {
+      console.log("prevRole:", prevRole);
+      const switchRole = !prevRole;
+      console.log("switchRole:", switchRole);
+      return switchRole;
+    });
+  };
+
+  useEffect(() => {
+    console.log("user: ");
+    console.log(user);
+  }, [user]);
+
+  const checkAdmin = checkRole()?.checkAdmin;
 
   return (
     <>
@@ -310,7 +328,7 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
-            {checkLocal && (
+            {checkLocal && checkAdmin && (
               <ListItem disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
@@ -321,6 +339,7 @@ export default function SideBarUser() {
                   }}
                   component={Link}
                   to="/exam"
+                  state={{ role }}
                   onClick={() => updateActiveTab("exam")}
                 >
                   <ListItemIcon
@@ -377,6 +396,23 @@ export default function SideBarUser() {
             padding: 1,
           }}
         >
+          {checkLocal && checkAdmin && (
+            <Tooltip title="Chuyển role" sx={{ width: "100%", height: "100%" }}>
+              <Button
+                sx={{
+                  minWidth: 0,
+                  padding: 1,
+                  "& svg": {
+                    fontSize: 24,
+                  },
+                  marginBottom: 1,
+                }}
+                onClick={handleSwitchRole}
+              >
+                <FaToggleOn />
+              </Button>
+            </Tooltip>
+          )}
           <Tooltip title="Sửa lỗi" sx={{ width: "100%", height: "100%" }}>
             <Button
               sx={{

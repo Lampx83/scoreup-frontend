@@ -1,16 +1,22 @@
 import Box from "@mui/material/Box";
-import {Card, CardActions, CardContent, Container, Typography} from "@mui/material";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Container,
+  Typography,
+} from "@mui/material";
 import headerImg from "~/assets/images/Container 136.png";
 import * as React from "react";
-import {useTheme} from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import cookies from "~/utils/cookies.js";
-import {useEffect, useState} from "react";
-import {getCertificates} from "~/services/app.service.js";
-import {FaHistory, FaRegClock} from "react-icons/fa";
-import {FaListCheck} from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { getCertificates } from "~/services/app.service.js";
+import { FaHistory, FaRegClock } from "react-icons/fa";
+import { FaListCheck } from "react-icons/fa6";
 import Button from "@mui/material/Button";
-import {getResult} from "~/services/question.service.js";
-import {Link} from "react-router-dom";
+import { getResult } from "~/services/question.service.js";
+import { Link } from "react-router-dom";
 import moment from "moment";
 
 export default function ListPostTestPage() {
@@ -22,21 +28,25 @@ export default function ListPostTestPage() {
     // fetch tests
     const fetchTest = async () => {
       const res = await getCertificates("11b1deef08a04482abaf042b4d92fc4d");
-      const tests = (res.data.results.map(item => item.properties).map(item => ({
-        title: item.title.title[0].plain_text,
-        database_id: item.database_id.rich_text[0].plain_text,
-        active: item.active.checkbox,
-      })).filter(item => item.active).sort((a, b) => a.title.localeCompare(b.title)));
+      const tests = res.data.results
+        .map((item) => item.properties)
+        .map((item) => ({
+          title: item.title.title[0].plain_text,
+          database_id: item.database_id.rich_text[0].plain_text,
+          active: item.active.checkbox,
+        }))
+        .filter((item) => item.active)
+        .sort((a, b) => a.title.localeCompare(b.title));
 
       for (const test of tests) {
         const result = await getResult({
-          certificateId: test.database_id
-        })
+          certificateId: test.database_id,
+        });
         test.results = result.metadata || [];
       }
 
       setTests(tests);
-    }
+    };
     fetchTest();
   }, []);
 
@@ -47,7 +57,7 @@ export default function ListPostTestPage() {
         margin: "auto",
         width: "100%",
         position: "relative",
-        maxWidth: theme.breakpoints.values.lg
+        maxWidth: theme.breakpoints.values.lg,
       }}
     >
       <Box
@@ -112,7 +122,7 @@ export default function ListPostTestPage() {
               width: "260px",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
             }}
           >
             <CardContent>
@@ -131,10 +141,10 @@ export default function ListPostTestPage() {
                   display: "flex",
                   gap: 1,
                   justifyContent: "flex-start",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
-                <FaRegClock/>
+                <FaRegClock />
                 Thời gian: 60 phút
               </Typography>
               <Typography
@@ -144,66 +154,71 @@ export default function ListPostTestPage() {
                   display: "flex",
                   gap: 1,
                   justifyContent: "flex-start",
-                  alignItems: "center"
+                  alignItems: "center",
                 }}
               >
-                <FaListCheck/>
+                <FaListCheck />
                 Số câu hỏi: 50
               </Typography>
-              {test.results.length > 0 && <Typography
-                variant={"body2"}
-                gutterBottom
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  justifyContent: "flex-start",
-                  alignItems: "center"
-                }}
-              >
-                <FaHistory/>
-                Làm vào: {moment(test?.results[0]?.start).format("HH:mm, DD/MM/YYYY")}
-              </Typography>}
+              {test.results.length > 0 && (
+                <Typography
+                  variant={"body2"}
+                  gutterBottom
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                >
+                  <FaHistory />
+                  Làm vào:{" "}
+                  {moment(test?.results[0]?.start).format("HH:mm, DD/MM/YYYY")}
+                </Typography>
+              )}
             </CardContent>
             <CardActions>
-              {test.results.length === 0 ? <Button
-                size={"small"}
-                sx={{
-                  backgroundColor: '#1A4E8DFF',
-                  borderRadius: 5,
-                  color: 'white',
-                  paddingX: 1,
-                  ':hover': {
-                    backgroundColor: 'rgba(26,78,141,0.8)',
-                    boxShadow: '0 0 10px 0 rgba(26,78,141,0.5)'
-                  }
-                }}
-                component={Link}
-                to={`/pre-test/${test.database_id}`}
-              >
-                Làm bài
-              </Button> :
-              <Button
-                size={"small"}
-                sx={{
-                  backgroundColor: '#9095A0FF',
-                  borderRadius: 5,
-                  color: 'white',
-                  paddingX: 1,
-                  ':hover': {
-                    backgroundColor: 'rgba(144,149,160,0.8)',
-                    boxShadow: '0 0 10px 0 rgba(144,149,160,0.5)'
-                  }
-                }}
-                component={Link}
-                to={`/history/${test.database_id}/${test.results[0]._id}`}
-              >
-                Xem đáp án chi tiết
-              </Button>
-              }
+              {test.results.length === 0 ? (
+                <Button
+                  size={"small"}
+                  sx={{
+                    backgroundColor: "#1A4E8DFF",
+                    borderRadius: 5,
+                    color: "white",
+                    paddingX: 1,
+                    ":hover": {
+                      backgroundColor: "rgba(26,78,141,0.8)",
+                      boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
+                    },
+                  }}
+                  component={Link}
+                  to={`/pre-test/${test.database_id}`}
+                >
+                  Làm bài
+                </Button>
+              ) : (
+                <Button
+                  size={"small"}
+                  sx={{
+                    backgroundColor: "#9095A0FF",
+                    borderRadius: 5,
+                    color: "white",
+                    paddingX: 1,
+                    ":hover": {
+                      backgroundColor: "rgba(144,149,160,0.8)",
+                      boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
+                    },
+                  }}
+                  component={Link}
+                  to={`/history/${test.database_id}/${test.results[0]._id}`}
+                >
+                  Xem đáp án chi tiết
+                </Button>
+              )}
             </CardActions>
           </Card>
         ))}
       </Box>
     </Container>
-  )
+  );
 }
