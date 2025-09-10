@@ -153,17 +153,7 @@ export default function SideBarUser() {
     });
   }, []);
 
-  const [checkLocal, setCheckLocal] = React.useState(false);
   const [role, setRole] = React.useState(checkRole()?.checkAdmin);
-
-  useEffect(() => {
-    if (window.location.hostname === "localhost") {
-      console.log("Đang chạy ở localhost 🚀");
-      setCheckLocal(true);
-    } else {
-      console.log("Không phải localhost ❌");
-    }
-  }, []);
 
   const handleSwitchRole = () => {
     setRole((prevRole) => {
@@ -328,7 +318,7 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
-            {checkLocal && checkAdmin && (
+            {checkAdmin && (
               <ListItem disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
@@ -396,7 +386,7 @@ export default function SideBarUser() {
             padding: 1,
           }}
         >
-          {checkLocal && checkAdmin && (
+          {checkAdmin && (
             <Tooltip title="Chuyển role" sx={{ width: "100%", height: "100%" }}>
               <Button
                 sx={{
