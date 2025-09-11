@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useState } from "react";
-import ContentExam from "../ContentExam";
+import ContentExam from "../../components/ContentExam";
 import SadIcon from "../../assets/images/sad.svg";
 import DetectiveIcon from "../../assets/images/detectiveCat.png";
 import LikeIcon from "../../assets/images/like.png";
