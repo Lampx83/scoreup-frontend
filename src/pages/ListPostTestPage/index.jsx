@@ -111,56 +111,37 @@ export default function ListPostTestPage() {
           gap: 2,
         }}
       >
-        {tests.map((test, index) => (
-          <Card
-            key={index}
-            variant={"elevation"}
-            sx={{
-              backgroundColor: "#F2F7FDFF",
-              borderRadius: 3,
-              height: "240px",
-              width: "260px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            <CardContent>
-              <Typography
-                gutterBottom
-                fontSize={"20px"}
-                fontWeight={700}
-                color={"#1A4E8DFF"}
-              >
-                {test?.title || ""}
-              </Typography>
-              <Typography
-                variant={"body2"}
-                gutterBottom
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <FaRegClock />
-                Thời gian: 60 phút
-              </Typography>
-              <Typography
-                variant={"body2"}
-                gutterBottom
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <FaListCheck />
-                Số câu hỏi: 50
-              </Typography>
-              {test.results.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 3,
+            flexWrap: "wrap",
+          }}
+        >
+          {tests.map((test, index) => (
+            <Card
+              key={index}
+              variant={"elevation"}
+              sx={{
+                backgroundColor: "#F2F7FDFF",
+                borderRadius: 3,
+                height: "240px",
+                width: "260px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  fontSize={"20px"}
+                  fontWeight={700}
+                  color={"#1A4E8DFF"}
+                >
+                  {test?.title || ""}
+                </Typography>
                 <Typography
                   variant={"body2"}
                   gutterBottom
@@ -171,53 +152,83 @@ export default function ListPostTestPage() {
                     alignItems: "center",
                   }}
                 >
-                  <FaHistory />
-                  Làm vào:{" "}
-                  {moment(test?.results[0]?.start).format("HH:mm, DD/MM/YYYY")}
+                  <FaRegClock />
+                  Thời gian: 60 phút
                 </Typography>
-              )}
-            </CardContent>
-            <CardActions>
-              {test.results.length === 0 ? (
-                <Button
-                  size={"small"}
+                <Typography
+                  variant={"body2"}
+                  gutterBottom
                   sx={{
-                    backgroundColor: "#1A4E8DFF",
-                    borderRadius: 5,
-                    color: "white",
-                    paddingX: 1,
-                    ":hover": {
-                      backgroundColor: "rgba(26,78,141,0.8)",
-                      boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
-                    },
+                    display: "flex",
+                    gap: 1,
+                    justifyContent: "flex-start",
+                    alignItems: "center",
                   }}
-                  component={Link}
-                  to={`/pre-test/${test.database_id}`}
                 >
-                  Làm bài
-                </Button>
-              ) : (
-                <Button
-                  size={"small"}
-                  sx={{
-                    backgroundColor: "#9095A0FF",
-                    borderRadius: 5,
-                    color: "white",
-                    paddingX: 1,
-                    ":hover": {
-                      backgroundColor: "rgba(144,149,160,0.8)",
-                      boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
-                    },
-                  }}
-                  component={Link}
-                  to={`/history/${test.database_id}/${test.results[0]._id}`}
-                >
-                  Xem đáp án chi tiết
-                </Button>
-              )}
-            </CardActions>
-          </Card>
-        ))}
+                  <FaListCheck />
+                  Số câu hỏi: 50
+                </Typography>
+                {test.results.length > 0 && (
+                  <Typography
+                    variant={"body2"}
+                    gutterBottom
+                    sx={{
+                      display: "flex",
+                      gap: 1,
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaHistory />
+                    Làm vào:{" "}
+                    {moment(test?.results[0]?.start).format(
+                      "HH:mm, DD/MM/YYYY"
+                    )}
+                  </Typography>
+                )}
+              </CardContent>
+              <CardActions>
+                {test.results.length === 0 ? (
+                  <Button
+                    size={"small"}
+                    sx={{
+                      backgroundColor: "#1A4E8DFF",
+                      borderRadius: 5,
+                      color: "white",
+                      paddingX: 1,
+                      ":hover": {
+                        backgroundColor: "rgba(26,78,141,0.8)",
+                        boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
+                      },
+                    }}
+                    component={Link}
+                    to={`/pre-test/${test.database_id}`}
+                  >
+                    Làm bài
+                  </Button>
+                ) : (
+                  <Button
+                    size={"small"}
+                    sx={{
+                      backgroundColor: "#9095A0FF",
+                      borderRadius: 5,
+                      color: "white",
+                      paddingX: 1,
+                      ":hover": {
+                        backgroundColor: "rgba(144,149,160,0.8)",
+                        boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
+                      },
+                    }}
+                    component={Link}
+                    to={`/history/${test.database_id}/${test.results[0]._id}`}
+                  >
+                    Xem đáp án chi tiết
+                  </Button>
+                )}
+              </CardActions>
+            </Card>
+          ))}
+        </Box>
       </Box>
     </Container>
   );
