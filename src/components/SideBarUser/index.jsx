@@ -164,11 +164,6 @@ export default function SideBarUser() {
     });
   };
 
-  useEffect(() => {
-    console.log("user: ");
-    console.log(user);
-  }, [user]);
-
   const checkAdmin = checkRole()?.checkAdmin;
 
   return (
