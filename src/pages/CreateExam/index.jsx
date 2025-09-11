@@ -31,6 +31,7 @@ export default function CreateExam() {
   const handleConfirmCancel = () => {
     setOpenCancel(false);
     console.log("Đã hủy tạo ca thi");
+    //quay về trang trước
   };
 
   //Tạo ca thi
@@ -40,6 +41,7 @@ export default function CreateExam() {
 
   const handleConfirmCreateExam = () => {
     setOpenCreateExam(false);
+    //quay lại trang trước
     setOpenSuccess(true);
     console.log("Đã tạo ca thi thành công");
   };
@@ -48,7 +50,7 @@ export default function CreateExam() {
 
   const handleConfirmSuccess = () => {
     setOpenSuccess(false);
-    console.log("Đã hủy tạo ca thi");
+    console.log("Đã sao chép đường liên kết");
   };
   return (
     <Box sx={{ padding: "20px" }}>
@@ -415,6 +417,7 @@ export default function CreateExam() {
           >
             Chưa hoàn tất
           </Button>
+          {/* Khi nhấn chưa hoàn tất hiển thị về trang thi và hiện lớp đang soạn */}
           <Button
             onClick={handleConfirmCreateExam}
             sx={{
@@ -474,7 +477,8 @@ export default function CreateExam() {
           }}
         >
           <Button
-            //onClick={}
+            autoFocus
+            onClick={handleConfirmSuccess}
             sx={{
               color: "white",
               background: "#123663FF",
@@ -486,6 +490,7 @@ export default function CreateExam() {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* //khi ấn nút chia sẻ hiển thị ra đã sao chép liên kết rồi quay về trang thi */}
     </Box>
   );
 }
