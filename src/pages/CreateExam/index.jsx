@@ -15,6 +15,8 @@ import ContentExam from "../../components/ContentExam";
 import SadIcon from "../../assets/images/sad.svg";
 import DetectiveIcon from "../../assets/images/detectiveCat.png";
 import LikeIcon from "../../assets/images/like.png";
+import { Link } from "react-router-dom";
+import { checkRole } from "~/helpers/checkRole";
 
 export default function CreateExam() {
   const [subject, setSubject] = useState("");
@@ -23,6 +25,7 @@ export default function CreateExam() {
   const [openCancel, setOpenCancel] = useState(false);
   const [openCreateExam, setOpenCreateExam] = useState(false);
   const [openSucess, setOpenSuccess] = useState(false);
+  const role = checkRole()?.checkAdmin;
 
   //Hủy
   const handleCancel = () => {
@@ -337,6 +340,9 @@ export default function CreateExam() {
                   borderRadius: "12px",
                   width: "150px",
                 }}
+                component={Link}
+                to="/exam"
+                state={{ role }}
               >
                 Xác nhận
               </Button>
