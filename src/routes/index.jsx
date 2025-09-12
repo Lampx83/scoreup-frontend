@@ -29,7 +29,8 @@ import PostExamPage from "~/pages/PostExamPage";
 import DetailExam from "~/pages/DetailExam";
 import CreateExam from "~/pages/CreateExam";
 import EditExam from "~/pages/EditExam";
-import ResultExamPage from "~/pages/ResultExamPage";
+import ResultUserExamPage from "~/pages/ResultUserExamPage";
+import ResultAdminExamPage from "~/pages/ResultAdminExamPage";
 
 export const routes = [
   {
@@ -96,8 +97,12 @@ export const routes = [
             element: <ResultPage />,
           },
           {
-            path: "/exam-history/:certId/:resultId",
-            element: <ResultExamPage />,
+            path: "/admin/history/:certId/:resultId",
+            element: <ResultAdminExamPage />,
+          },
+          {
+            path: "/user/history/:certId/:resultId",
+            element: <ResultUserExamPage />,
           },
           {
             path: "/pre-test",

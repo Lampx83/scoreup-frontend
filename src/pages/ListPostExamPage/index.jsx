@@ -282,7 +282,7 @@ export default function ListPostExamPage() {
                         },
                       }}
                       component={Link}
-                      to={`/history/${test.database_id}/${test.results[0]._id}`}
+                      to={`/admin/history/${test.database_id}/${test.results[0]._id}`}
                     >
                       Xem chi tiết
                     </Button>
@@ -328,7 +328,7 @@ export default function ListPostExamPage() {
                         },
                       }}
                       component={Link}
-                      to={`/exam-history/${test.database_id}/${test.results[0]._id}`}
+                      to={`/user/history/${test.database_id}/${test.results[0]._id}`}
                     >
                       Xem chi tiết
                     </Button>
