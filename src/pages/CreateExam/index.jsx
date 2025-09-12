@@ -273,6 +273,7 @@ export default function CreateExam() {
         >
           Hủy
         </Button>
+
         <Dialog
           open={openCancel}
           onClose={() => setOpenCancel(false)}
@@ -281,9 +282,11 @@ export default function CreateExam() {
               borderRadius: "16px",
               boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
               padding: 3,
-              minWidth: "400px",
+              minWidth: "30%",
+              maxWidth: "50%",
               position: "relative",
               overflow: "visible",
+              margin: "auto",
             },
           }}
         >
@@ -291,9 +294,9 @@ export default function CreateExam() {
             src={SadIcon}
             alt=""
             style={{
-              width: "160px",
+              width: "40%",
               position: "absolute",
-              left: "-159px",
+              left: "-30%",
               top: "50%",
               transform: "translateY(-50%)",
             }}
@@ -371,9 +374,11 @@ export default function CreateExam() {
             borderRadius: "16px",
             boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
             padding: 3,
-            minWidth: "400px",
+            minWidth: "30%",
+            maxWidth: "60%",
             position: "relative",
             overflow: "visible",
+            margin: "auto",
           },
         }}
       >
@@ -381,9 +386,9 @@ export default function CreateExam() {
           src={DetectiveIcon}
           alt=""
           style={{
-            width: "160px",
+            width: "30%",
             position: "absolute",
-            left: "-159px",
+            left: "-20%",
             top: "50%",
             transform: "translateY(-50%)",
           }}
@@ -441,7 +446,8 @@ export default function CreateExam() {
             borderRadius: "16px",
             boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
             padding: 3,
-            minWidth: "400px",
+            minWidth: "25%",
+            maxWidth: "60%",
             position: "relative",
             overflow: "visible",
           },
@@ -451,9 +457,9 @@ export default function CreateExam() {
           src={LikeIcon}
           alt=""
           style={{
-            width: "250px",
+            width: "50%",
             position: "absolute",
-            left: "-170px",
+            left: "-30%",
             top: "50%",
             transform: "translateY(-50%)",
           }}
