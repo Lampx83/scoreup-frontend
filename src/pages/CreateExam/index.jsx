@@ -118,7 +118,6 @@ export default function CreateExam() {
                 }}
               />
             </Box>
-
             <Box sx={{ flex: 1 }}>
               <Typography fontWeight={600} mb={1}>
                 Thời gian kết thúc
@@ -136,7 +135,6 @@ export default function CreateExam() {
               />
             </Box>
           </Box>
-          <ContentExam />
         </Box>
 
         {/* Right Column */}
@@ -248,6 +246,7 @@ export default function CreateExam() {
           </Box>
         </Box>
       </Box>
+      <ContentExam />
       <Box
         sx={{
           display: "flex",
