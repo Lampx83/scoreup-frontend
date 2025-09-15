@@ -45,7 +45,7 @@ export default function ContentExam({ onChangeChecked }) {
 
   return (
     <Box sx={{ maxWidth: "50%" }}>
-      <Typography fontWeight={600} mb={1}>
+      <Typography fontWeight={600} mt={1}>
         Nội dung thi
       </Typography>
 

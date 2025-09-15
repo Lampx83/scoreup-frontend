@@ -14,7 +14,7 @@ import { useState } from "react";
 import ContentExam from "../../components/ContentExam";
 import SadIcon from "../../assets/images/sad.svg";
 import DetectiveIcon from "../../assets/images/detectiveCat.png";
-import LikeIcon from "../../assets/images/like.png";
+import ExcellentIcon from "../../assets/images/excellent.svg";
 import { Link } from "react-router-dom";
 import { checkRole } from "~/helpers/checkRole";
 
@@ -57,7 +57,7 @@ export default function CreateExam() {
   };
   return (
     <Box sx={{ padding: "20px" }}>
-      <Typography variant="h4" fontWeight={600}>
+      <Typography variant="h4" fontWeight={600} mb={2}>
         Tạo ca thi
       </Typography>
       <Box
@@ -254,7 +254,7 @@ export default function CreateExam() {
         sx={{
           display: "flex",
           gap: 2,
-          mt: 5,
+          mb: 5,
           justifyContent: "flex-end",
         }}
       >
@@ -450,21 +450,21 @@ export default function CreateExam() {
           sx: {
             borderRadius: "16px",
             boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-            padding: 3,
+            padding: 1,
             minWidth: "25%",
-            maxWidth: "60%",
+            maxWidth: "55%",
             position: "relative",
             overflow: "visible",
           },
         }}
       >
         <img
-          src={LikeIcon}
+          src={ExcellentIcon}
           alt=""
           style={{
             width: "50%",
             position: "absolute",
-            left: "-30%",
+            left: "-40%",
             top: "50%",
             transform: "translateY(-50%)",
           }}
