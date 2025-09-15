@@ -97,11 +97,11 @@ export const routes = [
             element: <ResultPage />,
           },
           {
-            path: "/admin/history/:certId/:resultId",
+            path: "/admin/history/:examId",
             element: <ResultAdminExamPage />,
           },
           {
-            path: "/user/history/:certId/:resultId",
+            path: "/user/history/:examId",
             element: <ResultUserExamPage />,
           },
           {
