@@ -19,37 +19,23 @@ import { getResult } from "~/services/question.service.js";
 import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
 import plusExamImg from "~/assets/images/PlusExam.png";
+import { getExams } from "~/services/exam.service";
 
 export default function ListPostExamPage() {
   const theme = useTheme();
   const user = cookies.get("user");
-  const [tests, setTests] = useState([]);
+  const [exams, setExams] = useState([]);
   const location = useLocation();
   const { role } = location.state || {};
   console.log("Role từ router state:", role);
 
   useEffect(() => {
-    // fetch tests
+    // fetch exams
     const fetchTest = async () => {
-      const res = await getCertificates("11b1deef08a04482abaf042b4d92fc4d");
-      const tests = res.data.results
-        .map((item) => item.properties)
-        .map((item) => ({
-          title: item.title.title[0].plain_text,
-          database_id: item.database_id.rich_text[0].plain_text,
-          active: item.active.checkbox,
-        }))
-        .filter((item) => item.active)
-        .sort((a, b) => a.title.localeCompare(b.title));
+      const res = await getExams();
+      const exams = res?.data;
 
-      for (const test of tests) {
-        const result = await getResult({
-          certificateId: test.database_id,
-        });
-        test.results = result.metadata || [];
-      }
-
-      setTests(tests);
+      setExams(exams);
     };
     fetchTest();
   }, []);
@@ -157,7 +143,7 @@ export default function ListPostExamPage() {
             flexWrap: "wrap",
           }}
         >
-          {tests.map((test, index) => (
+          {exams?.map((exam, index) => (
             <Card
               key={index}
               variant={"elevation"}
@@ -178,7 +164,7 @@ export default function ListPostExamPage() {
                   fontWeight={700}
                   color={"#1A4E8DFF"}
                 >
-                  {test?.title || ""}
+                  {exam?.subject_name || ""}
                 </Typography>
                 <Typography
                   variant={"body2"}
@@ -191,7 +177,7 @@ export default function ListPostExamPage() {
                   }}
                 >
                   <FaRegClock />
-                  Thời gian: 60 phút
+                  Thời gian: {exam?.exam_time}
                 </Typography>
                 <Typography
                   variant={"body2"}
@@ -206,7 +192,7 @@ export default function ListPostExamPage() {
                   <FaListCheck />
                   Số câu hỏi: 50
                 </Typography>
-                {test.results.length > 0 && (
+                {exam.exam_id && (
                   <Typography
                     variant={"body2"}
                     gutterBottom
@@ -219,9 +205,7 @@ export default function ListPostExamPage() {
                   >
                     <FaHistory />
                     Làm vào:{" "}
-                    {moment(test?.results[0]?.start).format(
-                      "HH:mm, DD/MM/YYYY"
-                    )}
+                    {moment(exam?.start_date).format("HH:mm, DD/MM/YYYY")}
                   </Typography>
                 )}
               </CardContent>
@@ -232,7 +216,7 @@ export default function ListPostExamPage() {
                     justifyContent: "flex-end",
                   }}
                 >
-                  {test.results.length === 0 ? (
+                  {exam.result !== "false" ? (
                     <>
                       <Button
                         size={"small"}
@@ -282,7 +266,7 @@ export default function ListPostExamPage() {
                         },
                       }}
                       component={Link}
-                      to={`/admin/history/${test.database_id}/${test.results[0]._id}`}
+                      to={`/admin/history/${exam.exam_id}/`}
                     >
                       Xem chi tiết
                     </Button>
@@ -295,7 +279,7 @@ export default function ListPostExamPage() {
                     justifyContent: "flex-end",
                   }}
                 >
-                  {test.results.length === 0 ? (
+                  {exam.result !== "false" ? (
                     <Button
                       size={"small"}
                       sx={{
@@ -310,7 +294,7 @@ export default function ListPostExamPage() {
                         },
                       }}
                       component={Link}
-                      to={`/exam/${test.database_id}`}
+                      to={`/exam/${exam.exam_id}`}
                     >
                       Làm bài
                     </Button>
@@ -328,7 +312,7 @@ export default function ListPostExamPage() {
                         },
                       }}
                       component={Link}
-                      to={`/user/history/${test.database_id}/${test.results[0]._id}`}
+                      to={`/user/history/${exam.exam_id}/`}
                     >
                       Xem chi tiết
                     </Button>
