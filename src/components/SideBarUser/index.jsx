@@ -140,6 +140,7 @@ export default function SideBarUser() {
   }, []);
 
   const [role, setRole] = React.useState(checkRole()?.checkAdmin);
+  const [checkLocal, setCheckLocal] = React.useState(false);
 
   const handleSwitchRole = () => {
     setRole((prevRole) => {
@@ -149,6 +150,15 @@ export default function SideBarUser() {
       return switchRole;
     });
   };
+
+  useEffect(() => {
+    if (window.location.hostname === "localhost") {
+      setCheckLocal(true);
+      console.log("🚀 Đang chạy ở localhost");
+    } else {
+      console.log("🌐 Đang chạy ở server/production");
+    }
+  }, []);
 
   const checkAdmin = checkRole()?.checkAdmin;
   const student_id = checkRole()?.student_id;
@@ -300,7 +310,7 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
-            {checkAdmin && (
+            {checkLocal && (
               <ListItem disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
