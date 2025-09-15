@@ -313,6 +313,31 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  ...(activeTab === "exam" && activeListItem(theme)),
+                }}
+                component={Link}
+                to="/exam"
+                state={{ role }}
+                onClick={() => updateActiveTab("exam")}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <PiExamDuotone style={{ width: "24px", height: "24px" }} />
+                </ListItemIcon>
+                <ListItemText primary={"Thi"} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
             {checkAdmin && (
               <ListItem disablePadding sx={{ display: "block" }}>
                 <ListItemButton
