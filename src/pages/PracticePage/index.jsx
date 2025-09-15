@@ -1,11 +1,11 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import headerImg from "~/assets/images/Container 136.png";
-import {Container, Typography, useTheme} from "@mui/material";
+import { Container, Typography, useTheme } from "@mui/material";
 import SingleQuestion from "~/components/Question/SingleQuestion/index.jsx";
 import SetQuestion from "~/components/Question/SetQuestion/index.jsx";
-import {useEffect, useRef, useState} from "react";
-import {getQuestions, submitResult} from "~/services/question.service.js";
+import { useEffect, useRef, useState } from "react";
+import { getQuestions, submitResult } from "~/services/question.service.js";
 import { parseQuestion } from "~/helpers/parseNotionResponseToObject.js";
 import useFilterQuestion from "~/hooks/useFilterQuestion.jsx";
 import QuestionsPalette from "~/components/QuestionsPalette/index.jsx";
@@ -15,15 +15,14 @@ import Loading from "~/components/Loading/index.jsx";
 import useRecommendModal from "~/hooks/useModalRecommend.jsx";
 import RecommendModal from "~/components/RecommendModal/index.jsx";
 import Filter from "~/components/SideBarUser/Filter/index.jsx";
-import {activeListItem} from "~/components/SideBarUser/index.jsx";
 import useSideBar from "~/hooks/useSideBar.jsx";
-
+import { activeListItem } from "~/constant/activeListItem";
 
 export default function PracticePage() {
   // const {open, handleClose, handleOpen} = useRecommendModal();
-  const {open, handleDrawerOpen, handleDrawerClose} = useSideBar();
+  const { open, handleDrawerOpen, handleDrawerClose } = useSideBar();
   const theme = useTheme();
-  const {updateActiveTab} = useActiveTab();
+  const { updateActiveTab } = useActiveTab();
   const user = cookies.get("user");
   const { filter } = useFilterQuestion();
   const [showAnswer, setShowAnswer] = useState(false);
@@ -31,15 +30,10 @@ export default function PracticePage() {
   const result = useRef({
     questions: [],
     total: 0,
-    correct: 0
+    correct: 0,
   });
 
-  const addResult = ({
-    question,
-    user_ans,
-    correct_ans,
-    score
-  }) => {
+  const addResult = ({ question, user_ans, correct_ans, score }) => {
     if (score) {
       result.current.correct++;
     }
@@ -53,7 +47,7 @@ export default function PracticePage() {
         }
       }
     }
-  }
+  };
 
   const notionDatabaseId = filter.certificateDatabaseId;
   const tags =
@@ -74,8 +68,8 @@ export default function PracticePage() {
     result.current = {
       questions: [],
       total: 0,
-      correct: 0
-    }
+      correct: 0,
+    };
     const getData = async () => {
       let questions = [];
       for (const tag of tags) {
@@ -102,7 +96,7 @@ export default function PracticePage() {
             score: 0,
             index: count++,
           })),
-        })
+        });
       }
       setQuestions(questions);
 
@@ -115,7 +109,7 @@ export default function PracticePage() {
       top: 0,
       behavior: "smooth",
     });
-    updateActiveTab("practice")
+    updateActiveTab("practice");
   }, [filter]);
 
   useEffect(() => {
@@ -131,14 +125,14 @@ export default function PracticePage() {
             }
           }
           return correct;
-        }
+        };
 
         const res = await submitResult({
           user_id: user?.id,
           certificateId: filter?.certificateInfo?.id,
           questions: result.current.questions,
           total: result.current.total,
-          correct: calculateCorrect()
+          correct: calculateCorrect(),
         });
         window.scrollTo({
           top: 0,
@@ -146,7 +140,7 @@ export default function PracticePage() {
         });
         // handleOpen();
       }
-    }
+    };
     sendResult();
   }, [isSubmitted]);
 
@@ -164,7 +158,7 @@ export default function PracticePage() {
             margin: "auto",
             width: "100%",
             position: "relative",
-            maxWidth: theme.breakpoints.values.lg
+            maxWidth: theme.breakpoints.values.lg,
           }}
         >
           <Box
@@ -227,15 +221,13 @@ export default function PracticePage() {
                 }}
               >
                 <Box>
-                  <Typography variant="body1">
-                    Bạn đang học:
-                  </Typography>
+                  <Typography variant="body1">Bạn đang học:</Typography>
                   <Typography variant="h5" fontWeight={700}>
                     {filter?.certificateInfo?.title}
                   </Typography>
                 </Box>
                 <Box>
-                  <Filter active={activeListItem(theme)}/>
+                  <Filter active={activeListItem(theme)} />
                 </Box>
               </Box>
 
@@ -307,7 +299,7 @@ export default function PracticePage() {
                 Mở bộ lọc và chọn nội dung học bạn muốn!
               </Typography>
               <Box>
-                <Filter active={activeListItem(theme)}/>
+                <Filter active={activeListItem(theme)} />
               </Box>
             </Box>
           )}

@@ -22,8 +22,7 @@ export default function DashboardPage() {
   const [certificates, setCertificates] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const user = cookies.get("user");
-  const role = checkRole()?.role;
-  console.log("role:", role);
+  console.log("user", user);
 
   useEffect(() => {
     const fetchCertificates = async () => {

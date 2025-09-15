@@ -39,6 +39,7 @@ import { getUser } from "~/services/user.service.js";
 import { PiAcorn, PiExamBold, PiExamDuotone, PiExamFill } from "react-icons/pi";
 import { FaRankingStar } from "react-icons/fa6";
 import { checkRole } from "~/helpers/checkRole";
+import { activeListItem } from "~/constant/activeListItem";
 
 const drawerWidth = 240;
 
@@ -60,21 +61,6 @@ const closedMixin = (theme) => ({
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-export const activeListItem = (theme) => ({
-  backgroundColor: theme.palette.action.selected,
-  borderLeft: `4px solid #1A4E8DFF`,
-  "&:hover, &:focus": {
-    backgroundColor: theme.palette.action.selected,
-  },
-  "& .MuiListItemIcon-root": {
-    color: theme.palette.mode === "light" ? "#1A4E8DFF" : "",
-  },
-  "& .MuiListItemText-primary": {
-    color: theme.palette.mode === "light" ? "#1A4E8DFF" : "",
-    fontWeight: theme.typography.fontWeightBold,
   },
 });
 
@@ -165,6 +151,7 @@ export default function SideBarUser() {
   };
 
   const checkAdmin = checkRole()?.checkAdmin;
+  const student_id = checkRole()?.student_id;
 
   return (
     <>
@@ -324,7 +311,7 @@ export default function SideBarUser() {
                   }}
                   component={Link}
                   to="/exam"
-                  state={{ role }}
+                  state={{ role, student_id: student_id }}
                   onClick={() => updateActiveTab("exam")}
                 >
                   <ListItemIcon
