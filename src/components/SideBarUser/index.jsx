@@ -39,6 +39,7 @@ import { getUser } from "~/services/user.service.js";
 import { PiAcorn, PiExamBold, PiExamDuotone, PiExamFill } from "react-icons/pi";
 import { FaRankingStar } from "react-icons/fa6";
 import { checkRole } from "~/helpers/checkRole";
+import { activeListItem } from "~/constant/activeListItem";
 
 const drawerWidth = 240;
 
@@ -60,21 +61,6 @@ const closedMixin = (theme) => ({
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-export const activeListItem = (theme) => ({
-  backgroundColor: theme.palette.action.selected,
-  borderLeft: `4px solid #1A4E8DFF`,
-  "&:hover, &:focus": {
-    backgroundColor: theme.palette.action.selected,
-  },
-  "& .MuiListItemIcon-root": {
-    color: theme.palette.mode === "light" ? "#1A4E8DFF" : "",
-  },
-  "& .MuiListItemText-primary": {
-    color: theme.palette.mode === "light" ? "#1A4E8DFF" : "",
-    fontWeight: theme.typography.fontWeightBold,
   },
 });
 
@@ -154,6 +140,7 @@ export default function SideBarUser() {
   }, []);
 
   const [role, setRole] = React.useState(checkRole()?.checkAdmin);
+  const [checkLocal, setCheckLocal] = React.useState(false);
 
   const handleSwitchRole = () => {
     setRole((prevRole) => {
@@ -164,7 +151,17 @@ export default function SideBarUser() {
     });
   };
 
+  useEffect(() => {
+    if (window.location.hostname === "localhost") {
+      setCheckLocal(true);
+      console.log("🚀 Đang chạy ở localhost");
+    } else {
+      console.log("🌐 Đang chạy ở server/production");
+    }
+  }, []);
+
   const checkAdmin = checkRole()?.checkAdmin;
+  const student_id = checkRole()?.student_id;
 
   return (
     <>
@@ -313,32 +310,7 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
-            <ListItem disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                  ...(activeTab === "exam" && activeListItem(theme)),
-                }}
-                component={Link}
-                to="/exam"
-                state={{ role }}
-                onClick={() => updateActiveTab("exam")}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <PiExamDuotone style={{ width: "24px", height: "24px" }} />
-                </ListItemIcon>
-                <ListItemText primary={"Thi"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            {checkAdmin && (
+            {checkLocal && (
               <ListItem disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
@@ -349,7 +321,7 @@ export default function SideBarUser() {
                   }}
                   component={Link}
                   to="/exam"
-                  state={{ role }}
+                  state={{ role, student_id: student_id }}
                   onClick={() => updateActiveTab("exam")}
                 >
                   <ListItemIcon

@@ -9,13 +9,10 @@ import {
 import headerImg from "~/assets/images/Container 136.png";
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
-import cookies from "~/utils/cookies.js";
 import { useEffect, useState } from "react";
-import { getCertificates } from "~/services/app.service.js";
 import { FaHistory, FaRegClock } from "react-icons/fa";
 import { FaListCheck } from "react-icons/fa6";
 import Button from "@mui/material/Button";
-import { getResult } from "~/services/question.service.js";
 import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
 import plusExamImg from "~/assets/images/PlusExam.png";
@@ -23,11 +20,12 @@ import { getExams } from "~/services/exam.service";
 
 export default function ListPostExamPage() {
   const theme = useTheme();
-  const user = cookies.get("user");
   const [exams, setExams] = useState([]);
   const location = useLocation();
-  const { role } = location.state || {};
-  console.log("Role từ router state:", role);
+  const { role, student_id } = location.state || {};
+
+  console.log("role", role);
+  console.log("student_id", student_id);
 
   useEffect(() => {
     // fetch exams
@@ -39,6 +37,14 @@ export default function ListPostExamPage() {
     };
     fetchTest();
   }, []);
+
+  // 🔍 Lọc ra exam chứa student_id này
+  const filteredExams = React.useMemo(() => {
+    if (!student_id) return [];
+    return exams.filter((exam) =>
+      exam.student_list.some((stu) => stu.student_id === student_id)
+    );
+  }, [exams, student_id]);
 
   return (
     <Container
@@ -143,7 +149,7 @@ export default function ListPostExamPage() {
             flexWrap: "wrap",
           }}
         >
-          {exams?.map((exam, index) => (
+          {filteredExams?.map((exam, index) => (
             <Card
               key={index}
               variant={"elevation"}
@@ -216,7 +222,7 @@ export default function ListPostExamPage() {
                     justifyContent: "flex-end",
                   }}
                 >
-                  {exam.result !== "false" ? (
+                  {exam.student_list.submitted !== "false" ? (
                     <>
                       <Button
                         size={"small"}
@@ -279,7 +285,7 @@ export default function ListPostExamPage() {
                     justifyContent: "flex-end",
                   }}
                 >
-                  {exam.result !== "false" ? (
+                  {exam.student_list.submitted !== "false" ? (
                     <Button
                       size={"small"}
                       sx={{
