@@ -45,6 +45,24 @@ export default function CreateExam() {
     fetchSubjects();
   }, [subjectId]);
 
+  const [subjects, setSubjects] = useState([]);
+
+  const [chapters, setChapters] = useState([]);
+  const [classId, setClassId] = useState(""); // mã học phần
+  const [classSectionId, setClassSectionId] = useState(""); // mã học phần
+
+  const [subjectId, setSubjectId] = useState("");
+  const [startTime, setStartTime] = useState(""); //time bắt đầu
+  const [endTime, setEndTime] = useState(""); //time kết thúc
+
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      const res = await getSubjects();
+      setSubjects(res || []);
+    };
+    fetchSubjects();
+  }, [subjectId]);
+
   //Hủy
   const handleCancel = () => {
     setOpenCancel(true);
