@@ -22,7 +22,7 @@ import {
 } from "react-syntax-highlighter/dist/cjs/styles/hljs/index.js";
 import Loading from "~/components/Loading/index.jsx";
 
-export default function ResultExamPage() {
+export default function ResultUserExamPage() {
   const theme = useTheme();
   const { certId, resultId } = useParams();
   const navigate = useNavigate();

@@ -9,6 +9,7 @@ export const getExams = async () => {
     console.error(error);
   }
 };
+
 // Hàm gọi API lấy danh sách môn học
 export const getSubjects = async () => {
   try {
@@ -46,3 +47,4 @@ export const updateCreateExam = async ({
     { headers: { "Content-Type": "multipart/form-data" } }
   );
 };
+

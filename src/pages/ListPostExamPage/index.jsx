@@ -9,50 +9,42 @@ import {
 import headerImg from "~/assets/images/Container 136.png";
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
-import cookies from "~/utils/cookies.js";
 import { useEffect, useState } from "react";
-import { getCertificates } from "~/services/app.service.js";
 import { FaHistory, FaRegClock } from "react-icons/fa";
 import { FaListCheck } from "react-icons/fa6";
 import Button from "@mui/material/Button";
-import { getResult } from "~/services/question.service.js";
 import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
 import plusExamImg from "~/assets/images/PlusExam.png";
+import { getExams } from "~/services/exam.service";
 
 export default function ListPostExamPage() {
   const theme = useTheme();
-  const user = cookies.get("user");
-  const [tests, setTests] = useState([]);
+  const [exams, setExams] = useState([]);
   const location = useLocation();
-  const { role } = location.state || {};
-  console.log("Role từ router state:", role);
+  const { role, student_id } = location.state || {};
+
+  console.log("role", role);
+  console.log("student_id", student_id);
 
   useEffect(() => {
-    // fetch tests
+    // fetch exams
     const fetchTest = async () => {
-      const res = await getCertificates("11b1deef08a04482abaf042b4d92fc4d");
-      const tests = res.data.results
-        .map((item) => item.properties)
-        .map((item) => ({
-          title: item.title.title[0].plain_text,
-          database_id: item.database_id.rich_text[0].plain_text,
-          active: item.active.checkbox,
-        }))
-        .filter((item) => item.active)
-        .sort((a, b) => a.title.localeCompare(b.title));
+      const res = await getExams();
+      const exams = res?.data;
 
-      for (const test of tests) {
-        const result = await getResult({
-          certificateId: test.database_id,
-        });
-        test.results = result.metadata || [];
-      }
-
-      setTests(tests);
+      setExams(exams);
     };
     fetchTest();
   }, []);
+
+  // 🔍 Lọc ra exam chứa student_id này
+  const filteredExams = React.useMemo(() => {
+    if (!student_id) return [];
+    return exams.filter((exam) =>
+      exam.student_list.some((stu) => stu.student_id === student_id)
+    );
+  }, [exams, student_id]);
 
   return (
     <Container
@@ -149,56 +141,37 @@ export default function ListPostExamPage() {
         ) : (
           <h2>Danh sách ca thi</h2>
         )}
-        {tests.map((test, index) => (
-          <Card
-            key={index}
-            variant={"elevation"}
-            sx={{
-              backgroundColor: "#F2F7FDFF",
-              borderRadius: 3,
-              height: "240px",
-              width: "260px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            <CardContent>
-              <Typography
-                gutterBottom
-                fontSize={"20px"}
-                fontWeight={700}
-                color={"#1A4E8DFF"}
-              >
-                {test?.title || ""}
-              </Typography>
-              <Typography
-                variant={"body2"}
-                gutterBottom
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <FaRegClock />
-                Thời gian: 60 phút
-              </Typography>
-              <Typography
-                variant={"body2"}
-                gutterBottom
-                sx={{
-                  display: "flex",
-                  gap: 1,
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <FaListCheck />
-                Số câu hỏi: 50
-              </Typography>
-              {test.results.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 3,
+            flexWrap: "wrap",
+          }}
+        >
+          {filteredExams?.map((exam, index) => (
+            <Card
+              key={index}
+              variant={"elevation"}
+              sx={{
+                backgroundColor: "#F2F7FDFF",
+                borderRadius: 3,
+                height: "240px",
+                width: "260px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  fontSize={"20px"}
+                  fontWeight={700}
+                  color={"#1A4E8DFF"}
+                >
+                  {exam?.subject_name || ""}
+                </Typography>
                 <Typography
                   variant={"body2"}
                   gutterBottom
@@ -209,124 +182,152 @@ export default function ListPostExamPage() {
                     alignItems: "center",
                   }}
                 >
-                  <FaHistory />
-                  Làm vào:{" "}
-                  {moment(test?.results[0]?.start).format("HH:mm, DD/MM/YYYY")}
+                  <FaRegClock />
+                  Thời gian: {exam?.exam_time}
                 </Typography>
-              )}
-            </CardContent>
-            {role ? (
-              <CardActions
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                {test.results.length === 0 ? (
-                  <>
+                <Typography
+                  variant={"body2"}
+                  gutterBottom
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                >
+                  <FaListCheck />
+                  Số câu hỏi: 50
+                </Typography>
+                {exam.exam_id && (
+                  <Typography
+                    variant={"body2"}
+                    gutterBottom
+                    sx={{
+                      display: "flex",
+                      gap: 1,
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaHistory />
+                    Làm vào:{" "}
+                    {moment(exam?.start_date).format("HH:mm, DD/MM/YYYY")}
+                  </Typography>
+                )}
+              </CardContent>
+              {role ? (
+                <CardActions
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  {exam.student_list.submitted !== "false" ? (
+                    <>
+                      <Button
+                        size={"small"}
+                        sx={{
+                          backgroundColor: "#DE3B40FF",
+                          borderRadius: 25,
+                          color: "white",
+                          height: 35,
+                          fontWeight: 600,
+                          ":hover": {
+                            backgroundColor: "#C12126FF",
+                          },
+                        }}
+                      >
+                        Xóa
+                      </Button>
+                      <Button
+                        size={"small"}
+                        sx={{
+                          backgroundColor: "#1A4E8DFF",
+                          borderRadius: 25,
+                          color: "white",
+                          height: 35,
+                          paddingX: 2,
+                          fontWeight: 600,
+                          ":hover": {
+                            backgroundColor: "#123663FF",
+                          },
+                        }}
+                        component={Link}
+                        to="/edit-exam"
+                      >
+                        Chỉnh sửa
+                      </Button>
+                    </>
+                  ) : (
                     <Button
                       size={"small"}
                       sx={{
-                        backgroundColor: "#DE3B40FF",
-                        borderRadius: 25,
+                        backgroundColor: "#9095A0FF",
+                        borderRadius: 5,
                         color: "white",
-                        height: 35,
-                        fontWeight: 600,
+                        paddingX: 1,
                         ":hover": {
-                          backgroundColor: "#C12126FF",
+                          backgroundColor: "rgba(144,149,160,0.8)",
+                          boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
                         },
                       }}
+                      component={Link}
+                      to={`/admin/history/${exam.exam_id}/`}
                     >
-                      Xóa
+                      Xem chi tiết
                     </Button>
+                  )}
+                </CardActions>
+              ) : (
+                <CardActions
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  {exam.student_list.submitted !== "false" ? (
                     <Button
                       size={"small"}
                       sx={{
                         backgroundColor: "#1A4E8DFF",
                         borderRadius: 25,
                         color: "white",
-                        height: 35,
                         paddingX: 2,
-                        fontWeight: 600,
+                        height: 35,
                         ":hover": {
-                          backgroundColor: "#123663FF",
+                          backgroundColor: "white",
+                          boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
                         },
                       }}
                       component={Link}
-                      to="/edit-exam"
+                      to={`/exam/${exam.exam_id}`}
                     >
-                      Chỉnh sửa
+                      Làm bài
                     </Button>
-                  </>
-                ) : (
-                  <Button
-                    size={"small"}
-                    sx={{
-                      backgroundColor: "#9095A0FF",
-                      borderRadius: 5,
-                      color: "white",
-                      paddingX: 1,
-                      ":hover": {
-                        backgroundColor: "rgba(144,149,160,0.8)",
-                        boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
-                      },
-                    }}
-                    component={Link}
-                    to={`/history/${test.database_id}/${test.results[0]._id}`}
-                  >
-                    Xem chi tiết
-                  </Button>
-                )}
-              </CardActions>
-            ) : (
-              <CardActions
-                sx={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                {test.results.length === 0 ? (
-                  <Button
-                    size={"small"}
-                    sx={{
-                      backgroundColor: "#1A4E8DFF",
-                      borderRadius: 25,
-                      color: "white",
-                      paddingX: 2,
-                      height: 35,
-                      ":hover": {
-                        backgroundColor: "white",
-                        boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
-                      },
-                    }}
-                    component={Link}
-                    to={`/exam/${test.database_id}`}
-                  >
-                    Làm bài
-                  </Button>
-                ) : (
-                  <Button
-                    size={"small"}
-                    sx={{
-                      backgroundColor: "#9095A0FF",
-                      borderRadius: 5,
-                      color: "white",
-                      paddingX: 1,
-                      ":hover": {
-                        backgroundColor: "rgba(144,149,160,0.8)",
-                        boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
-                      },
-                    }}
-                    component={Link}
-                    to={`/exam-history/${test.database_id}/${test.results[0]._id}`}
-                  >
-                    Xem chi tiết
-                  </Button>
-                )}
-              </CardActions>
-            )}
-          </Card>
-        ))}
+                  ) : (
+                    <Button
+                      size={"small"}
+                      sx={{
+                        backgroundColor: "#9095A0FF",
+                        borderRadius: 5,
+                        color: "white",
+                        paddingX: 1,
+                        ":hover": {
+                          backgroundColor: "rgba(144,149,160,0.8)",
+                          boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
+                        },
+                      }}
+                      component={Link}
+                      to={`/user/history/${exam.exam_id}/`}
+                    >
+                      Xem chi tiết
+                    </Button>
+                  )}
+                </CardActions>
+              )}
+            </Card>
+          ))}
+        </Box>
       </Box>
     </Container>
   );

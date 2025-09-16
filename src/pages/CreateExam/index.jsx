@@ -17,8 +17,10 @@ import DetectiveIcon from "../../assets/images/detectiveCat.png";
 import ExcellentIcon from "../../assets/images/excellent.svg";
 import { Link } from "react-router-dom";
 import { checkRole } from "~/helpers/checkRole";
+
 import { getSubjects, updateCreateExam } from "~/services/exam.service.js";
 import { validateCreateExam } from "~/helpers/validateCreateExam.js";
+
 
 export default function CreateExam() {
   const [file, setFile] = useState(null);
@@ -26,6 +28,7 @@ export default function CreateExam() {
   const [openCancel, setOpenCancel] = useState(false);
   const [openCreateExam, setOpenCreateExam] = useState(false);
   const [openSucess, setOpenSuccess] = useState(false);
+  const role = checkRole()?.checkAdmin;
 
   const [subjects, setSubjects] = useState([]);
 
@@ -105,7 +108,7 @@ export default function CreateExam() {
   };
   return (
     <Box sx={{ padding: "20px" }}>
-      <Typography variant="h4" fontWeight={600}>
+      <Typography variant="h4" fontWeight={600} mb={2}>
         Tạo ca thi
       </Typography>
       <Box
@@ -346,7 +349,7 @@ export default function CreateExam() {
         sx={{
           display: "flex",
           gap: 2,
-          mt: 5,
+          mb: 5,
           justifyContent: "flex-end",
         }}
       >
@@ -434,6 +437,9 @@ export default function CreateExam() {
                   borderRadius: "12px",
                   width: "150px",
                 }}
+                component={Link}
+                to="/exam"
+                state={{ role }}
               >
                 Xác nhận
               </Button>
@@ -539,9 +545,9 @@ export default function CreateExam() {
           sx: {
             borderRadius: "16px",
             boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
-            padding: 3,
+            padding: 1,
             minWidth: "25%",
-            maxWidth: "60%",
+            maxWidth: "55%",
             position: "relative",
             overflow: "visible",
           },
@@ -553,7 +559,7 @@ export default function CreateExam() {
           style={{
             width: "50%",
             position: "absolute",
-            left: "-30%",
+            left: "-40%",
             top: "50%",
             transform: "translateY(-50%)",
           }}

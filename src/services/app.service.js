@@ -2,13 +2,13 @@ import config from "~/config.js";
 import axios from "~/config/axios.js";
 
 export const getCertificates = async (id) => {
-  return await axios.post(`/databases/${id || config.DATABASE_CERTIFICATES}/query`)
-}
+  return await axios.get(`/databases/${id || config.DATABASE_CERTIFICATES}`);
+};
 
 export const getReport = async ({
   from = null,
   to = null,
-  submitCountBy = 'day'
+  submitCountBy = "day",
 }) => {
   const queries = [];
   if (from) {
@@ -26,7 +26,7 @@ export const getReport = async ({
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 export const getReportByCourseClass = async (id) => {
   try {
@@ -35,4 +35,4 @@ export const getReportByCourseClass = async (id) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
