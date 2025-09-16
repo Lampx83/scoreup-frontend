@@ -32,19 +32,20 @@ export const updateCreateExam = async ({
   end_date,
   exam_time,
 }) => {
-  const res = await axios.post(
-    "/exams/create-exam",
-    {
-      student_list,
-      class_id,
-      subjects_id,
-      notion_database_id,
-      questions,
-      start_date,
-      end_date,
-      exam_time,
-    },
-    { headers: { "Content-Type": "multipart/form-data" } }
-  );
-};
+  const formData = new FormData();
 
+  formData.append("student_list", student_list); // file
+  formData.append("class_id", class_id);
+  formData.append("subjects_id", subjects_id);
+  formData.append("notion_database_id", notion_database_id);
+  formData.append("questions", JSON.stringify(questions)); // array thì stringify
+  formData.append("start_date", start_date);
+  formData.append("end_date", end_date);
+  formData.append("exam_time", exam_time);
+
+  console.log("📦 FormData gửi đi:", [...formData.entries()]);
+
+  await axios.post("/exams/create-exam", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};

@@ -21,7 +21,6 @@ import { checkRole } from "~/helpers/checkRole";
 import { getSubjects, updateCreateExam } from "~/services/exam.service.js";
 import { validateCreateExam } from "~/helpers/validateCreateExam.js";
 
-
 export default function CreateExam() {
   const [file, setFile] = useState(null);
   const [examTime, setExamTime] = useState("");
@@ -39,6 +38,7 @@ export default function CreateExam() {
   const [subjectId, setSubjectId] = useState("");
   const [startTime, setStartTime] = useState(""); //time bắt đầu
   const [endTime, setEndTime] = useState(""); //time kết thúc
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -80,8 +80,17 @@ export default function CreateExam() {
     }
     setOpenCreateExam(false);
     try {
-      const res = await updateCreateExam();
-      console.log("Đã tạo ca thi thành công", res);
+      const res = await updateCreateExam({
+        student_list: file, // hoặc danh sách học sinh bạn đã parse ra
+        class_id: classId,
+        subjects_id: subjectId,
+        notion_database_id: classSectionId, // nếu đúng field bạn map
+        questions: chapters, // hay chapters?
+        start_date: startTime,
+        end_date: endTime,
+        exam_time: examTime,
+      });
+
       setOpenSuccess(true);
 
       // Lưu exam_id thật nếu có
