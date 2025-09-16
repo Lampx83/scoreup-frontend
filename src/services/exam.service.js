@@ -45,7 +45,15 @@ export const updateCreateExam = async ({
 
   console.log("📦 FormData gửi đi:", [...formData.entries()]);
 
-  await axios.post("/exams/create-exam", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  try {
+    const res = await axios.post("/exams/create-exam", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    console.log("Trạng thái tạo và message:", res.data);
+    return res.data;
+  } catch (err) {
+    console.error("❌ Tạo ca thi thất bại:", err.response?.data || err.message);
+    throw err; // ném lại lỗi cho FE xử lý (ví dụ hiển thị alert)
+  }
 };
