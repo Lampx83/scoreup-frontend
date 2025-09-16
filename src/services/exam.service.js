@@ -26,11 +26,13 @@ export const updateCreateExam = async ({
   student_list,
   class_id,
   subjects_id,
+  subjects_name,
   notion_database_id,
   questions,
   start_date,
   end_date,
   exam_time,
+  file,
 }) => {
   const formData = new FormData();
 

@@ -60,6 +60,7 @@ export default function CreateExam() {
   //Tạo ca thi
   const handleCreateExam = () => {
     setOpenCreateExam(true);
+    console.l;
   };
 
   const handleConfirmCreateExam = async () => {
@@ -79,6 +80,7 @@ export default function CreateExam() {
       return;
     }
     setOpenCreateExam(false);
+
     try {
       const res = await updateCreateExam({
         student_list: file, // hoặc danh sách học sinh bạn đã parse ra
@@ -92,17 +94,9 @@ export default function CreateExam() {
       });
 
       setOpenSuccess(true);
-
-      // Lưu exam_id thật nếu có
       localStorage.setItem("lastExamId", res?.exam_id || "mock_exam_123");
     } catch (err) {
       console.error("Tạo ca thi thất bại", err);
-
-      // Mock exam_id khi API fail
-      localStorage.setItem("lastExamId", "mock_exam_123");
-      setOpenSuccess(true); // vẫn mở dialog để test
-    } finally {
-      setIsLoading(false); // tắt loading
     }
   };
 
