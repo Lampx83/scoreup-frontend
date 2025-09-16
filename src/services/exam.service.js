@@ -23,34 +23,42 @@ export const getSubjects = async () => {
 };
 
 export const updateCreateExam = async ({
-  file,
+  student_list,
   class_id,
   subjects_id,
+  subjects_name,
   notion_database_id,
   questions,
   start_date,
   end_date,
   exam_time,
+  file,
 }) => {
   const formData = new FormData();
 
   // Thêm file
   if (file) {
-    formData.append("student_list", file); // tên field theo BE yêu cầu
+    formData.append("student_list", file);
+  } else if (student_list) {
+    formData.append("student_list", JSON.stringify(student_list));
   }
 
-  // Thêm các trường khác
   formData.append("class_id", class_id);
   formData.append("subjects_id", subjects_id);
+  formData.append("subjects_name", subjects_name); // thêm tên môn
   formData.append("notion_database_id", notion_database_id || "");
-  formData.append("questions", JSON.stringify(questions)); // nếu BE nhận array dạng string
+  formData.append("questions", JSON.stringify(questions));
   formData.append("start_date", start_date);
   formData.append("end_date", end_date);
   formData.append("exam_time", exam_time);
 
-  const res = await axios.post("/exams/create-exam", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  // ===== Console.log body =====
+  console.log("POST body:");
+  for (let [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
 
-  return res.data; // trả về dữ liệu từ BE
+  const res = await axios.post("/exams/create-exam", formData);
+
+  return res.data;
 };
