@@ -94,16 +94,9 @@ export default function CreateExam() {
       console.log("Đã tạo ca thi thành công", res);
       setOpenSuccess(true);
 
-      // Lưu exam_id thật nếu có
       localStorage.setItem("lastExamId", res?.exam_id || "mock_exam_123");
     } catch (err) {
       console.error("Tạo ca thi thất bại", err);
-
-      // Mock exam_id khi API fail
-      localStorage.setItem("lastExamId", "mock_exam_123");
-      setOpenSuccess(true);
-    } finally {
-      setIsLoading(false); // tắt loading
     }
   };
 
