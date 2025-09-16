@@ -23,7 +23,7 @@ export const getSubjects = async () => {
 };
 
 export const updateCreateExam = async ({
-  student_list,
+  file,
   class_id,
   subjects_id,
   notion_database_id,
@@ -32,19 +32,25 @@ export const updateCreateExam = async ({
   end_date,
   exam_time,
 }) => {
-  const res = await axios.post(
-    "/exams/create-exam",
-    {
-      student_list,
-      class_id,
-      subjects_id,
-      notion_database_id,
-      questions,
-      start_date,
-      end_date,
-      exam_time,
-    },
-    { headers: { "Content-Type": "multipart/form-data" } }
-  );
-};
+  const formData = new FormData();
 
+  // Thêm file
+  if (file) {
+    formData.append("student_list", file); // tên field theo BE yêu cầu
+  }
+
+  // Thêm các trường khác
+  formData.append("class_id", class_id);
+  formData.append("subjects_id", subjects_id);
+  formData.append("notion_database_id", notion_database_id || "");
+  formData.append("questions", JSON.stringify(questions)); // nếu BE nhận array dạng string
+  formData.append("start_date", start_date);
+  formData.append("end_date", end_date);
+  formData.append("exam_time", exam_time);
+
+  const res = await axios.post("/exams/create-exam", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return res.data; // trả về dữ liệu từ BE
+};

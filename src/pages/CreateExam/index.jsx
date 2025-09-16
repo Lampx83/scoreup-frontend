@@ -21,7 +21,6 @@ import { checkRole } from "~/helpers/checkRole";
 import { getSubjects, updateCreateExam } from "~/services/exam.service.js";
 import { validateCreateExam } from "~/helpers/validateCreateExam.js";
 
-
 export default function CreateExam() {
   const [file, setFile] = useState(null);
   const [examTime, setExamTime] = useState("");
@@ -79,8 +78,19 @@ export default function CreateExam() {
       return;
     }
     setOpenCreateExam(false);
+
     try {
-      const res = await updateCreateExam();
+      const res = await updateCreateExam({
+        file,
+        class_id: classId,
+        subjects_id: subjectId,
+        notion_database_id: "", // nếu có, điền id từ BE
+        questions: chapters,
+        start_date: startTime,
+        end_date: endTime,
+        exam_time: examTime,
+      });
+
       console.log("Đã tạo ca thi thành công", res);
       setOpenSuccess(true);
 
@@ -91,7 +101,7 @@ export default function CreateExam() {
 
       // Mock exam_id khi API fail
       localStorage.setItem("lastExamId", "mock_exam_123");
-      setOpenSuccess(true); // vẫn mở dialog để test
+      setOpenSuccess(true);
     } finally {
       setIsLoading(false); // tắt loading
     }
