@@ -38,6 +38,7 @@ export default function CreateExam() {
   const [subjectId, setSubjectId] = useState("");
   const [startTime, setStartTime] = useState(""); //time bắt đầu
   const [endTime, setEndTime] = useState(""); //time kết thúc
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -81,41 +82,17 @@ export default function CreateExam() {
     setOpenCreateExam(false);
 
     try {
-      // Tạo FormData giống như updateCreateExam
-      const formData = new FormData();
-      if (file) {
-        formData.append("student_list", file);
-      }
-      formData.append("class_id", classId);
-      formData.append("subjects_id", subjectId);
-      formData.append("notion_database_id", "");
-      formData.append("questions", JSON.stringify(chapters));
-      formData.append("start_date", startTime);
-      formData.append("end_date", endTime);
-      formData.append("exam_time", examTime);
-
-      // ==== LOG BODY =====
-      console.log("POST body:");
-      for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          console.log(key, value.name, value.size, value.type);
-        } else {
-          console.log(key, value);
-        }
-      }
-
       const res = await updateCreateExam({
-        file,
+        student_list: file, // hoặc danh sách học sinh bạn đã parse ra
         class_id: classId,
         subjects_id: subjectId,
-        notion_database_id: "",
-        questions: chapters,
+        notion_database_id: classSectionId, // nếu đúng field bạn map
+        questions: chapters, // hay chapters?
         start_date: startTime,
         end_date: endTime,
         exam_time: examTime,
       });
 
-      console.log("Đã tạo ca thi thành công", res);
       setOpenSuccess(true);
       localStorage.setItem("lastExamId", res?.exam_id || "mock_exam_123");
     } catch (err) {

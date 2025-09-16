@@ -36,29 +36,26 @@ export const updateCreateExam = async ({
 }) => {
   const formData = new FormData();
 
-  // Thêm file
-  if (file) {
-    formData.append("student_list", file);
-  } else if (student_list) {
-    formData.append("student_list", JSON.stringify(student_list));
-  }
-
+  formData.append("student_list", student_list); // file
   formData.append("class_id", class_id);
   formData.append("subjects_id", subjects_id);
-  formData.append("subjects_name", subjects_name); // thêm tên môn
-  formData.append("notion_database_id", notion_database_id || "");
-  formData.append("questions", JSON.stringify(questions));
+  formData.append("notion_database_id", notion_database_id);
+  formData.append("questions", JSON.stringify(questions)); // array thì stringify
   formData.append("start_date", start_date);
   formData.append("end_date", end_date);
   formData.append("exam_time", exam_time);
 
-  // ===== Console.log body =====
-  console.log("POST body:");
-  for (let [key, value] of formData.entries()) {
-    console.log(key, value);
+  console.log("📦 FormData gửi đi:", [...formData.entries()]);
+
+  try {
+    const res = await axios.post("/exams/create-exam", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    console.log("Trạng thái tạo và message:", res.data);
+    return res.data;
+  } catch (err) {
+    console.error("❌ Tạo ca thi thất bại:", err.response?.data || err.message);
+    throw err; // ném lại lỗi cho FE xử lý (ví dụ hiển thị alert)
   }
-
-  const res = await axios.post("/exams/create-exam", formData);
-
-  return res.data;
 };
