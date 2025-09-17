@@ -156,14 +156,13 @@ export default function PostExamPage() {
       let sections = [];
       let qs = [];
 
-        const res = await getQuestions({
-          limit: 50,
-          multiQuestions: false,
-          tag: "test",
-          notionDatabaseId,
-        });
-        qs = res?.map(parseQuestion);
-      }
+      const res = await getQuestions({
+        limit: 50,
+        multiQuestions: false,
+        tag: "test",
+        notionDatabaseId,
+      });
+      qs = res?.map(parseQuestion);
 
       sections.push({
         multi: false,
@@ -212,14 +211,14 @@ export default function PostExamPage() {
     const sendResult = async () => {
       if (isSubmitted) {
         const res = await submitResult({
-              user_id: user?.id,
-              certificateId: notionDatabaseId,
-              questions: result.current.questions,
-              total: result.current.total,
-              correct: calculateCorrect(),
-              start: result.current.start,
-              end: new Date(),
-            });
+          user_id: user?.id,
+          certificateId: notionDatabaseId,
+          questions: result.current.questions,
+          total: result.current.total,
+          correct: calculateCorrect(),
+          start: result.current.start,
+          end: new Date(),
+        });
 
         setResultId(res?.metadata?._id);
         setOpen(true);
