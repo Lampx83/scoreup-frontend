@@ -21,6 +21,8 @@ import { checkRole } from "~/helpers/checkRole";
 import { getSubjects, updateCreateExam } from "~/services/exam.service.js";
 import { validateCreateExam } from "~/helpers/validateCreateExam.js";
 
+import { updateQuestion } from "~/services/question.service";
+
 export default function CreateExam() {
   const [openCancel, setOpenCancel] = useState(false);
   const [openCreateExam, setOpenCreateExam] = useState(false);
@@ -37,6 +39,15 @@ export default function CreateExam() {
 
   const [startTime, setStartTime] = useState(""); //time bắt đầu
   const [endTime, setEndTime] = useState(""); //time kết thúc
+
+  const handleUpdate = async () => {
+    try {
+      const res = await updateQuestion();
+      console.log("Update thành công", res);
+    } catch (error) {
+      console.error("Update thất bại", error);
+    }
+  };
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -94,7 +105,7 @@ export default function CreateExam() {
 
       setOpenSuccess(true);
       if (res?.status === "OK" || res?.code === 200) {
-        console.log("✅ Tạo ca thi thành công:", res);
+        console.log(" Tạo ca thi thành công:", res);
 
         // Lưu exam_id xuống localStorage
         localStorage.setItem(
@@ -102,10 +113,10 @@ export default function CreateExam() {
           res?.metadata?.exam_id || "mock_exam_123"
         );
       } else {
-        console.error("❌ Tạo ca thi thất bại:", res);
+        console.error(" Tạo ca thi thất bại:", res);
       }
     } catch (err) {
-      console.error("🚨 Lỗi khi tạo ca thi:", err);
+      console.error(" Lỗi khi tạo ca thi:", err);
     }
   };
 
@@ -359,6 +370,24 @@ export default function CreateExam() {
         subject={selectedSubject}
         onChangeChecked={(data) => setChapters(data)}
       />
+
+      <Button
+        variant="contained"
+        sx={{
+          backgroundColor: "#123663FF",
+          borderRadius: 25,
+          color: "white",
+          width: 200,
+          height: 40,
+          fontWeight: 600,
+          ":hover": {
+            backgroundColor: "#204676ff",
+          },
+        }}
+        onClick={handleUpdate}
+      >
+        Cập nhật câu hỏi
+      </Button>
 
       {/* Nút bấm */}
       <Box

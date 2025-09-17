@@ -25,7 +25,7 @@ export default function ContentExam({ subject, onChangeChecked }) {
 
     const newChapters = subject.chapters || [];
     setChapters(newChapters);
-    setNumbers(Array(newChapters.length).fill(0));
+    setNumbers(Array(newChapters.length).fill(""));
     setChecked([]);
   }, [subject]);
 
