@@ -40,7 +40,8 @@ import { PiAcorn, PiExamBold, PiExamDuotone, PiExamFill } from "react-icons/pi";
 import { FaRankingStar } from "react-icons/fa6";
 import { checkRole } from "~/helpers/checkRole";
 import { activeListItem } from "~/constant/activeListItem";
-
+import ExamQuestionsPalette from "~/components/ExamQuestionsPalette/index.jsx";
+import { useExamPalette } from "~/contexts/ExamPaletteContext";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -127,7 +128,7 @@ export default function SideBarUser() {
   const { open, handleDrawerOpen, handleDrawerClose } = useSideBar();
   const { handleOpen: handleOpenRecommend } = useRecommendModal();
   const [user, setUser] = React.useState({});
-
+  const palette = useExamPalette();
   const handleFixError = () => {
     localStorage.clear();
     window.location.reload();
@@ -310,38 +311,49 @@ export default function SideBarUser() {
                 />
               </ListItemButton>
             </ListItem>
-            {checkLocal && (
-              <ListItem disablePadding sx={{ display: "block" }}>
-                <ListItemButton
+            {/* {checkLocal && ( */}
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  ...(activeTab === "exam" && activeListItem(theme)),
+                }}
+                component={Link}
+                to="/exam"
+                state={{ role, student_id: student_id }}
+                onClick={() => updateActiveTab("exam")}
+              >
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                    ...(activeTab === "exam" && activeListItem(theme)),
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
                   }}
-                  component={Link}
-                  to="/exam"
-                  state={{ role, student_id: student_id }}
-                  onClick={() => updateActiveTab("exam")}
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <PiExamDuotone style={{ width: "24px", height: "24px" }} />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={"Thi"}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            )}
+                  <PiExamDuotone style={{ width: "24px", height: "24px" }} />
+                </ListItemIcon>
+                <ListItemText primary={"Thi"} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            {/* )} */}
           </List>
           <Divider />
+          {activeTab === "exam" && palette?.questions?.length > 0 && (
+            <>
+              <ExamQuestionsPalette
+                questions={palette.questions}
+                setShowAnswer={palette.setShowAnswer}
+                setIsSubmitted={palette.setIsSubmitted}
+                showAnswer={palette.showAnswer}
+                isSubmitted={palette.isSubmitted}
+                result={palette.result}
+                countFrom={palette.countFrom}
+                isTest={palette.isTest}
+              />
+            </>
+          )}
           <List>
             {/*{(activeTab === 'dashboard' && user?.recommend) && <ListItem disablePadding sx={{display: "block"}}>*/}
             {/*  <ListItemButton*/}

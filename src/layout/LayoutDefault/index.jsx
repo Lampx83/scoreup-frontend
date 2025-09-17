@@ -17,7 +17,10 @@ function LayoutDefault() {
     <Box sx={{ display: "flex" }}>
       <Histats />
       <SideBarUser />
-      <Box component="main" sx={{ flexGrow: 1, p: 3, position: "relative" }}>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, p: state?.noPadding ? 0 : 3, position: "relative" }}
+      >
         <Outlet />
       </Box>
     </Box>
