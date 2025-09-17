@@ -9,38 +9,56 @@ import {
   Checkbox,
   TextField,
 } from "@mui/material";
-const examContents = [
-  "Chương 1: Lập trình C cơ bản",
-  "Chương 2: Vào ra dữ liệu trong C",
-  "Chương 3: Các cấu trúc lặp trình trong C",
-  "Chương 4: Hàm trong C",
-  "Chương 5: Con trỏ trong C",
-  "Chương 6: Cấu trúc trong C",
-];
 
-export default function ContentExam({ onChangeChecked }) {
+export default function ContentExam({ subject, onChangeChecked }) {
   const [checked, setChecked] = React.useState([]);
-  const [numbers, setNumbers] = React.useState(
-    Array(examContents.length).fill(0) // mảng số lượng, mặc định 0
-  );
+  const [numbers, setNumbers] = React.useState([]);
+  const [chapters, setChapters] = React.useState([]);
+
+  React.useEffect(() => {
+    if (!subject) {
+      setChapters([]);
+      setChecked([]);
+      setNumbers([]);
+      return;
+    }
+
+    const newChapters = subject.chapters || [];
+    setChapters(newChapters);
+    setNumbers(Array(newChapters.length).fill(0));
+    setChecked([]);
+  }, [subject]);
 
   const handleToggle = (index) => {
-    const currentIndex = checked.indexOf(index);
-    const newChecked = [...checked];
+    const newChecked = checked.includes(index)
+      ? checked.filter((i) => i !== index)
+      : [...checked, index];
 
-    if (currentIndex === -1) {
-      newChecked.push(index);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
     setChecked(newChecked);
-    onChangeChecked(newChecked);
+
+    if (onChangeChecked) {
+      const data = newChecked.map((i) => ({
+        chapter: chapters[i].chapter,
+        numbers: numbers[i],
+      }));
+      onChangeChecked(data);
+    }
   };
 
   const handleNumberChange = (index, value) => {
     const newNumbers = [...numbers];
-    newNumbers[index] = value;
+    newNumbers[index] = Number(value) || 0;
     setNumbers(newNumbers);
+
+    if (onChangeChecked) {
+      const data = checked
+        .map((i) => ({
+          chapter: chapters[i].chapter,
+          numbers: newNumbers[i],
+        }))
+        .filter((c) => c.numbers > 0);
+      onChangeChecked(data);
+    }
   };
 
   return (
@@ -49,33 +67,36 @@ export default function ContentExam({ onChangeChecked }) {
         Nội dung thi
       </Typography>
 
-      <List>
-        {examContents.map((label, index) => (
-          <ListItem
-            key={index}
-            sx={{ display: "flex", alignItems: "center", gap: 2, px: 0 }}
-          >
-            <ListItemIcon sx={{ minWidth: 36 }}>
-              <Checkbox
-                edge="start"
-                checked={checked.includes(index)}
-                tabIndex={-1}
-                disableRipple
-                onChange={() => handleToggle(index)}
+      {chapters.length === 0 ? (
+        <Typography color="text.secondary" mt={1}>
+          Vui lòng chọn môn thi trước
+        </Typography>
+      ) : (
+        <List>
+          {chapters.map((item, index) => (
+            <ListItem
+              key={index}
+              sx={{ display: "flex", alignItems: "center", gap: 2, px: 0 }}
+            >
+              <ListItemIcon sx={{ minWidth: 36 }}>
+                <Checkbox
+                  checked={checked.includes(index)}
+                  onChange={() => handleToggle(index)}
+                />
+              </ListItemIcon>
+              <ListItemText primary={item.chapter} sx={{ flex: 1 }} />
+              <TextField
+                type="number"
+                value={numbers[index]}
+                onChange={(e) => handleNumberChange(index, e.target.value)}
+                size="small"
+                sx={{ width: 70 }}
+                inputProps={{ min: 0 }}
               />
-            </ListItemIcon>
-            <ListItemText primary={label} sx={{ flex: 1 }} />
-            <TextField
-              type="number"
-              value={numbers[index]}
-              onChange={(e) => handleNumberChange(index, e.target.value)}
-              size="small"
-              sx={{ width: 70 }}
-              inputProps={{ min: 0 }}
-            />
-          </ListItem>
-        ))}
-      </List>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </Box>
   );
 }
