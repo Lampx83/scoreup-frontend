@@ -1,4 +1,5 @@
 import axios from "~/config/axios";
+import cookies from "~/utils/cookies.js";
 
 // ✅ Lấy danh sách exams
 export const getExams = async () => {
@@ -24,27 +25,61 @@ export const getSubjects = async () => {
 
 export const updateCreateExam = async ({
   student_list,
-  class_id,
-  subjects_id,
+  exam_name,
+  notes,
+  subject_name,
   notion_database_id,
   questions,
   start_date,
   end_date,
   exam_time,
+  file,
 }) => {
-  const res = await axios.post(
-    "/exams/create-exam",
-    {
-      student_list,
-      class_id,
-      subjects_id,
-      notion_database_id,
-      questions,
-      start_date,
-      end_date,
-      exam_time,
-    },
-    { headers: { "Content-Type": "multipart/form-data" } }
-  );
+  const formData = new FormData();
+
+  formData.append("student_list", file); // file
+  formData.append("subject_name", subject_name); // tên môn thi
+  formData.append("exam_name", exam_name); //Tên kì thi
+  formData.append("notes", notes); //Ghi chú
+  formData.append("notion_database_id", notion_database_id);
+  formData.append("questions", JSON.stringify(questions)); // array thì stringify
+  formData.append("start_date", start_date);
+  formData.append("end_date", end_date);
+  formData.append("exam_time", exam_time);
+
+  let authorName = "Ẩn danh";
+  const userInfo = cookies.get("user");
+  console.log("Cookie user:", userInfo);
+
+  if (userInfo) {
+    try {
+      // Nếu cookie trả ra string → parse
+      const parsed =
+        typeof userInfo === "string" ? JSON.parse(userInfo) : userInfo;
+
+      authorName = parsed?.name || parsed?.username || "Ẩn danh";
+    } catch (e) {
+      console.error("Cookie parse lỗi:", e);
+    }
+  }
+
+  formData.append("author", authorName);
+  // console.log(" FormData gửi đi:", [...formData.entries()]);
+
+  try {
+    const res = await axios.post("/exams/create-exam", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    console.log("Trạng thái tạo và message:", res.data);
+    return res.data;
+  } catch (err) {
+    console.error(" Tạo ca thi thất bại:", err.response?.data || err.message);
+    throw err; // ném lại lỗi cho FE xử lý (ví dụ hiển thị alert)
+  }
 };
 
+export const deleteExam = (exam_id) => {
+  console.log("Đang gọi API delete với id:", exam_id);
+  return axios.delete(`/exams/${exam_id}`);
+};

@@ -30,7 +30,7 @@ export default function ContentExam({ subjectId, onChangeChecked }) {
 
       const newChapters = subject?.chapters || [];
       setChapters(newChapters);
-      setNumbers(Array(newChapters.length).fill(0));
+      setNumbers(Array(newChapters.length).fill("")); // để sau
       setChecked([]);
     };
     fetchChapters();
@@ -58,7 +58,7 @@ export default function ContentExam({ subjectId, onChangeChecked }) {
 
   const handleNumberChange = (index, value) => {
     const newNumbers = [...numbers];
-    newNumbers[index] = Number(value) || 0;
+    newNumbers[index] = value === "" ? 0 : Number(value);
     setNumbers(newNumbers);
 
     if (onChangeChecked) {
