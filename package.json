@@ -22,6 +22,7 @@
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "html-react-parser": "^5.1.12",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",

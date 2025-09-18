@@ -1,8 +1,7 @@
 export function validateCreateExam(data) {
   const errors = [];
 
-  if (!data.classId?.trim()) errors.push("Mã học phần");
-  if (!data.subjectId?.trim()) errors.push("Mã số lớp học phần");
+  if (!data.examName?.trim()) errors.push("Tên ca thi");
   if (!data.selectedSubject) errors.push("Môn thi");
   if (!data.startTime) errors.push("Thời gian bắt đầu");
   if (!data.endTime) errors.push("Thời gian kết thúc");

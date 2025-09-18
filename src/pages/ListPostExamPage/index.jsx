@@ -5,6 +5,11 @@ import {
   CardContent,
   Container,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
 } from "@mui/material";
 import headerImg from "~/assets/images/Container 136.png";
 import * as React from "react";
@@ -12,17 +17,21 @@ import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { FaHistory, FaRegClock } from "react-icons/fa";
 import { FaListCheck } from "react-icons/fa6";
-import Button from "@mui/material/Button";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import Tooltip from "@mui/material/Tooltip";
 import { Link, useLocation } from "react-router-dom";
 import moment from "moment";
 import plusExamImg from "~/assets/images/PlusExam.png";
-import { getExams } from "~/services/exam.service";
+import { getExams, deleteExam } from "~/services/exam.service";
+import SadIcon from "../../assets/images/sad.svg";
 
 export default function ListPostExamPage() {
   const theme = useTheme();
   const [exams, setExams] = useState([]);
   const location = useLocation();
   const { role, student_id } = location.state || {};
+  const [openClear, setOpenClear] = useState(false);
+  const [selectedExam, setSelectedExam] = useState(null);
 
   console.log("role", role);
   console.log("student_id", student_id);
@@ -32,20 +41,51 @@ export default function ListPostExamPage() {
     const fetchTest = async () => {
       const res = await getExams();
       const exams = res?.data;
-
+      console.log(exams);
       setExams(exams);
     };
     fetchTest();
   }, []);
 
-  // 🔍 Lọc ra exam chứa student_id này chỉ khi role là "user"
   const filteredExams = React.useMemo(() => {
-    if (role === true) return exams; // admin thì trả về toàn bộ
-    if (!student_id) return [];
-    return exams?.filter((exam) =>
-      exam.student_list.some((stu) => stu.student_id === student_id)
-    );
-  }, [exams, student_id, role]);
+    if (!exams) return [];
+
+    if (role) {
+      // role = true nghĩa là giáo viên
+      return exams;
+    } else {
+      // role = false => học sinh
+      return exams.filter((exam) =>
+        exam.student_list.some((stu) => stu.student_id === student_id)
+      );
+    }
+  }, [exams, role, student_id]);
+
+  const handleClear = (exam) => {
+    setSelectedExam(exam);
+    setOpenClear(true);
+  };
+
+  const handleConfirmClear = async () => {
+    if (selectedExam) {
+      try {
+        // Gọi API xóa
+        await deleteExam(selectedExam.exam_id);
+
+        // Cập nhật lại state exams để UI refresh
+        setExams((prev) =>
+          prev.filter((e) => e.exam_id !== selectedExam.exam_id)
+        );
+
+        console.log("Đã xóa ca thi:", selectedExam.exam_id);
+      } catch (error) {
+        console.error("Lỗi khi xóa ca thi:", error);
+      }
+    }
+
+    setOpenClear(false);
+    setSelectedExam(null);
+  };
 
   return (
     <Container
@@ -111,7 +151,8 @@ export default function ListPostExamPage() {
           flexDirection: "column",
         }}
       >
-        {role ? (
+        {/* Nút Tạo ca thi chỉ dành cho giáo viên */}
+        {role && (
           <Button
             style={{
               display: "flex",
@@ -139,14 +180,16 @@ export default function ListPostExamPage() {
             />
             <h2>Tạo ca thi</h2>
           </Button>
-        ) : (
-          <h2>Danh sách ca thi</h2>
         )}
+
+        {/* Danh sách ca thi luôn luôn hiển thị */}
+        <h2>Danh sách ca thi</h2>
+
         <Box
           sx={{
             display: "flex",
             flexDirection: "row",
-            gap: 3,
+            gap: 4,
             flexWrap: "wrap",
           }}
         >
@@ -165,14 +208,47 @@ export default function ListPostExamPage() {
               }}
             >
               <CardContent>
-                <Typography
-                  gutterBottom
-                  fontSize={"20px"}
-                  fontWeight={700}
-                  color={"#1A4E8DFF"}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  {exam?.exam_name || ""}
-                </Typography>
+                  <Typography
+                    gutterBottom
+                    fontSize={"20px"}
+                    fontWeight={700}
+                    color={"#1A4E8DFF"}
+                  >
+                    {exam?.exam_name || ""}
+                  </Typography>
+                  <Tooltip
+                    title={
+                      <div>
+                        <div>
+                          Tạo vào:{" "}
+                          {exam?.created_at
+                            ? moment(exam.created_at).format(
+                                "HH:mm:ss DD/MM/YYYY"
+                              )
+                            : "Không rõ"}
+                        </div>
+                        <div>Ghi chú: {exam?.note || "Không có"}</div>
+                      </div>
+                    }
+                    arrow
+                    placement="top"
+                  >
+                    <InfoOutlinedIcon
+                      sx={{
+                        fontSize: 20,
+                        color: "#1A4E8DFF",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </Tooltip>
+                </Box>
                 <Typography
                   variant={"body2"}
                   gutterBottom
@@ -196,42 +272,45 @@ export default function ListPostExamPage() {
                     alignItems: "center",
                   }}
                 >
-                  <FaListCheck />
-                  {role ? <>Người tạo: {exam?.author ?? ""}</> : <>Kết quả: </>}
+                  <FaRegClock />
+                  Thời gian bắt đầu: {""}
+                  {exam?.start_date
+                    ? moment(exam.start_date).format("HH:mm DD/MM/YYYY")
+                    : ""}
                 </Typography>
                 {exam.exam_id && (
-                  <>
-                    <Typography
-                      variant={"body2"}
-                      gutterBottom
-                      sx={{
-                        display: "flex",
-                        gap: 1,
-                        justifyContent: "flex-start",
-                        alignItems: "center",
-                      }}
-                    >
-                      <FaHistory />
-                      Thời gian bắt đầu:{" "}
-                      {moment(exam?.start_date).format("HH:mm, DD/MM/YYYY")}
-                    </Typography>
-                    <Typography
-                      variant={"body2"}
-                      gutterBottom
-                      sx={{
-                        display: "flex",
-                        gap: 1,
-                        justifyContent: "flex-start",
-                        alignItems: "center",
-                      }}
-                    >
-                      <FaHistory />
-                      Thời gian kết thúc:{" "}
-                      {moment(exam?.end_date).format("HH:mm, DD/MM/YYYY")}
-                    </Typography>
-                  </>
+                  <Typography
+                    variant={"body2"}
+                    gutterBottom
+                    sx={{
+                      display: "flex",
+                      gap: 1,
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaRegClock />
+                    Thời gian kết thúc:{" "}
+                    {exam?.end_date
+                      ? moment(exam.end_date).format("HH:mm DD/MM/YYYY")
+                      : ""}
+                  </Typography>
                 )}
+                <Typography
+                  variant={"body2"}
+                  gutterBottom
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                >
+                  <FaRegClock />
+                  Người tạo: {exam?.author || "Ẩn danh"}
+                </Typography>
               </CardContent>
+
               {role ? (
                 <CardActions
                   sx={{
@@ -242,6 +321,8 @@ export default function ListPostExamPage() {
                   {exam.student_list.submitted !== "false" ? (
                     <>
                       <Button
+                        variant="contained"
+                        onClick={() => handleClear(exam)}
                         size={"small"}
                         sx={{
                           backgroundColor: "#DE3B40FF",
@@ -256,6 +337,7 @@ export default function ListPostExamPage() {
                       >
                         Xóa
                       </Button>
+
                       <Button
                         size={"small"}
                         sx={{
@@ -350,6 +432,78 @@ export default function ListPostExamPage() {
             </Card>
           ))}
         </Box>
+        <Dialog
+          open={openClear}
+          onClose={() => setOpenClear(false)}
+          PaperProps={{
+            sx: {
+              borderRadius: "16px",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+              padding: 3,
+              minWidth: "30%",
+              maxWidth: "50%",
+              position: "relative",
+              overflow: "visible",
+              margin: "auto",
+            },
+          }}
+        >
+          <img
+            src={SadIcon}
+            alt=""
+            style={{
+              width: "40%",
+              position: "absolute",
+              left: "-30%",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+          />
+          <Box>
+            <DialogTitle sx={{ color: "red", textAlign: "center" }}>
+              Bạn có chắc muốn xóa ca thi?
+            </DialogTitle>
+            <DialogContent
+              sx={{
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              Các dữ liệu của ca thi sẽ bị xóa vĩnh viễn.
+            </DialogContent>
+            <DialogActions
+              sx={{
+                justifyContent: "center",
+                gap: 2,
+              }}
+            >
+              <Button
+                onClick={() => setOpenClear(false)}
+                sx={{
+                  color: "black",
+                  background: "#cececeff",
+                  borderRadius: "12px",
+                  width: "150px",
+                }}
+              >
+                Quay lại
+              </Button>
+              <Button
+                onClick={handleConfirmClear}
+                sx={{
+                  color: "white",
+                  background: "#123663FF",
+                  borderRadius: "12px",
+                  width: "150px",
+                }}
+              >
+                Xác nhận
+              </Button>
+            </DialogActions>
+          </Box>
+        </Dialog>
       </Box>
     </Container>
   );

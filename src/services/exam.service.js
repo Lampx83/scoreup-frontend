@@ -1,4 +1,5 @@
 import axios from "~/config/axios";
+import Cookies from "js-cookie";
 
 // ✅ Lấy danh sách exams
 export const getExams = async () => {
@@ -23,8 +24,8 @@ export const getSubjects = async () => {
 
 export const updateCreateExam = async ({
   student_list,
-  class_id,
-  subject_id,
+  exam_name,
+  notes,
   subject_name,
   notion_database_id,
   questions,
@@ -35,17 +36,30 @@ export const updateCreateExam = async ({
 }) => {
   const formData = new FormData();
 
-  formData.append("student_list", student_list); // file
+  formData.append("student_list", file); // file
   formData.append("subject_name", subject_name); // tên môn thi
-  formData.append("class_id", class_id);
-  formData.append("subject_id", subject_id);
+  formData.append("exam_name", exam_name); //Tên kì thi
+  formData.append("notes", notes); //Ghi chú
   formData.append("notion_database_id", notion_database_id);
   formData.append("questions", JSON.stringify(questions)); // array thì stringify
   formData.append("start_date", start_date);
   formData.append("end_date", end_date);
   formData.append("exam_time", exam_time);
 
-  console.log("📦 FormData gửi đi:", [...formData.entries()]);
+  //Lấy author
+  let authorName = "Ẩn danh";
+  const userInfo = Cookies.get("userInfo");
+  if (userInfo) {
+    try {
+      const parsed = JSON.parse(userInfo);
+      authorName = parsed?.name || parsed?.username || "Ẩn danh";
+    } catch (e) {
+      console.error("Cookie parse lỗi:", e);
+    }
+  }
+  formData.append("author", authorName);
+
+  console.log(" FormData gửi đi:", [...formData.entries()]);
 
   try {
     const res = await axios.post("/exams/create-exam", formData, {
@@ -58,4 +72,9 @@ export const updateCreateExam = async ({
     console.error(" Tạo ca thi thất bại:", err.response?.data || err.message);
     throw err; // ném lại lỗi cho FE xử lý (ví dụ hiển thị alert)
   }
+};
+
+export const deleteExam = (exam_id) => {
+  console.log("Đang gọi API delete với id:", exam_id);
+  return axios.delete(`/exams/${exam_id}`);
 };
