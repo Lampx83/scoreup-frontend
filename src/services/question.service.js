@@ -200,3 +200,11 @@ export const updateQuestion = async () => {
     }
   );
 };
+
+export const getExamQuestions = async (examId, body) => {
+  return await post(`/v1/api/questions/exam/${examId}`, body);
+};
+
+export const submitExam = async (examId, body) => {
+  return await post(`/v1/api/submit/exam/${examId}`, body);
+};

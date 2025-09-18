@@ -402,9 +402,14 @@ export default function ListPostExamPage() {
                       component={Link}
                       to={`/exam/${exam.exam_id}`}
                       state={{
+                        student_id: student_id,
+                        exam_id: exam.exam_id,
+                        notion_database_id:
+                          exam?.notion_database_id ?? exam?.database_id,
                         subject_name: exam.subject_name,
                         exam_time: exam.exam_time,
                         start_date: exam.start_date,
+                        end_date: exam.end_date,
                       }}
                     >
                       Làm bài
