@@ -5,7 +5,7 @@ import { Chip, Container, Icon, Typography, useTheme } from "@mui/material";
 import SingleQuestion from "~/components/Question/SingleQuestion/index.jsx";
 import SetQuestion from "~/components/Question/SetQuestion/index.jsx";
 import { useEffect, useRef, useState } from "react";
-import { getQuestions, submitResult } from "~/services/question.service.js";
+import { getExamQuestions, submitExam } from "~/services/question.service.js";
 import { parseQuestion } from "~/helpers/parseNotionResponseToObject.js";
 import QuestionsPalette from "~/components/QuestionsPalette/index.jsx";
 import cookies from "~/utils/cookies.js";
@@ -77,8 +77,17 @@ export default function PostExamPage() {
   const [leftSec, setLeftSec] = useState(0);
   const autoSubmittedRef = useRef(false);
   const location = useLocation();
-  const { exam_id } = useParams();
+  const params = useParams();
+  const examId = params.exam_id || location.state?.exam_id;
   const [showResult, setShowResult] = useState(false);
+  console.log(
+    "params:",
+    params,
+    "location.state:",
+    location.state,
+    "examId:",
+    examId
+  );
   useEffect(() => {
     if (questions.length > 0) {
       setPalette({
@@ -98,11 +107,15 @@ export default function PostExamPage() {
     subject_name: initialSubjectName,
     exam_time: initialExamTime,
     start_date: initialStartDate,
+    student_id: initialStudentId,
+    notion_database_id: initialNotionDbId,
   } = location.state || {};
 
   const [subjectName, setSubjectName] = useState(initialSubjectName);
   const [examTime, setExamTime] = useState(initialExamTime);
   const [startDate, setStartDate] = useState(initialStartDate);
+  const [studentId] = useState(initialStudentId);
+  const [notionDbId] = useState(initialNotionDbId);
   useEffect(() => {
     const minutes = parseInt(String(examTime || "").replace(/\D/g, ""), 10);
     if (!minutes || countFrom) return;
@@ -156,24 +169,45 @@ export default function PostExamPage() {
       let sections = [];
       let qs = [];
 
-      const res = await getQuestions({
-        limit: 50,
-        multiQuestions: false,
-        tag: "test",
-        notionDatabaseId,
-      });
-      qs = res?.map(parseQuestion);
+      let res;
+      try {
+        res = await getExamQuestions(examId, {
+          notion_database_id: notionDbId,
+          student_id: studentId,
+          number_questions: String(10),
+          questions: [
+            { chapter: "chuong-2", number: 2 },
+            { chapter: "chuong-3", number: 1 },
+          ],
+        });
+      } catch (err) {
+        console.error("getExamQuestions error:", err);
+        return;
+      }
+
+      qs = (res?.data || []).map((q) => ({
+        id: q.question_id || q.id,
+        content: q.question_text,
+        options: q.options,
+        correct: q.correct_answer,
+        chapter: q.chapter,
+      }));
 
       sections.push({
+        section: "Bài thi thật",
         multi: false,
         questions: qs,
       });
 
+      // Khởi tạo cấu trúc result để chấm & submit
       result.current.questions.push({
         section: "Bài thi thật",
         multi: false,
         questions: qs.map((question) => ({
+          // GIỮ q.question = question.id để không phải sửa addResult
           question: question.id,
+          question_text: question.content,
+          chapter: question.chapter,
           user_ans: [],
           correct_ans: [question.correct],
           score: 0,
@@ -210,17 +244,32 @@ export default function PostExamPage() {
   useEffect(() => {
     const sendResult = async () => {
       if (isSubmitted) {
-        const res = await submitResult({
-          user_id: user?.id,
-          certificateId: notionDatabaseId,
-          questions: result.current.questions,
-          total: result.current.total,
-          correct: calculateCorrect(),
-          start: result.current.start,
-          end: new Date(),
-        });
+        const flatQuestions = result.current.questions.flatMap((sec) =>
+          sec.questions.map((q) => ({
+            chapter: q.chapter,
+            question_id: q.question,
+            question_text: q.question_text,
+            chosen_answer: Array.isArray(q.user_ans)
+              ? q.user_ans[0]
+              : q.user_ans,
+            correct_answer: Array.isArray(q.correct_ans)
+              ? q.correct_ans[0]
+              : q.correct_ans,
+            isCorrect: q.score === 1,
+          }))
+        );
 
-        setResultId(res?.metadata?._id);
+        const payload = {
+          student_id: location.state?.student_id || user?.id,
+          notion_database_id: notionDbId || location.state?.notion_database_id,
+          number_questions: String(result.current.total),
+          isSubmit: true,
+          questions: flatQuestions,
+        };
+
+        const res = await submitExam(examId, payload);
+
+        setResultId(res?.data?.metadata?._id ?? null);
         setOpen(true);
       }
     };
