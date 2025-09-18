@@ -38,13 +38,14 @@ export default function ListPostExamPage() {
     fetchTest();
   }, []);
 
-  // 🔍 Lọc ra exam chứa student_id này
+  // 🔍 Lọc ra exam chứa student_id này chỉ khi role là "user"
   const filteredExams = React.useMemo(() => {
+    if (role === true) return exams; // admin thì trả về toàn bộ
     if (!student_id) return [];
-    return exams.filter((exam) =>
+    return exams?.filter((exam) =>
       exam.student_list.some((stu) => stu.student_id === student_id)
     );
-  }, [exams, student_id]);
+  }, [exams, student_id, role]);
 
   return (
     <Container
@@ -170,7 +171,7 @@ export default function ListPostExamPage() {
                   fontWeight={700}
                   color={"#1A4E8DFF"}
                 >
-                  {exam?.subject_name || ""}
+                  {exam?.exam_name || ""}
                 </Typography>
                 <Typography
                   variant={"body2"}
