@@ -302,6 +302,11 @@ export default function ListPostExamPage() {
                       }}
                       component={Link}
                       to={`/exam/${exam.exam_id}`}
+                      state={{
+                        subject_name: exam.subject_name,
+                        exam_time: exam.exam_time,
+                        start_date: exam.start_date,
+                      }}
                     >
                       Làm bài
                     </Button>

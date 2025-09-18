@@ -21,32 +21,42 @@ import { checkRole } from "~/helpers/checkRole";
 import { getSubjects, updateCreateExam } from "~/services/exam.service.js";
 import { validateCreateExam } from "~/helpers/validateCreateExam.js";
 
+import { updateQuestion } from "~/services/question.service";
+
 export default function CreateExam() {
-  const [file, setFile] = useState(null);
-  const [examTime, setExamTime] = useState("");
   const [openCancel, setOpenCancel] = useState(false);
   const [openCreateExam, setOpenCreateExam] = useState(false);
   const [openSucess, setOpenSuccess] = useState(false);
   const role = checkRole()?.checkAdmin;
 
-  const [subjects, setSubjects] = useState([]);
-
-  const [chapters, setChapters] = useState([]);
+  const [file, setFile] = useState(null);
   const [classId, setClassId] = useState(""); // mã học phần
-  const [classSectionId, setClassSectionId] = useState(""); // mã học phần
+  const [subjects, setSubjects] = useState([]);
+  const [subjectId, setSubjectId] = useState(""); // mã lớp học phần
+  const [selectedSubject, setSelectedSubject] = useState(null); // môn thi được chọn
+  const [examTime, setExamTime] = useState("");
+  const [chapters, setChapters] = useState([]); //
 
-  const [subjectId, setSubjectId] = useState("");
   const [startTime, setStartTime] = useState(""); //time bắt đầu
   const [endTime, setEndTime] = useState(""); //time kết thúc
-  const [isLoading, setIsLoading] = useState(true);
+
+  const handleUpdate = async () => {
+    try {
+      const res = await updateQuestion();
+      console.log("Update thành công", res);
+    } catch (error) {
+      console.error("Update thất bại", error);
+    }
+  };
 
   useEffect(() => {
     const fetchSubjects = async () => {
       const res = await getSubjects();
+      console.log("📌 Subjects từ API:", res);
       setSubjects(res || []);
     };
     fetchSubjects();
-  }, [subjectId]);
+  }, []);
 
   //Hủy
   const handleCancel = () => {
@@ -60,14 +70,13 @@ export default function CreateExam() {
   //Tạo ca thi
   const handleCreateExam = () => {
     setOpenCreateExam(true);
-    console.l;
   };
 
   const handleConfirmCreateExam = async () => {
     const errors = validateCreateExam({
       classId,
-      classSectionId,
       subjectId,
+      selectedSubject,
       startTime,
       endTime,
       examTime,
@@ -83,32 +92,40 @@ export default function CreateExam() {
 
     try {
       const res = await updateCreateExam({
-        student_list: file, // hoặc danh sách học sinh bạn đã parse ra
+        student_list: file,
         class_id: classId,
-        subjects_id: subjectId,
-        notion_database_id: classSectionId, // nếu đúng field bạn map
-        questions: chapters, // hay chapters?
+        subject_id: subjectId,
+        subject_name: selectedSubject?.subject_name,
+        notion_database_id: selectedSubject?.notion_database_id,
+        questions: chapters,
         start_date: startTime,
         end_date: endTime,
         exam_time: examTime,
       });
 
       setOpenSuccess(true);
-      localStorage.setItem("lastExamId", res?.exam_id || "mock_exam_123");
+      if (res?.status === "OK" || res?.code === 200) {
+        console.log(" Tạo ca thi thành công:", res);
+
+        // Lưu exam_id xuống localStorage
+        localStorage.setItem(
+          "lastExamId",
+          res?.metadata?.exam_id || "mock_exam_123"
+        );
+      } else {
+        console.error(" Tạo ca thi thất bại:", res);
+      }
     } catch (err) {
-      console.error("Tạo ca thi thất bại", err);
+      console.error(" Lỗi khi tạo ca thi:", err);
     }
   };
 
   //Hoàn tất
-
   const handleConfirmSuccess = () => {
     setOpenSuccess(false);
     alert("Đã sao chép đường liên kết");
-
-    // copy link vào clipboard
-    navigator.clipboard.writeText(window.location.origin + "/exam");
   };
+
   return (
     <Box sx={{ padding: "20px" }}>
       <Typography variant="h4" fontWeight={600} mb={2}>
@@ -138,7 +155,7 @@ export default function CreateExam() {
               display: "flex",
               flexDirection: "row",
               width: "100%",
-              gap: 3, // dùng số (theme spacing) thay vì %
+              gap: 3,
             }}
           >
             <Box sx={{ flex: 1 }}>
@@ -157,7 +174,7 @@ export default function CreateExam() {
                 }}
                 value={classId}
                 onChange={(e) => setClassId(e.target.value)}
-                placeholder="Nhập mã học phần (VD: CNTT1117(125)"
+                placeholder="Nhập mã học phần (VD: CNTT1117(125))"
               />
             </Box>
             <Box sx={{ flex: 1 }}>
@@ -174,8 +191,8 @@ export default function CreateExam() {
                   borderRadius: "5px",
                   border: "1px solid #ccc",
                 }}
-                value={classSectionId}
-                onChange={(e) => setClassSectionId(e.target.value)}
+                value={subjectId}
+                onChange={(e) => setSubjectId(e.target.value)}
                 placeholder="Nhập mã số lớp học phần (VD: 03)"
               />
             </Box>
@@ -185,7 +202,7 @@ export default function CreateExam() {
               display: "flex",
               flexDirection: "row",
               width: "100%",
-              gap: 3, // dùng số (theme spacing) thay vì %
+              gap: 3,
             }}
           >
             <Box sx={{ flex: 1 }}>
@@ -195,7 +212,7 @@ export default function CreateExam() {
               <input
                 type="datetime-local"
                 style={{
-                  width: "100%", // full parent width
+                  width: "100%",
                   height: "40px",
                   padding: "5px 15px",
                   fontSize: "14px",
@@ -242,8 +259,13 @@ export default function CreateExam() {
             </Typography>
             {subjects.length > 0 ? (
               <Select
-                value={String(subjectId) || ""}
-                onChange={(e) => setSubjectId(e.target.value)}
+                value={selectedSubject?._id || ""}
+                onChange={(e) => {
+                  const sub = subjects.find(
+                    (s) => String(s._id) === String(e.target.value)
+                  );
+                  setSelectedSubject(sub || null);
+                }}
                 displayEmpty
                 fullWidth
                 sx={{
@@ -257,23 +279,23 @@ export default function CreateExam() {
                     borderColor: "#888 !important",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "rgba(102,51,255,0.6) !important", // viền tím như ảnh
+                    borderColor: "rgba(102,51,255,0.6) !important",
                   },
                 }}
-                renderValue={(selected) => {
-                  if (!selected)
+                renderValue={(value) => {
+                  if (!value)
                     return <span style={{ color: "#999" }}>Chọn môn thi</span>;
                   const subject = subjects.find(
-                    (s) => String(s._id) === selected
+                    (s) => String(s._id) === String(value)
                   );
-                  return subject?.subject_name || selected;
+                  return subject?.subject_name || value;
                 }}
               >
                 <MenuItem key="placeholder" value="" disabled>
                   Chọn môn thi
                 </MenuItem>
                 {subjects.map((s) => (
-                  <MenuItem key={s._id} value={String(s._id)}>
+                  <MenuItem key={s._id} value={s._id}>
                     {s.subject_name}
                   </MenuItem>
                 ))}
@@ -288,7 +310,6 @@ export default function CreateExam() {
             <Typography fontWeight={600} mb={1}>
               Danh sách sinh viên
             </Typography>
-
             <input
               accept=".xlsx,.csv"
               id="upload-student-list"
@@ -344,10 +365,31 @@ export default function CreateExam() {
           </Box>
         </Box>
       </Box>
+
       <ContentExam
-        subjectId={subjectId}
+        subject={selectedSubject}
         onChangeChecked={(data) => setChapters(data)}
       />
+
+      <Button
+        variant="contained"
+        sx={{
+          backgroundColor: "#123663FF",
+          borderRadius: 25,
+          color: "white",
+          width: 200,
+          height: 40,
+          fontWeight: 600,
+          ":hover": {
+            backgroundColor: "#204676ff",
+          },
+        }}
+        onClick={handleUpdate}
+      >
+        Cập nhật câu hỏi
+      </Button>
+
+      {/* Nút bấm */}
       <Box
         sx={{
           display: "flex",
@@ -356,6 +398,7 @@ export default function CreateExam() {
           justifyContent: "flex-end",
         }}
       >
+        {/* Hủy */}
         <Button
           variant="contained"
           onClick={handleCancel}
@@ -374,6 +417,7 @@ export default function CreateExam() {
           Hủy
         </Button>
 
+        {/* Xác nhận hủy */}
         <Dialog
           open={openCancel}
           onClose={() => setOpenCancel(false)}
@@ -449,6 +493,8 @@ export default function CreateExam() {
             </DialogActions>
           </Box>
         </Dialog>
+
+        {/* Tạo ca thi */}
         <Button
           variant="contained"
           onClick={handleCreateExam}
@@ -468,7 +514,8 @@ export default function CreateExam() {
           Tạo ca thi
         </Button>
       </Box>
-      {/* Khi nhấn tạo ca thi */}
+
+      {/* Popup xác nhận tạo ca thi */}
       <Dialog
         open={openCreateExam}
         onClose={() => setOpenCreateExam(false)}
@@ -525,7 +572,6 @@ export default function CreateExam() {
           >
             Chưa hoàn tất
           </Button>
-          {/* Khi nhấn chưa hoàn tất hiển thị về trang thi và hiện lớp đang soạn */}
           <Button
             onClick={handleConfirmCreateExam}
             sx={{
@@ -540,7 +586,7 @@ export default function CreateExam() {
         </DialogActions>
       </Dialog>
 
-      {/* Khi nhấn hoàn tất  */}
+      {/* Popup thành công */}
       <Dialog
         open={openSucess}
         onClose={() => setOpenSuccess(false)}
@@ -599,7 +645,6 @@ export default function CreateExam() {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* //khi ấn nút chia sẻ hiển thị ra đã sao chép liên kết rồi quay về trang thi */}
     </Box>
   );
 }

@@ -9,42 +9,31 @@ import {
   Checkbox,
   TextField,
 } from "@mui/material";
-import { getSubjects, updateCreateExam } from "~/services/exam.service.js";
 
-export default function ContentExam({ subjectId, onChangeChecked }) {
+export default function ContentExam({ subject, onChangeChecked }) {
   const [checked, setChecked] = React.useState([]);
   const [numbers, setNumbers] = React.useState([]);
   const [chapters, setChapters] = React.useState([]);
 
   React.useEffect(() => {
-    const fetchChapters = async () => {
-      if (!subjectId) {
-        setChapters([]);
-        setChecked([]);
-        setNumbers([]);
-        return;
-      }
-
-      const subjects = await getSubjects();
-      const subject = subjects.find((s) => String(s._id) === String(subjectId));
-
-      const newChapters = subject?.chapters || [];
-      setChapters(newChapters);
-      setNumbers(Array(newChapters.length).fill(0));
+    if (!subject) {
+      setChapters([]);
       setChecked([]);
-    };
-    fetchChapters();
-  }, [subjectId]);
+      setNumbers([]);
+      return;
+    }
+
+    const newChapters = subject.chapters || [];
+    setChapters(newChapters);
+    setNumbers(Array(newChapters.length).fill(""));
+    setChecked([]);
+  }, [subject]);
 
   const handleToggle = (index) => {
-    const currentIndex = checked.indexOf(index);
-    const newChecked = [...checked];
+    const newChecked = checked.includes(index)
+      ? checked.filter((i) => i !== index)
+      : [...checked, index];
 
-    if (currentIndex === -1) {
-      newChecked.push(index);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
     setChecked(newChecked);
 
     if (onChangeChecked) {

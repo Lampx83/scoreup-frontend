@@ -40,7 +40,8 @@ import { PiAcorn, PiExamBold, PiExamDuotone, PiExamFill } from "react-icons/pi";
 import { FaRankingStar } from "react-icons/fa6";
 import { checkRole } from "~/helpers/checkRole";
 import { activeListItem } from "~/constant/activeListItem";
-
+import ExamQuestionsPalette from "~/components/ExamQuestionsPalette/index.jsx";
+import { useExamPalette } from "~/contexts/ExamPaletteContext";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -127,7 +128,7 @@ export default function SideBarUser() {
   const { open, handleDrawerOpen, handleDrawerClose } = useSideBar();
   const { handleOpen: handleOpenRecommend } = useRecommendModal();
   const [user, setUser] = React.useState({});
-
+  const palette = useExamPalette();
   const handleFixError = () => {
     localStorage.clear();
     window.location.reload();
@@ -339,6 +340,20 @@ export default function SideBarUser() {
             {/* )} */}
           </List>
           <Divider />
+          {activeTab === "exam" && palette?.questions?.length > 0 && (
+            <>
+              <ExamQuestionsPalette
+                questions={palette.questions}
+                setShowAnswer={palette.setShowAnswer}
+                setIsSubmitted={palette.setIsSubmitted}
+                showAnswer={palette.showAnswer}
+                isSubmitted={palette.isSubmitted}
+                result={palette.result}
+                countFrom={palette.countFrom}
+                isTest={palette.isTest}
+              />
+            </>
+          )}
           <List>
             {/*{(activeTab === 'dashboard' && user?.recommend) && <ListItem disablePadding sx={{display: "block"}}>*/}
             {/*  <ListItemButton*/}
