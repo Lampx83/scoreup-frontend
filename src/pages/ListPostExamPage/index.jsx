@@ -197,7 +197,7 @@ export default function ListPostExamPage() {
                   }}
                 >
                   <FaListCheck />
-                  Người tạo: {exam?.author ?? ""}
+                  {role ? <>Người tạo: {exam?.author ?? ""}</> : <>Kết quả: </>}
                 </Typography>
                 {exam.exam_id && (
                   <>
