@@ -38,13 +38,14 @@ export default function ListPostExamPage() {
     fetchTest();
   }, []);
 
-  // 🔍 Lọc ra exam chứa student_id này
+  // 🔍 Lọc ra exam chứa student_id này chỉ khi role là "user"
   const filteredExams = React.useMemo(() => {
+    if (role === true) return exams; // admin thì trả về toàn bộ
     if (!student_id) return [];
-    return exams.filter((exam) =>
+    return exams?.filter((exam) =>
       exam.student_list.some((stu) => stu.student_id === student_id)
     );
-  }, [exams, student_id]);
+  }, [exams, student_id, role]);
 
   return (
     <Container
@@ -156,8 +157,8 @@ export default function ListPostExamPage() {
               sx={{
                 backgroundColor: "#F2F7FDFF",
                 borderRadius: 3,
-                height: "240px",
-                width: "260px",
+                height: "10%",
+                width: "30%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -170,7 +171,7 @@ export default function ListPostExamPage() {
                   fontWeight={700}
                   color={"#1A4E8DFF"}
                 >
-                  {exam?.subject_name || ""}
+                  {exam?.exam_name || ""}
                 </Typography>
                 <Typography
                   variant={"body2"}
@@ -183,7 +184,7 @@ export default function ListPostExamPage() {
                   }}
                 >
                   <FaRegClock />
-                  Thời gian: {exam?.exam_time}
+                  Thời gian làm bài: {exam?.exam_time} phút
                 </Typography>
                 <Typography
                   variant={"body2"}
@@ -196,23 +197,39 @@ export default function ListPostExamPage() {
                   }}
                 >
                   <FaListCheck />
-                  Số câu hỏi: 50
+                  {role ? <>Người tạo: {exam?.author ?? ""}</> : <>Kết quả: </>}
                 </Typography>
                 {exam.exam_id && (
-                  <Typography
-                    variant={"body2"}
-                    gutterBottom
-                    sx={{
-                      display: "flex",
-                      gap: 1,
-                      justifyContent: "flex-start",
-                      alignItems: "center",
-                    }}
-                  >
-                    <FaHistory />
-                    Làm vào:{" "}
-                    {moment(exam?.start_date).format("HH:mm, DD/MM/YYYY")}
-                  </Typography>
+                  <>
+                    <Typography
+                      variant={"body2"}
+                      gutterBottom
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FaHistory />
+                      Thời gian bắt đầu:{" "}
+                      {moment(exam?.start_date).format("HH:mm, DD/MM/YYYY")}
+                    </Typography>
+                    <Typography
+                      variant={"body2"}
+                      gutterBottom
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FaHistory />
+                      Thời gian kết thúc:{" "}
+                      {moment(exam?.end_date).format("HH:mm, DD/MM/YYYY")}
+                    </Typography>
+                  </>
                 )}
               </CardContent>
               {role ? (
