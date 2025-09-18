@@ -25,7 +25,6 @@ export const getSubjects = async () => {
 export const updateCreateExam = async ({
   student_list,
   exam_name,
-  notes,
   subject_name,
   notion_database_id,
   questions,
@@ -39,25 +38,11 @@ export const updateCreateExam = async ({
   formData.append("student_list", file); // file
   formData.append("subject_name", subject_name); // tên môn thi
   formData.append("exam_name", exam_name); //Tên kì thi
-  formData.append("notes", notes); //Ghi chú
   formData.append("notion_database_id", notion_database_id);
   formData.append("questions", JSON.stringify(questions)); // array thì stringify
   formData.append("start_date", start_date);
   formData.append("end_date", end_date);
   formData.append("exam_time", exam_time);
-
-  //Lấy author
-  let authorName = "Ẩn danh";
-  const userInfo = Cookies.get("userInfo");
-  if (userInfo) {
-    try {
-      const parsed = JSON.parse(userInfo);
-      authorName = parsed?.name || parsed?.username || "Ẩn danh";
-    } catch (e) {
-      console.error("Cookie parse lỗi:", e);
-    }
-  }
-  formData.append("author", authorName);
 
   console.log(" FormData gửi đi:", [...formData.entries()]);
 

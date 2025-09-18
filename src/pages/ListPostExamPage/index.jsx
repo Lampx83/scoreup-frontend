@@ -15,8 +15,10 @@ import headerImg from "~/assets/images/Container 136.png";
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { FaHistory, FaRegClock } from "react-icons/fa";
-import { FaListCheck } from "react-icons/fa6";
+import { FaRegClock } from "react-icons/fa";
+import { LuAlarmClock } from "react-icons/lu";
+import { LiaUserEditSolid } from "react-icons/lia";
+import { IoAlarm } from "react-icons/io5";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
 import { Link, useLocation } from "react-router-dom";
@@ -200,7 +202,7 @@ export default function ListPostExamPage() {
               sx={{
                 backgroundColor: "#F2F7FDFF",
                 borderRadius: 3,
-                height: "10%",
+                height: "40%",
                 width: "30%",
                 display: "flex",
                 flexDirection: "column",
@@ -228,13 +230,13 @@ export default function ListPostExamPage() {
                       <div>
                         <div>
                           Tạo vào:{" "}
-                          {exam?.created_at
-                            ? moment(exam.created_at).format(
+                          {exam?.createdAt
+                            ? moment(exam?.createdAt).format(
                                 "HH:mm:ss DD/MM/YYYY"
                               )
                             : "Không rõ"}
                         </div>
-                        <div>Ghi chú: {exam?.note || "Không có"}</div>
+                        <div>Ghi chú: {exam?.createdAt || "Không có"}</div>
                       </div>
                     }
                     arrow
@@ -272,10 +274,10 @@ export default function ListPostExamPage() {
                     alignItems: "center",
                   }}
                 >
-                  <FaRegClock />
+                  <LuAlarmClock />
                   Thời gian bắt đầu: {""}
                   {exam?.start_date
-                    ? moment(exam.start_date).format("HH:mm DD/MM/YYYY")
+                    ? moment(exam?.start_date).format("HH:mm DD/MM/YYYY")
                     : ""}
                 </Typography>
                 {exam.exam_id && (
@@ -289,10 +291,10 @@ export default function ListPostExamPage() {
                       alignItems: "center",
                     }}
                   >
-                    <FaRegClock />
+                    <IoAlarm />
                     Thời gian kết thúc:{" "}
                     {exam?.end_date
-                      ? moment(exam.end_date).format("HH:mm DD/MM/YYYY")
+                      ? moment(exam?.end_date).format("HH:mm DD/MM/YYYY")
                       : ""}
                   </Typography>
                 )}
@@ -306,7 +308,7 @@ export default function ListPostExamPage() {
                     alignItems: "center",
                   }}
                 >
-                  <FaRegClock />
+                  <LiaUserEditSolid />
                   Người tạo: {exam?.author || "Ẩn danh"}
                 </Typography>
               </CardContent>

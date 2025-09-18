@@ -26,7 +26,7 @@ import { updateQuestion } from "~/services/question.service";
 export default function CreateExam() {
   const [openCancel, setOpenCancel] = useState(false);
   const [openCreateExam, setOpenCreateExam] = useState(false);
-  const [openSucess, setOpenSuccess] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
   const role = checkRole()?.checkAdmin;
 
   const [file, setFile] = useState(null);
@@ -105,9 +105,9 @@ export default function CreateExam() {
 
       setOpenSuccess(true);
 
-      if (res.status === 201) {
-        navigate("/exam"); // ✅ điều hướng ở đây
-      }
+      // if (res.status === 201) {
+      //   navigate("/exam"); // ✅ điều hướng ở đây
+      // }
     } catch (err) {
       console.error("Lỗi khi tạo ca thi:", err);
     }
@@ -116,7 +116,12 @@ export default function CreateExam() {
   //Hoàn tất
   const handleConfirmSuccess = () => {
     setOpenSuccess(false);
-    alert("Đã sao chép đường liên kết");
+    const examListUrl = window.location.origin + "/exam";
+    navigator.clipboard.writeText(examListUrl);
+
+    alert("Đã sao chép đường liên kết: " + examListUrl);
+
+    navigate("/exam");
   };
 
   return (
@@ -573,7 +578,7 @@ export default function CreateExam() {
 
       {/* Popup thành công */}
       <Dialog
-        open={openSucess}
+        open={openSuccess}
         onClose={() => setOpenSuccess(false)}
         PaperProps={{
           sx: {
