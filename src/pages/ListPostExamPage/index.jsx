@@ -184,7 +184,6 @@ export default function ListPostExamPage() {
           </Button>
         )}
 
-        {/* Danh sách ca thi luôn luôn hiển thị */}
         <h2>Danh sách ca thi</h2>
 
         <Box
@@ -236,7 +235,7 @@ export default function ListPostExamPage() {
                               )
                             : "Không rõ"}
                         </div>
-                        <div>Ghi chú: {exam?.createdAt || "Không có"}</div>
+                        <div>Ghi chú: {exam?.notes || "Không có"}</div>
                       </div>
                     }
                     arrow
