@@ -116,6 +116,7 @@ export default function CreateExam() {
   //Hoàn tất
   const handleConfirmSuccess = () => {
     setOpenSuccess(false);
+    console.log("Mở popup thành công");
     const examListUrl = window.location.origin + "/exam";
     navigator.clipboard.writeText(examListUrl);
 
@@ -604,7 +605,7 @@ export default function CreateExam() {
           }}
         />
         <DialogTitle sx={{ color: "red", textAlign: "center" }}>
-          Bạn đã hoàn thành tạo ca thi!
+          {`Bạn đã hoàn thành tạo ca thi "${examName}" !`}
         </DialogTitle>
         <DialogContent
           sx={{
