@@ -157,8 +157,8 @@ export default function ListPostExamPage() {
               sx={{
                 backgroundColor: "#F2F7FDFF",
                 borderRadius: 3,
-                height: "240px",
-                width: "260px",
+                height: "10%",
+                width: "30%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -184,7 +184,7 @@ export default function ListPostExamPage() {
                   }}
                 >
                   <FaRegClock />
-                  Thời gian: {exam?.exam_time}
+                  Thời gian làm bài: {exam?.exam_time} phút
                 </Typography>
                 <Typography
                   variant={"body2"}
@@ -197,23 +197,39 @@ export default function ListPostExamPage() {
                   }}
                 >
                   <FaListCheck />
-                  Số câu hỏi: 50
+                  Người tạo: {exam?.author ?? ""}
                 </Typography>
                 {exam.exam_id && (
-                  <Typography
-                    variant={"body2"}
-                    gutterBottom
-                    sx={{
-                      display: "flex",
-                      gap: 1,
-                      justifyContent: "flex-start",
-                      alignItems: "center",
-                    }}
-                  >
-                    <FaHistory />
-                    Làm vào:{" "}
-                    {moment(exam?.start_date).format("HH:mm, DD/MM/YYYY")}
-                  </Typography>
+                  <>
+                    <Typography
+                      variant={"body2"}
+                      gutterBottom
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FaHistory />
+                      Thời gian bắt đầu:{" "}
+                      {moment(exam?.start_date).format("HH:mm, DD/MM/YYYY")}
+                    </Typography>
+                    <Typography
+                      variant={"body2"}
+                      gutterBottom
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                      }}
+                    >
+                      <FaHistory />
+                      Thời gian kết thúc:{" "}
+                      {moment(exam?.end_date).format("HH:mm, DD/MM/YYYY")}
+                    </Typography>
+                  </>
                 )}
               </CardContent>
               {role ? (
