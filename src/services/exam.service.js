@@ -33,9 +33,18 @@ export const updateCreateExam = async ({
   exam_time,
   file,
   notes,
-  author,
 }) => {
   const formData = new FormData();
+  const rawUser = Cookies.get("user");
+  let author = "Unknown";
+  if (rawUser) {
+    try {
+      const user = JSON.parse(rawUser);
+      author = user.fullName || "Unknown";
+    } catch (e) {
+      console.error("Không parse được cookie user:", e);
+    }
+  }
 
   formData.append("student_list", file); // file
   formData.append("subject_name", subject_name); // tên môn thi
