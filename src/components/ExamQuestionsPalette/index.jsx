@@ -3,7 +3,7 @@ import { Alert, Chip, Icon, Typography, useTheme } from "@mui/material";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Checklist } from "@mui/icons-material";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { IoChevronUpSharp } from "react-icons/io5";
@@ -22,7 +22,19 @@ function ExamQuestionsPalette({
   let count = 0;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const listRef = useRef(null);
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+  const updateScrollButtons = () => {
+    const el = listRef.current;
+    if (!el) return;
+    setCanScrollUp(el.scrollTop > 0);
+    setCanScrollDown(el.scrollTop + el.clientHeight < el.scrollHeight - 1);
+  };
 
+  useEffect(() => {
+    updateScrollButtons(); // sau khi mount / khi có dữ liệu
+  }, [questions]);
   const calculateCorrect = () => {
     let correct = 0;
     for (const item of result.current.questions) {
@@ -37,13 +49,13 @@ function ExamQuestionsPalette({
 
   const questionFlat = questions.map((element) => {
     const newElement = { ...element, questions: [...element.questions] };
-
     if (newElement.multi) {
       newElement.questions = newElement.questions.flatMap((item) => item);
     }
-
     return newElement;
   });
+  const flatQuestions = questionFlat.flatMap((s) => s.questions);
+  const totalQuestions = flatQuestions.length;
 
   const handleSelectQuestion = (id) => {
     const element = document.getElementById(id);
@@ -60,16 +72,6 @@ function ExamQuestionsPalette({
     if (isTest) {
       clearInterval(interval);
     }
-  };
-
-  const handleToggleQuestionPalette = (e) => {
-    const element = document.getElementById("question-palette");
-    if (element.style.top === "0px" || !element.style.top) {
-      element.style.top = `calc(${-element.offsetHeight}px)`;
-    } else {
-      element.style.top = "0";
-    }
-    setOpen(!open);
   };
 
   useEffect(() => {
@@ -110,20 +112,22 @@ function ExamQuestionsPalette({
       // end drag questions palette
     });
   }, []);
-  const [scrollIndex, setScrollIndex] = useState(0);
-  const questionsPerPage = 30;
-  const handleScrollUp = () => {
-    setScrollIndex((prev) => Math.max(prev - questionsPerPage, 0));
+  const handleScrollUp = (e) => {
+    e?.stopPropagation();
+    const el = listRef.current;
+    if (!el) return;
+    const step = Math.max(el.clientHeight - 40, 240);
+    el.scrollBy({ top: -step, behavior: "smooth" });
   };
-  const handleScrollDown = () => {
-    setScrollIndex((prev) =>
-      Math.min(prev + questionsPerPage, questions.length - questionsPerPage)
-    );
+
+  const handleScrollDown = (e) => {
+    e?.stopPropagation();
+    const el = listRef.current;
+    if (!el) return;
+    const step = Math.max(el.clientHeight - 40, 240);
+    el.scrollBy({ top: step, behavior: "smooth" });
   };
-  const visibleQuestions = questions.slice(
-    scrollIndex,
-    scrollIndex + questionsPerPage
-  );
+
   return (
     <>
       <Box
@@ -162,78 +166,98 @@ function ExamQuestionsPalette({
         }}
       >
         <Button
+          onMouseDown={(e) => e.stopPropagation()}
           onClick={handleScrollUp}
-          disabled={scrollIndex === 0}
-          sx={{ minWidth: 0, fontSize: "30px", justifySelf: "center" }}
+          sx={{
+            minWidth: 0,
+            fontSize: "30px",
+            justifySelf: "center",
+            cursor: !canScrollUp ? "default" : "pointer",
+          }}
+          type="button"
         >
           <IoChevronUpSharp />
         </Button>
-
-        {questionFlat.map((element, index) => {
-          return (
-            <Box
-              key={index}
-              sx={{
-                color: theme.palette.text.primary,
-                borderRadius: 0,
-                paddingX: 2,
-                paddingY: 1,
-                width: "100%",
-                // flexBasis: "30%"
-              }}
-            >
+        <Box
+          ref={listRef}
+          className="question-palette__list"
+          onScroll={updateScrollButtons}
+          sx={{
+            width: "100%",
+            maxHeight: 240,
+            overflowY: "auto",
+          }}
+        >
+          {questionFlat.map((element, index) => {
+            return (
               <Box
+                key={index}
                 sx={{
-                  display: "grid",
-                  // flexDirection: "column",
-                  flexWrap: "wrap",
-                  gap: 1,
-                  // height: "100px",
-                  overflow: "auto",
-                  // justifyContent: "flex-start",
-                  // alignItems: "flex-start",
+                  color: theme.palette.text.primary,
+                  borderRadius: 0,
+                  paddingX: 2,
+                  paddingY: 1,
                   width: "100%",
-                  "::-webkit-scrollbar-thumb": {
-                    background: "white",
-                  },
-                  gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
-                  justifyItems: "center",
-                  alignItems: "center",
+                  // flexBasis: "30%"
                 }}
               >
-                {element.questions.map((_, index) => {
-                  return (
-                    <Button
-                      key={index}
-                      sx={{
-                        // padding: 1,
-                        minWidth: 0,
-                        width: 32,
-                        height: 32,
-                        backgroundColor: "white",
-                        borderColor: "#BCC1CAFF",
-                        borderWidth: 1,
-                        borderStyle: "solid",
-                        borderRadius: "50%",
-                        placeSelf: "center",
-                      }}
-                      id={`question-palette-${_.id}`}
-                      onClick={() => handleSelectQuestion(_.id)}
-                    >
-                      <Typography variant={"caption"}>
-                        {count < 10 ? `0${++count}` : ++count}
-                      </Typography>
-                    </Button>
-                  );
-                })}
+                <Box
+                  sx={{
+                    display: "grid",
+                    // flexDirection: "column",
+                    flexWrap: "wrap",
+                    gap: 1,
+                    // height: "100px",
+                    // justifyContent: "flex-start",
+                    // alignItems: "flex-start",
+                    width: "100%",
+                    "::-webkit-scrollbar-thumb": {
+                      background: "white",
+                    },
+                    gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+                    justifyItems: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {element.questions.map((_, index) => {
+                    return (
+                      <Button
+                        key={index}
+                        sx={{
+                          // padding: 1,
+                          minWidth: 0,
+                          width: 32,
+                          height: 32,
+                          backgroundColor: "white",
+                          borderColor: "#BCC1CAFF",
+                          borderWidth: 1,
+                          borderStyle: "solid",
+                          borderRadius: "50%",
+                          placeSelf: "center",
+                        }}
+                        id={`question-palette-${_.id}`}
+                        onClick={() => handleSelectQuestion(_.id)}
+                      >
+                        <Typography variant={"caption"}>
+                          {count < 9 ? `0${++count}` : ++count}
+                        </Typography>
+                      </Button>
+                    );
+                  })}
+                </Box>
               </Box>
-            </Box>
-          );
-        })}
+            );
+          })}
+        </Box>
         <Button
+          onMouseDown={(e) => e.stopPropagation()}
           onClick={handleScrollDown}
-          disabled={scrollIndex + questionsPerPage >= questions.length}
-          sx={{ minWidth: 0, fontSize: "30px", justifySelf: "center" }}
+          sx={{
+            minWidth: 0,
+            fontSize: "30px",
+            justifySelf: "center",
+            cursor: !canScrollDown ? "default" : "pointer",
+          }}
         >
           <IoChevronDownSharp />
         </Button>
