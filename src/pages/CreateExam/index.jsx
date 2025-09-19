@@ -32,7 +32,7 @@ export default function CreateExam() {
   const [file, setFile] = useState(null);
   const [examName, setExamName] = useState(""); //tên ca thi
   const [subjects, setSubjects] = useState([]);
-  const [note, setNote] = useState(""); //ghi chú
+  const [notes, setNotes] = useState(""); //ghi chú
   const [selectedSubject, setSelectedSubject] = useState(null); // môn thi được chọn
   const [examTime, setExamTime] = useState("");
   const [chapters, setChapters] = useState([]); //
@@ -94,13 +94,13 @@ export default function CreateExam() {
       const res = await updateCreateExam({
         file,
         exam_name: examName,
-        notes: note,
         subject_name: selectedSubject?.subject_name,
         notion_database_id: selectedSubject?.notion_database_id,
         questions: chapters,
-        start_date: startTime,
-        end_date: endTime,
+        start_date: toUTC(startTime),
+        end_date: toUTC(endTime),
         exam_time: examTime,
+        notes,
       });
 
       setOpenSuccess(true);
@@ -123,6 +123,11 @@ export default function CreateExam() {
     alert("Đã sao chép đường liên kết: " + examListUrl);
 
     navigate("/exam");
+  };
+
+  //convert
+  const toUTC = (datetimeStr) => {
+    return datetimeStr ? new Date(datetimeStr).toISOString() : null;
   };
 
   return (
@@ -349,8 +354,8 @@ export default function CreateExam() {
                 borderRadius: "5px",
                 border: "1px solid #ccc",
               }}
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
               placeholder="Lớp CSLT02,..."
             />
           </Box>

@@ -15,9 +15,7 @@ import headerImg from "~/assets/images/Container 136.png";
 import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import { FaRegClock } from "react-icons/fa";
-import { LuAlarmClock } from "react-icons/lu";
-import { LiaUserEditSolid } from "react-icons/lia";
+import { FaRegClock, FaHistory, FaUserEdit } from "react-icons/fa";
 import { IoAlarm } from "react-icons/io5";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Tooltip from "@mui/material/Tooltip";
@@ -26,6 +24,7 @@ import moment from "moment";
 import plusExamImg from "~/assets/images/PlusExam.png";
 import { getExams, deleteExam } from "~/services/exam.service";
 import SadIcon from "../../assets/images/sad.svg";
+import ExamFilter from "~/components/ExamFilter";
 
 export default function ListPostExamPage() {
   const theme = useTheme();
@@ -34,6 +33,9 @@ export default function ListPostExamPage() {
   const { role, student_id } = location.state || {};
   const [openClear, setOpenClear] = useState(false);
   const [selectedExam, setSelectedExam] = useState(null);
+  const [searchText, setSearchText] = useState("");
+  const [subjectFilter, setSubjectFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   console.log("role", role);
   console.log("student_id", student_id);
@@ -49,20 +51,46 @@ export default function ListPostExamPage() {
     fetchTest();
   }, []);
 
-  const filteredExams = React.useMemo(() => {
+  // 1. Lọc theo role
+  const examsByRole = React.useMemo(() => {
     if (!exams) return [];
 
     if (role) {
-      // role = true nghĩa là giáo viên
+      // Giáo viên => thấy hết
       return exams;
     } else {
-      // role = false => học sinh
+      // Học sinh => chỉ thấy ca thi của mình
       return exams.filter((exam) =>
         exam.student_list.some((stu) => stu.student_id === student_id)
       );
     }
   }, [exams, role, student_id]);
 
+  // 2. Lọc theo search / môn học / trạng thái
+  const filteredExams = React.useMemo(() => {
+    return examsByRole.filter((exam) => {
+      const matchSearch = exam.exam_name
+        ?.toLowerCase()
+        .includes(searchText.toLowerCase());
+
+      const matchSubject =
+        subjectFilter === "all" ||
+        String(exam.subject_id) === String(subjectFilter);
+
+      const now = new Date();
+      const start = new Date(exam.start_date);
+      const end = new Date(exam.end_date);
+
+      let matchStatus = true;
+      if (statusFilter === "upcoming") matchStatus = start > now;
+      if (statusFilter === "ongoing") matchStatus = start <= now && end >= now;
+      if (statusFilter === "ended") matchStatus = end < now;
+
+      return matchSearch && matchSubject && matchStatus;
+    });
+  }, [examsByRole, searchText, subjectFilter, statusFilter]);
+
+  //xóa
   const handleClear = (exam) => {
     setSelectedExam(exam);
     setOpenClear(true);
@@ -87,6 +115,18 @@ export default function ListPostExamPage() {
 
     setOpenClear(false);
     setSelectedExam(null);
+  };
+
+  //lọc trạng thái
+  const getExamStatus = (exam) => {
+    const now = new Date();
+    const start = new Date(exam.start_date);
+    const end = new Date(exam.end_date);
+
+    if (start > now) return "ready";
+    if (start <= now && end >= now) return "ongoing";
+    if (end < now) return "ended";
+    return "all";
   };
 
   return (
@@ -183,8 +223,31 @@ export default function ListPostExamPage() {
             <h2>Tạo ca thi</h2>
           </Button>
         )}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 3,
+            flexWrap: "wrap",
+            gap: 2,
+          }}
+        >
+          {/* Bên trái: tiêu đề */}
+          <Typography variant="h6" fontWeight={700}>
+            Danh sách ca thi
+          </Typography>
 
-        <h2>Danh sách ca thi</h2>
+          {/* Bên phải: bộ lọc */}
+          <ExamFilter
+            searchText={searchText}
+            setSearchText={setSearchText}
+            subjectFilter={subjectFilter}
+            setSubjectFilter={setSubjectFilter}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+          />
+        </Box>
 
         <Box
           sx={{
@@ -202,7 +265,8 @@ export default function ListPostExamPage() {
                 backgroundColor: "#F2F7FDFF",
                 borderRadius: 3,
                 height: "40%",
-                width: "30%",
+                minWidth: "30%",
+                maxwidth: "50%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -250,36 +314,7 @@ export default function ListPostExamPage() {
                     />
                   </Tooltip>
                 </Box>
-                <Typography
-                  variant={"body2"}
-                  gutterBottom
-                  sx={{
-                    display: "flex",
-                    gap: 1,
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                  }}
-                >
-                  <FaRegClock />
-                  Thời gian làm bài: {exam?.exam_time} phút
-                </Typography>
-                <Typography
-                  variant={"body2"}
-                  gutterBottom
-                  sx={{
-                    display: "flex",
-                    gap: 1,
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                  }}
-                >
-                  <LuAlarmClock />
-                  Thời gian bắt đầu: {""}
-                  {exam?.start_date
-                    ? moment(exam?.start_date).format("HH:mm DD/MM/YYYY")
-                    : ""}
-                </Typography>
-                {exam.exam_id && (
+                <Box>
                   <Typography
                     variant={"body2"}
                     gutterBottom
@@ -290,26 +325,57 @@ export default function ListPostExamPage() {
                       alignItems: "center",
                     }}
                   >
-                    <IoAlarm />
-                    Thời gian kết thúc:{" "}
-                    {exam?.end_date
-                      ? moment(exam?.end_date).format("HH:mm DD/MM/YYYY")
-                      : ""}
+                    <FaRegClock />
+                    Thời gian làm bài: {exam?.exam_time} phút
                   </Typography>
-                )}
-                <Typography
-                  variant={"body2"}
-                  gutterBottom
-                  sx={{
-                    display: "flex",
-                    gap: 1,
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                  }}
-                >
-                  <LiaUserEditSolid />
-                  Người tạo: {exam?.author || "Ẩn danh"}
-                </Typography>
+                  <Typography
+                    variant={"body2"}
+                    gutterBottom
+                    sx={{
+                      display: "flex",
+                      gap: 1,
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaHistory />
+                    Thời gian bắt đầu:{" "}
+                    {exam?.start_date
+                      ? moment(exam?.start_date).format("HH:mm DD/MM/YYYY")
+                      : "Không rõ"}
+                  </Typography>
+                  {exam.exam_id && (
+                    <Typography
+                      variant={"body2"}
+                      gutterBottom
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                      }}
+                    >
+                      <IoAlarm />
+                      Thời gian kết thúc:{" "}
+                      {exam?.end_date
+                        ? moment(exam?.end_date).format("HH:mm DD/MM/YYYY")
+                        : "Không rõ"}
+                    </Typography>
+                  )}
+                  <Typography
+                    variant={"body2"}
+                    gutterBottom
+                    sx={{
+                      display: "flex",
+                      gap: 1,
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                    }}
+                  >
+                    <FaUserEdit />
+                    Người tạo: {exam?.author || "Ẩn danh"}
+                  </Typography>
+                </Box>
               </CardContent>
 
               {role ? (
