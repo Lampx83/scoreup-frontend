@@ -30,15 +30,26 @@ export default function ListPostExamPage() {
   const theme = useTheme();
   const [exams, setExams] = useState([]);
   const location = useLocation();
-  const { role, student_id } = location.state || {};
+  const { role: roleFromState, student_id } = location.state || {};
   const [openClear, setOpenClear] = useState(false);
   const [selectedExam, setSelectedExam] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [subjectFilter, setSubjectFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
 
+  // Lấy role từ localStorage hoặc từ state
+  const [role, setRole] = useState(
+    roleFromState || localStorage.getItem("role")
+  );
   console.log("role", role);
   console.log("student_id", student_id);
+  // Nếu có role mới từ state => lưu lại vào localStorage + update state
+  useEffect(() => {
+    if (roleFromState) {
+      localStorage.setItem("role", roleFromState);
+      setRole(roleFromState);
+    }
+  }, [roleFromState]);
 
   useEffect(() => {
     // fetch exams
@@ -118,16 +129,16 @@ export default function ListPostExamPage() {
   };
 
   //lọc trạng thái
-  const getExamStatus = (exam) => {
-    const now = new Date();
-    const start = new Date(exam.start_date);
-    const end = new Date(exam.end_date);
+  // const getExamStatus = (exam) => {
+  //   const now = new Date();
+  //   const start = new Date(exam.start_date);
+  //   const end = new Date(exam.end_date);
 
-    if (start > now) return "ready";
-    if (start <= now && end >= now) return "ongoing";
-    if (end < now) return "ended";
-    return "all";
-  };
+  //   if (start > now) return "ready";
+  //   if (start <= now && end >= now) return "ongoing";
+  //   if (end < now) return "ended";
+  //   return "all";
+  // };
 
   return (
     <Container
@@ -234,7 +245,7 @@ export default function ListPostExamPage() {
           }}
         >
           {/* Bên trái: tiêu đề */}
-          <Typography variant="h6" fontWeight={700}>
+          <Typography variant="h4" fontWeight={600}>
             Danh sách ca thi
           </Typography>
 

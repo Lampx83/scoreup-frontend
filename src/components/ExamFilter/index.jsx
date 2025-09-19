@@ -74,7 +74,7 @@ export default function ExamFilter({
           }}
           renderValue={(value) =>
             value === "all" ? (
-              <span style={{ color: "#999" }}>Tất cả môn thi</span>
+              <span style={{ color: "#999" }}>Tất cả các môn thi</span>
             ) : (
               subjects.find((s) => String(s._id) === String(value))
                 ?.subject_name || value
@@ -107,7 +107,7 @@ export default function ExamFilter({
         }}
       >
         <MenuItem value="all">
-          <span style={{ color: "#999" }}>Tất cả trạng thái</span>
+          <span style={{ color: "#999" }}>Tất cả các ca thi</span>
         </MenuItem>
         <MenuItem value="ready">Sẵn sàng thi</MenuItem>
         <MenuItem value="ongoing">Đang soạn</MenuItem>

@@ -32,6 +32,7 @@ export const updateCreateExam = async ({
   end_date,
   exam_time,
   file,
+  notes,
 }) => {
   const formData = new FormData();
 
@@ -39,11 +40,22 @@ export const updateCreateExam = async ({
   formData.append("subject_name", subject_name); // tên môn thi
   formData.append("exam_name", exam_name); //Tên kì thi
   formData.append("notion_database_id", notion_database_id);
-  formData.append("questions", JSON.stringify(questions)); // array thì stringify
   formData.append("start_date", start_date);
   formData.append("end_date", end_date);
   formData.append("exam_time", exam_time);
+  formData.append("notes", notes);
+  const formattedQuestions = Array.isArray(questions)
+    ? questions.map((q) => ({
+        chapters: [
+          {
+            chapter: q.chapter,
+            numbers: q.numbers,
+          },
+        ],
+      }))
+    : [];
 
+  formData.append("questions", JSON.stringify(formattedQuestions));
   console.log(" FormData gửi đi:", [...formData.entries()]);
 
   try {
