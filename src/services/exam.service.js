@@ -33,6 +33,7 @@ export const updateCreateExam = async ({
   exam_time,
   file,
   notes,
+  author,
 }) => {
   const formData = new FormData();
 
@@ -44,6 +45,7 @@ export const updateCreateExam = async ({
   formData.append("end_date", end_date);
   formData.append("exam_time", exam_time);
   formData.append("notes", notes);
+  formData.append("author", author);
   const formattedQuestions = Array.isArray(questions)
     ? questions.map((q) => ({
         chapters: [
