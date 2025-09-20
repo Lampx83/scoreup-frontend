@@ -21,7 +21,6 @@ import Loading from "~/components/Loading";
 import { getSubjects, updateCreateExam } from "~/services/exam.service.js";
 import { validateCreateExam } from "~/helpers/validateCreateExam.js";
 import { useNavigate } from "react-router-dom";
-import { updateQuestion } from "~/services/question.service";
 
 export default function CreateExam() {
   const [openCancel, setOpenCancel] = useState(false);
@@ -41,18 +40,6 @@ export default function CreateExam() {
   const [endTime, setEndTime] = useState(""); //time kết thúc
   const [loading, setLoading] = useState(false);
 
-  const handleUpdate = async () => {
-    try {
-      const data = await updateQuestion();
-      console.log(" Update thành công", data);
-      alert(` Update thành công: ${data.message}`);
-    } catch (error) {
-      console.error(
-        "❌ Update thất bại",
-        error.response?.data || error.message
-      );
-    }
-  };
   useEffect(() => {
     const fetchSubjects = async () => {
       const res = await getSubjects();
@@ -379,24 +366,6 @@ export default function CreateExam() {
             subject={selectedSubject}
             onChangeChecked={(data) => setChapters(data)}
           />
-
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#123663FF",
-              borderRadius: 25,
-              color: "white",
-              width: 200,
-              height: 40,
-              fontWeight: 600,
-              ":hover": {
-                backgroundColor: "#204676ff",
-              },
-            }}
-            onClick={handleUpdate}
-          >
-            Cập nhật câu hỏi
-          </Button>
 
           {/* Nút bấm */}
           <Box
