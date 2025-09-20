@@ -26,6 +26,16 @@ import { LuAlarmClock } from "react-icons/lu";
 import { useSetExamPalette } from "~/contexts/ExamPaletteContext";
 import { BiPrinter } from "react-icons/bi";
 
+const normalizeChapterName = (name) => {
+  const m = String(name || "").match(/\d+/);
+  if (m) return `chuong-${m[0]}`;
+  return String(name || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+};
+
 export default function PostExamPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingSubmit, setPendingSubmit] = useState(false);
@@ -162,14 +172,26 @@ export default function PostExamPage() {
       let sections = [];
       let qs = [];
 
-      const requestedChapters = [
-        { chapter: "chuong-2", number: 25 },
-        { chapter: "chuong-3", number: 25 },
-      ];
-      const totalRequested = requestedChapters.reduce(
-        (s, c) => s + (c.number || 0),
+      const requestedFromState = [];
+      (location.state?.questions || []).forEach((group) => {
+        (group.chapters || []).forEach((c) => {
+          requestedFromState.push({
+            chapter: normalizeChapterName(c.chapter),
+            numbers: Number(c.numbers || 0),
+          });
+        });
+      });
+
+      const totalRequested = requestedFromState.reduce(
+        (s, c) => s + (c.numbers || 0),
         0
       );
+      if (totalRequested <= 0) return;
+
+      const requestedChapters = requestedFromState.map((c) => ({
+        chapter: c.chapter,
+        number: c.numbers,
+      }));
 
       try {
         const res = await getExamQuestions(examId, {
@@ -214,7 +236,7 @@ export default function PostExamPage() {
           multi: false,
           questions: qs.map((question) => ({
             question: question.id,
-            question_text: question.content,
+            question_text: question.question,
             chapter: question.chapter,
             user_ans: [],
             correct_ans: [question.correct],

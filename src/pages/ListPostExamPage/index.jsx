@@ -487,6 +487,7 @@ export default function ListPostExamPage() {
                         exam_time: exam.exam_time,
                         start_date: exam.start_date,
                         end_date: exam.end_date,
+                        questions: exam.questions,
                       }}
                     >
                       Làm bài
