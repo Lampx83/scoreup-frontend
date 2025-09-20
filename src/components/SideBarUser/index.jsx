@@ -42,8 +42,18 @@ import { checkRole } from "~/helpers/checkRole";
 import { activeListItem } from "~/constant/activeListItem";
 import ExamQuestionsPalette from "~/components/ExamQuestionsPalette/index.jsx";
 import { useExamPalette } from "~/contexts/ExamPaletteContext";
+import { updateQuestion } from "~/services/question.service";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 const drawerWidth = 240;
-
+const handleUpdate = async () => {
+  try {
+    const data = await updateQuestion();
+    console.log(" Update thành công", data);
+    alert(` Update thành công: ${data.message}`);
+  } catch (error) {
+    console.error("❌ Update thất bại", error.response?.data || error.message);
+  }
+};
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -391,6 +401,24 @@ export default function SideBarUser() {
           }}
         >
           {checkAdmin && (
+            <Tooltip
+              title="Cập nhật câu hỏi"
+              sx={{ width: "100%", height: "100%" }}
+            >
+              <Button
+                sx={{
+                  minWidth: 0,
+                  padding: 1,
+                  "& svg": { fontSize: 24 },
+                  marginBottom: 1,
+                }}
+                onClick={handleUpdate}
+              >
+                <FileUploadIcon />
+              </Button>
+            </Tooltip>
+          )}
+          {checkAdmin && (
             <Tooltip title="Chuyển role" sx={{ width: "100%", height: "100%" }}>
               <Button
                 sx={{
@@ -407,6 +435,7 @@ export default function SideBarUser() {
               </Button>
             </Tooltip>
           )}
+
           <Tooltip title="Sửa lỗi" sx={{ width: "100%", height: "100%" }}>
             <Button
               sx={{

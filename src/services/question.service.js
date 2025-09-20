@@ -186,19 +186,20 @@ export const sendPerformance = async ({ total, click, completed }) => {
 };
 
 export const updateQuestion = async () => {
-  const URL =
-    "https://scoreup.whoisduyviet.id.vn/api/v1/api/questions/update/21c4b65d1cba80b39692e04775567f38";
-  return await patch(
-    URL,
-    {},
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization:
-          "Bearer 57bd454e404a230b4ccb9c8cf52b286b8f3b477ffa09ea292b0587dcb9ac4ca5c52560f40775f69afb5fdf67e2f11acadb7b32671e3248260374ec98c754e46f",
-      },
-    }
-  );
+  const token = localStorage.getItem("accessToken");
+  const databaseId = config.DATABASE_CERTIFICATES;
+
+  const url = `${config.API_URL}/questions/update/${databaseId}`;
+
+  return axios
+    .patch(
+      url,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+    .then((res) => res.data);
 };
 
 export const getExamQuestions = async (examId, body) => {

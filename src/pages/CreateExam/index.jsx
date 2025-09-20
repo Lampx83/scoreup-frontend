@@ -43,13 +43,16 @@ export default function CreateExam() {
 
   const handleUpdate = async () => {
     try {
-      const res = await updateQuestion();
-      console.log("Update thành công", res);
+      const data = await updateQuestion();
+      console.log(" Update thành công", data);
+      alert(` Update thành công: ${data.message}`);
     } catch (error) {
-      console.error("Update thất bại", error);
+      console.error(
+        "❌ Update thất bại",
+        error.response?.data || error.message
+      );
     }
   };
-
   useEffect(() => {
     const fetchSubjects = async () => {
       const res = await getSubjects();
