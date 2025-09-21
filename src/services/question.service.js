@@ -209,3 +209,9 @@ export const getExamQuestions = async (examId, body) => {
 export const submitExam = async (examId, body) => {
   return await post(`/questions/submit/${examId}`, body);
 };
+
+export const updateExamStudentSubmit = (examId, studentId) => {
+  return patch(`/exams/update-exam/${examId}`, {
+    student_id: String(studentId),
+  });
+};

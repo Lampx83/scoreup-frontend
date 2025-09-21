@@ -26,6 +26,7 @@ import { LuAlarmClock } from "react-icons/lu";
 import { useSetExamPalette } from "~/contexts/ExamPaletteContext";
 import { BiPrinter } from "react-icons/bi";
 import { LiaArrowLeftSolid } from "react-icons/lia";
+import { updateExamStudentSubmit } from "~/services/question.service.js";
 
 const normalizeChapterName = (name) => {
   const m = String(name || "").match(/\d+/);
@@ -311,7 +312,7 @@ export default function PostExamPage() {
 
       try {
         const res = await submitExam(examId, payload);
-
+        await updateExamStudentSubmit(examId, payload.student_id);
         setResultId(res?.data?.metadata?._id ?? null);
         setOpen(true);
       } catch (e) {

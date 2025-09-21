@@ -139,6 +139,13 @@ export default function ListPostExamPage() {
   //   if (end < now) return "ended";
   //   return "all";
   // };
+  const hasStudentSubmitted = (exam, sid) => {
+    const entry = Array.isArray(exam?.student_list)
+      ? exam.student_list.find((s) => String(s.student_id) === String(sid))
+      : null;
+    const v = entry?.isSubmit;
+    return v === true || v === "true";
+  };
 
   return (
     <Container
@@ -457,44 +464,11 @@ export default function ListPostExamPage() {
                 </CardActions>
               ) : (
                 <CardActions
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
+                  sx={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  {exam.student_list.submitted !== "false" ? (
+                  {hasStudentSubmitted(exam, student_id) ? (
                     <Button
-                      size={"small"}
-                      sx={{
-                        backgroundColor: "#1A4E8DFF",
-                        borderRadius: 25,
-                        color: "white",
-                        paddingX: 2,
-                        height: 35,
-                        ":hover": {
-                          backgroundColor: "white",
-                          boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
-                        },
-                      }}
-                      component={Link}
-                      to={`/exam/${exam.exam_id}`}
-                      state={{
-                        student_id: student_id,
-                        exam_id: exam.exam_id,
-                        notion_database_id:
-                          exam?.notion_database_id ?? exam?.database_id,
-                        subject_name: exam.subject_name,
-                        exam_time: exam.exam_time,
-                        start_date: exam.start_date,
-                        end_date: exam.end_date,
-                        questions: exam.questions,
-                      }}
-                    >
-                      Làm bài
-                    </Button>
-                  ) : (
-                    <Button
-                      size={"small"}
+                      size="small"
                       sx={{
                         backgroundColor: "#9095A0FF",
                         borderRadius: 5,
@@ -510,6 +484,62 @@ export default function ListPostExamPage() {
                     >
                       Xem chi tiết
                     </Button>
+                  ) : (
+                    (() => {
+                      const now = new Date();
+                      const start = new Date(exam.start_date);
+                      const end = new Date(exam.end_date);
+                      const isOngoing = start <= now && now <= end;
+
+                      if (!isOngoing) {
+                        return (
+                          <Button
+                            size="small"
+                            disabled
+                            sx={{
+                              color: "#1A4E8DFF !important",
+                              "&.Mui-disabled": {
+                                color: "#1A4E8DFF", // chữ
+                                borderRadius: 25,
+                              },
+                            }}
+                          >
+                            Chưa đến thời gian làm bài
+                          </Button>
+                        );
+                      }
+                      return (
+                        <Button
+                          size="small"
+                          sx={{
+                            backgroundColor: "#1A4E8DFF",
+                            borderRadius: 25,
+                            color: "white",
+                            paddingX: 2,
+                            height: 35,
+                            ":hover": {
+                              backgroundColor: "#3669a7ff",
+                              boxShadow: "0 0 10px 0 rgba(46, 97, 160, 0.5)",
+                            },
+                          }}
+                          component={Link}
+                          to={`/exam/${exam.exam_id}`}
+                          state={{
+                            student_id,
+                            exam_id: exam.exam_id,
+                            notion_database_id:
+                              exam?.notion_database_id ?? exam?.database_id,
+                            subject_name: exam.subject_name,
+                            exam_time: exam.exam_time,
+                            start_date: exam.start_date,
+                            end_date: exam.end_date,
+                            questions: exam.questions,
+                          }}
+                        >
+                          Làm bài
+                        </Button>
+                      );
+                    })()
                   )}
                 </CardActions>
               )}
