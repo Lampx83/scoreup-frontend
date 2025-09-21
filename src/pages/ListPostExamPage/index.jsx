@@ -147,6 +147,12 @@ export default function ListPostExamPage() {
     return v === true || v === "true";
   };
 
+  const handleShare = (exam) => {
+    const examLink = `${window.location.origin}/exam/${exam.exam_id}`;
+    navigator.clipboard.writeText(examLink);
+    alert("Đã sao chép link ca thi: " + exam.exam_link);
+  };
+
   return (
     <Container
       maxWidth={false}
@@ -407,13 +413,32 @@ export default function ListPostExamPage() {
                     <>
                       <Button
                         variant="contained"
+                        size={"small"}
+                        sx={{
+                          backgroundColor: "#1A4E8DFF",
+                          borderRadius: 25,
+                          color: "white",
+                          height: 30,
+                          fontWeight: 600,
+                          mr: 7,
+                          ":hover": {
+                            backgroundColor: "#123663FF",
+                          },
+                        }}
+                        onClick={() => handleShare(exam)}
+                      >
+                        Chia sẻ
+                      </Button>
+
+                      <Button
+                        variant="contained"
                         onClick={() => handleClear(exam)}
                         size={"small"}
                         sx={{
                           backgroundColor: "#DE3B40FF",
                           borderRadius: 25,
                           color: "white",
-                          height: 35,
+                          height: 30,
                           fontWeight: 600,
                           ":hover": {
                             backgroundColor: "#C12126FF",
@@ -429,7 +454,7 @@ export default function ListPostExamPage() {
                           backgroundColor: "#1A4E8DFF",
                           borderRadius: 25,
                           color: "white",
-                          height: 35,
+                          height: 30,
                           paddingX: 2,
                           fontWeight: 600,
                           ":hover": {
