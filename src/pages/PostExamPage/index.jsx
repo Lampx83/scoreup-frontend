@@ -25,6 +25,7 @@ import { RiCalendarLine } from "react-icons/ri";
 import { LuAlarmClock } from "react-icons/lu";
 import { useSetExamPalette } from "~/contexts/ExamPaletteContext";
 import { BiPrinter } from "react-icons/bi";
+import { LiaArrowLeftSolid } from "react-icons/lia";
 
 const normalizeChapterName = (name) => {
   const m = String(name || "").match(/\d+/);
@@ -370,108 +371,125 @@ export default function PostExamPage() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: 2,
-                  background: "#fff",
-                  borderRadius: 4,
-                  p: 6,
-                  minWidth: 420,
-                  textAlign: "center",
-                  boxShadow: 2,
-                  maxWidth: 650,
+                  alignItems: "flex-end",
                 }}
               >
-                <Typography variant="h4" mb={2}>
-                  Bạn đã hoàn thành bài thi môn {subjectName || "—"}!
-                </Typography>
-                <Typography variant="h4" fontWeight={900} mb={2}>
-                  <b>
-                    Điểm số:{" "}
-                    {((calculateCorrect() / result.current.total) * 10).toFixed(
-                      2
-                    )}
-                  </b>
-                </Typography>
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: 3,
-                    mb: 2,
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      color: "#1CC8AE",
-
-                      width: 150,
-                      justifyContent: "space-between",
-                      alignItems: "flex-end",
-                      fontSize: 20,
-                    }}
-                  >
-                    <span>Số câu đúng</span>
-                    <span>{calculateCorrect()}</span>
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      color: "#F44336",
-                      width: 150,
-                      justifyContent: "space-between",
-                      fontSize: 20,
-                    }}
-                  >
-                    <span>Số câu sai</span>
-                    <span>
-                      {(result.current.total - calculateCorrect())
-                        .toString()
-                        .padStart(2, "0")}
-                    </span>
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
                     gap: 2,
-                    mt: 2,
+                    background: "#fff",
+                    borderRadius: 4,
+                    p: 6,
+                    minWidth: 420,
+                    textAlign: "center",
+                    boxShadow: 2,
+                    maxWidth: 650,
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    color="info"
+                  <Typography variant="h4" mb={2}>
+                    Bạn đã hoàn thành bài thi môn {subjectName || "—"}!
+                  </Typography>
+                  <Typography variant="h4" fontWeight={900} mb={2}>
+                    <b>
+                      Điểm số:{" "}
+                      {(
+                        (calculateCorrect() / result.current.total) *
+                        10
+                      ).toFixed(2)}
+                    </b>
+                  </Typography>
+                  <Box
                     sx={{
                       display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
                       alignItems: "center",
-                      gap: 1,
-                      minWidth: 120,
+                      gap: 3,
+                      mb: 2,
                     }}
-                    onClick={() => window.print()}
                   >
-                    <BiPrinter size={24} />
-                    <span>Tải kết quả thi</span>
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="info"
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        color: "#1CC8AE",
+
+                        width: 160,
+                        justifyContent: "space-between",
+                        alignItems: "flex-end",
+                        fontSize: 20,
+                      }}
+                    >
+                      <span>Số câu đúng</span>
+                      <span>
+                        {calculateCorrect().toString().padStart(2, "0")}
+                      </span>
+                    </Typography>
+                    <Typography
+                      sx={{
+                        display: "flex",
+                        color: "#F44336",
+                        width: 160,
+                        justifyContent: "space-between",
+                        fontSize: 20,
+                      }}
+                    >
+                      <span>Số câu sai</span>
+                      <span>
+                        {(result.current.total - calculateCorrect())
+                          .toString()
+                          .padStart(2, "0")}
+                      </span>
+                    </Typography>
+                  </Box>
+                  <Box
                     sx={{
-                      backgroundColor: "#1A4E8DFF",
-                      ":hover": {
-                        backgroundColor: "rgba(26,78,141,0.8)",
-                        boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
-                      },
-                      minWidth: 120,
-                    }}
-                    onClick={() => {
-                      /* TODO: handle xem chi tiet */
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: 2,
+                      mt: 2,
                     }}
                   >
-                    Xem chi tiết
-                  </Button>
+                    <Button
+                      variant="contained"
+                      color="info"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        minWidth: 120,
+                      }}
+                      onClick={() => window.print()}
+                    >
+                      <BiPrinter size={24} />
+                      <span>Tải kết quả thi</span>
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="info"
+                      sx={{
+                        backgroundColor: "#1A4E8DFF",
+                        ":hover": {
+                          backgroundColor: "rgba(26,78,141,0.8)",
+                          boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
+                        },
+                        minWidth: 120,
+                      }}
+                      onClick={() => {
+                        /* TODO: handle xem chi tiet */
+                      }}
+                    >
+                      Xem chi tiết
+                    </Button>
+                  </Box>
                 </Box>
+                <Button component={Link} to="/exam" sx={{ marginTop: 2 }}>
+                  <LiaArrowLeftSolid size={30} />
+                  <span style={{ fontSize: 20, fontWeight: 600 }}>
+                    Quay về trang chủ
+                  </span>
+                </Button>
               </Box>
             </Box>
           </Box>
@@ -568,7 +586,7 @@ export default function PostExamPage() {
                         Họ và tên: {user?.fullName || user?.name || "—"}
                       </Typography>
                       <Typography variant="inherit">
-                        Mã sinh viên: {user?.id || "—"}
+                        Mã sinh viên: {user?.email.slice(0, 8) || "—"}
                       </Typography>
                       <Typography variant="inherit">
                         Ngày sinh: {user?.birth || "—"}
