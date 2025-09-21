@@ -64,6 +64,8 @@ export default function CreateExam() {
   };
   const navigate = useNavigate();
 
+  const [createdExam, setCreatedExam] = useState(null);
+
   const handleConfirmCreateExam = async () => {
     const errors = validateCreateExam({
       examName,
@@ -94,12 +96,9 @@ export default function CreateExam() {
         exam_time: examTime,
         notes,
       });
-
+      setCreatedExam(res.data || res);
+      console.log("Res từ BE:", res);
       setOpenSuccess(true);
-
-      // if (res.status === 201) {
-      //   navigate("/exam"); // ✅ điều hướng ở đây
-      // }
     } catch (err) {
       console.error("Lỗi khi tạo ca thi:", err);
     } finally {
@@ -110,15 +109,15 @@ export default function CreateExam() {
   //Hoàn tất
   const handleConfirmSuccess = () => {
     setOpenSuccess(false);
-    console.log("Mở popup thành công");
-    const examListUrl = window.location.origin + "/exam";
-    navigator.clipboard.writeText(examListUrl);
-
-    alert("Đã sao chép đường liên kết: " + examListUrl);
+    if (createdExam?.exam_link) {
+      navigator.clipboard.writeText(createdExam.exam_link);
+      alert("Đã sao chép link ca thi: " + createdExam.exam_link);
+    } else {
+      alert("Không tìm thấy link ca thi để chia sẻ!");
+    }
 
     navigate("/exam");
   };
-
   //convert
   const toUTC = (datetimeStr) => {
     return datetimeStr ? new Date(datetimeStr).toISOString() : null;
@@ -255,7 +254,7 @@ export default function CreateExam() {
               </Box>
               <Box>
                 <Typography fontWeight={600} mb={1}>
-                  Thời gian thi
+                  Thời gian thi (phút)
                 </Typography>
                 <input
                   type="text"
@@ -270,7 +269,7 @@ export default function CreateExam() {
                     border: "1px solid #ccc",
                     backgroundColor: "#ffffffff",
                   }}
-                  placeholder="VD: 60 phút"
+                  placeholder="VD: 60"
                 />
               </Box>
             </Box>

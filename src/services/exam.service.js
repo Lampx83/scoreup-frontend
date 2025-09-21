@@ -33,6 +33,7 @@ export const updateCreateExam = async ({
   exam_time,
   file,
   notes,
+  status,
 }) => {
   const formData = new FormData();
   const rawUser = Cookies.get("user");
@@ -55,6 +56,7 @@ export const updateCreateExam = async ({
   formData.append("exam_time", exam_time);
   formData.append("notes", notes);
   formData.append("author", author);
+  formData.append("status", status);
   const formattedQuestions = Array.isArray(questions)
     ? questions.map((q) => ({
         chapters: [
@@ -85,4 +87,8 @@ export const updateCreateExam = async ({
 export const deleteExam = (exam_id) => {
   console.log("Đang gọi API delete với id:", exam_id);
   return axios.delete(`/exams/${exam_id}`);
+};
+
+export const updateExamStatus = async (exam_id, status) => {
+  return axios.patch(`/exams/${exam_id}/status`, { status });
 };

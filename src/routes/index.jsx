@@ -140,6 +140,10 @@ export const routes = [
             path: "/detail-recommend",
             element: <RecommendDetailList />,
           },
+          {
+            path: "/exam/:exam_id",
+            element: <PostExamPage />,
+          },
         ],
       },
     ],
