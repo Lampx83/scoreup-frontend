@@ -79,26 +79,30 @@ export default function ListPostExamPage() {
 
   // 2. Lọc theo search / môn học / trạng thái
   const filteredExams = React.useMemo(() => {
-    return examsByRole.filter((exam) => {
-      const matchSearch = exam.exam_name
-        ?.toLowerCase()
-        .includes(searchText.toLowerCase());
+    const now = new Date();
 
-      const matchSubject =
-        subjectFilter === "all" ||
-        String(exam.subject_id) === String(subjectFilter);
+    return examsByRole
+      .filter((exam) => {
+        const matchSearch = exam.exam_name
+          ?.toLowerCase()
+          .includes(searchText.toLowerCase());
 
-      const now = new Date();
-      const start = new Date(exam.start_date);
-      const end = new Date(exam.end_date);
+        const matchSubject =
+          subjectFilter === "all" ||
+          String(exam.subject_id) === String(subjectFilter);
 
-      let matchStatus = true;
-      if (statusFilter === "upcoming") matchStatus = start > now;
-      if (statusFilter === "ongoing") matchStatus = start <= now && end >= now;
-      if (statusFilter === "ended") matchStatus = end < now;
+        const start = new Date(exam.start_date);
+        const end = new Date(exam.end_date);
 
-      return matchSearch && matchSubject && matchStatus;
-    });
+        let matchStatus = true;
+        if (statusFilter === "upcoming") matchStatus = start > now;
+        if (statusFilter === "ongoing")
+          matchStatus = start <= now && end >= now;
+        if (statusFilter === "ended") matchStatus = end < now;
+
+        return matchSearch && matchSubject && matchStatus;
+      })
+      .sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
   }, [examsByRole, searchText, subjectFilter, statusFilter]);
 
   //xóa
