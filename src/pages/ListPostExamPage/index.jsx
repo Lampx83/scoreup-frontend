@@ -466,7 +466,7 @@ export default function ListPostExamPage() {
                           },
                         }}
                         component={Link}
-                        to="/edit-exam"
+                        to={`/edit-exam/${exam.exam_id}`}
                       >
                         Chỉnh sửa
                       </Button>

@@ -92,3 +92,79 @@ export const deleteExam = (exam_id) => {
 export const updateExamStatus = async (exam_id, status) => {
   return axios.patch(`/exams/${exam_id}/status`, { status });
 };
+
+// Lấy chi tiết exam theo ID
+export const getExamById = async (exam_id) => {
+  try {
+    const res = await axios.get(`/exams`, {
+      params: { exam_id },
+    });
+    console.log("Kết quả API getExamById:", res.data);
+    return res?.data;
+  } catch (error) {
+    console.error("Lỗi lấy chi tiết exam:", error);
+    throw error;
+  }
+};
+export const updateExam = async (
+  exam_id,
+  {
+    student_list,
+    exam_name,
+    subject_name,
+    notion_database_id,
+    questions,
+    start_date,
+    end_date,
+    exam_time,
+    file,
+    notes,
+    status,
+  }
+) => {
+  const formData = new FormData();
+  const rawUser = Cookies.get("user");
+  let author = "Unknown";
+  if (rawUser) {
+    try {
+      const user = JSON.parse(rawUser);
+      author = user.fullName || "Unknown";
+    } catch (e) {
+      console.error("Không parse được cookie user:", e);
+    }
+  }
+
+  formData.append("student_list", file); // file
+  formData.append("subject_name", subject_name); // tên môn thi
+  formData.append("exam_name", exam_name); //Tên kì thi
+  formData.append("notion_database_id", notion_database_id);
+  formData.append("start_date", start_date);
+  formData.append("end_date", end_date);
+  formData.append("exam_time", exam_time);
+  formData.append("notes", notes);
+  formData.append("author", author);
+  formData.append("status", status);
+  const formattedQuestions = Array.isArray(questions)
+    ? questions.map((q) => ({
+        chapters: [
+          {
+            chapter: q.chapter,
+            numbers: q.numbers,
+          },
+        ],
+      }))
+    : [];
+
+  formData.append("questions", JSON.stringify(formattedQuestions));
+  console.log(" FormData gửi đi:", [...formData.entries()]);
+  try {
+    const res = await axios.put(`/exams/update-exam/${exam_id}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      transformRequest: (data, headers) => data,
+    });
+    return res.data;
+  } catch (err) {
+    console.error("Update exam thất bại:", err.response?.data || err.message);
+    throw err;
+  }
+};

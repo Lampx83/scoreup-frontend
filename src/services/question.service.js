@@ -185,20 +185,13 @@ export const sendPerformance = async ({ total, click, completed }) => {
   return await axios.post(URL, body);
 };
 
-export const updateQuestion = async (id) => {
+export const updateQuestion = async (databaseId) => {
   const token = localStorage.getItem("accessToken");
-  const notionDatabaseId = id || config.DATABASE_CERTIFICATES;
 
-  const url = `${config.API_URL}/questions/update/${notionDatabaseId}`;
+  const url = `${config.API_URL}/questions/update/${databaseId}`;
 
   return axios
-    .patch(
-      url,
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    )
+    .patch(url, {}, { headers: { Authorization: `Bearer ${token}` } })
     .then((res) => res.data);
 };
 

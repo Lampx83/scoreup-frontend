@@ -46,51 +46,24 @@ import { updateQuestion } from "~/services/question.service";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { getCertificates } from "~/services/app.service";
 const drawerWidth = 240;
+
 const handleUpdate = async () => {
   try {
     const res = await getCertificates();
-    const certs = res.data.results
-      .filter((page) => page.properties.active?.checkbox === true)
-      .map((page) => ({
-        dbId: page.properties.database_id?.rich_text?.[0]?.plain_text,
-        lastEdited: page.last_edited_time,
-      }))
-      .filter((c) => c.dbId);
+    const databaseId = res.data.databaseId;
 
-    if (certs.length === 0) {
-      throw new Error("Không tìm thấy certificate nào");
+    if (!databaseId) {
+      throw new Error("Không tìm thấy databaseId trong response");
     }
 
-    const newCerts = certs.filter((c) => {
-      const lastSynced = localStorage.getItem(`lastSynced_${c.dbId}`);
-      return !lastSynced || new Date(c.lastEdited) > new Date(lastSynced);
-    });
+    const data = await updateQuestion(databaseId);
 
-    if (newCerts.length === 0) {
-      alert(" Không có certificate nào mới cần cập nhật.");
-      return;
-    }
-
-    const results = await Promise.all(
-      newCerts.map((c) => updateQuestion(c.dbId))
-    );
-
-    newCerts.forEach((c) =>
-      localStorage.setItem(`lastSynced_${c.dbId}`, c.lastEdited)
-    );
-
-    const updated = results
-      .map((r, i) => ({ ...r, dbId: newCerts[i].dbId }))
-      .filter((r) => !r.message.includes("0 questions"));
-
-    if (updated.length > 0) {
-      const msg = updated.map((r) => `✔ ${r.dbId}: ${r.message}`).join("\n");
-      alert(`Cập nhật thành công:\n${msg}`);
-    }
+    console.log("Update thành công", data);
+    alert(` ${data.message}`);
   } catch (error) {
-    console.error("❌ Update thất bại", error.response?.data || error.message);
+    console.error(" Update thất bại", error.response?.data || error.message);
     alert(
-      "❌ Update thất bại: " + (error.response?.data?.message || error.message)
+      " Update thất bại: " + (error.response?.data?.message || error.message)
     );
   }
 };

@@ -10,7 +10,11 @@ import {
   TextField,
 } from "@mui/material";
 
-export default function ContentExam({ subject, onChangeChecked }) {
+export default function ContentExam({
+  subject,
+  onChangeChecked,
+  initialChapters = [],
+}) {
   const [checked, setChecked] = React.useState([]);
   const [numbers, setNumbers] = React.useState([]);
   const [chapters, setChapters] = React.useState([]);
@@ -25,9 +29,25 @@ export default function ContentExam({ subject, onChangeChecked }) {
 
     const newChapters = subject.chapters || [];
     setChapters(newChapters);
-    setNumbers(Array(newChapters.length).fill(""));
-    setChecked([]);
-  }, [subject]);
+    if (initialChapters.length > 0) {
+      // map lại checked + numbers từ dữ liệu cũ
+      const checkedIndexes = [];
+      const nums = newChapters.map((ch, i) => {
+        const found = initialChapters.find((c) => c.chapter === ch.chapter);
+        if (found) {
+          checkedIndexes.push(i);
+          return found.numbers;
+        }
+        return "";
+      });
+
+      setChecked(checkedIndexes);
+      setNumbers(nums);
+    } else {
+      setChecked([]);
+      setNumbers(Array(newChapters.length).fill(""));
+    }
+  }, [subject, initialChapters]);
 
   const handleToggle = (index) => {
     const newChecked = checked.includes(index)
