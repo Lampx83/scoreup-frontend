@@ -185,11 +185,11 @@ export const sendPerformance = async ({ total, click, completed }) => {
   return await axios.post(URL, body);
 };
 
-export const updateQuestion = async () => {
+export const updateQuestion = async (id) => {
   const token = localStorage.getItem("accessToken");
-  const databaseId = config.DATABASE_CERTIFICATES;
+  const notionDatabaseId = id || config.DATABASE_CERTIFICATES;
 
-  const url = `${config.API_URL}/questions/update/${databaseId}`;
+  const url = `${config.API_URL}/questions/update/${notionDatabaseId}`;
 
   return axios
     .patch(
