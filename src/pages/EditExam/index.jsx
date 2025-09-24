@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import ContentExam from "../../components/ContentExam";
 import Loading from "~/components/Loading";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { useMemo } from "react";
 
 export default function EditExam() {
   const { exam_id } = useParams();
@@ -26,6 +27,7 @@ export default function EditExam() {
   const [loading, setLoading] = useState(true);
   const [originalQuestions, setOriginalQuestions] = useState([]);
   const [existingStudentFile, setExistingStudentFile] = useState(null);
+  const [studentList, setStudentList] = useState([]);
 
   const [fileName, setFileName] = useState("");
 
@@ -45,7 +47,7 @@ export default function EditExam() {
 
         setExamId(exam.exam_id);
         setExamName(exam.exam_name);
-        setStudents(exam.student_list || []);
+        setStudentList(exam.student_list || []);
 
         // 3. Gán đúng môn thi (match theo tên hoặc ID tuỳ API trả về)
         const sub = subjectsData.find(
@@ -57,10 +59,6 @@ export default function EditExam() {
         setEndTime(new Date(exam.end_date).toISOString().slice(0, 16));
         setExamTime(exam.exam_time);
         setNotes(exam.notes);
-
-        const formattedQuestions = chapters.map((ch) => ({
-          chapters: [{ chapter: ch.chapter, numbers: ch.numbers }],
-        }));
 
         // 4. Gán nội dung thi + số câu
         const loadedChapters =
@@ -86,30 +84,46 @@ export default function EditExam() {
   // Update exam
   const handleConfirmUpdateExam = async () => {
     try {
-      // 1. Dữ liệu questions: nếu user không chỉnh, dùng dữ liệu gốc
-      const validChapters = chapters.filter(
-        (ch) => ch.chapter?.trim() && ch.numbers != null
+      const formData = new FormData();
+      if (file) {
+        // Nếu người dùng upload file mới (.xlsx, .csv)
+        formData.append("student_list", file);
+      } else {
+        // Nếu không upload file, tạo file JSON từ mảng studentList
+        const studentFile = new File(
+          [
+            JSON.stringify(
+              studentList.map((s) => ({
+                student_id: s.student_id,
+                student_name: s.student_name || "",
+              }))
+            ),
+          ],
+          "students.json",
+          { type: "application/json" }
+        );
+        formData.append("student_list", studentFile);
+      }
+      formData.append("exam_name", examName);
+      formData.append("subject_name", selectedSubject?.subject_name);
+      formData.append(
+        "notion_database_id",
+        selectedSubject?.notion_database_id
       );
-      const formattedQuestions =
-        validChapters.length > 0
-          ? validChapters.map((ch) => ({
-              chapters: [{ chapter: ch.chapter, numbers: Number(ch.numbers) }],
-            }))
-          : originalQuestions;
+      formData.append("start_date", new Date(startTime).toISOString());
+      formData.append("end_date", new Date(endTime).toISOString());
+      formData.append("exam_time", Number(examTime));
+      formData.append("notes", notes);
 
-      // 2. File sinh viên: nếu user không upload file mớ
+      if (chapters.length > 0) {
+        const formattedQuestions = chapters.map((ch) => ({
+          chapters: [{ chapter: ch.chapter, numbers: ch.numbers }],
+        }));
+        formData.append("questions", JSON.stringify(formattedQuestions));
+      }
 
-      await updateExam(examId, {
-        exam_name: examName,
-        subject_name: selectedSubject?.subject_name,
-        notion_database_id: selectedSubject?.notion_database_id,
-        questions: formattedQuestions,
-        start_date: new Date(startTime).toISOString(),
-        end_date: new Date(endTime).toISOString(),
-        exam_time: examTime,
-        notes,
-        file: file || null,
-      });
+      await updateExam(examId, formData);
+
       alert("Cập nhật ca thi thành công!");
       navigate("/exam");
     } catch (err) {

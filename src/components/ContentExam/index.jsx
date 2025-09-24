@@ -29,8 +29,8 @@ export default function ContentExam({
 
     const newChapters = subject.chapters || [];
     setChapters(newChapters);
-    if (initialChapters.length > 0) {
-      // map lại checked + numbers từ dữ liệu cũ
+
+    if (initialChapters?.length > 0) {
       const checkedIndexes = [];
       const nums = newChapters.map((ch, i) => {
         const found = initialChapters.find((c) => c.chapter === ch.chapter);
@@ -47,7 +47,7 @@ export default function ContentExam({
       setChecked([]);
       setNumbers(Array(newChapters.length).fill(""));
     }
-  }, [subject, initialChapters]);
+  }, [subject]);
 
   const handleToggle = (index) => {
     const newChecked = checked.includes(index)

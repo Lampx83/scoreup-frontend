@@ -47,7 +47,14 @@ export const updateCreateExam = async ({
     }
   }
 
-  formData.append("student_list", file); // file
+  // 🔹 Nếu có file mới
+  if (file) {
+    formData.append("student_list", file);
+  } else if (student_list) {
+    // Nếu không có file thì vẫn gửi student_list
+    formData.append("student_list", JSON.stringify(student_list));
+  }
+
   formData.append("subject_name", subject_name); // tên môn thi
   formData.append("exam_name", exam_name); //Tên kì thi
   formData.append("notion_database_id", notion_database_id);
@@ -106,65 +113,14 @@ export const getExamById = async (exam_id) => {
     throw error;
   }
 };
-export const updateExam = async (
-  exam_id,
-  {
-    student_list,
-    exam_name,
-    subject_name,
-    notion_database_id,
-    questions,
-    start_date,
-    end_date,
-    exam_time,
-    file,
-    notes,
-    status,
-  }
-) => {
-  const formData = new FormData();
-  const rawUser = Cookies.get("user");
-  let author = "Unknown";
-  if (rawUser) {
-    try {
-      const user = JSON.parse(rawUser);
-      author = user.fullName || "Unknown";
-    } catch (e) {
-      console.error("Không parse được cookie user:", e);
-    }
-  }
-
-  formData.append("student_list", file); // file
-  formData.append("subject_name", subject_name); // tên môn thi
-  formData.append("exam_name", exam_name); //Tên kì thi
-  formData.append("notion_database_id", notion_database_id);
-  formData.append("start_date", start_date);
-  formData.append("end_date", end_date);
-  formData.append("exam_time", exam_time);
-  formData.append("notes", notes);
-  formData.append("author", author);
-  formData.append("status", status);
-  const formattedQuestions = Array.isArray(questions)
-    ? questions.map((q) => ({
-        chapters: [
-          {
-            chapter: q.chapter,
-            numbers: q.numbers,
-          },
-        ],
-      }))
-    : [];
-
-  formData.append("questions", JSON.stringify(formattedQuestions));
-  console.log(" FormData gửi đi:", [...formData.entries()]);
+export const updateExam = async (examId, data) => {
   try {
-    const res = await axios.put(`/exams/update-exam/${exam_id}`, formData, {
+    const res = await axios.put(`/exams/update-exam/${examId}`, data, {
       headers: { "Content-Type": "multipart/form-data" },
-      transformRequest: (data, headers) => data,
     });
     return res.data;
-  } catch (err) {
-    console.error("Update exam thất bại:", err.response?.data || err.message);
-    throw err;
+  } catch (error) {
+    console.error("❌ API update exam error:", error);
+    throw error;
   }
 };

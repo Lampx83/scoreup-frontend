@@ -363,6 +363,7 @@ export default function CreateExam() {
 
           <ContentExam
             subject={selectedSubject}
+            initialChapters={chapters}
             onChangeChecked={(data) => setChapters(data)}
           />
 
