@@ -86,19 +86,10 @@ export default function EditExam() {
     try {
       const formData = new FormData();
       if (file) {
-        // Nếu người dùng upload file mới (.xlsx, .csv)
         formData.append("student_list", file);
       } else {
-        // Nếu không upload file, tạo file JSON từ mảng studentList
         const studentFile = new File(
-          [
-            JSON.stringify(
-              studentList.map((s) => ({
-                student_id: s.student_id,
-                student_name: s.student_name || "",
-              }))
-            ),
-          ],
+          [JSON.stringify(studentList)],
           "students.json",
           { type: "application/json" }
         );
