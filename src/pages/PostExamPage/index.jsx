@@ -326,6 +326,10 @@ export default function PostExamPage() {
     sendResult();
   }, [isSubmitted]);
 
+  const handleSubmit = () => {
+    setIsSubmittedWithConfirm(true);
+  };
+
   return (
     <>
       {showResult ? (
@@ -485,12 +489,18 @@ export default function PostExamPage() {
                     </Button>
                   </Box>
                 </Box>
-                <Button component={Link} to="/exam" sx={{ marginTop: 2 }}>
-                  <LiaArrowLeftSolid size={30} />
-                  <span style={{ fontSize: 20, fontWeight: 600 }}>
-                    Quay về trang chủ
-                  </span>
-                </Button>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Button
+                    component={Link}
+                    to="/exam"
+                    sx={{ marginTop: 2, gap: 1 }}
+                  >
+                    <LiaArrowLeftSolid size={25} style={{ strokeWidth: 2 }} />
+                    <span style={{ fontSize: 20, fontWeight: 600 }}>
+                      Quay về trang chủ
+                    </span>
+                  </Button>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -590,25 +600,28 @@ export default function PostExamPage() {
                         Mã sinh viên: {user?.email.slice(0, 8) || "—"}
                       </Typography>
                       <Typography variant="inherit">
-                        Ngày sinh: {user?.birth || "—"}
+                        Ngày sinh:{" "}
+                        {user?.birth
+                          ? new Date(user.birth).toLocaleDateString("vi-VN")
+                          : "—"}
                       </Typography>
-                      <Typography variant="inherit">
+                      {/*<Typography variant="inherit">
                         Lớp chuyên ngành: {user?.className || "—"}
-                      </Typography>
+                      </Typography>*/}
                     </Box>
                   </Box>
                 </Box>
 
                 {/*<QuestionsPalette
-              questions={questions}
-              showAnswer={showAnswer}
-              setShowAnswer={setShowAnswer}
-              setIsSubmitted={setIsSubmitted}
-              result={result}
-              isSubmitted={isSubmitted}
-              countFrom={countFrom}
-              isTest={true}
-            />*/}
+                    questions={questions}
+                    showAnswer={showAnswer}
+                    setShowAnswer={setShowAnswer}
+                    setIsSubmitted={setIsSubmitted}
+                    result={result}
+                    isSubmitted={isSubmitted}
+                    countFrom={countFrom}
+                    isTest={true}
+                  />*/}
 
                 {questions.map((element, index) => {
                   return (
@@ -652,6 +665,27 @@ export default function PostExamPage() {
                     </Box>
                   );
                 })}
+                <Box
+                  sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}
+                >
+                  <Button
+                    variant="contained"
+                    sx={{
+                      px: 4,
+                      py: 1.5,
+                      fontSize: 18,
+                      borderRadius: 3,
+                      backgroundColor: "#1A4E8DFF",
+                      ":hover": {
+                        backgroundColor: "rgba(26,78,141,0.8)",
+                        boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
+                      },
+                    }}
+                    onClick={handleSubmit}
+                  >
+                    Nộp bài
+                  </Button>
+                </Box>
               </Box>
             </Container>
           )}
