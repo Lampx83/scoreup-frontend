@@ -148,10 +148,8 @@ export default function ListPostExamPage() {
   const handleConfirmClear = async () => {
     if (selectedExam) {
       try {
-        // Gọi API xóa
         await deleteExam(selectedExam.exam_id);
 
-        // Cập nhật lại state exams để UI refresh
         setExams((prev) =>
           prev.filter((e) => e.exam_id !== selectedExam.exam_id)
         );
@@ -175,7 +173,7 @@ export default function ListPostExamPage() {
   };
 
   const handleShare = (exam) => {
-    const examLink = `/exam/${exam.exam_id}`;
+    const examLink = exam.exam_link;
     navigator.clipboard.writeText(examLink);
     alert("Đã sao chép link ca thi: " + exam.exam_link);
   };
@@ -284,12 +282,10 @@ export default function ListPostExamPage() {
             gap: 2,
           }}
         >
-          {/* Bên trái: tiêu đề */}
           <Typography variant="h4" fontWeight={600}>
             Danh sách ca thi
           </Typography>
 
-          {/* Bên phải: bộ lọc */}
           <ExamFilter
             searchText={searchText}
             setSearchText={setSearchText}
@@ -316,9 +312,9 @@ export default function ListPostExamPage() {
               sx={{
                 backgroundColor: getCardColor(exam),
                 borderRadius: 3,
-                height: "40%",
+                height: "200%",
                 minWidth: "30%",
-                maxwidth: "50%",
+                maxWidth: "60%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -394,7 +390,7 @@ export default function ListPostExamPage() {
                     Thời gian bắt đầu:{" "}
                     {exam?.start_date
                       ? moment(exam?.start_date).format("HH:mm DD/MM/YYYY")
-                      : "Không rõ"}
+                      : ""}
                   </Typography>
                   {exam.exam_id && (
                     <Typography
@@ -411,7 +407,7 @@ export default function ListPostExamPage() {
                       Thời gian kết thúc:{" "}
                       {exam?.end_date
                         ? moment(exam?.end_date).format("HH:mm DD/MM/YYYY")
-                        : "Không rõ"}
+                        : ""}
                     </Typography>
                   )}
                   <Typography
@@ -439,6 +435,7 @@ export default function ListPostExamPage() {
                     alignItems: "center",
                   }}
                 >
+                  {/* trái */}
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                     <Typography variant="body2">
                       {renderStatusLabel(exam)}
@@ -463,9 +460,9 @@ export default function ListPostExamPage() {
                         </Button>
                       )}
                   </Box>
-
+                  {/* phải */}
                   <Box sx={{ display: "flex", gap: 1 }}>
-                    {exam.status === "draft" && (
+                    {exam.status === "draft" ? (
                       <>
                         <Button
                           variant="contained"
@@ -499,64 +496,77 @@ export default function ListPostExamPage() {
                           Chỉnh sửa
                         </Button>
                       </>
-                    )}
+                    ) : exam.status === "ready" &&
+                      new Date(exam.end_date) > new Date() ? (
+                      <>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            backgroundColor: "#DE3B40FF",
+                            borderRadius: 25,
+                            color: "white",
+                            height: 30,
+                            fontWeight: 600,
+                            ":hover": { backgroundColor: "#C12126FF" },
+                          }}
+                          onClick={() => handleClear(exam)}
+                        >
+                          Xóa
+                        </Button>
+                        <Button
+                          size="small"
+                          sx={{
+                            backgroundColor: "#1A4E8DFF",
+                            borderRadius: 25,
+                            color: "white",
+                            height: 30,
+                            paddingX: 2,
+                            fontWeight: 600,
+                            ":hover": { backgroundColor: "#123663FF" },
+                          }}
+                          component={Link}
+                          to={`/edit-exam/${exam.exam_id}`}
+                        >
+                          Chỉnh sửa
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            backgroundColor: "#DE3B40FF",
+                            borderRadius: 25,
+                            color: "white",
+                            height: 30,
+                            fontWeight: 600,
+                            ":hover": { backgroundColor: "#C12126FF" },
+                          }}
+                          onClick={() => handleClear(exam)}
+                        >
+                          Xóa
+                        </Button>
 
-                    {exam.status === "ready" &&
-                      new Date(exam.end_date) > new Date() && (
-                        <>
-                          <Button
-                            size="small"
-                            sx={{
-                              backgroundColor: "#1A4E8DFF",
-                              borderRadius: 25,
-                              color: "white",
-                              height: 30,
-                              paddingX: 2,
-                              fontWeight: 600,
-                              ":hover": { backgroundColor: "#123663FF" },
-                            }}
-                            component={Link}
-                            to={`/edit-exam/${exam.exam_id}`}
-                          >
-                            Chỉnh sửa
-                          </Button>
-                          <Button
-                            variant="contained"
-                            size="small"
-                            sx={{
-                              backgroundColor: "#DE3B40FF",
-                              borderRadius: 25,
-                              color: "white",
-                              height: 30,
-                              fontWeight: 600,
-                              ":hover": { backgroundColor: "#C12126FF" },
-                            }}
-                            onClick={() => handleClear(exam)}
-                          >
-                            Xóa
-                          </Button>
-                        </>
-                      )}
-
-                    {(exam.status === "DONE" ||
-                      new Date(exam.end_date) < new Date()) && (
-                      <Button
-                        size="small"
-                        sx={{
-                          backgroundColor: "#9095A0FF",
-                          borderRadius: 5,
-                          color: "white",
-                          paddingX: 1,
-                          ":hover": {
-                            backgroundColor: "rgba(144,149,160,0.8)",
-                            boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
-                          },
-                        }}
-                        component={Link}
-                        to={`/admin/history/${exam.exam_id}`}
-                      >
-                        Xem chi tiết
-                      </Button>
+                        <Button
+                          size="small"
+                          sx={{
+                            backgroundColor: "#9095A0FF",
+                            borderRadius: 5,
+                            color: "white",
+                            paddingX: 1,
+                            ":hover": {
+                              backgroundColor: "rgba(144,149,160,0.8)",
+                              boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
+                            },
+                          }}
+                          component={Link}
+                          to={`/admin/history/${exam.exam_id}`}
+                        >
+                          Xem chi tiết
+                        </Button>
+                      </>
                     )}
                   </Box>
                 </CardActions>
@@ -565,8 +575,7 @@ export default function ListPostExamPage() {
                 <CardActions
                   sx={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  {exam.status === "DONE" ||
-                  hasStudentSubmitted(exam, student_id) ? (
+                  {hasStudentSubmitted(exam, student_id) ? (
                     <Button
                       size="small"
                       sx={{

@@ -31,6 +31,7 @@ import CreateExam from "~/pages/CreateExam";
 import EditExam from "~/pages/EditExam";
 import ResultUserExamPage from "~/pages/ResultUserExamPage";
 import ResultAdminExamPage from "~/pages/ResultAdminExamPage";
+import PrivateExamRoutes from "~/components/PrivateExamRoutes";
 
 export const routes = [
   {
@@ -117,13 +118,9 @@ export const routes = [
             element: <ListPostExamPage />,
           },
           {
-            path: "/exam/:exam_id",
+            path: "/exam/:notionDatabaseId",
             element: <PostExamPage />,
           },
-          // {
-          //   path: "/exam/:notionDatabaseId",
-          //   element: <PostExamPage />,
-          // },
           {
             path: "/create-exam",
             element: <CreateExam />,
@@ -143,6 +140,16 @@ export const routes = [
           {
             path: "/detail-recommend",
             element: <RecommendDetailList />,
+          },
+        ],
+      },
+      {
+        path: "/exam",
+        element: <PrivateExamRoutes />,
+        children: [
+          {
+            path: ":exam_id",
+            element: <PostExamPage />,
           },
         ],
       },
@@ -174,6 +181,7 @@ export const routes = [
       },
     ],
   },
+
   {
     path: "/404",
     element: <Page404 />,
