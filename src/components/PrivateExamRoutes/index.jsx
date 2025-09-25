@@ -1,15 +1,16 @@
 import useAuth from "~/hooks/useAuth.jsx";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 function PrivateExamRoutes() {
   const auth = useAuth();
+  const location = useLocation();
 
   if (!auth.isAuthenticated()) {
     return (
       <Navigate
         to="/auth/login"
         state={{
-          from: window.location.pathname,
+          from: location.pathname,
           messageToast: {
             type: "error",
             message: "Vui lòng đăng nhập để truy cập ca thi!",
