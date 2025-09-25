@@ -66,7 +66,7 @@ export default function CreateExam() {
 
   const [createdExam, setCreatedExam] = useState(null);
 
-  const handleConfirmCreateExam = async () => {
+  const handleConfirmCreateExam = async (status) => {
     const errors = validateCreateExam({
       examName,
       selectedSubject,
@@ -95,10 +95,16 @@ export default function CreateExam() {
         end_date: toUTC(endTime),
         exam_time: examTime,
         notes,
+        status,
       });
       setCreatedExam(res.data || res);
       console.log("Res từ BE:", res);
-      setOpenSuccess(true);
+      if (status === "ready") {
+        setOpenSuccess(true);
+      } else {
+        alert("Ca thi đã được lưu ở trạng thái Đang soạn");
+        navigate("/exam");
+      }
     } catch (err) {
       console.error("Lỗi khi tạo ca thi:", err);
     } finally {
@@ -541,7 +547,7 @@ export default function CreateExam() {
               }}
             >
               <Button
-                onClick={() => setOpenCreateExam(false)}
+                onClick={() => handleConfirmCreateExam("draft")}
                 sx={{
                   color: "black",
                   background: "#cececeff",
@@ -551,7 +557,7 @@ export default function CreateExam() {
                 Chưa hoàn tất
               </Button>
               <Button
-                onClick={handleConfirmCreateExam}
+                onClick={() => handleConfirmCreateExam("ready")}
                 sx={{
                   color: "white",
                   background: "#123663FF",

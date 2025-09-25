@@ -25,6 +25,28 @@ import plusExamImg from "~/assets/images/PlusExam.png";
 import { getExams, deleteExam } from "~/services/exam.service";
 import SadIcon from "../../assets/images/sad.svg";
 import ExamFilter from "~/components/ExamFilter";
+const renderStatusLabel = (exam) => {
+  if (!exam) return null;
+
+  if (exam.status === "draft") {
+    return <span style={{ color: "#999" }}>Đang soạn</span>;
+  }
+
+  if (exam.status === "DONE") {
+    return <span style={{ color: "#999" }}>Đã kết thúc</span>;
+  }
+
+  if (exam.status === "ready") {
+    const now = new Date();
+    const start = new Date(exam.start_date);
+    const end = new Date(exam.end_date);
+
+    if (end < now) {
+      return <span style={{ color: "#999" }}>Đã kết thúc</span>;
+    }
+    // return <span style={{ color: "#999" }}>Không rõ</span>;
+  }
+};
 
 export default function ListPostExamPage() {
   const theme = useTheme();
@@ -37,13 +59,12 @@ export default function ListPostExamPage() {
   const [subjectFilter, setSubjectFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  // Lấy role từ localStorage hoặc từ state
   const [role, setRole] = useState(
     roleFromState || localStorage.getItem("role")
   );
   console.log("role", role);
   console.log("student_id", student_id);
-  // Nếu có role mới từ state => lưu lại vào localStorage + update state
+
   useEffect(() => {
     if (roleFromState) {
       localStorage.setItem("role", roleFromState);
@@ -62,17 +83,17 @@ export default function ListPostExamPage() {
     fetchTest();
   }, []);
 
-  // 1. Lọc theo role
+  // lọc theo role
   const examsByRole = React.useMemo(() => {
     if (!exams) return [];
 
     if (role) {
-      // Giáo viên => thấy hết
       return exams;
     } else {
-      // Học sinh => chỉ thấy ca thi của mình
-      return exams.filter((exam) =>
-        exam.student_list.some((stu) => stu.student_id === student_id)
+      return exams.filter(
+        (exam) =>
+          exam.status !== "draft" &&
+          exam.student_list.some((stu) => stu.student_id === student_id)
       );
     }
   }, [exams, role, student_id]);
@@ -89,16 +110,18 @@ export default function ListPostExamPage() {
 
         const matchSubject =
           subjectFilter === "all" ||
-          String(exam.subject_id) === String(subjectFilter);
+          (exam.subject_name &&
+            exam.subject_name
+              .toLowerCase()
+              .includes(subjectFilter.toLowerCase()));
 
         const start = new Date(exam.start_date);
         const end = new Date(exam.end_date);
 
         let matchStatus = true;
-        if (statusFilter === "upcoming") matchStatus = start > now;
-        if (statusFilter === "ongoing")
-          matchStatus = start <= now && end >= now;
-        if (statusFilter === "ended") matchStatus = end < now;
+        if (statusFilter === "draft") matchStatus = start > now;
+        if (statusFilter === "ready") matchStatus = start <= now && end >= now;
+        if (statusFilter === "DONE") matchStatus = end < now;
 
         return matchSearch && matchSubject && matchStatus;
       })
@@ -132,17 +155,6 @@ export default function ListPostExamPage() {
     setSelectedExam(null);
   };
 
-  //lọc trạng thái
-  // const getExamStatus = (exam) => {
-  //   const now = new Date();
-  //   const start = new Date(exam.start_date);
-  //   const end = new Date(exam.end_date);
-
-  //   if (start > now) return "ready";
-  //   if (start <= now && end >= now) return "ongoing";
-  //   if (end < now) return "ended";
-  //   return "all";
-  // };
   const hasStudentSubmitted = (exam, sid) => {
     const entry = Array.isArray(exam?.student_list)
       ? exam.student_list.find((s) => String(s.student_id) === String(sid))
@@ -152,7 +164,7 @@ export default function ListPostExamPage() {
   };
 
   const handleShare = (exam) => {
-    const examLink = `${window.location.origin}/exam/${exam.exam_id}`;
+    const examLink = `/exam/${exam.exam_id}`;
     navigator.clipboard.writeText(examLink);
     alert("Đã sao chép link ca thi: " + exam.exam_link);
   };
@@ -274,6 +286,7 @@ export default function ListPostExamPage() {
             setSubjectFilter={setSubjectFilter}
             statusFilter={statusFilter}
             setStatusFilter={setStatusFilter}
+            role={role}
           />
         </Box>
 
@@ -407,95 +420,142 @@ export default function ListPostExamPage() {
               </CardContent>
 
               {role ? (
+                // Giáo viên
                 <CardActions
                   sx={{
                     display: "flex",
-                    justifyContent: "flex-end",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  {exam.student_list.submitted !== "false" ? (
-                    <>
-                      <Button
-                        variant="contained"
-                        size={"small"}
-                        sx={{
-                          backgroundColor: "#1A4E8DFF",
-                          borderRadius: 25,
-                          color: "white",
-                          height: 30,
-                          fontWeight: 600,
-                          mr: 7,
-                          ":hover": {
-                            backgroundColor: "#123663FF",
-                          },
-                        }}
-                        onClick={() => handleShare(exam)}
-                      >
-                        Chia sẻ
-                      </Button>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography variant="body2">
+                      {renderStatusLabel(exam)}
+                    </Typography>
 
-                      <Button
-                        variant="contained"
-                        onClick={() => handleClear(exam)}
-                        size={"small"}
-                        sx={{
-                          backgroundColor: "#DE3B40FF",
-                          borderRadius: 25,
-                          color: "white",
-                          height: 30,
-                          fontWeight: 600,
-                          ":hover": {
-                            backgroundColor: "#C12126FF",
-                          },
-                        }}
-                      >
-                        Xóa
-                      </Button>
+                    {exam.status === "ready" &&
+                      new Date(exam.end_date) > new Date() && (
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            backgroundColor: "#1A4E8DFF",
+                            borderRadius: 25,
+                            color: "white",
+                            height: 30,
+                            fontWeight: 600,
+                            ":hover": { backgroundColor: "#123663FF" },
+                          }}
+                          onClick={() => handleShare(exam)}
+                        >
+                          Chia sẻ
+                        </Button>
+                      )}
+                  </Box>
 
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    {exam.status === "draft" && (
+                      <>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          sx={{
+                            backgroundColor: "#DE3B40FF",
+                            borderRadius: 25,
+                            color: "white",
+                            height: 30,
+                            fontWeight: 600,
+                            ":hover": { backgroundColor: "#C12126FF" },
+                          }}
+                          onClick={() => handleClear(exam)}
+                        >
+                          Xóa
+                        </Button>
+                        <Button
+                          size="small"
+                          sx={{
+                            backgroundColor: "#1A4E8DFF",
+                            borderRadius: 25,
+                            color: "white",
+                            height: 30,
+                            paddingX: 2,
+                            fontWeight: 600,
+                            ":hover": { backgroundColor: "#123663FF" },
+                          }}
+                          component={Link}
+                          to={`/edit-exam/${exam.exam_id}`}
+                        >
+                          Chỉnh sửa
+                        </Button>
+                      </>
+                    )}
+
+                    {exam.status === "ready" &&
+                      new Date(exam.end_date) > new Date() && (
+                        <>
+                          <Button
+                            size="small"
+                            sx={{
+                              backgroundColor: "#1A4E8DFF",
+                              borderRadius: 25,
+                              color: "white",
+                              height: 30,
+                              paddingX: 2,
+                              fontWeight: 600,
+                              ":hover": { backgroundColor: "#123663FF" },
+                            }}
+                            component={Link}
+                            to={`/edit-exam/${exam.exam_id}`}
+                          >
+                            Chỉnh sửa
+                          </Button>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            sx={{
+                              backgroundColor: "#DE3B40FF",
+                              borderRadius: 25,
+                              color: "white",
+                              height: 30,
+                              fontWeight: 600,
+                              ":hover": { backgroundColor: "#C12126FF" },
+                            }}
+                            onClick={() => handleClear(exam)}
+                          >
+                            Xóa
+                          </Button>
+                        </>
+                      )}
+
+                    {(exam.status === "DONE" ||
+                      new Date(exam.end_date) < new Date()) && (
                       <Button
-                        size={"small"}
+                        size="small"
                         sx={{
-                          backgroundColor: "#1A4E8DFF",
-                          borderRadius: 25,
+                          backgroundColor: "#9095A0FF",
+                          borderRadius: 5,
                           color: "white",
-                          height: 30,
-                          paddingX: 2,
-                          fontWeight: 600,
+                          paddingX: 1,
                           ":hover": {
-                            backgroundColor: "#123663FF",
+                            backgroundColor: "rgba(144,149,160,0.8)",
+                            boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
                           },
                         }}
                         component={Link}
-                        to={`/edit-exam/${exam.exam_id}`}
+                        to={`/admin/history/${exam.exam_id}`}
                       >
-                        Chỉnh sửa
+                        Xem chi tiết
                       </Button>
-                    </>
-                  ) : (
-                    <Button
-                      size={"small"}
-                      sx={{
-                        backgroundColor: "#9095A0FF",
-                        borderRadius: 5,
-                        color: "white",
-                        paddingX: 1,
-                        ":hover": {
-                          backgroundColor: "rgba(144,149,160,0.8)",
-                          boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
-                        },
-                      }}
-                      component={Link}
-                      to={`/admin/history/${exam.exam_id}/`}
-                    >
-                      Xem chi tiết
-                    </Button>
-                  )}
+                    )}
+                  </Box>
                 </CardActions>
               ) : (
+                // Học sinh
                 <CardActions
                   sx={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  {hasStudentSubmitted(exam, student_id) ? (
+                  {exam.status === "DONE" ||
+                  hasStudentSubmitted(exam, student_id) ? (
                     <Button
                       size="small"
                       sx={{
@@ -509,7 +569,7 @@ export default function ListPostExamPage() {
                         },
                       }}
                       component={Link}
-                      to={`/user/history/${exam.exam_id}/`}
+                      to={`/user/history/${exam.exam_id}`}
                     >
                       Xem chi tiết
                     </Button>
@@ -522,17 +582,7 @@ export default function ListPostExamPage() {
 
                       if (!isOngoing) {
                         return (
-                          <Button
-                            size="small"
-                            disabled
-                            sx={{
-                              color: "#1A4E8DFF !important",
-                              "&.Mui-disabled": {
-                                color: "#1A4E8DFF", // chữ
-                                borderRadius: 25,
-                              },
-                            }}
-                          >
+                          <Button size="small" disabled>
                             Chưa đến thời gian làm bài
                           </Button>
                         );

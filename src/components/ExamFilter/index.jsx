@@ -17,6 +17,7 @@ export default function ExamFilter({
   setSubjectFilter,
   statusFilter,
   setStatusFilter,
+  role,
 }) {
   const [subjects, setSubjects] = useState([]);
 
@@ -40,15 +41,16 @@ export default function ExamFilter({
         flexWrap: "wrap",
         marginBottom: 3,
         justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
-      {/* Ô tìm kiếm */}
+      {/* tìm kiếm */}
       <TextField
         placeholder="Tìm kiếm ca thi..."
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         size="small"
-        sx={{ minWidth: "25%" }}
+        sx={{ minWidth: "25%", height: 40 }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -66,7 +68,7 @@ export default function ExamFilter({
           displayEmpty
           size="small"
           sx={{
-            minWidth: "20%",
+            width: "200px",
             height: 40,
             borderRadius: "6px",
             backgroundColor: "#fff",
@@ -83,7 +85,7 @@ export default function ExamFilter({
         >
           <MenuItem value="all">Tất cả môn thi</MenuItem>
           {subjects.map((s) => (
-            <MenuItem key={s._id} value={s._id}>
+            <MenuItem key={s._id} value={s.subject_name}>
               {s.subject_name}
             </MenuItem>
           ))}
@@ -93,26 +95,29 @@ export default function ExamFilter({
       )}
 
       {/* Dropdown trạng thái */}
-      <TextField
-        select
-        value={statusFilter}
-        onChange={(e) => setStatusFilter(e.target.value)}
-        size="small"
-        sx={{
-          minWidth: "20%",
-          height: 40,
-          borderRadius: "6px",
-          backgroundColor: "#fff",
-          "& fieldset": { borderColor: "#ccc !important" },
-        }}
-      >
-        <MenuItem value="all">
-          <span style={{ color: "#999" }}>Tất cả các ca thi</span>
-        </MenuItem>
-        <MenuItem value="ready">Sẵn sàng thi</MenuItem>
-        <MenuItem value="ongoing">Đang soạn</MenuItem>
-        <MenuItem value="ended">Đã kết thúc</MenuItem>
-      </TextField>
+      {role && (
+        <TextField
+          select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          size="small"
+          sx={{
+            minWidth: "20%",
+            height: 40,
+            borderRadius: "6px",
+            backgroundColor: "#fff",
+            "& fieldset": { borderColor: "#ccc !important" },
+          }}
+        >
+          <MenuItem value="all">
+            <span style={{ color: "#999" }}>Tất cả các ca thi</span>
+          </MenuItem>
+
+          <MenuItem value="ready">Sẵn sàng thi</MenuItem>
+          <MenuItem value="draft">Đang soạn</MenuItem>
+          <MenuItem value="DONE">Đã kết thúc</MenuItem>
+        </TextField>
+      )}
     </Box>
   );
 }
