@@ -47,11 +47,10 @@ export const updateCreateExam = async ({
     }
   }
 
-  // 🔹 Nếu có file mới
   if (file) {
     formData.append("student_list", file);
+    formData.append("file_name", file.name);
   } else if (student_list) {
-    // Nếu không có file thì vẫn gửi student_list
     formData.append("student_list", JSON.stringify(student_list));
   }
 

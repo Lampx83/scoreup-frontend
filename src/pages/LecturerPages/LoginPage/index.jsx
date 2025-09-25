@@ -5,8 +5,12 @@ import { useForm } from "react-hook-form";
 import pushToast from "~/helpers/sonnerToast.js";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import userService from "~/services/auth.service.js";
 
 export default function LecturerLoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -19,6 +23,11 @@ export default function LecturerLoginPage() {
   });
 
   const onSubmit = async (data) => {
+    const success = await userService.login(data);
+    if (success) {
+      const from = location.state?.from || "/homepage";
+      navigate(from, { replace: true });
+    }
     console.log(data);
   };
 
