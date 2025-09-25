@@ -42,14 +42,13 @@ export default function EditExam() {
         // 2. Lấy thông tin exam
         const res = await getExamById(exam_id);
         const exam = res.data;
-        setFileName(exam.file?.name || exam.file_name || "");
-        setExistingStudentFile(exam.file || null); // lưu file cũ
+        setFileName(exam.file_name || "");
+        setExistingStudentFile(exam.file_name || null); // lưu file cũ
 
         setExamId(exam.exam_id);
         setExamName(exam.exam_name);
         setStudentList(exam.student_list || []);
 
-        // 3. Gán đúng môn thi (match theo tên hoặc ID tuỳ API trả về)
         const sub = subjectsData.find(
           (s) => s.subject_name === exam.subject_name
         );
@@ -87,13 +86,9 @@ export default function EditExam() {
       const formData = new FormData();
       if (file) {
         formData.append("student_list", file);
-      } else {
-        const studentFile = new File(
-          [JSON.stringify(studentList)],
-          "students.json",
-          { type: "application/json" }
-        );
-        formData.append("student_list", studentFile);
+        formData.append("file_name", file.name);
+      } else if (fileName) {
+        formData.append("file_name", fileName);
       }
       formData.append("exam_name", examName);
       formData.append("subject_name", selectedSubject?.subject_name);
@@ -317,14 +312,12 @@ export default function EditExam() {
             </Box>
           </Box>
 
-          {/* Questions */}
           <ContentExam
             subject={selectedSubject}
             initialChapters={chapters}
             onChangeChecked={(data) => setChapters(data)}
           />
 
-          {/* Buttons */}
           <Box
             sx={{ display: "flex", gap: 2, mt: 3, justifyContent: "flex-end" }}
           >
