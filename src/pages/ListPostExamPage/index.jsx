@@ -29,11 +29,11 @@ const renderStatusLabel = (exam) => {
   if (!exam) return null;
 
   if (exam.status === "draft") {
-    return <span style={{ color: "#999" }}>Đang soạn</span>;
+    return <span style={{ color: "#000000ff" }}>Đang soạn</span>;
   }
 
   if (exam.status === "DONE") {
-    return <span style={{ color: "#999" }}>Đã kết thúc</span>;
+    return <span style={{ color: "#000000ff" }}>Đã kết thúc</span>;
   }
 
   if (exam.status === "ready") {
@@ -42,10 +42,19 @@ const renderStatusLabel = (exam) => {
     const end = new Date(exam.end_date);
 
     if (end < now) {
-      return <span style={{ color: "#999" }}>Đã kết thúc</span>;
+      return <span style={{ color: "#000000ff" }}>Đã kết thúc</span>;
     }
     // return <span style={{ color: "#999" }}>Không rõ</span>;
   }
+};
+
+const getCardColor = (exam) => {
+  const now = new Date();
+  const end = new Date(exam.end_date);
+
+  if (exam.status === "draft") return "#DEE1E6FF";
+  if (exam.status === "DONE" || end < now) return "#F3F4F6FF";
+  return "#F2F7FDFF";
 };
 
 export default function ListPostExamPage() {
@@ -119,9 +128,11 @@ export default function ListPostExamPage() {
         const end = new Date(exam.end_date);
 
         let matchStatus = true;
-        if (statusFilter === "draft") matchStatus = start > now;
-        if (statusFilter === "ready") matchStatus = start <= now && end >= now;
-        if (statusFilter === "DONE") matchStatus = end < now;
+        if (statusFilter === "draft") matchStatus = exam.status === "draft";
+        if (statusFilter === "ready")
+          matchStatus = exam.status === "ready" && end >= now;
+        if (statusFilter === "DONE")
+          matchStatus = exam.status === "DONE" || end < now;
 
         return matchSearch && matchSubject && matchStatus;
       })
@@ -303,7 +314,7 @@ export default function ListPostExamPage() {
               key={index}
               variant={"elevation"}
               sx={{
-                backgroundColor: "#F2F7FDFF",
+                backgroundColor: getCardColor(exam),
                 borderRadius: 3,
                 height: "40%",
                 minWidth: "30%",

@@ -67,19 +67,21 @@ export default function CreateExam() {
   const [createdExam, setCreatedExam] = useState(null);
 
   const handleConfirmCreateExam = async (status) => {
-    const errors = validateCreateExam({
-      examName,
-      selectedSubject,
-      startTime,
-      endTime,
-      examTime,
-      file,
-      checkedChapters: chapters,
-    });
+    if (status === "ready") {
+      const errors = validateCreateExam({
+        examName,
+        selectedSubject,
+        startTime,
+        endTime,
+        examTime,
+        file,
+        checkedChapters: chapters,
+      });
 
-    if (errors.length > 0) {
-      alert(`Vui lòng điền đầy đủ các trường sau:\n- ${errors.join("\n- ")}`);
-      return;
+      if (errors.length > 0) {
+        alert(`Vui lòng điền đầy đủ các trường sau:\n- ${errors.join("\n- ")}`);
+        return;
+      }
     }
     setLoading(true); // bắt đầu loading
     setOpenCreateExam(false);
