@@ -2,10 +2,10 @@ import * as React from "react";
 import { Box, Drawer, Typography, Button } from "@mui/material";
 import { MdHelp } from "react-icons/md";
 
-// quét tất cả file hướng dẫn trong ./guides (Vite)
-const GUIDE_MODULES = import.meta.glob("./guides/**/*.jsx");
+const GUIDE_MODULES = import.meta.glob(
+  "/src/components/HelpGuide/Guides/*.jsx"
+);
 
-// Fallback component khi không tìm thấy slug
 function NotFound({ slug }) {
   return (
     <Box p={2}>
@@ -27,8 +27,8 @@ export default function HelpGuide({
 
   const resolveModuleKey = React.useCallback((s) => {
     if (!s) return null;
-    const target = `/${s}.jsx`;
-    return Object.keys(GUIDE_MODULES).find((k) => k.endsWith(target));
+    const key = `/src/components/HelpGuide/Guides/${s}.jsx`;
+    return GUIDE_MODULES[key] ? key : null;
   }, []);
 
   React.useEffect(() => {
@@ -49,7 +49,6 @@ export default function HelpGuide({
 
   return (
     <>
-      {/* Nút nổi cố định (giữ nguyên style của bạn) */}
       <Button
         variant="contained"
         color="primary"
@@ -76,7 +75,6 @@ export default function HelpGuide({
         Help
       </Button>
 
-      {/* Panel trượt từ phải (overlay trong suốt, click-outside vẫn đóng) */}
       <Drawer
         anchor="right"
         open={open}
@@ -91,7 +89,6 @@ export default function HelpGuide({
           },
         }}
       >
-        {/* Header giữ nguyên */}
         <Box
           sx={{
             display: "flex",
@@ -109,7 +106,6 @@ export default function HelpGuide({
           </Typography>
         </Box>
 
-        {/* Nội dung hướng dẫn từ slug */}
         <Box sx={{ flex: 1, overflow: "auto" }}>
           {GuideComp ? <GuideComp /> : null}
         </Box>
