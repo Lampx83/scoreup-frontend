@@ -7,30 +7,30 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { ExamPaletteProvider } from "~/contexts/ExamPaletteContext";
 import HelpGuide from "./components/HelpGuide";
-import { useLocation } from "react-router-dom";
+import { matchPath, useLocation } from "react-router-dom";
 function App() {
   const theme = useTheme();
   const { pathname } = useLocation();
-
+  const is = (pattern) => !!matchPath({ path: pattern, end: false }, pathname);
   let slug;
   let title;
 
-  if (pathname.startsWith("/pre-test")) {
+  if (is("/pre-test/*")) {
     slug = "help_pretest";
     title = "Luyện đề";
-  } else if (pathname.startsWith("/homepage")) {
+  } else if (is("/homepage/*")) {
     slug = "help_homepage";
     title = "Đăng nhập";
-  } else if (pathname.startsWith("/exam")) {
+  } else if (is("/exam/*")) {
     slug = "help_exam";
     title = "Thi";
-  } else if (pathname.startsWith("/practice")) {
+  } else if (is("/practice/*")) {
     slug = "help_practice";
     title = "Luyện tập";
-  } else if (pathname.startsWith("/dashboard")) {
+  } else if (is("/dashboard/*")) {
     slug = "help-dashboard";
     title = "Dashboard";
-  } else if (pathname.startsWith("/ranking")) {
+  } else if (is("/ranking/*")) {
     slug = "help_ranking";
     title = "Xếp hạng";
   }
