@@ -10,25 +10,39 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import {CookiesProvider} from "react-cookie";
 
-// Auto-detect basename
+// Get basename from environment or auto-detect
 const getBasename = () => {
-  // Nếu đang ở hostname của NEU và có sub-path, thì set basename là '/scoreup'
-  if (window.location.hostname === 'fit.neu.edu.vn') {
-    return '/scoreup';
+  // Ưu tiên lấy từ environment variable
+  const envBasename = import.meta.env.VITE_BASE_URL;
+  if (envBasename) {
+    return envBasename;
   }
-  // Ngược lại, không cần sub-path (root)
-  return '/';
+  
+  // Auto-detect dựa trên hostname (đồng bộ với vite.config.js)
+  if (window.location.hostname === 'fit.neu.edu.vn') {
+    return '/scoreup/';
+  }
+  
+  // Development: nếu không set VITE_BASE_URL, mặc định dùng /scoreup/ (giống vite.config.js)
+  return '/scoreup/';
 };
 
 const store = configureStore({
   reducer: allReducers,
 });
 
+// Debug logging cho basepath
+const currentBasename = getBasename();
+console.log('🚀 ScoreUp Frontend Starting...');
+console.log('📍 Basename:', currentBasename);
+console.log('🌍 Hostname:', window.location.hostname);
+console.log('🔗 Full URL:', window.location.href);
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.Fragment>
     <CookiesProvider>
       <Provider store={store}>
-        <BrowserRouter basename={getBasename()}>
+        <BrowserRouter basename={currentBasename}>
           <CssVarsProvider theme={theme}>
             <CssBaseline />
             <App />
