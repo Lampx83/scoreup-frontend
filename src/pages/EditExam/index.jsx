@@ -100,6 +100,7 @@ export default function EditExam() {
       formData.append("end_date", new Date(endTime).toISOString());
       formData.append("exam_time", Number(examTime));
       formData.append("notes", notes);
+      formData.append("status", "ready");
 
       if (chapters.length > 0) {
         const formattedQuestions = chapters.map((ch) => ({
@@ -243,6 +244,7 @@ export default function EditExam() {
                     borderRadius: "5px",
                     border: "1px solid #ccc",
                   }}
+                  placeholder="VD: Thi giữa kì CSLT lớp 03,..."
                 />
               </Box>
               <Box>
@@ -285,8 +287,8 @@ export default function EditExam() {
                   onChange={(e) => {
                     const f = e.target.files[0];
                     if (f) {
-                      setFile(f); // set file mới
-                      setFileName(""); // xóa tên file cũ
+                      setFile(f);
+                      setFileName("");
                     }
                   }}
                 />
@@ -307,6 +309,7 @@ export default function EditExam() {
                     borderRadius: "5px",
                     border: "1px solid #ccc",
                   }}
+                  placeholder="Lớp CSLT02,..."
                 />
               </Box>
             </Box>
