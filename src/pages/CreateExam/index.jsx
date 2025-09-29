@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useState, useEffect } from "react";
 import ContentExam from "../../components/ContentExam";
 import SadIcon from "../../assets/images/sad.svg";
@@ -21,6 +22,11 @@ import Loading from "~/components/Loading";
 import { getSubjects, updateCreateExam } from "~/services/exam.service.js";
 import { validateCreateExam } from "~/helpers/validateCreateExam.js";
 import { useNavigate } from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IosShareIcon from "@mui/icons-material/IosShare";
+import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
 
 export default function CreateExam() {
   const [openCancel, setOpenCancel] = useState(false);
@@ -39,6 +45,8 @@ export default function CreateExam() {
   const [startTime, setStartTime] = useState(""); //time bắt đầu
   const [endTime, setEndTime] = useState(""); //time kết thúc
   const [loading, setLoading] = useState(false);
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -129,6 +137,15 @@ export default function CreateExam() {
   //convert
   const toUTC = (datetimeStr) => {
     return datetimeStr ? new Date(datetimeStr).toISOString() : null;
+  };
+
+  //up file
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const handleRemove = () => {
+    setFile(null);
   };
 
   return (
@@ -314,39 +331,144 @@ export default function CreateExam() {
                 <Typography fontWeight={600} mb={1}>
                   Danh sách sinh viên
                 </Typography>
-                <input
-                  accept=".xlsx,.csv"
-                  id="upload-student-list"
-                  type="file"
-                  style={{ display: "none" }}
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-                <label htmlFor="upload-student-list">
+
+                <Box
+                  component="span"
+                  onClick={() => setOpen(true)}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    width: "100%",
+                    height: 40,
+                    paddingX: 1.5,
+                    fontSize: "14px",
+                    color: "#666",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    cursor: "pointer",
+                    backgroundColor: "#ffffffff",
+                    "&:hover": { borderColor: "#999" },
+                  }}
+                >
+                  <AttachFileIcon fontSize="small" />
+                  {file
+                    ? file.name
+                    : "Tải danh sách sinh viên tham gia ca thi (.xlsx, .csv)"}
+                </Box>
+              </Box>
+              <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                maxWidth="sm"
+                fullWidth
+              >
+                <DialogTitle>
+                  Tải lên danh sách sinh viên tham gia thi
+                </DialogTitle>
+                <DialogContent>
+                  <a
+                    href={`${import.meta.env.BASE_URL}DanhSachLop_TTTT1138125.xlsx`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        color: "#123663FF",
+                        cursor: "pointer",
+                        "&:hover": { textDecoration: "underline" },
+                      }}
+                    >
+                      <ArrowDownwardIcon fontSize="small" />
+                      <Typography fontSize={14}>
+                        Tải xuống mẫu danh sách sinh viên
+                      </Typography>
+                    </Box>
+                  </a>
+
                   <Box
-                    component="span"
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      width: "100%",
-                      height: 40,
-                      paddingX: 1.5,
-                      fontSize: "14px",
+                      border: "2px dashed #ccc",
+                      borderRadius: "8px",
+                      mt: 2,
+                      p: 4,
+                      textAlign: "center",
                       color: "#666",
-                      borderRadius: "6px",
-                      border: "1px solid #ccc",
-                      cursor: "pointer",
-                      backgroundColor: "#ffffffff",
-                      "&:hover": { borderColor: "#999" },
                     }}
                   >
-                    <AttachFileIcon fontSize="small" />
-                    {file
-                      ? file.name
-                      : "Tải danh sách sinh viên tham gia ca thi (.xlsx, .csv)"}
+                    <input
+                      accept=".xlsx,.csv"
+                      type="file"
+                      id="file-upload"
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
+                    <label htmlFor="file-upload">
+                      <Box sx={{ cursor: "pointer" }}>
+                        <IosShareIcon fontSize="large"></IosShareIcon>
+                        <Typography>
+                          Thả tệp tại đây hoặc bấm nút chọn tệp
+                        </Typography>
+                        <Typography fontSize={13}>
+                          Định dạng hỗ trợ: .xlsx, .csv
+                        </Typography>
+                      </Box>
+
+                      <Button
+                        variant="contained"
+                        sx={{ mt: 2, background: "#123663FF" }}
+                        component="span"
+                        htmlFor="file-upload"
+                      >
+                        Tải lên
+                      </Button>
+                    </label>
                   </Box>
-                </label>
-              </Box>
+                  <Typography fontWeight={700} mt={1}>
+                    Danh sách đã tải lên
+                  </Typography>
+                  {file && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        mt: 2,
+                        p: 1.5,
+                        border: "1px solid #ccc",
+                        borderRadius: "6px",
+                      }}
+                    >
+                      <StickyNote2OutlinedIcon fontSize="medium" />
+                      <Typography sx={{ flex: 1 }}>{file.name}</Typography>
+                      <IconButton
+                        size="small"
+                        sx={{
+                          border: "1px solid #ccc",
+                          borderRadius: "8px",
+                          width: 30,
+                          height: 25,
+                        }}
+                      >
+                        <VisibilityIcon />
+                      </IconButton>
+                      <IconButton size="small" onClick={handleRemove}>
+                        <DeleteIcon
+                          sx={{
+                            border: "1px solid #ccc",
+                            borderRadius: "8px",
+                            width: 30,
+                            height: 25,
+                          }}
+                          color="error"
+                        />
+                      </IconButton>
+                    </Box>
+                  )}
+                </DialogContent>
+              </Dialog>
+
               <Box>
                 <Typography fontWeight={600} mb={1}>
                   Ghi chú (không bắt buộc)
@@ -375,7 +497,6 @@ export default function CreateExam() {
             onChangeChecked={(data) => setChapters(data)}
           />
 
-          {/* Nút bấm */}
           <Box
             sx={{
               display: "flex",
