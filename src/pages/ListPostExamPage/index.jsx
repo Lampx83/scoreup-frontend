@@ -62,6 +62,7 @@ export default function ListPostExamPage() {
   const [exams, setExams] = useState([]);
   const location = useLocation();
   const { role: roleFromState, student_id } = location.state || {};
+  const sid = student_id || localStorage.getItem("student_id");
   const [openClear, setOpenClear] = useState(false);
   const [selectedExam, setSelectedExam] = useState(null);
   const [searchText, setSearchText] = useState("");
@@ -73,6 +74,12 @@ export default function ListPostExamPage() {
   );
   console.log("role", role);
   console.log("student_id", student_id);
+
+  useEffect(() => {
+    if (student_id) {
+      localStorage.setItem("student_id", student_id);
+    }
+  }, [student_id]);
 
   useEffect(() => {
     if (roleFromState) {
@@ -95,17 +102,19 @@ export default function ListPostExamPage() {
   // lọc theo role
   const examsByRole = React.useMemo(() => {
     if (!exams) return [];
-
     if (role) {
       return exams;
     } else {
       return exams.filter(
         (exam) =>
           exam.status !== "draft" &&
-          exam.student_list.some((stu) => stu.student_id === student_id)
+          Array.isArray(exam.student_list) &&
+          exam.student_list.some(
+            (stu) => String(stu.student_id) === String(sid)
+          )
       );
     }
-  }, [exams, role, student_id]);
+  }, [exams, role, sid]);
 
   // 2. Lọc theo search / môn học / trạng thái
   const filteredExams = React.useMemo(() => {
@@ -624,7 +633,7 @@ export default function ListPostExamPage() {
                           component={Link}
                           to={`/exam/${exam.exam_id}`}
                           state={{
-                            student_id,
+                            student_id: sid,
                             exam_id: exam.exam_id,
                             notion_database_id:
                               exam?.notion_database_id ?? exam?.database_id,
