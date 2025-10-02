@@ -30,12 +30,12 @@ import { updateExamStudentSubmit } from "~/services/question.service.js";
 
 const normalizeChapterName = (name) => {
   const m = String(name || "").match(/\d+/);
-  if (m) return `chuong-${m[0]}`;
+  if (m) return `chuong_${m[0]}`;
   return String(name || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
-    .replace(/\s+/g, "-");
+    .replace(/\s+/g, "_");
 };
 
 export default function PostExamPage() {
