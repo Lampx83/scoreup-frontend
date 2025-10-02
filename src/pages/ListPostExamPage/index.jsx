@@ -584,7 +584,7 @@ export default function ListPostExamPage() {
                 <CardActions
                   sx={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  {hasStudentSubmitted(exam, student_id) ? (
+                  {hasStudentSubmitted(exam, sid) ? (
                     <Button
                       size="small"
                       sx={{
