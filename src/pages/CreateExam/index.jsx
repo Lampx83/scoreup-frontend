@@ -696,7 +696,10 @@ export default function CreateExam() {
           {/* Popup thành công */}
           <Dialog
             open={openSuccess}
-            onClose={() => setOpenSuccess(false)}
+            onClose={() => {
+              setOpenSuccess(false);
+              navigate("/exam");
+            }}
             PaperProps={{
               sx: {
                 borderRadius: "16px",

@@ -6,6 +6,7 @@ import ContentExam from "../../components/ContentExam";
 import Loading from "~/components/Loading";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useMemo } from "react";
+import { validateCreateExam } from "~/helpers/validateCreateExam";
 
 export default function EditExam() {
   const { exam_id } = useParams();
@@ -54,8 +55,17 @@ export default function EditExam() {
         );
         setSelectedSubject(sub || null);
 
-        setStartTime(new Date(exam.start_date).toISOString().slice(0, 16));
-        setEndTime(new Date(exam.end_date).toISOString().slice(0, 16));
+        const formatDateTimeLocal = (dateStr) => {
+          if (!dateStr) return "";
+          const date = new Date(dateStr);
+          const pad = (n) => (n < 10 ? "0" + n : n);
+          return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
+            date.getDate()
+          )}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        };
+
+        setStartTime(formatDateTimeLocal(exam.start_date));
+        setEndTime(formatDateTimeLocal(exam.end_date));
         setExamTime(exam.exam_time);
         setNotes(exam.notes);
 
@@ -83,6 +93,25 @@ export default function EditExam() {
   // Update exam
   const handleConfirmUpdateExam = async () => {
     try {
+      const errors = validateCreateExam({
+        examName,
+        selectedSubject,
+        startTime,
+        endTime,
+        examTime,
+        file,
+        checkedChapters: chapters,
+        isEditing: true,
+      });
+      console.log("Validate errors:", errors);
+      const status = errors.length > 0 ? "draft" : "ready";
+
+      if (errors.length > 0) {
+        alert(
+          "Một số trường còn thiếu, ca thi sẽ được lưu ở trạng thái soạn thảo (draft).\n\nThiếu: " +
+            errors.join(", ")
+        );
+      }
       const formData = new FormData();
       if (file) {
         formData.append("student_list", file);
@@ -96,18 +125,26 @@ export default function EditExam() {
         "notion_database_id",
         selectedSubject?.notion_database_id
       );
-      formData.append("start_date", new Date(startTime).toISOString());
-      formData.append("end_date", new Date(endTime).toISOString());
+      formData.append(
+        "start_date",
+        startTime ? new Date(startTime).toISOString() : exam.start_date
+      );
+      formData.append(
+        "end_date",
+        endTime ? new Date(endTime).toISOString() : exam.end_date
+      );
       formData.append("exam_time", Number(examTime));
       formData.append("notes", notes);
-      formData.append("status", "ready");
+      formData.append("status", status);
 
-      if (chapters.length > 0) {
-        const formattedQuestions = chapters.map((ch) => ({
-          chapters: [{ chapter: ch.chapter, numbers: ch.numbers }],
-        }));
-        formData.append("questions", JSON.stringify(formattedQuestions));
-      }
+      const formattedQuestions =
+        chapters.length > 0
+          ? chapters.map((ch) => ({
+              chapters: [{ chapter: ch.chapter, numbers: ch.numbers }],
+            }))
+          : [];
+
+      formData.append("questions", JSON.stringify(formattedQuestions));
 
       await updateExam(examId, formData);
 

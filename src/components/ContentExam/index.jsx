@@ -47,19 +47,28 @@ export default function ContentExam({
       setChecked([]);
       setNumbers(Array(newChapters.length).fill(""));
     }
-  }, [subject]);
+  }, [subject, initialChapters]);
 
   const handleToggle = (index) => {
-    const newChecked = checked.includes(index)
-      ? checked.filter((i) => i !== index)
-      : [...checked, index];
+    const newChecked = [...checked];
+    const newNumbers = [...numbers];
+
+    if (checked.includes(index)) {
+      const i = newChecked.indexOf(index);
+      newChecked.splice(i, 1);
+      newNumbers[index] = "";
+    } else {
+      newChecked.push(index);
+      newNumbers[index] = 10;
+    }
 
     setChecked(newChecked);
+    setNumbers(newNumbers);
 
     if (onChangeChecked) {
       const data = newChecked.map((i) => ({
         chapter: chapters[i].chapter,
-        numbers: numbers[i],
+        numbers: newNumbers[i],
       }));
       onChangeChecked(data);
     }
@@ -67,20 +76,17 @@ export default function ContentExam({
 
   const handleNumberChange = (index, value) => {
     const newNumbers = [...numbers];
-    newNumbers[index] = Number(value) || 0;
+    newNumbers[index] = value === "" ? "" : Number(value);
     setNumbers(newNumbers);
 
     if (onChangeChecked) {
-      const data = checked
-        .map((i) => ({
-          chapter: chapters[i].chapter,
-          numbers: newNumbers[i],
-        }))
-        .filter((c) => c.numbers > 0);
+      const data = checked.map((i) => ({
+        chapter: chapters[i].chapter,
+        numbers: newNumbers[i],
+      }));
       onChangeChecked(data);
     }
   };
-
   return (
     <Box sx={{ maxWidth: "50%" }}>
       <Typography fontWeight={600} mt={1}>
@@ -104,10 +110,13 @@ export default function ContentExam({
                   onChange={() => handleToggle(index)}
                 />
               </ListItemIcon>
-              <ListItemText primary={item.chapter} sx={{ flex: 1 }} />
+              <ListItemText
+                primary={item.chapter.replace(/^chuong_/, "Chương ")}
+                sx={{ flex: 1 }}
+              />
               <TextField
                 type="number"
-                value={numbers[index]}
+                value={numbers[index] === 0 ? "" : numbers[index]}
                 onChange={(e) => handleNumberChange(index, e.target.value)}
                 size="small"
                 sx={{ width: 70 }}
