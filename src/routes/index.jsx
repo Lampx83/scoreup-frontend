@@ -31,7 +31,6 @@ import CreateExam from "~/pages/CreateExam";
 import EditExam from "~/pages/EditExam";
 import ResultUserExamPage from "~/pages/ResultUserExamPage";
 import ResultAdminExamPage from "~/pages/ResultAdminExamPage";
-import PrivateExamRoutes from "~/components/PrivateExamRoutes";
 
 export const routes = [
   {
@@ -141,14 +140,8 @@ export const routes = [
             path: "/detail-recommend",
             element: <RecommendDetailList />,
           },
-        ],
-      },
-      {
-        path: "/exam",
-        element: <PrivateExamRoutes />,
-        children: [
           {
-            path: ":exam_id",
+            path: "/exam/:exam_id",
             element: <PostExamPage />,
           },
         ],
