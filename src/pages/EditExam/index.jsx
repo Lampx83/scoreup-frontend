@@ -1,4 +1,13 @@
-import { Box, Select, MenuItem, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Select,
+  MenuItem,
+  Typography,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { getExamById, updateExam, getSubjects } from "~/services/exam.service";
 import { useState, useEffect } from "react";
@@ -7,6 +16,12 @@ import Loading from "~/components/Loading";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useMemo } from "react";
 import { validateCreateExam } from "~/helpers/validateCreateExam";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IosShareIcon from "@mui/icons-material/IosShare";
+import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
 
 export default function EditExam() {
   const { exam_id } = useParams();
@@ -31,6 +46,8 @@ export default function EditExam() {
   const [studentList, setStudentList] = useState([]);
 
   const [fileName, setFileName] = useState("");
+  const [examData, setExamData] = useState(null);
+  const [open, setOpen] = useState(false);
 
   // Fetch exam info
   useEffect(() => {
@@ -49,6 +66,7 @@ export default function EditExam() {
         setExamId(exam.exam_id);
         setExamName(exam.exam_name);
         setStudentList(exam.student_list || []);
+        setExamData(exam);
 
         const sub = subjectsData.find(
           (s) => s.subject_name === exam.subject_name
@@ -125,14 +143,17 @@ export default function EditExam() {
         "notion_database_id",
         selectedSubject?.notion_database_id
       );
-      formData.append(
-        "start_date",
-        startTime ? new Date(startTime).toISOString() : exam.start_date
-      );
-      formData.append(
-        "end_date",
-        endTime ? new Date(endTime).toISOString() : exam.end_date
-      );
+      if (startTime) {
+        formData.append("start_date", new Date(startTime).toISOString());
+      } else if (examData?.start_date) {
+        formData.append("start_date", examData.start_date);
+      }
+
+      if (endTime) {
+        formData.append("end_date", new Date(endTime).toISOString());
+      } else if (examData?.end_date) {
+        formData.append("end_date", examData.end_date);
+      }
       formData.append("exam_time", Number(examTime));
       formData.append("notes", notes);
       formData.append("status", status);
@@ -154,6 +175,13 @@ export default function EditExam() {
       console.error("Lỗi update:", err);
       alert("Cập nhật thất bại, vui lòng thử lại!");
     }
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const handleRemove = () => {
+    setFile(null);
   };
 
   return (
@@ -215,7 +243,7 @@ export default function EditExam() {
                       borderRadius: "5px",
                       border: "1px solid #ccc",
                     }}
-                    value={startTime}
+                    value={startTime ?? ""}
                     onChange={(e) => setStartTime(e.target.value)}
                   />
                 </Box>
@@ -233,7 +261,7 @@ export default function EditExam() {
                       borderRadius: "5px",
                       border: "1px solid #ccc",
                     }}
-                    value={endTime}
+                    value={endTime ?? ""}
                     onChange={(e) => setEndTime(e.target.value)}
                   />
                 </Box>
@@ -245,7 +273,7 @@ export default function EditExam() {
                 </Typography>
                 <input
                   type="text"
-                  value={examTime}
+                  value={examTime ?? ""}
                   onChange={(e) => setExamTime(e.target.value)}
                   style={{
                     width: "100%",
@@ -271,7 +299,7 @@ export default function EditExam() {
                 </Typography>
                 <input
                   type="text"
-                  value={examName}
+                  value={examName ?? ""}
                   onChange={(e) => setExamName(e.target.value)}
                   style={{
                     width: "100%",
@@ -288,55 +316,150 @@ export default function EditExam() {
                 <Typography fontWeight={600} mb={1}>
                   Danh sách sinh viên
                 </Typography>
+                <Box
+                  component="span"
+                  onClick={() => setOpen(true)}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    width: "100%",
+                    height: 40,
+                    paddingX: 1.5,
+                    fontSize: "14px",
+                    color: "#666",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    cursor: "pointer",
+                    backgroundColor: "#fff",
+                    "&:hover": { borderColor: "#999" },
+                  }}
+                >
+                  <AttachFileIcon fontSize="small" />
+                  {file
+                    ? file.name
+                    : fileName ||
+                      "Tải danh sách sinh viên tham gia ca thi (.xlsx, .csv)"}
+                </Box>
+              </Box>
+              <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                maxWidth="sm"
+                fullWidth
+              >
+                <DialogTitle>
+                  Tải lên danh sách sinh viên tham gia thi
+                </DialogTitle>
+                <DialogContent>
+                  <a
+                    href={`${import.meta.env.BASE_URL}DanhSachLop_TTTT1138125.xlsx`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        color: "#123663FF",
+                        cursor: "pointer",
+                        "&:hover": { textDecoration: "underline" },
+                      }}
+                    >
+                      <ArrowDownwardIcon fontSize="small" />
+                      <Typography fontSize={14}>
+                        Tải xuống mẫu danh sách sinh viên
+                      </Typography>
+                    </Box>
+                  </a>
 
-                <label htmlFor="upload-student-list">
                   <Box
-                    component="span"
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      width: "100%",
-                      height: 40,
-                      paddingX: 1.5,
-                      fontSize: "14px",
+                      border: "2px dashed #ccc",
+                      borderRadius: "8px",
+                      mt: 2,
+                      p: 4,
+                      textAlign: "center",
                       color: "#666",
-                      borderRadius: "6px",
-                      border: "1px solid #ccc",
-                      cursor: "pointer",
-                      backgroundColor: "#fff",
-                      "&:hover": { borderColor: "#999" },
                     }}
                   >
-                    <AttachFileIcon fontSize="small" />
-                    {file
-                      ? file.name // file mới upload
-                      : fileName || // file cũ từ API
-                        "Tải danh sách sinh viên tham gia ca thi (.xlsx, .csv)"}
-                  </Box>
-                </label>
+                    <input
+                      accept=".xlsx,.csv"
+                      type="file"
+                      id="file-upload"
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
+                    <label htmlFor="file-upload">
+                      <Box sx={{ cursor: "pointer" }}>
+                        <IosShareIcon fontSize="large"></IosShareIcon>
+                        <Typography>
+                          Thả tệp tại đây hoặc bấm nút chọn tệp
+                        </Typography>
+                        <Typography fontSize={13}>
+                          Định dạng hỗ trợ: .xlsx, .csv
+                        </Typography>
+                      </Box>
 
-                <input
-                  accept=".xlsx,.csv"
-                  id="upload-student-list"
-                  type="file"
-                  style={{ display: "none" }}
-                  onChange={(e) => {
-                    const f = e.target.files[0];
-                    if (f) {
-                      setFile(f);
-                      setFileName("");
-                    }
-                  }}
-                />
-              </Box>
+                      <Button
+                        variant="contained"
+                        sx={{ mt: 2, background: "#123663FF" }}
+                        component="span"
+                        htmlFor="file-upload"
+                      >
+                        Tải lên
+                      </Button>
+                    </label>
+                  </Box>
+                  <Typography fontWeight={700} mt={1}>
+                    Danh sách đã tải lên
+                  </Typography>
+                  {file && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        mt: 2,
+                        p: 1.5,
+                        border: "1px solid #ccc",
+                        borderRadius: "6px",
+                      }}
+                    >
+                      <StickyNote2OutlinedIcon fontSize="medium" />
+                      <Typography sx={{ flex: 1 }}>{file.name}</Typography>
+                      <IconButton
+                        size="small"
+                        sx={{
+                          border: "1px solid #ccc",
+                          borderRadius: "8px",
+                          width: 30,
+                          height: 25,
+                        }}
+                      >
+                        <VisibilityIcon />
+                      </IconButton>
+                      <IconButton size="small" onClick={handleRemove}>
+                        <DeleteIcon
+                          sx={{
+                            border: "1px solid #ccc",
+                            borderRadius: "8px",
+                            width: 30,
+                            height: 25,
+                          }}
+                          color="error"
+                        />
+                      </IconButton>
+                    </Box>
+                  )}
+                </DialogContent>
+              </Dialog>
               <Box>
                 <Typography fontWeight={600} mb={1}>
                   Ghi chú
                 </Typography>
                 <input
                   type="text"
-                  value={notes}
+                  value={notes ?? ""}
                   onChange={(e) => setNotes(e.target.value)}
                   style={{
                     width: "100%",
