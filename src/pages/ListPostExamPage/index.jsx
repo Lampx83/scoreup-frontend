@@ -335,7 +335,11 @@ export default function ListPostExamPage() {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
+                    textDecoration: "none",
+                    color: "inherit",
                   }}
+                  component={Link}
+                  to={`/detail-exam/${exam.exam_id}`}
                 >
                   <Typography
                     gutterBottom

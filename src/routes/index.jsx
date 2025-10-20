@@ -128,10 +128,10 @@ export const routes = [
             path: "/edit-exam/:exam_id",
             element: <EditExam />,
           },
-          {
-            path: "/detail-exam",
-            element: <DetailExam />,
-          },
+          // {
+          //   path: "/detail-exam",
+          //   element: <DetailExam />,
+          // },
           {
             path: "/ranking",
             element: <RankingPage />,
@@ -141,8 +141,12 @@ export const routes = [
             element: <RecommendDetailList />,
           },
           {
+            path: "/detail-exam/:exam_id",
+            element: <DetailExam />,
+          },
+          {
             path: "/exam/:exam_id",
-            element: <PostExamPage />,
+            element: <DetailExam />,
           },
         ],
       },

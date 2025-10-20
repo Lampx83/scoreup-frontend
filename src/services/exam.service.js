@@ -102,13 +102,17 @@ export const updateExamStatus = async (exam_id, status) => {
 // Lấy chi tiết exam theo ID
 export const getExamById = async (exam_id) => {
   try {
+    const token = localStorage.getItem("accessToken");
+
     const res = await axios.get(`/exams`, {
       params: { exam_id },
+      headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("Kết quả API getExamById:", res.data);
-    return res?.data;
+
+    console.log(" Kết quả API getExamById:", res.data);
+    return res.data;
   } catch (error) {
-    console.error("Lỗi lấy chi tiết exam:", error);
+    console.error(" Lỗi lấy chi tiết exam:", error);
     throw error;
   }
 };
@@ -119,7 +123,7 @@ export const updateExam = async (examId, data) => {
     });
     return res.data;
   } catch (error) {
-    console.error("❌ API update exam error:", error);
+    console.error(" API update exam error:", error);
     throw error;
   }
 };
