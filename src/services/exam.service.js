@@ -14,7 +14,7 @@ export const getExams = async () => {
 // Hàm gọi API lấy danh sách môn học
 export const getSubjects = async () => {
   try {
-    const res = await axios.get("/app/subjects");
+    const res = await axios.get("/subjects");
     return res.data.metadata; // dữ liệu trả về từ BE
   } catch (error) {
     console.error("Error fetching subjects:", error);
