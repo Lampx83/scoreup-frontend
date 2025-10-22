@@ -82,7 +82,6 @@ export default function CreateExam() {
         startTime,
         endTime,
         examTime,
-        file,
         checkedChapters: chapters,
       });
 
@@ -277,6 +276,16 @@ export default function CreateExam() {
                   />
                 </Box>
               </Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "#666",
+                  mt: 0.5,
+                }}
+              >
+                Ghi chú: Nếu không chọn thời gian thì ca thi lúc nào cũng làm
+                được.
+              </Typography>
               <Box>
                 <Typography fontWeight={600} mb={1}>
                   Thời gian thi (phút)
@@ -297,6 +306,16 @@ export default function CreateExam() {
                   placeholder="VD: 60"
                 />
               </Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "#666",
+                  mt: 0.5,
+                }}
+              >
+                Ghi chú: Nếu không chọn thời gian thi, ca thi không giới hạn
+                thời gian làm bài.
+              </Typography>
             </Box>
 
             {/* Right Column */}
@@ -356,6 +375,16 @@ export default function CreateExam() {
                     ? file.name
                     : "Tải danh sách sinh viên tham gia ca thi (.xlsx, .csv)"}
                 </Box>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "#666",
+                    mt: 3,
+                  }}
+                >
+                  Ghi chú: Nếu không chọn danh sách sinh viên thì tất cả sinh
+                  viên đều làm được.
+                </Typography>
               </Box>
               <Dialog
                 open={open}

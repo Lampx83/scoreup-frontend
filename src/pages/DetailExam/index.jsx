@@ -109,7 +109,7 @@ export default function DetailExam() {
             <Typography
               variant="h6"
               fontWeight="bold"
-              sx={{ mb: 2, color: "#000" }}
+              sx={{ mb: 2, color: "#000", textAlign: "center" }}
             >
               Thông tin ca thi
             </Typography>
@@ -144,25 +144,61 @@ export default function DetailExam() {
 
             <Box textAlign="center">
               {role ? (
-                <Button
-                  variant="contained"
+                <Box
+                  textAlign="center"
                   sx={{
-                    mt: 4,
-                    backgroundColor: "#C14E4E",
-                    color: "#fff",
-                    borderRadius: "25px",
-                    textTransform: "none",
-                    px: 6,
-                    py: 1.2,
+                    display: "flex",
+                    justifyContent: "center",
                     fontWeight: "600",
-                    ":hover": {
-                      backgroundColor: "#a53f3f",
-                      boxShadow: "0 0 8px rgba(193,78,78,0.5)",
-                    },
+                    gap: 2,
+                    minWidth: "auto",
                   }}
                 >
-                  Giám sát
-                </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      mt: 4,
+                      backgroundColor: "#C14E4E",
+                      color: "#fff",
+                      borderRadius: "25px",
+                      textTransform: "none",
+                      px: 6,
+                      py: 1.2,
+                      fontWeight: "600",
+                      whiteSpace: "nowrap",
+                      minWidth: "auto",
+                      ":hover": {
+                        backgroundColor: "#a53f3f",
+                        boxShadow: "0 0 8px rgba(193,78,78,0.5)",
+                      },
+                    }}
+                  >
+                    Giám sát
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      mt: 4,
+                      backgroundColor: "#c14e4e",
+                      color: "#fff",
+                      borderRadius: "25px",
+                      textTransform: "none",
+                      px: 6,
+                      py: 1.2,
+                      fontWeight: "600",
+                      whiteSpace: "nowrap",
+                      minWidth: "auto",
+                      ":hover": {
+                        backgroundColor: "#a53f3f",
+                        boxShadow: "0 0 8px rgba(193,78,78,0.5)",
+                      },
+                    }}
+                    component={Link}
+                    to={`/exam/${exam?.exam_id}`}
+                  >
+                    Làm bài
+                  </Button>
+                </Box>
               ) : (
                 <Button
                   variant="contained"

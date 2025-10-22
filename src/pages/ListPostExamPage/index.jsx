@@ -38,21 +38,26 @@ const renderStatusLabel = (exam) => {
 
   if (exam.status === "ready") {
     const now = new Date();
+
+    if (!exam.start_date && !exam.end_date) {
+      return;
+    }
+
     const start = new Date(exam.start_date);
     const end = new Date(exam.end_date);
 
     if (end < now) {
       return <span style={{ color: "#000000ff" }}>Đã kết thúc</span>;
     }
-    // return <span style={{ color: "#999" }}>Không rõ</span>;
   }
 };
 
 const getCardColor = (exam) => {
   const now = new Date();
-  const end = new Date(exam.end_date);
+  const end = exam.end_date ? new Date(exam.end_date) : null;
 
   if (exam.status === "draft") return "#DEE1E6FF";
+  if (!end) return "#F2F7FDFF";
   if (exam.status === "DONE" || end < now) return "#F3F4F6FF";
   return "#F2F7FDFF";
 };
@@ -105,14 +110,22 @@ export default function ListPostExamPage() {
     if (role) {
       return exams;
     } else {
-      return exams.filter(
-        (exam) =>
-          exam.status !== "draft" &&
+      return exams.filter((exam) => {
+        if (exam.status === "draft") return false;
+
+        if (!exam.start_date && !exam.end_date) return true;
+
+        if (
           Array.isArray(exam.student_list) &&
           exam.student_list.some(
             (stu) => String(stu.student_id) === String(sid)
           )
-      );
+        ) {
+          return true;
+        }
+
+        return false;
+      });
     }
   }, [exams, role, sid]);
 
@@ -133,15 +146,17 @@ export default function ListPostExamPage() {
               .toLowerCase()
               .includes(subjectFilter.toLowerCase()));
 
-        const start = new Date(exam.start_date);
-        const end = new Date(exam.end_date);
+        const start = exam.start_date ? new Date(exam.start_date) : null;
+        const end = exam.end_date ? new Date(exam.end_date) : null;
 
         let matchStatus = true;
         if (statusFilter === "draft") matchStatus = exam.status === "draft";
         if (statusFilter === "ready")
-          matchStatus = exam.status === "ready" && end >= now;
+          matchStatus =
+            (exam.status === "ready" && end >= now) ||
+            (!exam.start_date && !exam.end_date);
         if (statusFilter === "DONE")
-          matchStatus = exam.status === "DONE" || end < now;
+          matchStatus = exam.status === "DONE" || (end && end < now);
 
         return matchSearch && matchSubject && matchStatus;
       })
@@ -455,23 +470,35 @@ export default function ListPostExamPage() {
                     </Typography>
 
                     {exam.status === "ready" &&
-                      new Date(exam.end_date) > new Date() && (
-                        <Button
-                          variant="contained"
-                          size="small"
-                          sx={{
-                            backgroundColor: "#1A4E8DFF",
-                            borderRadius: 25,
-                            color: "white",
-                            height: 30,
-                            fontWeight: 600,
-                            ":hover": { backgroundColor: "#123663FF" },
-                          }}
-                          onClick={() => handleShare(exam)}
-                        >
-                          Chia sẻ
-                        </Button>
-                      )}
+                      (() => {
+                        const now = new Date();
+                        const end = exam.end_date
+                          ? new Date(exam.end_date)
+                          : null;
+
+                        // ✅ Nếu không có end_date hoặc chưa hết hạn -> hiển thị nút chia sẻ
+                        if (!end || end > now) {
+                          return (
+                            <Button
+                              variant="contained"
+                              size="small"
+                              sx={{
+                                backgroundColor: "#1A4E8DFF",
+                                borderRadius: 25,
+                                color: "white",
+                                height: 30,
+                                fontWeight: 600,
+                                ":hover": { backgroundColor: "#123663FF" },
+                              }}
+                              onClick={() => handleShare(exam)}
+                            >
+                              Chia sẻ
+                            </Button>
+                          );
+                        }
+
+                        return null; // nếu đã hết hạn thì không render
+                      })()}
                   </Box>
                   {/* phải */}
                   <Box sx={{ display: "flex", gap: 1 }}>
@@ -509,7 +536,7 @@ export default function ListPostExamPage() {
                           Chỉnh sửa
                         </Button>
                       </>
-                    ) : exam.status === "ready" &&
+                    ) : (exam.status === "ready" && !exam.end_date) ||
                       new Date(exam.end_date) > new Date() ? (
                       <>
                         <Button
@@ -609,9 +636,24 @@ export default function ListPostExamPage() {
                   ) : (
                     (() => {
                       const now = new Date();
-                      const start = new Date(exam.start_date);
-                      const end = new Date(exam.end_date);
-                      const isOngoing = start <= now && now <= end;
+                      const start = exam.start_date
+                        ? new Date(exam.start_date)
+                        : null;
+                      const end = exam.end_date
+                        ? new Date(exam.end_date)
+                        : null;
+
+                      let isOngoing = false;
+
+                      if (start && end) {
+                        isOngoing = start <= now && now <= end;
+                      } else if (!start && !end) {
+                        isOngoing = true;
+                      } else if (start && !end) {
+                        isOngoing = now >= start;
+                      } else if (!start && end) {
+                        isOngoing = now <= end;
+                      }
 
                       if (!isOngoing) {
                         return (
