@@ -13,12 +13,17 @@ export default function DetailExam() {
   const navigate = useNavigate();
   const location = useLocation();
   const [exam, setExam] = useState(null);
-  const { role: roleFromState, student_id } = location.state || {};
+
+  const { role: roleFromState, student_id: studentIdFromState } =
+    location.state || {};
+  const student_id = studentIdFromState ?? localStorage.getItem("student_id");
+
   const [role, setRole] = useState(
     roleFromState || localStorage.getItem("role")
   );
-  console.log("role", role);
-  console.log("student_id", student_id);
+
+  console.log("role:", role);
+  console.log("student_id:", student_id);
 
   useEffect(() => {
     if (student_id) {
@@ -42,11 +47,11 @@ export default function DetailExam() {
 
   const fetchExam = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
       console.log(" exam_id param:", exam_id);
       const data = await getExamById(exam_id);
       console.log(" Dữ liệu exam trả về:", data);
       setExam(data?.data || data);
+      console.log("Exam data:", data);
     } catch (error) {
       console.error(" Lỗi khi fetch exam:", error);
     }
@@ -195,8 +200,22 @@ export default function DetailExam() {
                     }}
                     component={Link}
                     to={`/exam/${exam?.exam_id}`}
+                    state={{
+                      student_id:
+                        student_id ||
+                        localStorage.getItem("student_id") ||
+                        null,
+                      exam_id: exam?.exam_id,
+                      notion_database_id:
+                        exam?.notion_database_id ?? exam?.database_id,
+                      subject_name: exam?.subject_name,
+                      exam_time: exam?.exam_time || null,
+                      start_date: exam?.start_date || null,
+                      end_date: exam?.end_date || null,
+                      questions: exam?.questions,
+                    }}
                   >
-                    Làm bài
+                    Vào thi
                   </Button>
                 </Box>
               ) : (
@@ -218,8 +237,20 @@ export default function DetailExam() {
                   }}
                   component={Link}
                   to={`/exam/${exam?.exam_id}`}
+                  state={{
+                    student_id:
+                      student_id || localStorage.getItem("student_id") || null,
+                    exam_id: exam?.exam_id,
+                    notion_database_id:
+                      exam?.notion_database_id ?? exam?.database_id,
+                    subject_name: exam?.subject_name,
+                    exam_time: exam?.exam_time || null,
+                    start_date: exam?.start_date || null,
+                    end_date: exam?.end_date || null,
+                    questions: exam?.questions,
+                  }}
                 >
-                  Làm bài
+                  Vào thi
                 </Button>
               )}
             </Box>
