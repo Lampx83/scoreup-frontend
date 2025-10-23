@@ -198,7 +198,7 @@ export default function PostExamPage() {
       try {
         const res = await getExamQuestions(examId, {
           notion_database_id: notionDbId || location.state?.notion_database_id,
-          student_id: location.state?.student_id || user?.id,
+          student_id: location.state?.student_id || user?.id || " ",
           number_questions: String(totalRequested),
           questions: requestedChapters,
         });
@@ -303,7 +303,7 @@ export default function PostExamPage() {
       );
 
       const payload = {
-        student_id: location.state?.student_id || user?.id,
+        student_id: location.state?.student_id || user?.id || " ",
         notion_database_id: notionDbId || location.state?.notion_database_id,
         number_questions: String(result.current.total),
         isSubmit: true,
