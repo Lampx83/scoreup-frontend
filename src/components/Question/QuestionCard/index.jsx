@@ -21,6 +21,38 @@ import Actions from "~/components/Question/Actions/index.jsx";
 import parse from "html-react-parser";
 import pushToast from "~/helpers/sonnerToast.js";
 import ShowHint from "~/components/Question/ShowHint/index.jsx";
+const parseOptionContent = (text) => {
+  const driveRegex = /(https:\/\/drive\.google\.com\/[^\s]+)/;
+  const match = text.match(driveRegex);
+
+  if (match) {
+    const driveURL = match[1].trim();
+    const [beforeText, afterText] = text.split(driveURL);
+
+    const m =
+      driveURL.match(/\/d\/([^/]+)/) || driveURL.match(/[?&]id=([^&]+)/);
+    const id = m ? m[1] : null;
+    const imageURL = id
+      ? `https://lh3.googleusercontent.com/d/${id}=w1000-h800`
+      : driveURL;
+
+    return {
+      beforeText: beforeText.trim(),
+      image: imageURL,
+      afterText: afterText.trim(),
+    };
+  }
+
+  return { beforeText: text, image: null, afterText: "" };
+};
+
+const getDriveImage = (rawURL) => {
+  if (!rawURL) return rawURL;
+  const m = rawURL.match(/\/d\/([^/]+)/) || rawURL.match(/[?&]id=([^&]+)/);
+  const id = m ? m[1] : null;
+  if (!id) return rawURL;
+  return `https://lh3.googleusercontent.com/d/${id}=w1000-h800`;
+};
 
 const StyledFormControlLabel = styled(
   (props) => <FormControlLabel {...props} />,
@@ -321,7 +353,7 @@ function QuestionCard({
           >
             <img
               style={{ width: "100%", borderRadius: "10px" }}
-              src={image}
+              src={getDriveImage(image)}
               alt={image}
             />
           </Box>
@@ -383,49 +415,52 @@ function QuestionCard({
                     />
                   }
                   value={option.option}
-                  label={
-                    /drive\.google\.com/.test(option.text) ? (
+                  label={(() => {
+                    const { beforeText, image, afterText } = parseOptionContent(
+                      option.text
+                    );
+                    const labelPrefix = `(${String.fromCharCode(index + 65)})`;
+
+                    return (
                       <Box
                         sx={{
                           display: "flex",
-                          alignItems: "center",
                           gap: 1,
-                          width: "100%",
                         }}
                       >
-                        <Box component="span" sx={{ fontWeight: 600, mt: 0.5 }}>
-                          ({String.fromCharCode(index + 65)})
-                        </Box>
-                        <Box sx={{ flex: 1 }}>
-                          <img
-                            src={(() => {
-                              const m1 = option.text.match(/\/d\/([^/]+)/);
-                              if (m1 && m1[1])
-                                return `https://drive.google.com/thumbnail?id=${m1[1]}`;
-                              try {
-                                const u = new URL(option.text);
-                                const id = u.searchParams.get("id");
-                                if (id)
-                                  return `https://drive.google.com/thumbnail?id=${id}`;
-                              } catch {}
-                              const m3 = option.text.match(/[?&]id=([^&]+)/);
-                              if (m3 && m3[1])
-                                return `https://drive.google.com/thumbnail?id=${m3[1]}`;
-                              return option.text;
-                            })()}
-                            alt={`Đáp án (${String.fromCharCode(index + 65)})`}
-                            style={{
-                              objectFit: "contain",
-                              borderRadius: 10,
-                              display: "inline-block",
-                            }}
-                          />
+                        <Typography component="span">{labelPrefix}</Typography>
+                        <Box>
+                          {beforeText && (
+                            <Typography
+                              component="span"
+                              sx={{ display: "inline" }}
+                            >
+                              {beforeText}
+                            </Typography>
+                          )}
+                          {image && (
+                            <img
+                              src={image}
+                              alt={`Đáp án ${labelPrefix}`}
+                              style={{
+                                objectFit: "contain",
+                                borderRadius: 10,
+                                verticalAlign: "middle",
+                              }}
+                            />
+                          )}
+                          {afterText && (
+                            <Typography
+                              component="span"
+                              sx={{ display: "inline" }}
+                            >
+                              {afterText}
+                            </Typography>
+                          )}
                         </Box>
                       </Box>
-                    ) : (
-                      `(${String.fromCharCode(index + 65)}) ${option.text}`
-                    )
-                  }
+                    );
+                  })()}
                   disableTypography
                   isCorrect={option.option === correct ? "true" : "false"}
                   showAnswer={showAnswer}
