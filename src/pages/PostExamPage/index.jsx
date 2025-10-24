@@ -29,12 +29,21 @@ import { LiaArrowLeftSolid } from "react-icons/lia";
 import { updateExamStudentSubmit } from "~/services/question.service.js";
 
 const normalizeChapterName = (name) => {
-  const m = String(name || "").match(/\d+/);
-  if (m) return `chuong_${m[0]}`;
-  return String(name || "")
+  const text = String(name || "")
+    .trim()
+    .toLowerCase();
+  const m = text.match(/\d+/);
+
+  if (m) {
+    if (text.startsWith("đề") || text.startsWith("de")) {
+      return `de_${m[0]}`;
+    } else if (text.startsWith("chương") || text.startsWith("chuong")) {
+      return `chuong_${m[0]}`;
+    }
+  }
+  return text
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
     .replace(/\s+/g, "_");
 };
 

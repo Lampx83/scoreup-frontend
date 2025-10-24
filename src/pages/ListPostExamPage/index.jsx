@@ -116,7 +116,8 @@ export default function ListPostExamPage() {
         if (!exam.start_date && !exam.end_date) return true;
 
         if (
-          Array.isArray(exam.student_list) &&
+          !Array.isArray(exam.student_list) ||
+          exam.student_list.length === 0 ||
           exam.student_list.some(
             (stu) => String(stu.student_id) === String(sid)
           )
@@ -677,7 +678,7 @@ export default function ListPostExamPage() {
                             },
                           }}
                           component={Link}
-                          to={`/exam/${exam.exam_id}`}
+                          to={`/do-exam/exam/${exam.exam_id}`}
                           state={{
                             student_id: sid,
                             exam_id: exam.exam_id,
