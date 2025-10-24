@@ -11,7 +11,10 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import cookies from "~/utils/cookies.js";
-import {postLogQuestion, updateLogQuestion} from "~/services/question.service.js";
+import {
+  postLogQuestion,
+  updateLogQuestion,
+} from "~/services/question.service.js";
 import ReportError from "~/components/ReportError/index.jsx";
 import CodeDisplay from "~/components/CodeDisplay/index.jsx";
 import Actions from "~/components/Question/Actions/index.jsx";
@@ -19,48 +22,46 @@ import parse from "html-react-parser";
 import pushToast from "~/helpers/sonnerToast.js";
 import ShowHint from "~/components/Question/ShowHint/index.jsx";
 
-const StyledFormControlLabel = styled((props) => <FormControlLabel {...props} />, {
-  shouldForwardProp: (prop) => prop !== 'isCorrect' && prop !== 'showAnswer' && prop !== 'isSubmitted',
-})(
-  ({ theme, isCorrect, checked, showAnswer, isSubmitted }) => {
-    if (showAnswer)
-      return {
-        backgroundColor: `${
-          checked
-            ? (isCorrect === 'true' ? 'rgba(57,153,24,0.78)' : '#FF7777')
-            : theme.palette.sectionBackground.primary
-        }`,
-        color: `${checked ? 'white' : theme.palette.text.secondary}`,
-        transition: "all 0.2s",
-        '& .MuiTypography-root': {
-          fontWeight: checked ? 700 : 400,
-        },
-        border: "1px solid #1A4E8DFF"
-      }
-    else if (!isSubmitted)
-      return {
-        backgroundColor: `${
-          checked
-            ? '#3DC2EC'
-            : theme.palette.sectionBackground.primary
-        }`,
-        color: `${checked ? 'white' : theme.palette.text.secondary}`,
-        transition: "all 0.2s",
-        border: "1px solid #1A4E8DFF"
-      }
-    else if (isSubmitted)
-      return {
-        backgroundColor: `${
-          isCorrect === 'true'
-            ? '#3DC2EC'
-            : '#FF7777'
-        }`,
-        color: 'white',
-        transition: "all 0.2s",
-        border: "1px solid #1A4E8DFF"
-      }
-  },
-);
+const StyledFormControlLabel = styled(
+  (props) => <FormControlLabel {...props} />,
+  {
+    shouldForwardProp: (prop) =>
+      prop !== "isCorrect" && prop !== "showAnswer" && prop !== "isSubmitted",
+  }
+)(({ theme, isCorrect, checked, showAnswer, isSubmitted }) => {
+  if (showAnswer)
+    return {
+      backgroundColor: `${
+        checked
+          ? isCorrect === "true"
+            ? "rgba(57,153,24,0.78)"
+            : "#FF7777"
+          : theme.palette.sectionBackground.primary
+      }`,
+      color: `${checked ? "white" : theme.palette.text.secondary}`,
+      transition: "all 0.2s",
+      "& .MuiTypography-root": {
+        fontWeight: checked ? 700 : 400,
+      },
+      border: "1px solid #1A4E8DFF",
+    };
+  else if (!isSubmitted)
+    return {
+      backgroundColor: `${
+        checked ? "#3DC2EC" : theme.palette.sectionBackground.primary
+      }`,
+      color: `${checked ? "white" : theme.palette.text.secondary}`,
+      transition: "all 0.2s",
+      border: "1px solid #1A4E8DFF",
+    };
+  else if (isSubmitted)
+    return {
+      backgroundColor: `${isCorrect === "true" ? "#3DC2EC" : "#FF7777"}`,
+      color: "white",
+      transition: "all 0.2s",
+      border: "1px solid #1A4E8DFF",
+    };
+});
 
 function Option(props) {
   const radioGroup = useRadioGroup();
@@ -73,9 +74,9 @@ function Option(props) {
     //   checked = props.value === radioGroup.value;
     // }
     if (radioGroup && radioGroup.value && isSubmitted) {
-      checked = (props.isCorrect === 'true') || radioGroup.value === props.value;
+      checked = props.isCorrect === "true" || radioGroup.value === props.value;
     } else {
-      checked = radioGroup && (radioGroup.value === props.value);
+      checked = radioGroup && radioGroup.value === props.value;
     }
   } else {
     if (radioGroup && radioGroup.value) {
@@ -84,25 +85,44 @@ function Option(props) {
   }
 
   useEffect(() => {
-    let questionPaletteItem = document.getElementById(`question-palette-${radioGroup.name}`);
+    let questionPaletteItem = document.getElementById(
+      `question-palette-${radioGroup.name}`
+    );
     if (questionPaletteItem) {
       if (showAnswer) {
-        if (props.value === radioGroup.value && props.isCorrect === 'true') {
-          document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = 'rgba(57,153,24,0.78)';
+        if (props.value === radioGroup.value && props.isCorrect === "true") {
+          document.getElementById(
+            `question-palette-${radioGroup.name}`
+          ).style.backgroundColor = "rgba(57,153,24,0.78)";
         } else if (checked) {
-          document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
+          document.getElementById(
+            `question-palette-${radioGroup.name}`
+          ).style.backgroundColor = "#FF7777";
         } else if (!radioGroup.value && isSubmitted) {
-          document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#FF7777';
+          document.getElementById(
+            `question-palette-${radioGroup.name}`
+          ).style.backgroundColor = "#FF7777";
         }
       } else {
         if (checked) {
-          document.getElementById(`question-palette-${radioGroup.name}`).style.backgroundColor = '#3DC2EC';
+          document.getElementById(
+            `question-palette-${radioGroup.name}`
+          ).style.backgroundColor = "#3DC2EC";
         }
       }
     }
   }, [checked, isSubmitted, showAnswer]);
 
-  return <StyledFormControlLabel disabled={((!!radioGroup.value && !checked) || (isSubmitted && !checked)) && showAnswer} checked={checked} {...props} />;
+  return (
+    <StyledFormControlLabel
+      disabled={
+        ((!!radioGroup.value && !checked) || (isSubmitted && !checked)) &&
+        showAnswer
+      }
+      checked={checked}
+      {...props}
+    />
+  );
 }
 
 function QuestionCard({
@@ -136,14 +156,9 @@ function QuestionCard({
 
   const handleSelectOption = (e) => {
     setSelectedOption(e.target.value);
-  }
+  };
 
-  const handleSendLog = ({
-    exercise_id,
-    score,
-    user_ans,
-    correct_ans,
-  }) => {
+  const handleSendLog = ({ exercise_id, score, user_ans, correct_ans }) => {
     const time_cost = new Date().getTime() - startTime;
     startTime = null;
     setAnswered(true);
@@ -153,7 +168,7 @@ function QuestionCard({
       user_ans: user_ans,
       correct_ans: correct_ans,
       score: score,
-      index: parseInt(index)
+      index: parseInt(index),
     });
 
     postLogQuestion({
@@ -165,18 +180,18 @@ function QuestionCard({
       isRecommended: isRecommended,
       bookmarked: bookmarked,
       mastered: mastered,
-      indexRcm: indexRcm
-    })
-  }
+      indexRcm: indexRcm,
+    });
+  };
 
   const handleHoverQuestionCard = (e) => {
     if (startTime) return;
     startTime = new Date().getTime();
-  }
+  };
 
   const handleLeaveQuestionCard = (e) => {
     startTime = null;
-  }
+  };
 
   useEffect(() => {
     setSelectedOption("");
@@ -187,34 +202,43 @@ function QuestionCard({
     try {
       const res = await updateLogQuestion({
         exercise_id: id,
-        mastered: mastered === 0 ? 1 : 0
+        mastered: mastered === 0 ? 1 : 0,
       });
       if (mastered === 1) {
         pushToast("Câu hỏi này sẽ hiển thị lại trong tương lai.", "info");
       } else {
-        pushToast("Chúng tôi sẽ hạn chế hiển thị câu hỏi này trong tương lai!", "success");
+        pushToast(
+          "Chúng tôi sẽ hạn chế hiển thị câu hỏi này trong tương lai!",
+          "success"
+        );
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const onToggleBookmarked = async () => {
     setBookmarked(bookmarked === 0 ? 1 : 0);
     try {
       const res = await updateLogQuestion({
         exercise_id: id,
-        bookmarked: bookmarked === 0 ? 1 : 0
+        bookmarked: bookmarked === 0 ? 1 : 0,
       });
       if (bookmarked === 1) {
-        pushToast("Câu hỏi này sẽ không được ưu tiên trong đề xuất nữa.", "info");
+        pushToast(
+          "Câu hỏi này sẽ không được ưu tiên trong đề xuất nữa.",
+          "info"
+        );
       } else {
-        pushToast("Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!", "warning");
+        pushToast(
+          "Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!",
+          "warning"
+        );
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <Box
@@ -230,11 +254,17 @@ function QuestionCard({
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: 'center'
+          alignItems: "center",
         }}
       >
-        <Typography variant={"body1"} fontWeight={700} sx={{whiteSpace: 'pre-wrap'}}>
-          {parse(`${(!!index || !!indexRcm) ? `Câu ${index || indexRcm}` : `Câu hỏi`}: ${question}`)}
+        <Typography
+          variant={"body1"}
+          fontWeight={700}
+          sx={{ whiteSpace: "pre-wrap" }}
+        >
+          {parse(
+            `${!!index || !!indexRcm ? `Câu ${index || indexRcm}` : `Câu hỏi`}: ${question}`
+          )}
         </Typography>
         <Box
           sx={{
@@ -254,10 +284,9 @@ function QuestionCard({
               audio: audio,
             }}
           />
-          {hint && <ShowHint
-            hint={hint}
-            showHint={isSubmitted && showAnswer}
-          />}
+          {hint && (
+            <ShowHint hint={hint} showHint={isSubmitted && showAnswer} />
+          )}
         </Box>
       </Box>
       <Box
@@ -266,7 +295,7 @@ function QuestionCard({
           marginY: 3,
           display: "flex",
           gap: 2,
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         {code && (
@@ -275,10 +304,10 @@ function QuestionCard({
               width: "50%",
               display: "flex",
               flexDirection: "column",
-              gap: 1
+              gap: 1,
             }}
           >
-            <CodeDisplay code={code}/>
+            <CodeDisplay code={code} />
           </Box>
         )}
         {image && (
@@ -290,12 +319,16 @@ function QuestionCard({
               gap: 1,
             }}
           >
-            <img style={{width: "100%", borderRadius: "10px"}} src={image} alt={image}/>
+            <img
+              style={{ width: "100%", borderRadius: "10px" }}
+              src={image}
+              alt={image}
+            />
           </Box>
         )}
         <Box
           sx={{
-            width: (code || image) ? "50%" : "100%",
+            width: code || image ? "50%" : "100%",
           }}
         >
           {audio && (
@@ -303,20 +336,26 @@ function QuestionCard({
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                marginBottom: 2
+                marginBottom: 2,
               }}
             >
-              <audio controls controlsList="nodownload" autoPlay={false} onSeeked={() => null} src={audio}>
+              <audio
+                controls
+                controlsList="nodownload"
+                autoPlay={false}
+                onSeeked={() => null}
+                src={audio}
+              >
                 Your browser does not support the audio element.
               </audio>
             </Box>
           )}
           <FormControl
             sx={{
-              display: "flex", 
+              display: "flex",
               flexDirection: "column",
               gap: 1,
-              width: "100%"
+              width: "100%",
             }}
             id={`question-${id}`}
           >
@@ -328,19 +367,67 @@ function QuestionCard({
               {options.map((option, index) => (
                 <Option
                   key={index}
-                  control={<Radio onChange={() => {
-                    handleSendLog({
-                      exercise_id: id,
-                      score: option.option === correct ? 1 : 0,
-                      time_cost: 0,
-                      correct_ans: [correct],
-                      user_ans: [option.option]
-                    })
-                    if (showAnswer && isRecommended) handleIncreaseDoneCount(id);
-                  }}/>}
+                  control={
+                    <Radio
+                      onChange={() => {
+                        handleSendLog({
+                          exercise_id: id,
+                          score: option.option === correct ? 1 : 0,
+                          time_cost: 0,
+                          correct_ans: [correct],
+                          user_ans: [option.option],
+                        });
+                        if (showAnswer && isRecommended)
+                          handleIncreaseDoneCount(id);
+                      }}
+                    />
+                  }
                   value={option.option}
-                  label={`(${String.fromCharCode(index + 'A'.charCodeAt(0))}) ${option.text}`}
-                  isCorrect={option.option === correct ? 'true' : 'false'}
+                  label={
+                    /drive\.google\.com/.test(option.text) ? (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          width: "100%",
+                        }}
+                      >
+                        <Box component="span" sx={{ fontWeight: 600, mt: 0.5 }}>
+                          ({String.fromCharCode(index + 65)})
+                        </Box>
+                        <Box sx={{ flex: 1 }}>
+                          <img
+                            src={(() => {
+                              const m1 = option.text.match(/\/d\/([^/]+)/);
+                              if (m1 && m1[1])
+                                return `https://drive.google.com/thumbnail?id=${m1[1]}`;
+                              try {
+                                const u = new URL(option.text);
+                                const id = u.searchParams.get("id");
+                                if (id)
+                                  return `https://drive.google.com/thumbnail?id=${id}`;
+                              } catch {}
+                              const m3 = option.text.match(/[?&]id=([^&]+)/);
+                              if (m3 && m3[1])
+                                return `https://drive.google.com/thumbnail?id=${m3[1]}`;
+                              return option.text;
+                            })()}
+                            alt={`Đáp án (${String.fromCharCode(index + 65)})`}
+                            style={{
+                              objectFit: "contain",
+                              borderRadius: 10,
+                              display: "inline-block",
+                            }}
+                          />
+                        </Box>
+                      </Box>
+                    ) : (
+                      `(${String.fromCharCode(index + 65)}) ${option.text}`
+                    )
+                  }
+                  disableTypography
+                  isCorrect={option.option === correct ? "true" : "false"}
                   showAnswer={showAnswer}
                   isSubmitted={isSubmitted}
                   sx={{
@@ -355,11 +442,11 @@ function QuestionCard({
                     paddingY: 1,
                     marginX: 0,
                     marginY: 1,
-                    '& .MuiButtonBase-root': {
-                      display: "none"
+                    "& .MuiButtonBase-root": {
+                      display: "none",
                     },
-                    '&.Mui-checked': {
-                      backgroundColor: 'black'
+                    "&.Mui-checked": {
+                      backgroundColor: "black",
                     },
                   }}
                 />
@@ -368,10 +455,18 @@ function QuestionCard({
           </FormControl>
         </Box>
       </Box>
-      {showActions && <Actions id={id} totalComments={totalComments} setBookmarked={onToggleBookmarked} setMastered={onToggleMastered}
-                bookmarked={bookmarked} mastered={mastered}/>}
+      {showActions && (
+        <Actions
+          id={id}
+          totalComments={totalComments}
+          setBookmarked={onToggleBookmarked}
+          setMastered={onToggleMastered}
+          bookmarked={bookmarked}
+          mastered={mastered}
+        />
+      )}
     </Box>
-  )
+  );
 }
 
 export default QuestionCard;
