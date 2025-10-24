@@ -111,7 +111,9 @@ export default function ContentExam({
                 />
               </ListItemIcon>
               <ListItemText
-                primary={item.chapter.replace(/^chuong_/, "Chương ")}
+                primary={item.chapter
+                  .replace(/^chuong_/, "Chương ")
+                  .replace(/^de_/, "Đề ")}
                 sx={{ flex: 1 }}
               />
               <TextField

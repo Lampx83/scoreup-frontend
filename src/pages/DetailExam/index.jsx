@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getExamById } from "~/services/exam.service";
 import moment from "moment";
 import { Link, useLocation } from "react-router-dom";
+import Loading from "~/components/Loading";
 
 export default function DetailExam() {
   const { exam_id } = useParams();
@@ -13,6 +14,7 @@ export default function DetailExam() {
   const navigate = useNavigate();
   const location = useLocation();
   const [exam, setExam] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { role: roleFromState, student_id: studentIdFromState } =
     location.state || {};
@@ -47,6 +49,7 @@ export default function DetailExam() {
 
   const fetchExam = async () => {
     try {
+      setLoading(true);
       console.log(" exam_id param:", exam_id);
       const data = await getExamById(exam_id);
       console.log(" Dữ liệu exam trả về:", data);
@@ -54,6 +57,8 @@ export default function DetailExam() {
       console.log("Exam data:", data);
     } catch (error) {
       console.error(" Lỗi khi fetch exam:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,196 +72,236 @@ export default function DetailExam() {
         sum + (q.chapters?.reduce((s, c) => s + (c.numbers || 0), 0) || 0),
       0
     ) || 0;
+  const sid = student_id || localStorage.getItem("student_id") || null;
+
+  const hasStudentSubmitted = (exam, sid) => {
+    const entry = Array.isArray(exam?.student_list)
+      ? exam.student_list.find((s) => String(s.student_id) === String(sid))
+      : null;
+    const v = entry?.isSubmit;
+    return v === true || v === "true";
+  };
 
   return (
-    <Box
-      sx={{
-        p: 4,
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-        backgroundColor: "#fffdf7",
-      }}
-    >
-      {/* Header */}
-      <Box display="flex" alignItems="center" gap={1} mb={3}>
-        <ChevronLeftIcon
-          sx={{ cursor: "pointer", fontSize: 30 }}
-          onClick={() => navigate(-1)}
-        />
-        <Typography variant="h5" fontWeight="600">
-          {exam?.exam_name || "Tên ca thi"}
-        </Typography>
-
-        <Box sx={{ ml: "auto", display: "flex", alignItems: "center", gap: 1 }}>
-          <AccessTimeIcon sx={{ color: "#666" }} />
-          <Typography color="text.secondary">
-            {moment().format("HH:mm DD/MM/YYYY")}
-          </Typography>
-        </Box>
-      </Box>
-
-      {/* Card */}
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        flexGrow={1}
-      >
-        <Card
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Box
           sx={{
-            width: 400,
-            borderRadius: 3,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            p: 4,
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+            backgroundColor: "#fffdf7",
           }}
         >
-          <CardContent sx={{ py: 4, px: 5 }}>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              sx={{ mb: 2, color: "#000", textAlign: "center" }}
-            >
-              Thông tin ca thi
+          {/* Header */}
+          <Box display="flex" alignItems="center" gap={1} mb={3}>
+            <ChevronLeftIcon
+              sx={{ cursor: "pointer", fontSize: 30 }}
+              onClick={() => navigate(-1)}
+            />
+            <Typography variant="h5" fontWeight="600">
+              {exam?.exam_name || "Tên ca thi"}
             </Typography>
 
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.8 }}>
-              <Typography>
-                <strong>Môn thi:</strong>{" "}
-                {exam?.subject_name || "Cơ sở lập trình"}
-              </Typography>
-              <Typography>
-                <strong>Thời gian làm bài:</strong> {exam?.exam_time || 60} phút
-              </Typography>
-              <Typography>
-                <strong>Số câu:</strong> {totalQuestions || 30} câu
-              </Typography>
-              <Typography>
-                <strong>Thời gian bắt đầu:</strong>{" "}
-                {exam?.start_date
-                  ? moment(exam.start_date).format("HH:mm DD/MM/YYYY")
-                  : ""}
-              </Typography>
-              <Typography>
-                <strong>Thời gian kết thúc:</strong>{" "}
-                {exam?.end_date
-                  ? moment(exam.end_date).format("HH:mm DD/MM/YYYY")
-                  : ""}
-              </Typography>
-              <Typography>
-                <strong>Tổng số lượt làm bài:</strong> {exam?.result || 0}
+            <Box
+              sx={{ ml: "auto", display: "flex", alignItems: "center", gap: 1 }}
+            >
+              <AccessTimeIcon sx={{ color: "#666" }} />
+              <Typography color="text.secondary">
+                {moment().format("HH:mm DD/MM/YYYY")}
               </Typography>
             </Box>
+          </Box>
 
-            <Box textAlign="center">
-              {role ? (
+          {/* Card */}
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexGrow={1}
+          >
+            <Card
+              sx={{
+                width: 400,
+                borderRadius: 3,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+              }}
+            >
+              <CardContent sx={{ py: 4, px: 5 }}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  sx={{ mb: 2, color: "#000", textAlign: "center" }}
+                >
+                  Thông tin ca thi
+                </Typography>
+
                 <Box
-                  textAlign="center"
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    fontWeight: "600",
-                    gap: 2,
-                    minWidth: "auto",
-                  }}
+                  sx={{ display: "flex", flexDirection: "column", gap: 0.8 }}
                 >
-                  <Button
-                    variant="contained"
-                    sx={{
-                      mt: 4,
-                      backgroundColor: "#C14E4E",
-                      color: "#fff",
-                      borderRadius: "25px",
-                      textTransform: "none",
-                      px: 6,
-                      py: 1.2,
-                      fontWeight: "600",
-                      whiteSpace: "nowrap",
-                      minWidth: "auto",
-                      ":hover": {
-                        backgroundColor: "#a53f3f",
-                        boxShadow: "0 0 8px rgba(193,78,78,0.5)",
-                      },
-                    }}
-                  >
-                    Giám sát
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      mt: 4,
-                      backgroundColor: "#c14e4e",
-                      color: "#fff",
-                      borderRadius: "25px",
-                      textTransform: "none",
-                      px: 6,
-                      py: 1.2,
-                      fontWeight: "600",
-                      whiteSpace: "nowrap",
-                      minWidth: "auto",
-                      ":hover": {
-                        backgroundColor: "#a53f3f",
-                        boxShadow: "0 0 8px rgba(193,78,78,0.5)",
-                      },
-                    }}
-                    component={Link}
-                    to={`/exam/${exam?.exam_id}`}
-                    state={{
-                      student_id:
-                        student_id ||
-                        localStorage.getItem("student_id") ||
-                        null,
-                      exam_id: exam?.exam_id,
-                      notion_database_id:
-                        exam?.notion_database_id ?? exam?.database_id,
-                      subject_name: exam?.subject_name,
-                      exam_time: exam?.exam_time || null,
-                      start_date: exam?.start_date || null,
-                      end_date: exam?.end_date || null,
-                      questions: exam?.questions,
-                    }}
-                  >
-                    Vào thi
-                  </Button>
+                  <Typography>
+                    <strong>Môn thi:</strong>{" "}
+                    {exam?.subject_name || "Cơ sở lập trình"}
+                  </Typography>
+                  <Typography>
+                    <strong>Thời gian làm bài:</strong> {exam?.exam_time || 60}{" "}
+                    phút
+                  </Typography>
+                  <Typography>
+                    <strong>Số câu:</strong> {totalQuestions || 30} câu
+                  </Typography>
+                  <Typography>
+                    <strong>Thời gian bắt đầu:</strong>{" "}
+                    {exam?.start_date
+                      ? moment(exam.start_date).format("HH:mm DD/MM/YYYY")
+                      : ""}
+                  </Typography>
+                  <Typography>
+                    <strong>Thời gian kết thúc:</strong>{" "}
+                    {exam?.end_date
+                      ? moment(exam.end_date).format("HH:mm DD/MM/YYYY")
+                      : ""}
+                  </Typography>
+                  <Typography>
+                    <strong>Tổng số lượt làm bài:</strong> {exam?.result || 0}
+                  </Typography>
                 </Box>
-              ) : (
-                <Button
-                  variant="contained"
-                  sx={{
-                    mt: 4,
-                    backgroundColor: "#a53f3f",
-                    color: "#fff",
-                    borderRadius: "25px",
-                    textTransform: "none",
-                    px: 6,
-                    py: 1.2,
-                    fontWeight: "600",
-                    ":hover": {
-                      backgroundColor: "#a53f3f",
-                      boxShadow: "0 0 8px rgba(193,78,78,0.5)",
-                    },
-                  }}
-                  component={Link}
-                  to={`/exam/${exam?.exam_id}`}
-                  state={{
-                    student_id:
-                      student_id || localStorage.getItem("student_id") || null,
-                    exam_id: exam?.exam_id,
-                    notion_database_id:
-                      exam?.notion_database_id ?? exam?.database_id,
-                    subject_name: exam?.subject_name,
-                    exam_time: exam?.exam_time || null,
-                    start_date: exam?.start_date || null,
-                    end_date: exam?.end_date || null,
-                    questions: exam?.questions,
-                  }}
-                >
-                  Vào thi
-                </Button>
-              )}
-            </Box>
-          </CardContent>
-        </Card>
-      </Box>
-    </Box>
+
+                <Box textAlign="center">
+                  {(() => {
+                    const now = new Date();
+                    const start = exam?.start_date
+                      ? new Date(exam.start_date)
+                      : null;
+                    const end = exam?.end_date ? new Date(exam.end_date) : null;
+
+                    let isOngoing = false;
+                    if (start && end) {
+                      isOngoing = start <= now && now <= end;
+                    } else if (!start && !end) {
+                      isOngoing = true;
+                    } else if (start && !end) {
+                      isOngoing = now >= start;
+                    } else if (!start && end) {
+                      isOngoing = now <= end;
+                    }
+
+                    if (start && now < start) {
+                      return (
+                        <Button size="small" disabled sx={{ mt: 4 }}>
+                          Chưa đến thời gian làm bài
+                        </Button>
+                      );
+                    }
+                    if (end && now > end) {
+                      return (
+                        <Button size="small" disabled sx={{ mt: 4 }}>
+                          Đã hết thời gian làm bài
+                        </Button>
+                      );
+                    }
+                    if (hasStudentSubmitted(exam, sid)) {
+                      return (
+                        <Button
+                          size="small"
+                          sx={{
+                            mt: 4,
+                            backgroundColor: "#9095A0FF",
+                            borderRadius: 5,
+                            color: "white",
+                            paddingX: 2,
+                            whiteSpace: "nowrap",
+                            ":hover": {
+                              backgroundColor: "rgba(144,149,160,0.8)",
+                              boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
+                            },
+                          }}
+                          component={Link}
+                          to={`/user/history/${exam?.exam_id}`}
+                        >
+                          Xem chi tiết
+                        </Button>
+                      );
+                    }
+                    if (isOngoing) {
+                      return (
+                        <Box
+                          textAlign="center"
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: 2,
+                            mt: 4,
+                          }}
+                        >
+                          {role && (
+                            <Button
+                              variant="contained"
+                              sx={{
+                                backgroundColor: "#C14E4E",
+                                color: "#fff",
+                                borderRadius: "25px",
+                                textTransform: "none",
+                                px: 6,
+                                py: 1.2,
+                                fontWeight: "600",
+                                whiteSpace: "nowrap",
+                                ":hover": {
+                                  backgroundColor: "#a53f3f",
+                                  boxShadow: "0 0 8px rgba(193,78,78,0.5)",
+                                },
+                              }}
+                            >
+                              Giám sát
+                            </Button>
+                          )}
+                          <Button
+                            variant="contained"
+                            sx={{
+                              backgroundColor: "#C14E4E",
+                              color: "#fff",
+                              borderRadius: "25px",
+                              textTransform: "none",
+                              px: 6,
+                              py: 1.2,
+                              fontWeight: "600",
+                              whiteSpace: "nowrap",
+                              ":hover": {
+                                backgroundColor: "#a53f3f",
+                                boxShadow: "0 0 8px rgba(193,78,78,0.5)",
+                              },
+                            }}
+                            component={Link}
+                            to={`/do-exam/exam/${exam?.exam_id}`}
+                            state={{
+                              student_id: sid,
+                              exam_id: exam?.exam_id,
+                              notion_database_id:
+                                exam?.notion_database_id ?? exam?.database_id,
+                              subject_name: exam?.subject_name,
+                              exam_time: exam?.exam_time || null,
+                              start_date: exam?.start_date || null,
+                              end_date: exam?.end_date || null,
+                              questions: exam?.questions,
+                            }}
+                          >
+                            Vào thi
+                          </Button>
+                        </Box>
+                      );
+                    }
+
+                    return null;
+                  })()}
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+        </Box>
+      )}
+    </>
   );
 }

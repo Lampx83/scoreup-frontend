@@ -113,11 +113,15 @@ export const routes = [
             element: <PostTestPage />,
           },
           {
+            path: "/exam/:exam_id",
+            element: <DetailExam />,
+          },
+          {
             path: "/exam",
             element: <ListPostExamPage />,
           },
           {
-            path: "/exam/:notionDatabaseId",
+            path: "/do-exam/exam/:notionDatabaseId",
             element: <PostExamPage />,
           },
           {
@@ -142,10 +146,6 @@ export const routes = [
           },
           {
             path: "/detail-exam/:exam_id",
-            element: <DetailExam />,
-          },
-          {
-            path: "/exam/:exam_id",
             element: <DetailExam />,
           },
         ],
