@@ -166,7 +166,12 @@ export default function DetailExam() {
                       : ""}
                   </Typography>
                   <Typography>
-                    <strong>Tổng số lượt làm bài:</strong> {exam?.result || 0}
+                    <strong>Tổng số lượt làm bài:</strong>{" "}
+                    {Array.isArray(exam?.student_list)
+                      ? exam.student_list.filter(
+                          (s) => s.isSubmit === true || s.isSubmit === "true"
+                        ).length
+                      : 0}
                   </Typography>
                 </Box>
 
