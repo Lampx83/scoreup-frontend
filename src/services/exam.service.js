@@ -127,3 +127,18 @@ export const updateExam = async (examId, data) => {
     throw error;
   }
 };
+export const getSubmitExam = async (exam_id) => {
+  try {
+    // Lấy token từ cookies
+    const token = Cookies.get("token");
+    const res = await axios.get(`/questions/submit/${exam_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res?.data;
+  } catch (error) {
+    console.error("Lỗi khi lấy dữ liệu bài thi:", error);
+    throw error;
+  }
+};

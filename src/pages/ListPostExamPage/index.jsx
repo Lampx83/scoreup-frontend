@@ -603,7 +603,7 @@ export default function ListPostExamPage() {
                             },
                           }}
                           component={Link}
-                          to={`/admin/history/${exam.exam_id}`}
+                          to={`/result-exam/${exam.exam_id}`}
                         >
                           Xem chi tiết
                         </Button>

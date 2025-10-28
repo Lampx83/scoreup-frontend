@@ -148,6 +148,10 @@ export const routes = [
             path: "/detail-exam/:exam_id",
             element: <DetailExam />,
           },
+          {
+            path: "/result-exam/:exam_id",
+            element: <ResultAdminExamPage />,
+          },
         ],
       },
     ],
