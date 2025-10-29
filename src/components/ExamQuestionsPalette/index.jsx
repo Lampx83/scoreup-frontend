@@ -18,10 +18,10 @@ function ExamQuestionsPalette({
   result = null,
   countFrom = null,
   isTest = false,
+  open,
 }) {
   let count = 0;
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
   const listRef = useRef(null);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
@@ -129,11 +129,28 @@ function ExamQuestionsPalette({
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        transition: (theme) =>
+          theme.transitions.create(["width", "margin"], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+        ...(open
+          ? {
+              width: 240,
+              "& .MuiTypography-root": { display: "block" },
+              "& .question-palette__list": {
+                gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+              },
+            }
+          : {}),
+      }}
+    >
       <Box
         sx={{
           minHeight: 48,
-          display: "flex",
+          display: open ? "flex" : "none",
           alignItems: "center",
           px: 2.5,
         }}
@@ -184,8 +201,15 @@ function ExamQuestionsPalette({
           onScroll={updateScrollButtons}
           sx={{
             width: "100%",
-            maxHeight: 240,
+            maxHeight: open ? 240 : 120,
             overflowY: "auto",
+            ...(!open && {
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+              scrollbarWidth: "none", // Firefox
+              msOverflowStyle: "none", // IE and Edge
+            }),
           }}
         >
           {questionFlat.map((element, index) => {
@@ -214,7 +238,9 @@ function ExamQuestionsPalette({
                     "::-webkit-scrollbar-thumb": {
                       background: "white",
                     },
-                    gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+                    gridTemplateColumns: open
+                      ? "repeat(5, minmax(0, 1fr))"
+                      : "repeat(1, minmax(0, 1fr))",
                     justifyItems: "center",
                     alignItems: "center",
                   }}
@@ -268,19 +294,21 @@ function ExamQuestionsPalette({
           justifyContent: "center",
           width: "100%",
           marginTop: 2,
-          flexBasis: "100%",
-          paddingX: 2,
+          paddingX: open ? 2 : 1,
           gap: 2,
         }}
       >
         <Button
           variant={"contained"}
           sx={{
+            fontSize: open ? "16px" : "14px",
             backgroundColor: "#1A4E8DFF",
-            paddingX: 3,
+            paddingX: open ? 3 : 2,
             paddingY: 1,
             borderRadius: 3,
             color: "white",
+            width: open ? "auto" : "40px", // Thêm responsive width cho button
+            minWidth: open ? "auto" : "40px",
             ":hover": {
               backgroundColor: "rgba(26,78,141,0.8)",
               boxShadow: "0 0 10px 0 rgba(26,78,141,0.5)",
@@ -288,10 +316,10 @@ function ExamQuestionsPalette({
           }}
           onClick={handleSubmit}
         >
-          {isTest ? "Nộp bài" : "Xem kết quả"}
+          {open ? (isTest ? "Nộp bài" : "Xem kết quả") : "Nộp"}
         </Button>
       </Box>
-    </>
+    </Box>
   );
 }
 
