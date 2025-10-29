@@ -374,6 +374,7 @@ export default function SideBarUser() {
                 result={palette.result}
                 countFrom={palette.countFrom}
                 isTest={palette.isTest}
+                open={open}
               />
             </>
           )}
