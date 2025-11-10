@@ -81,6 +81,177 @@ export default function DetailExam() {
     const v = entry?.isSubmit;
     return v === true || v === "true";
   };
+  const renderButtons = () => {
+    const now = new Date();
+    const start = exam?.start_date ? new Date(exam.start_date) : null;
+    const end = exam?.end_date ? new Date(exam.end_date) : null;
+
+    let isOngoing = false;
+    if (start && end) isOngoing = start <= now && now <= end;
+    else if (!start && !end) isOngoing = true;
+    else if (start && !end) isOngoing = now >= start;
+    else if (!start && end) isOngoing = now <= end;
+
+    // Chưa đến giờ
+    if (start && now < start) {
+      return (
+        <Button size="small" disabled sx={{ mt: 4 }}>
+          Chưa đến thời gian làm bài
+        </Button>
+      );
+    }
+
+    // Ca thi kết thúc
+    if (end && now > end) {
+      return (
+        <Button
+          size="small"
+          sx={{
+            mt: 4,
+            backgroundColor: "#9095A0FF",
+            borderRadius: 5,
+            color: "white",
+            ":hover": { backgroundColor: "rgba(144,149,160,0.8)" },
+          }}
+          component={Link}
+          to={
+            role
+              ? `/result-exam/${exam?.exam_id}`
+              : `/user/history/${exam?.exam_id}`
+          }
+        >
+          Xem chi tiết
+        </Button>
+      );
+    }
+
+    // Nếu là giảng viên đang ongoing
+    if (role) {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 2, // khoảng cách giữa các nút
+            mt: 4,
+          }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#C14E4E",
+              color: "#fff",
+              borderRadius: 25,
+              px: 4,
+              py: 1.2,
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+              ":hover": { backgroundColor: "#a53f3f" },
+            }}
+          >
+            Giám sát
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#C14E4E",
+              color: "#fff",
+              borderRadius: 25,
+              px: 4,
+              py: 1.2,
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+              ":hover": { backgroundColor: "#a53f3f" },
+            }}
+            component={Link}
+            to={`/do-exam/exam/${exam?.exam_id}`}
+            state={{
+              student_id: sid,
+              exam_id: exam?.exam_id,
+              notion_database_id: exam?.notion_database_id ?? exam?.database_id,
+              subject_name: exam?.subject_name,
+              exam_time: exam?.exam_time,
+              start_date: exam?.start_date,
+              end_date: exam?.end_date,
+              questions: exam?.questions,
+            }}
+          >
+            Vào thi
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#9095A0FF",
+              color: "#fff",
+              borderRadius: 25,
+              px: 4,
+              py: 1.2,
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+              ":hover": { backgroundColor: "rgba(144,149,160,0.8)" },
+            }}
+            component={Link}
+            to={`/result-exam/${exam?.exam_id}`}
+          >
+            Xem chi tiết
+          </Button>
+        </Box>
+      );
+    }
+
+    // Sinh viên đang diễn ra và chưa nộp
+    if (isOngoing) {
+      return (
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "#C14E4E",
+            color: "#fff",
+            borderRadius: 25,
+            px: 4,
+            py: 1.2,
+            ":hover": { backgroundColor: "#a53f3f" },
+          }}
+          component={Link}
+          to={`/do-exam/exam/${exam?.exam_id}`}
+          state={{
+            student_id: sid,
+            exam_id: exam?.exam_id,
+            notion_database_id: exam?.notion_database_id ?? exam?.database_id,
+            subject_name: exam?.subject_name,
+            exam_time: exam?.exam_time,
+            start_date: exam?.start_date,
+            end_date: exam?.end_date,
+            questions: exam?.questions,
+          }}
+        >
+          Vào thi
+        </Button>
+      );
+    }
+
+    // Sinh viên đã nộp trước giờ kết thúc
+    if (hasStudentSubmitted(exam, sid)) {
+      return (
+        <Button
+          size="small"
+          sx={{
+            mt: 4,
+            backgroundColor: "#9095A0FF",
+            borderRadius: 5,
+            color: "white",
+            ":hover": { backgroundColor: "rgba(144,149,160,0.8)" },
+          }}
+          component={Link}
+          to={`/user/history/${exam?.exam_id}`}
+        >
+          Xem chi tiết
+        </Button>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <>
@@ -169,139 +340,15 @@ export default function DetailExam() {
                     <strong>Tổng số lượt làm bài:</strong>{" "}
                     {Array.isArray(exam?.student_list)
                       ? exam.student_list.filter(
-                          (s) => s.isSubmit === true || s.isSubmit === "true"
+                          (s) =>
+                            s.isSubmit &&
+                            String(s.isSubmit).toLowerCase() === "true"
                         ).length
                       : 0}
                   </Typography>
                 </Box>
 
-                <Box textAlign="center">
-                  {(() => {
-                    const now = new Date();
-                    const start = exam?.start_date
-                      ? new Date(exam.start_date)
-                      : null;
-                    const end = exam?.end_date ? new Date(exam.end_date) : null;
-
-                    let isOngoing = false;
-                    if (start && end) {
-                      isOngoing = start <= now && now <= end;
-                    } else if (!start && !end) {
-                      isOngoing = true;
-                    } else if (start && !end) {
-                      isOngoing = now >= start;
-                    } else if (!start && end) {
-                      isOngoing = now <= end;
-                    }
-
-                    if (start && now < start) {
-                      return (
-                        <Button size="small" disabled sx={{ mt: 4 }}>
-                          Chưa đến thời gian làm bài
-                        </Button>
-                      );
-                    }
-                    if (end && now > end) {
-                      return (
-                        <Button size="small" disabled sx={{ mt: 4 }}>
-                          Đã hết thời gian làm bài
-                        </Button>
-                      );
-                    }
-                    if (hasStudentSubmitted(exam, sid)) {
-                      return (
-                        <Button
-                          size="small"
-                          sx={{
-                            mt: 4,
-                            backgroundColor: "#9095A0FF",
-                            borderRadius: 5,
-                            color: "white",
-                            paddingX: 2,
-                            whiteSpace: "nowrap",
-                            ":hover": {
-                              backgroundColor: "rgba(144,149,160,0.8)",
-                              boxShadow: "0 0 10px 0 rgba(144,149,160,0.5)",
-                            },
-                          }}
-                          component={Link}
-                          to={`/user/history/${exam?.exam_id}`}
-                        >
-                          Xem chi tiết
-                        </Button>
-                      );
-                    }
-                    if (isOngoing) {
-                      return (
-                        <Box
-                          textAlign="center"
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: 2,
-                            mt: 4,
-                          }}
-                        >
-                          {role && (
-                            <Button
-                              variant="contained"
-                              sx={{
-                                backgroundColor: "#C14E4E",
-                                color: "#fff",
-                                borderRadius: "25px",
-                                textTransform: "none",
-                                px: 6,
-                                py: 1.2,
-                                fontWeight: "600",
-                                whiteSpace: "nowrap",
-                                ":hover": {
-                                  backgroundColor: "#a53f3f",
-                                  boxShadow: "0 0 8px rgba(193,78,78,0.5)",
-                                },
-                              }}
-                            >
-                              Giám sát
-                            </Button>
-                          )}
-                          <Button
-                            variant="contained"
-                            sx={{
-                              backgroundColor: "#C14E4E",
-                              color: "#fff",
-                              borderRadius: "25px",
-                              textTransform: "none",
-                              px: 6,
-                              py: 1.2,
-                              fontWeight: "600",
-                              whiteSpace: "nowrap",
-                              ":hover": {
-                                backgroundColor: "#a53f3f",
-                                boxShadow: "0 0 8px rgba(193,78,78,0.5)",
-                              },
-                            }}
-                            component={Link}
-                            to={`/do-exam/exam/${exam?.exam_id}`}
-                            state={{
-                              student_id: sid,
-                              exam_id: exam?.exam_id,
-                              notion_database_id:
-                                exam?.notion_database_id ?? exam?.database_id,
-                              subject_name: exam?.subject_name,
-                              exam_time: exam?.exam_time || null,
-                              start_date: exam?.start_date || null,
-                              end_date: exam?.end_date || null,
-                              questions: exam?.questions,
-                            }}
-                          >
-                            Vào thi
-                          </Button>
-                        </Box>
-                      );
-                    }
-
-                    return null;
-                  })()}
-                </Box>
+                <Box textAlign="center">{renderButtons()}</Box>
               </CardContent>
             </Card>
           </Box>
