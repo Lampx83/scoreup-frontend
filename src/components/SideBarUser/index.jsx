@@ -45,6 +45,7 @@ import { useExamPalette } from "~/contexts/ExamPaletteContext";
 import { updateQuestion } from "~/services/question.service";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import { getCertificates } from "~/services/app.service";
+import { FaPlus } from "react-icons/fa";
 const drawerWidth = 240;
 
 const handleUpdate = async () => {
@@ -431,7 +432,7 @@ export default function SideBarUser() {
               </Button>
             </Tooltip>
           )}
-          {checkAdmin && (
+          {/* {checkAdmin && (
             <Tooltip title="Chuyển role" sx={{ width: "100%", height: "100%" }}>
               <Button
                 sx={{
@@ -447,8 +448,26 @@ export default function SideBarUser() {
                 <FaToggleOn />
               </Button>
             </Tooltip>
+          )} */}
+          {checkAdmin && (
+            <Tooltip
+              title="Nội dung thi"
+              sx={{ width: "100%", height: "100%" }}
+            >
+              <Button
+                component={Link}
+                to="/add-subject"
+                sx={{
+                  minWidth: 0,
+                  padding: 1,
+                  "& svg": { fontSize: 24 },
+                  marginBottom: 1,
+                }}
+              >
+                <FaPlus size={16} />
+              </Button>
+            </Tooltip>
           )}
-
           <Tooltip title="Sửa lỗi" sx={{ width: "100%", height: "100%" }}>
             <Button
               sx={{

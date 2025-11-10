@@ -31,6 +31,7 @@ import CreateExam from "~/pages/CreateExam";
 import EditExam from "~/pages/EditExam";
 import ResultUserExamPage from "~/pages/ResultUserExamPage";
 import ResultAdminExamPage from "~/pages/ResultAdminExamPage";
+import AddSubjects from "~/pages/AddSubjects";
 
 export const routes = [
   {
@@ -151,6 +152,10 @@ export const routes = [
           {
             path: "/result-exam/:exam_id",
             element: <ResultAdminExamPage />,
+          },
+          {
+            path: "/add-subject",
+            element: <AddSubjects />,
           },
         ],
       },
