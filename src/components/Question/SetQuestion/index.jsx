@@ -1,8 +1,8 @@
-import {useTheme} from "@mui/material";
+import { useTheme } from "@mui/material";
 import QuestionCard from "~/components/Question/QuestionCard/index.jsx";
 import Box from "@mui/material/Box";
 import * as React from "react";
-import parse from 'html-react-parser';
+import parse from "html-react-parser";
 
 function SetQuestion({
   context = "",
@@ -11,7 +11,7 @@ function SetQuestion({
   showAnswer = false,
   isSubmitted = false,
   addResult = () => {},
-  showActions = true
+  showActions = true,
 }) {
   const theme = useTheme();
   return (
@@ -32,7 +32,7 @@ function SetQuestion({
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: 'center'
+              alignItems: "center",
             }}
           >
             <Box
@@ -40,7 +40,7 @@ function SetQuestion({
                 display: "flex",
                 gap: 2,
                 alignItems: "center",
-                width: "100%"
+                width: "100%",
               }}
             >
               <Box
@@ -50,10 +50,10 @@ function SetQuestion({
                   borderRadius: 2,
                   color: theme.palette.text.secondary,
                   width: "100%",
-                  '& img': {
+                  "& img": {
                     width: "100%",
-                    height: "auto"
-                  }
+                    height: "auto",
+                  },
                 }}
               >
                 {parse(context)}
@@ -74,7 +74,7 @@ function SetQuestion({
         />
       ))}
     </Box>
-  )
+  );
 }
 
 export default SetQuestion;
