@@ -251,24 +251,26 @@ function QuestionCard({
 
   const onToggleBookmarked = async () => {
     setBookmarked(bookmarked === 0 ? 1 : 0);
-    try {
-      const res = await updateLogQuestion({
-        exercise_id: id,
-        bookmarked: bookmarked === 0 ? 1 : 0,
-      });
-      if (bookmarked === 1) {
-        pushToast(
-          "Câu hỏi này sẽ không được ưu tiên trong đề xuất nữa.",
-          "info"
-        );
-      } else {
-        pushToast(
-          "Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!",
-          "warning"
-        );
+    if (showActions) {
+      try {
+        const res = await updateLogQuestion({
+          exercise_id: id,
+          bookmarked: bookmarked === 0 ? 1 : 0,
+        });
+        if (bookmarked === 1) {
+          pushToast(
+            "Câu hỏi này sẽ không được ưu tiên trong đề xuất nữa.",
+            "info"
+          );
+        } else {
+          pushToast(
+            "Những đề xuất tiếp theo sẽ tập trung vào chủ đề tương tự!",
+            "warning"
+          );
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -490,16 +492,15 @@ function QuestionCard({
           </FormControl>
         </Box>
       </Box>
-      {showActions && (
-        <Actions
-          id={id}
-          totalComments={totalComments}
-          setBookmarked={onToggleBookmarked}
-          setMastered={onToggleMastered}
-          bookmarked={bookmarked}
-          mastered={mastered}
-        />
-      )}
+      <Actions
+        id={id}
+        totalComments={totalComments}
+        setBookmarked={onToggleBookmarked}
+        setMastered={onToggleMastered}
+        bookmarked={bookmarked}
+        mastered={mastered}
+        isPractice={showActions}
+      />
     </Box>
   );
 }
