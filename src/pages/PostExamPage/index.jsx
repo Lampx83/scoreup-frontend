@@ -543,7 +543,7 @@ export default function PostExamPage() {
                   sx={{
                     display: "flex",
                     gap: 10,
-                    alignItems: "flex-end",
+                    alignItems: "center",
                     justifyContent: "space-between",
                     mb: 2,
                   }}
@@ -572,23 +572,6 @@ export default function PostExamPage() {
                         {new Date(startDate).toLocaleString()}
                       </Box>
                     )}
-
-                    <Box
-                      sx={{
-                        width: "fit-content",
-                        display: "flex",
-                        alignItems: "center",
-                        px: 2,
-                        py: 2,
-                        borderRadius: 2,
-                        backgroundColor: "#EFB034FF",
-                        fontSize: 18,
-                      }}
-                    >
-                      <LuAlarmClock style={{ marginRight: 8, fontSize: 28 }} />
-                      Thời gian còn lại:&nbsp;
-                      <span>{fmt(leftSec)}</span>
-                    </Box>
                   </Box>
 
                   <Box sx={{ fontSize: 18, width: "45%" }}>
