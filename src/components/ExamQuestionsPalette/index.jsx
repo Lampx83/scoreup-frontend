@@ -5,8 +5,8 @@ import Button from "@mui/material/Button";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import { useEffect, useState, useRef } from "react";
 import { Checklist } from "@mui/icons-material";
-import { IoChevronDownSharp } from "react-icons/io5";
-import { IoChevronUpSharp } from "react-icons/io5";
+import { IoChevronDownSharp, IoChevronUpSharp } from "react-icons/io5";
+import { LuAlarmClock } from "react-icons/lu";
 let interval = null;
 
 function ExamQuestionsPalette({
@@ -25,15 +25,44 @@ function ExamQuestionsPalette({
   const listRef = useRef(null);
   const [canScrollUp, setCanScrollUp] = useState(false);
   const [canScrollDown, setCanScrollDown] = useState(false);
+  const [leftSec, setLeftSec] = useState(0);
+  const autoSubmittedRef = useRef(false);
   const updateScrollButtons = () => {
     const el = listRef.current;
     if (!el) return;
     setCanScrollUp(el.scrollTop > 0);
     setCanScrollDown(el.scrollTop + el.clientHeight < el.scrollHeight - 1);
   };
+  const fmt = (sec) => {
+    if (sec <= 0) return "00:00:00";
+    const h = String(Math.floor(sec / 3600)).padStart(2, "0");
+    const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
+    const s = String(sec % 60).padStart(2, "0");
+    return `${h}:${m}:${s}`;
+  };
 
   useEffect(() => {
-    updateScrollButtons(); // sau khi mount / khi có dữ liệu
+    if (!countFrom || isSubmitted) return;
+
+    const tick = () => {
+      const left = Math.floor((countFrom - Date.now()) / 1000);
+      if (left <= 0) {
+        setLeftSec(0);
+        if (!autoSubmittedRef.current) {
+          autoSubmittedRef.current = true;
+          setIsSubmitted(true);
+        }
+        return;
+      }
+      setLeftSec(left);
+    };
+
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [countFrom, isSubmitted, setShowAnswer, setIsSubmitted]);
+  useEffect(() => {
+    updateScrollButtons();
   }, [questions]);
   const calculateCorrect = () => {
     let correct = 0;
@@ -75,7 +104,6 @@ function ExamQuestionsPalette({
   };
 
   useEffect(() => {
-    // drag questions palette
     const sliders = document.querySelectorAll(".question-palette__list");
     sliders?.forEach((slider) => {
       let mouseDown = false;
@@ -101,15 +129,11 @@ function ExamQuestionsPalette({
           const scroll = x - startX;
           slider.scrollLeft = scrollLeft - scroll;
         };
-        // drag questions palette
-
-        // Add the event listeners
         slider.addEventListener("mousemove", move, false);
         slider.addEventListener("mousedown", startDragging, false);
         slider.addEventListener("mouseup", stopDragging, false);
         slider.addEventListener("mouseleave", stopDragging, false);
       }
-      // end drag questions palette
     });
   }, []);
   const handleScrollUp = (e) => {
@@ -158,6 +182,27 @@ function ExamQuestionsPalette({
         <Typography variant="subtitle1" fontWeight={700}>
           Tiến độ làm bài
         </Typography>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          px: 2,
+          py: 1,
+          backgroundColor: "#EFB034FF",
+        }}
+      >
+        {open && (
+          <LuAlarmClock
+            style={{
+              marginRight: 8,
+              fontSize: 28,
+            }}
+          />
+        )}
+        <span style={{ fontSize: open ? 16 : 12 }}>{fmt(leftSec)}</span>
       </Box>
       <Box
         id={"exam-question-palette"}
